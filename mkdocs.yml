@@ -1,5 +1,4 @@
 site_name: linGrow 
-site_url: https://example.com/
 nav:
 - Project Requirements: index.md
 - Software Design: design.md
