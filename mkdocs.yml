@@ -1,0 +1,8 @@
+site_name: linGrow 
+site_url: https://example.com/
+nav:
+- Project Requirements: index.md
+- Software Design: design.md
+- Project Management: management.md
+- Teamwork: teamwork.md
+theme: readthedocs
