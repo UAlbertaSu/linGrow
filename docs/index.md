@@ -257,8 +257,16 @@
 
 ## Technical Resources
 
-### Backend
+### Backend - Django REST, MongoDB
 
-### Frontend
+- [Django REST Documentation](https://www.django-rest-framework.org/tutorial/quickstart/)
+- [MongoDB Documentation](https://www.mongodb.com/docs/)
+- [Django - MongoDB Integration](https://www.mongodb.com/compatibility/mongodb-and-django)
 
-### Deployment
+### Frontend - React
+
+- [React Documentation](https://reactjs.org/docs/getting-started.html)
+
+### Deployment - Cybera
+
+- [Cybera Documentation](https://wiki.cybera.ca/#all-updates)
