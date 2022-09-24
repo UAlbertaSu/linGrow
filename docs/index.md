@@ -238,20 +238,23 @@
 ### LibreTranslate
 
 - Open source translation API
-- Easy to use, but likely a big headache to integrate, since it exists on a pre-existing system. 
+- Uses open source translation engine to power the translation (Argos Translate.)
+- Easy to use, but requires the purchase of API key that is a monthly payment of ~$18/month.  
+- Cost may be expensive since it is a monthly payment, rather than a translation count like most services. 
 
 ### Moses
 
 - Open source translation system that utilizes statistical methods 
 - Strays very close to ML since it requires the training of the model. 
 - Complex model but should provide a better and more accurate translation than the API.
+- method not recommended since it is a complex system and may be hard to expand later (adding more languages)
 
 ### Apertium
  
 - Is a free/open-source platform for developing rule-based machine translation systems!
-- Will most likely give us the best translation since the developers (us) set the rule for how each language syntax should be formed. 
-- The most work to use in terms of setting everything up. If we need at least 40 languages, that's 40 rules we have to write up. 
-- Not recommended.
+- Will most likely give the best translation since the developers set the rule for how each language syntax should be formed. 
+- The most work to use in terms of setting everything up. If we need at least 40 languages, that's at the very least 40 rules we have to write up. 
+
 
 ---
 
