@@ -23,3 +23,7 @@
 ---
 
 ## Low-fidelity User Interface
+
+![wireframes](img/Wireframes.png)
+
+---
