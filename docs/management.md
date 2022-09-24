@@ -2,6 +2,8 @@
 
 ## Story Map
 
+![storyMap](img/storyMap401.png)
+
 ---
 
 ## Project Plan
