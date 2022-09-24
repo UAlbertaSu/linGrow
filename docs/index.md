@@ -2,7 +2,7 @@
 
 ## Executive Summary 
 
-> linGrow, offers help for bilingual and multilingual children's development to achieve their potential and provides services through facilitated communication between parents, teachers, and researchers. Teachers in different schools are able to invite parents as a group and communicate with parents fluently with a built-in translation function in more than 15 languages. The application itself will adapt to more than 15 languages. In order to support multilingual families, there are study guides for simple English for children and parents who want to get better participation in their children's studies. Also, there are activities set on linGrow to help with language development.
+> For years, multilingual families have struggled to communicate with predominantly English and French-speaking teachers and researchers. This language barrier would often prevent teachers from consulting with parents about their children’s needs, and researchers from gaining a full understanding of bilingual development. LinGrow is the novel web app solution designed to bridge this gap between multilingual families and teachers/researchers. The heart of the LinGrow app is a messaging functionality between parents and teachers, with built-in translation supporting over 40 languages. This facilitates fast and easy communication between both parties, without the hassle of running everything through a separate service, or having the child relay and translate all information. To provide further support, LinGrow provides several built-in language development activities and simple English Guidelines to assist multilingual families. LinGrow aims to create a bridge of communication between parents, researchers and teachers, to overcome the language barrier and help children achieve their full potential.
 
 ---
 
@@ -413,27 +413,38 @@
 ### LibreTranslate
 
 - Open source translation API
-- Easy to use, but likely a big headache to integrate, since it exists on a pre-existing system. 
+- Uses open source translation engine to power the translation (Argos Translate.)
+- Easy to use, but requires the purchase of API key that is a monthly payment of ~$18/month.  
+- Cost may be expensive since it is a monthly payment, rather than a translation count like most services. 
 
 ### Moses
 
 - Open source translation system that utilizes statistical methods 
 - Strays very close to ML since it requires the training of the model. 
 - Complex model but should provide a better and more accurate translation than the API.
+- method not recommended since it is a complex system and may be hard to expand later (adding more languages)
 
 ### Apertium
  
 - Is a free/open-source platform for developing rule-based machine translation systems!
-- Will most likely give us the best translation since the developers (us) set the rule for how each language syntax should be formed. 
-- The most work to use in terms of setting everything up. If we need at least 40 languages, that's 40 rules we have to write up. 
-- Not recommended.
+- Will most likely give the best translation since the developers set the rule for how each language syntax should be formed. 
+- The most work to use in terms of setting everything up. If we need at least 40 languages, that's at the very least 40 rules we have to write up. 
+
 
 ---
 
 ## Technical Resources
 
-### Backend
+### Backend - Django REST, MongoDB
 
-### Frontend
+- [Django REST Documentation](https://www.django-rest-framework.org/tutorial/quickstart/)
+- [MongoDB Documentation](https://www.mongodb.com/docs/)
+- [Django - MongoDB Integration](https://www.mongodb.com/compatibility/mongodb-and-django)
 
-### Deployment
+### Frontend - React
+
+- [React Documentation](https://reactjs.org/docs/getting-started.html)
+
+### Deployment - Cybera
+
+- [Cybera Documentation](https://wiki.cybera.ca/#all-updates)
