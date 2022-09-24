@@ -2,7 +2,7 @@
 
 ## Executive Summary 
 
-> linGrow, offers help for bilingual and multilingual children's development to achieve their potential and provides services through facilitated communication between parents, teachers, and researchers. Teachers in different schools are able to invite parents as a group and communicate with parents fluently with a built-in translation function in more than 15 languages. The application itself will adapt to more than 15 languages. In order to support multilingual families, there are study guides for simple English for children and parents who want to get better participation in their children's studies. Also, there are activities set on linGrow to help with language development.
+> For years, multilingual families have struggled to communicate with predominantly English and French-speaking teachers and researchers. This language barrier would often prevent teachers from consulting with parents about their children’s needs, and researchers from gaining a full understanding of bilingual development. LinGrow is the novel web app solution designed to bridge this gap between multilingual families and teachers/researchers. The heart of the LinGrow app is a messaging functionality between parents and teachers, with built-in translation supporting over 40 languages. This facilitates fast and easy communication between both parties, without the hassle of running everything through a separate service, or having the child relay and translate all information. To provide further support, LinGrow provides several built-in language development activities and simple English Guidelines to assist multilingual families. LinGrow aims to create a bridge of communication between parents, researchers and teachers, to overcome the language barrier and help children achieve their full potential.
 
 ---
 
@@ -257,8 +257,16 @@
 
 ## Technical Resources
 
-### Backend
+### Backend - Django REST, MongoDB
 
-### Frontend
+- [Django REST Documentation](https://www.django-rest-framework.org/tutorial/quickstart/)
+- [MongoDB Documentation](https://www.mongodb.com/docs/)
+- [Django - MongoDB Integration](https://www.mongodb.com/compatibility/mongodb-and-django)
 
-### Deployment
+### Frontend - React
+
+- [React Documentation](https://reactjs.org/docs/getting-started.html)
+
+### Deployment - Cybera
+
+- [Cybera Documentation](https://wiki.cybera.ca/#all-updates)
