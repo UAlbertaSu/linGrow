@@ -207,49 +207,13 @@
 
 ### User Stories 20 - Parent Text to Speech
 
-> **As** a Parent **I want** to be able to use Text-to-Speech, **so that** I can understand written information as though it was spoken.
->
-> **Acceptance Tests:**
->
-> 1. Text-to-Speech is an option for all text within the application.
-> 2. Parents are able to activate the Text-to-Speech for whichever text they would like to listen to.
-
 ### User Stories 21 - Parent Voicemail Messaging
-
-> **As** a Parent **I want** to be able to send and receive voicemail through messages, **so that** I can communicate with audio instead of text.
->
-> **Acceptance Tests:**
->
-> 1. Parents able to send voice recordings through messages.
-> 2. Parents are able to receive voice recordings through messages.
 
 ### User Stories 22 - Parent Video Call Messaging
 
-> **As** a Parent **I want** to be able to send and receive video messages, **so that** I can communicate with non-verbal/textual cues alongside verbal.
->
-> **Acceptance Tests:**
->
-> 1. Parents able to send videos through messages.
-> 2. Parents are able to receive videos through messages.
-
 ### User Stories 23 - Parent English Learning Activities
 
-> **As** a Parent **I want** to be able to view and English Learning Activities, **so that** I can support language development within my family.
->
-> **Acceptance Tests:**
->
-> 1. English Learning Activities are provided within the application for parents.
-> 2. These English Learning Activities are available in multiple languages.
-
 ### User Stories 24 - Parent Simple English
-
-> **As** a Parent **I want** the application to be written in simple english phrases, **so that** when I translate the applcation there are as few translation errors as possible.
->
-> **Acceptance Tests:**
->
-> 1. The application is written in simple english phrases.
-> 2. The application does not use complex phrases or words.
-> 3. The application does not use english sayings or idioms.
 
 ---
 
