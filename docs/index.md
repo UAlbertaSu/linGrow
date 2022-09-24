@@ -8,9 +8,30 @@
 
 ## Project Glossary
 
-* **Glossary Item 1**: Descriptions
+* **Parent**: Parents are users who can:
 
-* **Glossary Item 2**: Descriptions
+> * Receive messages from teachers, researchers, or admins.
+> * Be invited to join the messaging groups from teachers or researchers.
+
+* **Researcher**: Researchers are users who can:
+
+> * Message teacher(s) or parent(s).
+> * Create groups of parents or teachers.
+
+* **Teacher**: Teachers are users who can:
+
+> * Message parent(s).
+> * Create groups of parents from same classroom.
+
+* **Admin**: Admins are users who can:
+
+> * Message any parent(s), researcher(s), or teacher(s).
+> * Create and manage schools.
+> * Create and manage users.
+
+* **Classroom**: Contains a single teacher and many parents.
+
+* **School**: Collection of Classrooms.
 
 ---
 
