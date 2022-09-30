@@ -82,7 +82,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'CLIENT': {
-            'host': 'mongodb+srv://{user}:{pass}@cluster1.hl9ip12.mongodb.net/?retryWrites=true&w=majority',
+            'host': 'mongodb+srv://db:1i7zeLnVgDnibr1h@cluster1.hl9ip12.mongodb.net/?retryWrites=true&w=majority',
             'name': 'lingrowdb',
             'authMechanism': 'SCRAM-SHA-1',
         },
