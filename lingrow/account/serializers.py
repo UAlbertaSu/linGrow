@@ -1,0 +1,27 @@
+from rest_framework import serializers
+from account.models import User
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    #Confirm password in Registration request
+    password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    class Meta:
+        model = User
+        fields = ('email', 'name', 'tc', 'password', 'password2')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    #Validate password
+    def validate(self, data):
+        password = data['password']
+        password2 = data['password2']
+        if password != password2:
+            raise serializers.ValidationError({'password': 'Passwords must match.'})
+        return data
+
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
+
+class UserLoginSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(max_length=255)
+    class Meta:
+        model = User
+        fields = ['email', 'password']
