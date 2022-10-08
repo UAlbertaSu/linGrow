@@ -491,7 +491,7 @@
 
 ## Technical Resources
 
-### Backend - Django REST, MongoDB
+### Backend - Django REST, PostgreSQL
 
 - Django REST Framework
     - Documentation
@@ -502,16 +502,12 @@
     - Troubleshoot
         - [Stack Exchange](https://stackexchange.com/search?q=django+rest+framework)
 
-- MongoDB
+- PostgreSQL
     - Documentation
-        - [Official Documentation](https://www.mongodb.com/docs/)
-        - [MongoDb Django Integration](https://www.mongodb.com/compatibility/mongodb-and-django)
-    - Connect Django with MongoDB
-        - [YouTube Tutorial 1](https://www.youtube.com/watch?v=MiS6y9kffBs)
-        - [YouTube Tutorial 2](https://www.youtube.com/watch?v=MiS6y9kffBs)
+        - [Official Documentation](https://www.postgresql.org/files/documentation/pdf/13/postgresql-13-A4.pdf)
+        - [PostgreSQL Django Integration](https://docs.djangoproject.com/en/4.1/ref/databases#postgresql-notes)
     - Troubleshoot
-        - [Stack Exchange (Djongo)](https://stackexchange.com/search?q=djongo)
-        - [Stack Exchange (Django MongoDb)](https://stackexchange.com/search?q=django+mongodb)
+        - [Stack Exchange (Djongo)](https://stackoverflow.com/search?q=django+postgresql&searchOn=3)
 
 ### Frontend - React
 
