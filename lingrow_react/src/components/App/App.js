@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import './App.css';
 import Login from '../Login/Login';
@@ -17,10 +17,10 @@ function App() {
     <div className="wrapper">
       <h1>Applications</h1>
       <BrowserRouter>
-        <Routes>
+        <Switch>
           <Route path="/dashboard" element={<Dashboard/ >}></Route>
           <Route path="/preferences" element={<Preferences/ >}></Route>
-        </Routes>
+        </Switch>
       </BrowserRouter>
     </div>
   );
