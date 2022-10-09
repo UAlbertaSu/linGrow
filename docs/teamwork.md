@@ -28,7 +28,7 @@
 
 ### September 15, 2022
 
-> * 12:34pm - 1:12 pm
+> * 12:34 PM - 1:12 PM
 > * Google Meet
 
 #### Agenda
@@ -36,7 +36,7 @@
 > * Clarify requirements of the linGrow project.
 > * Discuss options for implementing said requirements.
 
-#### Atendee
+#### Attendee
 
 > * Dr. Andrea McLeod (Client)
 > * Dr. Catrine Demers (Client)
@@ -92,7 +92,7 @@
 > * Discuss strategies for making Sprint 1 deliverable.
 > * Form user stories.
 
-#### Atendee
+#### Attendee
 
 > * Kevin
 > * Jeff
@@ -129,7 +129,7 @@
 
 > * Preparation for Sprint 1.
 
-#### Atendee
+#### Attendee
 
 > * Kevin
 > * Steve
@@ -220,7 +220,7 @@
 
 ### September 21, 2022
 
-> * 4:30 - 4:42
+> * 4:30 PM - 4:42 PM
 > * Google Meet
 
 > * 4:
@@ -282,7 +282,7 @@
 
 ### September 23, 2022
 
-> * 5:00 - 6:07 PM
+> * 5:00 PM - 6:07 PM
 > * Google Meet
 
 #### Agenda
@@ -343,3 +343,137 @@
 > ##### Scott
 
 >> * Assigned to search technical resources relevant for linGrow architecture.
+
+---
+
+### October 4, 2022
+
+> * 12:00 PM - 12:44 PM
+> Google Meet
+
+#### Agenda
+
+> * Update the result of Sprint 1 to the clients.
+> * Inform clients of the group's plan for the Sprint 2.
+
+#### Attendee
+
+> * Dr. Andrea McLeod (Client)
+> * Dr. Catrine Demers (Client)
+> * Kevin
+> * Steve
+> * Loyal
+> * Sam
+> * Scott
+> * Kash
+
+#### Minutes
+
+> ##### Sprint 1 Review
+
+>> * Reviewed the documentation delivered for the Sprint 1, and received feedback.
+>> * Walked through the low-fidelity wireframe UI with client, informing clients about functionalities that our groups have planned for the linGrow.
+
+> ##### Sprint 2 Preview
+
+>> * Confirmed with clients on what they can expect as the result of Sprint 2.
+
+> ##### Feedback - Activities
+
+>> * Activities should not be exclusive to the parent users.
+>> * Parents' hub can be simplified with just chatroom accesses and activities.
+>> * Parent, teachers, researchers should have access to simple English guidelines, as well as reminders to write in simple English.
+
+> ##### Feedback - Would Like but Won't Have
+
+>> * Parents can invite/communicate with teachers.
+>> * Parents can communicate with admins.
+>> * Admins may be able to invite teachers and parents, register them even if they are outside of any registered schools.
+>>> * May create a separate “class” or database built for students not enrolled in a registered school.
+
+> ##### Feedback - Parent/Children Database Schema
+
+>> * We should account for many-to-many relationship with parents and children.
+>>> * Many parents or guardians (father, mother, etc.) may be associated with single child, or multiple children may be associated with a single parent.
+>> * If a child have multiple parent/guardian associated with them, there should be functionality to send message to all parents associated with that child.
+>> * It should be possible to access all necessary information about parents, such as their child(ren), contact info, and possibly other parents' info.
+>>> * This may be Would Like but Won't Have, depending on whether it would be possible to reference other IDs in the database. May require complex of forming the database schema.
+
+> ##### Feedback - Clarifications
+
+>> * Admin should be able to inform emergency info such as schoolbus delay, not just app updates.
+>> * Admin manages a school, and linGrow team would act as "Super Admin" of sort.
+>> * Teachers contact parents, but cannot contact other teachers.
+>> * Researchers contact participants, who may be teachers or parents.
+>> * Researchers should be able to ask permission from teachers before they can be contacted, similar to teachers sending invites to parents.
+>> * Researchers need separate hub compared to teachers.
+>>> * Researchers should have access to more permissions, and perhaps slightly different wordings.
+
+> ##### Miscellaneous Requirements 
+
+>> * Admin should be able to mass-create users from spreadsheet, rather than adding them one by one.
+>> * Globe icon for language translation may be changed.
+>> * Need some way of distinguishing children and parents.
+>> * Teacher-parent chatrooms should have tags to distinguish which chatroom belongs to which school.
+
+#### Action Items
+
+> ##### All Teams
+
+>> * Follow-through on the clients' clarifications, modify and update design diagrams if needed.
+>> * Scheduled next client meeting on October 11, 2022.
+>>> * Prepare rough deliverables until then.
+
+---
+
+### October 7, 2022
+
+> * 6:00 PM - 6:54 PM
+> Google Meet
+
+#### Agenda
+
+> * Update each others' progress.
+> * Form plans for next week before Sprint 2 duedate.
+
+#### Attendee
+
+> * Kash
+> * Loyal
+> * Jeff
+> * Scott
+> * Kevin
+
+#### Minutes
+
+> ##### Progress Reports
+
+>> * **Kash, Loyal**
+>>> * Back-end framework for user account creation and authentication has been generated.
+>> * **Scott**
+>>> * Researched Google translation API for the text message and website translation.
+>> * **Kevin, Jeff**
+>>> * Wasn’t able to get much work done over the week, but is aiming to get most works (on admin functions) done during weekend.
+
+> ##### Plan for Next Week
+
+>> * Before client meeting next Tuesday (October 11, 2022), create rough front-end and back-end for demonstration.
+>> * Before Sprint 2 due date on Saturday (October 15, 2022), deploy front- and back-end to Cybera instance.
+
+#### Action Items
+
+> ##### Kash, Loyal
+
+>> * Deploy back-end framework to the Cybera instance.
+
+> ##### Sam, Steve, Scott
+
+>> * Complete front-end mockup for the Sprint 2 - must contain login and signup functionalities.
+
+> ##### Jeff, Kevin
+
+>> * Continue working on the CRUD functions for Admin's school groupings.
+
+> ##### Steve
+
+>> * Update Story Map to be consistent with Github issues' user stories.
