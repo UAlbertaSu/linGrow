@@ -496,9 +496,12 @@
 - Django REST Framework
     - Documentation
         - [Official Documentation](https://www.django-rest-framework.org/tutorial/quickstart/)
+        - [Permissions](https://www.django-rest-framework.org/api-guide/permissions/)
+        - [Django User Model and Authentication](https://docs.djangoproject.com/en/4.1/ref/contrib/auth/)
     - Tutorials
         - [YouTube Tutorial](https://www.youtube.com/watch?v=c708Nf0cHrs)
         - [CMPUT 401 Tutorial](https://github.com/UAlberta-CMPUT401/tutorial-django-todo-backend)
+        - [Multiple User Types](https://simpleisbetterthancomplex.com/tutorial/2018/01/18/how-to-implement-multiple-user-types-with-django.html)
     - Troubleshoot
         - [Stack Exchange](https://stackexchange.com/search?q=django+rest+framework)
 
@@ -519,6 +522,8 @@
         - [YouTube Playlist (Django & React)](https://www.youtube.com/playlist?list=PLzMcBGfZo4-kCLWnGmK0jUBmGLaJxvi4j)
         - [Basic Hello World App (Django & React)](https://www.youtube.com/watch?v=F9o4GSkSo40)
         - [CMPUT 401 Tutorial](https://github.com/UAlberta-CMPUT401/tutorial-react-todo-frontend)
+        -[Dev.to React User authentication](https://dev.to/koladev/django-rest-authentication-cmh)
+        -[Video: Django Token Authentication](https://www.youtube.com/watch?v=0d7cIfiydAc&ab_channel=TraversyMedia)
     - Troubleshoot
         - [Stack Exchange](https://stackoverflow.com/search?q=react+django&searchOn=3)
 
