@@ -522,8 +522,8 @@
         - [YouTube Playlist (Django & React)](https://www.youtube.com/playlist?list=PLzMcBGfZo4-kCLWnGmK0jUBmGLaJxvi4j)
         - [Basic Hello World App (Django & React)](https://www.youtube.com/watch?v=F9o4GSkSo40)
         - [CMPUT 401 Tutorial](https://github.com/UAlberta-CMPUT401/tutorial-react-todo-frontend)
-        -[Dev.to React User authentication](https://dev.to/koladev/django-rest-authentication-cmh)
-        -[Video: Django Token Authentication](https://www.youtube.com/watch?v=0d7cIfiydAc&ab_channel=TraversyMedia)
+        - [Dev.to React User authentication](https://dev.to/koladev/django-rest-authentication-cmh)
+        - [Video: Django Token Authentication](https://www.youtube.com/watch?v=0d7cIfiydAc&ab_channel=TraversyMedia)
     - Troubleshoot
         - [Stack Exchange](https://stackoverflow.com/search?q=react+django&searchOn=3)
 
