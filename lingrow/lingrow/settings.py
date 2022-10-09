@@ -80,12 +80,12 @@ WSGI_APPLICATION = 'lingrow.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'CLIENT': {
-            'host': 'mongodb+srv://db:1i7zeLnVgDnibr1h@cluster1.hl9ip12.mongodb.net/?retryWrites=true&w=majority',
-            'name': 'lingrowdb',
-            'authMechanism': 'SCRAM-SHA-1',
-        },
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'lingrowdb',
+        'USER': 'postgres',
+        'PASSWORD': 'Password@123',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

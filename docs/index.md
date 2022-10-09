@@ -37,7 +37,7 @@
 
 ## User Stories
 
-### User Stories 1 - Admin School Management
+### User Story 1 - Admin School Management [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/3)
 
 > **As** an admin, **I want** to be able to manage schools, **so that** I can add/delete/update schools.
 >
@@ -48,7 +48,7 @@
 > 3. Admin can edit a school.
 > 4. Non-Admin users cannot add/delete/edit schools.
 
-### User Stories 2 - Admin User Management
+### User Story 2 - Admin User Management [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/5)
 
 > **As** an admin, **I want** to be able to manage users, **so that** I can add/delete/update users.
 >
@@ -59,9 +59,9 @@
 > 3. Admin can edit a user.
 > 4. Non-Admin users cannot add/delete/edit users.
 
-### User Stories 3 - Admin Messaging
+### User Story 3 - Admin Messaging [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/8)
 
-> **As** an aAdmin, **I want** to be able to send mass messages to any group of users, **so that** I can inform them about updates to the app.
+> **As** an admin, **I want** to be able to send mass messages to any group of users, **so that** I can inform them about updates to the app.
 >
 > **Acceptance Tests:**
 >
@@ -70,7 +70,7 @@
 > 3. Message sent by Admin is marked as an Admin Message.
 > 4. Non-Admins cannot send messages marked as Admin messages.
 
-### User Stories 4 - Admin Group Users
+### User Story 4 - Admin Group Users [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/8)
 
 > **As** an Admin, **I want** to be able to group users, **so that** I can send messages to select groups.
 >
@@ -83,7 +83,7 @@
 > 5. Admin can delete a group they created.
 > 6. Non-admin users cannot create groups in the same way.
 
-### User Stories 5 - User Account Creation
+### User Story 5 - User Account Creation [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/15)
 
 > **As** a User, **I want** to be able to create an account, **so that** I can log into the web application and use its features.
 >
@@ -93,7 +93,7 @@
 > 2. User can sign in with their created credentials.
 > 3. User cannot create an account with the already used credentials.
 
-### User Stories 6 - User Logout
+### User Story 6 - User Logout [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/18)
 
 > **As** a User, **I want** to be able to logout of the web application, **so that** I can keep my information private and secure.
 >
@@ -102,7 +102,7 @@
 > 1. User can log out of the application.
 > 2. User when logged out cannot access their user info.
 
-### User Stories 7 - User Password Reset
+### User Story 7 - User Password Reset [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/17)
 
 > **As** a User, **I want** to be able reset my password, **so that** I am still able to access my account if I forgot my password.
 >
@@ -112,7 +112,7 @@
 > 2. User upon receiving a password reset prompt, can change it.
 > 3. User must use new password to sign in aftewards.
 
-### User Stories 8 - Non-Admin Message Sending
+### User Story 8 - Non-Admin Message Sending [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/12)
 
 > **As** a Parent/Teacher/Researcher **I want** to be able to send messages, **so that** I can communicate with others within the application.
 >
@@ -121,7 +121,7 @@
 > 1. User can compose a message to another selected user.
 > 2. User can send a composed message.
 
-### User Stories 9 - Non-Admin Message Reception
+### User Story 9 - Non-Admin Message Reception [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/14)
 
 > **As** a Parent/Teacher/Researcher **I want** to be able to receive messages, **so that** I can communicate with others within the application.
 >
@@ -131,7 +131,7 @@
 > 2. User can view messages received.
 > 3. User can compose a message to the sender of a received message.
 
-### User Stories 10 - Teacher/Researcher Search Parents
+### User Story 10 - Teacher/Researcher Search Parents [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/7)
 
 > **As** a Teacher/Researcher **I want** to be able to search for parents within a school, **so that** I can identify parents I associate with.
 >
@@ -140,7 +140,7 @@
 > 1. Teacher/Researcher can view parents in their selected school. 
 > 2. Teacher/Researcher can search their selected school for specific parents.
 
-### User Stories 11 - Teacher/Researcher Group Parents
+### User Story 11 - Teacher/Researcher Group Parents [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/21)
 
 > **As** a Teacher/Researcher **I want** to be able to create a group of parents based on their children's classroom, **so that** so that I can organize parents based on their children's classroom.
 >
@@ -151,7 +151,7 @@
 > 3. Teacher/Researcher can edit a group they created.
 > 4. Teacher/Researcher can delete a group they created.
 
-### User Stories 12 - Teacher/Researcher Important Flag
+### User Story 12 - Teacher/Researcher Important Flag [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/20)
 
 > **As** a Teacher/Researcher **I want** to be able to mark messages as important, **so that** parents understand when information I am communicating is critical.
 >
@@ -160,16 +160,16 @@
 > 1. Teacher/Researcher can mark a message as important before sending it. 
 > 2. Receiver of that message can see it marked as important.
 
-### User Stories 13 - Teacher/Researcher Mass Messaging
+### User Story 13 - Teacher/Researcher Mass Messaging [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/22)
 
-> **As** a Teacher/Researcher **I want** to be able to send mass messages to groups of parents, **so that** I can c.
+> **As** a Teacher/Researcher **I want** to be able to send mass messages to groups of parents, **so that** I can convey messagaes related toa group at once.
 >
 > **Acceptance Tests:**
 >
 > 1. Teacher/Researcher can send a message to multiple users at a time. 
 > 2. Receivers all receive the same message sent by the teacher/researcher.
 
-### User Stories 14 - Researcher Search Teachers
+### User Story 14 - Researcher Search Teachers [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/10)
 
 > **As** a Researcher **I want** to be able to search for teachers within a school, **so that** I can identify teachers I associate with.
 >
@@ -178,7 +178,7 @@
 > 1. Researcher can view teachers in their selected school. 
 > 2. Researcher can search their selected school for specific teachers.
 
-### User Stories 15 - Researcher Group Teachers
+### User Story 15 - Researcher Group Teachers [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/47)
 
 > **As** a Researcher **I want** to be able to create a group of teachers, **so that** so that I can organize multiple teachers I am working with.
 >
@@ -189,7 +189,7 @@
 > 3. Researcher can edit a group they created.
 > 4. Researcher can delete a group they created.
 
-### User Stories 16 - Parent App Translation
+### User Story 16 - Parent App Translation [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/4)
 
 > **As** a Parent **I want** to be able to translate text within the app to a more familiar language, **so that** I am able to read and understand the information the application is communicating to me.
 >
@@ -198,7 +198,7 @@
 > 1. Parent can without needing to read text select another lanaguage to translate the application to. 
 > 2. All intentionally readable text is translated to a specific language when selected.
 
-### User Stories 17 - User Message Translation
+### User Story 17 - User Message Translation [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/2)
 
 > **As** a User **I want** to be able to translate received messages to a language I am more familiar with, **so that** I am able to read and understand the received message better.
 >
@@ -207,7 +207,7 @@
 > 1. User can when viewing a message select another language for it to be translated into. 
 > 2. Message is translated when another language is selected.
 
-### User Stories 18 - Parent Pictograms
+### User Story 18 - Parent Pictograms [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/13)
 
 > **As** a Parent **I want** to be able to see pictograms to help me identify important information, **so that** I can more easily understand the associated concepts.
 >
@@ -216,7 +216,7 @@
 > 1. Pictograms are visible in the application to parents. 
 > 2. Pictograms are placed with their relevant activities/information.
 
-### User Stories 19 - Parent Speech to Text
+### User Story 19 - Parent Speech to Text [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/6)
 
 > **As** a Parent **I want** to be able to use Speech-to-Text, **so that** I can compose a message without the need for understanding written english grammar.
 >
@@ -226,7 +226,7 @@
 > 2. Typing is disabled while Speech-to-Text is active.
 > 3. Speech is properly interpreted by the program.
 
-### User Stories 20 - Parent Text to Speech
+### User Story 20 - Parent Text to Speech [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/9)
 
 > **As** a Parent **I want** to be able to use Text-to-Speech, **so that** I can understand written information as though it was spoken.
 >
@@ -235,7 +235,7 @@
 > 1. Text-to-Speech is an option for all text within the application.
 > 2. Parents are able to activate the Text-to-Speech for whichever text they would like to listen to.
 
-### User Stories 21 - Parent Voicemail Messaging
+### User Story 21 - Parent Voicemail Messaging [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/19)
 
 > **As** a Parent **I want** to be able to send and receive voicemail through messages, **so that** I can communicate with audio instead of text.
 >
@@ -244,7 +244,7 @@
 > 1. Parents able to send voice recordings through messages.
 > 2. Parents are able to receive voice recordings through messages.
 
-### User Stories 22 - Parent Video Call Messaging
+### User Story 22 - Parent Video Call Messaging [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/16)
 
 > **As** a Parent **I want** to be able to send and receive video messages, **so that** I can communicate with non-verbal/textual cues alongside verbal.
 >
@@ -253,7 +253,7 @@
 > 1. Parents able to send videos through messages.
 > 2. Parents are able to receive videos through messages.
 
-### User Stories 23 - Parent English Learning Activities
+### User Story 23 - Parent English Learning Activities [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/11)
 
 > **As** a Parent **I want** to be able to view and English Learning Activities, **so that** I can support language development within my family.
 >
@@ -262,9 +262,9 @@
 > 1. English Learning Activities are provided within the application for parents.
 > 2. These English Learning Activities are available in multiple languages.
 
-### User Stories 24 - Parent Simple English
+### User Story 24 - Parent Simple English [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/48)
 
-> **As** a Parent **I want** the application to be written in simple english phrases, **so that** when I translate the applcation there are as few translation errors as possible.
+> **As** a Parent **I want** the application to be written in simple english phrases, **so that** when I translate the application there are as few translation errors as possible.
 >
 > **Acceptance Tests:**
 >
@@ -272,37 +272,72 @@
 > 2. The application does not use complex phrases or words.
 > 3. The application does not use english sayings or idioms.
 
+### User Story 25 - Invite Users [GitHub Link](https://github.com/UAlberta-CMPUT401/lingrow/issues/49)
+> **As** a Teacher **I want** to send invite links to group of parents, **so that** parents can easily sign up for the app.
+>
+> **Acceptance Tests:**
+>
+
 ---
 
 ## MoSCoW
 
 ### Must Have
 
-* Text messaging
-* Account (researcher/teacher/parent/admin)
-* Parent grouping for researcher/teacher
-* App-wide translation
-* Language-development activities
 * School management for admins
+    - (User Story 1) **As** an admin, **I want** to be able to manage schools, **so that** I can add/delete/update schools.
+* Text Messaging
+    - (User Story 8) **As** a Parent/Teacher/Researcher **I want** to be able to send messages, **so that** I can communicate with others within the application.
+    - (User Story 9) **As** a Parent/Teacher/Researcher **I want** to be able to receive messages, **so that** I can communicate with others within the application.
+* Account (researcher/teacher/parent/admin)
+    - (User Story 5) **As** a User, **I want** to be able to create an account, **so that** I can log into the web application and use its features.
+    - (User Story 6) **As** a User, **I want** to be able to logout of the web application, **so that** I can keep my information private and secure.
+* Parent search/grouping for researcher/teacher
+    - (User Story 10) **As** a Teacher/Researcher **I want** to be able to search for parents within a school, **so that** I can identify parents I associate with.
+    - (User Story 11) **As** a Teacher/Researcher **I want** to be able to create a group of parents based on their children's classroom, **so that** so that I can organize parents based on their children's classroom.
+* App-wide translation
+    - (User Story 16) **As** a Parent **I want** to be able to translate text within the app to a more familiar language, **so that** I am able to read and understand the information the application is communicating to me. 
+    - (User Story 17) **As** a User **I want** to be able to translate received messages to a language I am more familiar with, **so that** I am able to read and understand the received message better.
+* Language-development activities
+    - (User Story 23) **As** a Parent **I want** to be able to view and English Learning Activities, **so that** I can support language development within my family.
+
 
 ### Should Have
 
-* Group messaging functionality
 * User management for admins
-* Pictogram
+    - (User Story 2) **As** an admin, **I want** to be able to manage users, **so that** I can add/delete/update users.
+    - (User Story 4) **As** an Admin, **I want** to be able to group users, **so that** I can send messages to select groups.
+* Group messaging functionality
+    - (User Story 3) **As** an aAdmin, **I want** to be able to send mass messages to any group of users, **so that** I can inform them about updates to the app.
+    - (User Story 13) **As** a Teacher/Researcher **I want** to be able to send mass messages to groups of parents, **so that** I can convey messagaes related toa group at once.
 * Simple English guidelines
+    - (User Story 14) **As** a Parent **I want** the application to be written in simple english phrases, **so that** when I translate the applcation there are as few translation errors as possible.
+* Pictogram
+    - (User Story 18) **As** a Parent **I want** to be able to see pictograms to help me identify important information, **so that** I can more easily understand the associated concepts.
+* User Password Reset
+    - (User Story 7) **As** a User, **I want** to be able reset my password, **so that** I am still able to access my account if I forgot my password.
+* Simple English 
+    - (User Story 24) **As** a Parent **I want** the application to be written in simple english phrases, **so that** when I translate the applcation there are as few translation errors as possible.
 
 ### Could Have
 
+* Reseracher parent grouping
+    - (User Story 15) **As** a Researcher **I want** to be able to create a group of teachers, **so that** so that I can organize multiple teachers I am working with.
 * Invite links for parent group
+    - (User Story 25) **As** a Teacher **I want** to send invite links to group of parents, **so that** parents can easily sign up for the app.
 * Mark messages as important
+    - (User Story 12) **As** a Teacher/Researcher **I want** to be able to mark messages as important, **so that** parents understand when information I am communicating is critical.
 * Text-to-speech
+    - (User Story 20) **As** a Parent **I want** to be able to use Text-to-Speech, **so that** I can understand written information as though it was spoken.
 
 ### Would Like But Won't Get
 
-* Video messaging
-* Voice messaging
 * Speech-to-text
+    - (User Story 19) **As** a Parent **I want** to be able to use Speech-to-Text, **so that** I can compose a message without the need for understanding written english grammar.
+* Voice messaging
+    - (User Story 21) **As** a Parent **I want** to be able to send and receive voicemail through messages, **so that** I can communicate with audio instead of text.
+* Video messaging
+    - (User Story 22) **As** a Parent **I want** to be able to send and receive video messages, **so that** I can communicate with non-verbal/textual cues alongside verbal.
 
 ---
 
@@ -456,16 +491,50 @@
 
 ## Technical Resources
 
-### Backend - Django REST, MongoDB
+### Backend - Django REST, PostgreSQL
 
-- [Django REST Documentation](https://www.django-rest-framework.org/tutorial/quickstart/)
-- [MongoDB Documentation](https://www.mongodb.com/docs/)
-- [Django - MongoDB Integration](https://www.mongodb.com/compatibility/mongodb-and-django)
+- Django REST Framework
+    - Documentation
+        - [Official Documentation](https://www.django-rest-framework.org/tutorial/quickstart/)
+        - [Permissions](https://www.django-rest-framework.org/api-guide/permissions/)
+        - [Django User Model and Authentication](https://docs.djangoproject.com/en/4.1/ref/contrib/auth/)
+    - Tutorials
+        - [YouTube Tutorial](https://www.youtube.com/watch?v=c708Nf0cHrs)
+        - [CMPUT 401 Tutorial](https://github.com/UAlberta-CMPUT401/tutorial-django-todo-backend)
+        - [Multiple User Types](https://simpleisbetterthancomplex.com/tutorial/2018/01/18/how-to-implement-multiple-user-types-with-django.html)
+    - Troubleshoot
+        - [Stack Exchange](https://stackexchange.com/search?q=django+rest+framework)
+
+- PostgreSQL
+    - Documentation
+        - [Official Documentation](https://www.postgresql.org/files/documentation/pdf/13/postgresql-13-A4.pdf)
+        - [PostgreSQL Django Integration](https://docs.djangoproject.com/en/4.1/ref/databases#postgresql-notes)
+    - Troubleshoot
+        - [Stack Exchange (Djongo)](https://stackoverflow.com/search?q=django+postgresql&searchOn=3)
 
 ### Frontend - React
 
-- [React Documentation](https://reactjs.org/docs/getting-started.html)
+- React
+    - Documentation
+        - [Official Documentation](https://reactjs.org/docs/getting-started.html)
+    - Tutorials
+        - [Digital Ocean (Django & React)](https://www.digitalocean.com/community/tutorials/build-a-to-do-application-using-django-and-react)
+        - [YouTube Playlist (Django & React)](https://www.youtube.com/playlist?list=PLzMcBGfZo4-kCLWnGmK0jUBmGLaJxvi4j)
+        - [Basic Hello World App (Django & React)](https://www.youtube.com/watch?v=F9o4GSkSo40)
+        - [CMPUT 401 Tutorial](https://github.com/UAlberta-CMPUT401/tutorial-react-todo-frontend)
+        - [Dev.to React User authentication](https://dev.to/koladev/django-rest-authentication-cmh)
+        - [Video: Django Token Authentication](https://www.youtube.com/watch?v=0d7cIfiydAc&ab_channel=TraversyMedia)
+    - Troubleshoot
+        - [Stack Exchange](https://stackoverflow.com/search?q=react+django&searchOn=3)
 
 ### Deployment - Cybera
 
-- [Cybera Documentation](https://wiki.cybera.ca/#all-updates)
+- Documentation
+    - [Cybera Documentation](https://wiki.cybera.ca/#all-updates)
+    - [Apache2 Django](https://docs.djangoproject.com/en/4.1/howto/deployment/wsgi/modwsgi/)
+- Tutorial
+    - [Deploy Django Linux Server Apache2](https://www.youtube.com/watch?v=Sa_kQheCnds)
+    - [Cybera CMPUT 401 Tutorial](https://docs.google.com/presentation/d/13Yr9jvl5jKX5PNauNx9JuMUOOhiuaQ2BtB3ig4UXcWw/edit?usp=sharing)
+    - [Cyber Screencast](https://www.youtube.com/watch?v=jv4D8I_AwTQ)
+- Troubleshoot
+    - [Stack Exchange](https://stackoverflow.com/search?q=django+linux+server&searchOn=3)
