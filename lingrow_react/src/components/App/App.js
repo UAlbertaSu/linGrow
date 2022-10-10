@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Login from '../Login/Login';
 import Dashboard from '../Dashboard/Dashboard';
-import Preferences from '../Preferences/Preferences';
+import Signup from '../Signup/Signup';
 import useToken from './useToken.js';
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />}></Route>
           <Route path="/dashboard" element={<Dashboard/ >}></Route>
-          <Route path="/preferences" element={<Preferences/ >}></Route>
+          <Route path="/signup" element={<Signup/ >}></Route>
         </Routes>
       </BrowserRouter>
     </div>

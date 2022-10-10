@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import logo from "../Img/lingrow.png";
-import './Login.css'
+import './Login.css';
 
 async function loginUser(credentials) {
     return fetch('http://localhost:8080/login', {
@@ -44,6 +44,7 @@ export default function Login({ setToken }) {
                 </label>
                 <div>
                     <button type="submit">Submit</button>
+                    <button onClick={handleSubmit} type="signup">Signup</button>
                 </div>
             </form>
         </div>
