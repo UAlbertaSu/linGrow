@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'admin_school_management',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
