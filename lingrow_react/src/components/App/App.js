@@ -5,21 +5,21 @@ import './App.css';
 import Login from '../Login/Login';
 import Dashboard from '../Dashboard/Dashboard';
 import Signup from '../Signup/Signup';
-import useToken from './useToken.js';
 
 function App() {
-  const { token, setToken } = useToken();
+//   const { token, setToken } = useToken();
 
-  if (!token) {
-    return <Login setToken={setToken} />
-  }
+//   if (!token) {
+//     return <Login setToken={setToken} />
+//   }
 
   return (
     <div className="wrapper">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" />}></Route>
+          <Route path="/" element={<Navigate to="/login" />}></Route>
           <Route path="/dashboard" element={<Dashboard/ >}></Route>
+          <Route path="/login" element={<Login/ >}></Route>
           <Route path="/signup" element={<Signup/ >}></Route>
         </Routes>
       </BrowserRouter>
