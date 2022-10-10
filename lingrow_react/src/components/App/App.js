@@ -18,6 +18,7 @@ function App() {
     <div className="wrapper">
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" />}></Route>
           <Route path="/dashboard" element={<Dashboard/ >}></Route>
           <Route path="/preferences" element={<Preferences/ >}></Route>
         </Routes>
