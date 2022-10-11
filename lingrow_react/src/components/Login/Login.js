@@ -19,7 +19,7 @@ async function loginUser(credentials) {
 
 export default function Login() {
     const nav = useNavigate();
-    const{token, setToken} = useToken();
+    const{setToken} = useToken();
     const[username, setUserName] = useState();
     const[password, setPassWord] = useState();
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import './App.css';
@@ -7,12 +7,6 @@ import Dashboard from '../Dashboard/Dashboard';
 import Signup from '../Signup/Signup';
 
 function App() {
-//   const { token, setToken } = useToken();
-
-//   if (!token) {
-//     return <Login setToken={setToken} />
-//   }
-
   return (
     <div className="wrapper">
       <BrowserRouter>
