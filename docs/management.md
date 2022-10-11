@@ -2,7 +2,7 @@
 
 ## Story Map
 
-![storyMap](img/storyMap401.png)
+![storyMap](img/updatedStoryMap401.png)
 
 ---
 
