@@ -345,6 +345,8 @@
 
 > What follows is a list of available Machine Translation services. Each service features a Pricing and Languages section explaining their rates and supported languages, which is backed up with a current source from their website. After the services comparison, there is a “translation quality” section, giving context to each service’s accuracy.
 >
+> **These can be used for inspiration as for each of them, we can choose to implement and use it as our translation API.** There are no similar products to the LinGrow app itself, but each of these products can serve as a core component of our app, namely the translation aspect.
+>
 > Note that all prices are in USD unless specified otherwise. 
 
 ### DEEPL
