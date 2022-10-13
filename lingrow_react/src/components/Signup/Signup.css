@@ -1,19 +1,40 @@
+:root {
+    --margin-vsmall: 5px 5px 5px 5px;
+    --margin-small: 10px 10px 10px 10px;
+    --margin-medium: 20px 20px 20px 20px;
+    --margin-large: 40px 40px 40px 40px;
+}
+
+h1 {
+    font-size: 30px;
+    font-weight: bold;
+}
+
 .label{
     display: block;
     font-size: larger;
+    margin: var(--margin-vsmall);
     color: rgb(5, 5, 5);
-    padding: 5px;
+}
+.error{
+    margin: var(--margin-small);
+    color: rgb(204, 0, 0);
+}
+.success{
+    margin: var(--margin-small);
+    color: rgb(4, 202, 4);
 }
 
-.container {
-    height: 120px;
-    position: relative;
+.form-group{
+    margin: var(--margin-small);
 }
 
-.center {
-  margin: 0;
+.card {
   position: absolute;
-  top: 50%;
+  width: fit-content;
+  height: fit-content;
+  background-color: aliceblue;
+  top: 40%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -26,27 +47,6 @@
 }
 
 .btn{
-    margin-top: 10px;
+    margin: var(--margin-small);
     height: 20px;
-}
-.messages{
-    align-items: center;
-    display: flex;
-    justify-content: center;
-}
-    
-.error{
-    display: block;
-    color: black;
-    width: fit-content;
-    height: 50px;
-    padding: 5px;
-}
-    
-.success{
-    display: block;
-    color: black;
-    width: fit-content;
-    height: 50px;
-    padding: 5px;
 }

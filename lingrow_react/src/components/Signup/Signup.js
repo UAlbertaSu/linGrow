@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './Signup.css';
 import 'react-bootstrap/Form'
-import Container from 'react-bootstrap/Container'
+import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button'
 
   export default function Form() {
@@ -43,7 +43,7 @@ import Button from 'react-bootstrap/Button'
             <div className="success" style={{
                 display: submitted ? '' : 'none',
             }}>
-                <h1>Welcome to linGrow {name}!</h1>
+                Welcome to linGrow {name}!
             </div>
         );
     };
@@ -51,46 +51,37 @@ import Button from 'react-bootstrap/Button'
     // Showing error message if error is true
     const errorMessage = () => {
         return (
-            <div class="container">
-                <div class="center"></div>
-                    <div className="error" style={{
-                    display: error ? '' : 'none',
-                    }}>
-                    <h1>User Registration</h1>
-                    Please enter all the fields
-                    </div>
+                <div className="error" style={{
+                display: error ? '' : 'none',
+                }}>
+                    Name and Password required
                 </div>
+                
         );
     };
 
     return (
-        <Container>
-            <div class="container">
-                <div class="center">
-                    <div className="form">
-                        <div className="messages">
-                            <h1>User Registration</h1>
-                        </div>
+        
 
-                        {/* Calling to the methods */}
-                        <div className="messages">
-                            {errorMessage()}
-                            {successMessage()}
-                        </div>
+                <Card style={{ width: '18rem' }}>
+                    <div className="form">
                         <form classname='input'>
                             <div class="form-group">
+                            <h1>User Registration</h1>
                                 {/* Labels and inputs for form data */}
-                                <label className="label">Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="Enter name" value={name} onChange={handleName} />
-                                <label className="label">Password</label>
-                                <input type="password" class="form-control" id="password" placeholder="Enter password" value={password} onChange={handlePassword} />
+                            <label className="label">Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter name" value={name} onChange={handleName} />
+                            <label className="label">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Enter password" value={password} onChange={handlePassword} />
                             </div>
-                            <Button variant="primary" type="submit" onClick={handleSubmit}>Submit</Button>
+                            <div className="message">
+                                    {errorMessage()}
+                                    {successMessage()}
+                                </div>
+                            <Button variant="outline-primary" type="submit" onClick={handleSubmit}>Submit</Button>
                         </form>
                     </div>
-                </div>
-            </div>
-      </Container>
+                </Card>
             
     );
 }
