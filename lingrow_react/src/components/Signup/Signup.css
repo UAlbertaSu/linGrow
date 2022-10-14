@@ -1,0 +1,45 @@
+:root {
+    --margin-vsmall: 5px 5px 5px 5px;
+    --margin-small: 10px 10px 10px 10px;
+    --margin-medium: 20px 20px 20px 20px;
+    --margin-large: 40px 40px 40px 40px;
+}
+
+h1 {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.label{
+    display: block;
+    font-size: larger;
+    margin: var(--margin-vsmall);
+    color: rgb(5, 5, 5);
+}
+.error{
+    margin: var(--margin-small);
+    color: rgb(204, 0, 0);
+}
+.success{
+    margin: var(--margin-small);
+    color: rgb(4, 202, 4);
+}
+
+.form-group{
+    margin: var(--margin-small);
+}
+
+.card {
+  position: absolute;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: aliceblue;
+  padding: 2%;
+  top: 40%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
