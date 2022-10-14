@@ -1,17 +1,22 @@
-import email
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from account.serializers import UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer, UserChangePasswordSerializer, SendPasswordResetEmailSerializer, UserPasswordResetSerializer
+from account.serializers import UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer,\
+                                UserChangePasswordSerializer, SendPasswordResetEmailSerializer,\
+                                UserPasswordResetSerializer, ParentProfileSerializer, TeacherProfileSerializer,\
+                                ResearcherProfileSerializer, AdminProfileSerializer
 from django.contrib.auth import authenticate
 from account.renderers import UserRenderer
-from .models import User
+from .models import Parent, Teacher, Researcher, Admin
 from rest_framework_simplejwt.tokens import RefreshToken 
 from rest_framework.permissions import IsAuthenticated
+from .enums import UserType
+from drf_yasg.utils import swagger_auto_schema
 
 
 class UserRegistrationView(APIView):
     renderer_classes = [UserRenderer]
+    @swagger_auto_schema(request_body=UserRegistrationSerializer,operation_description="Register a new user",responses={201: "{'token': {}, 'message': 'Registration Successful'}" ,400: "Bad Request"})
     def post(self, request, format=None):
         serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
@@ -32,14 +37,12 @@ def get_tokens_for_user(user):
 
 class UserLoginView(APIView):
     renderer_classes = [UserRenderer]
+    @swagger_auto_schema(request_body=UserLoginSerializer, operation_description="Login a user",responses={200: "{'token': {}, 'message': 'Login Successful'}" ,404: "Invalid Credentials", 400: "Bad Request"})
     def post(self, request, format=None):
-        print(request.data)
         serializer = UserLoginSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            print(serializer.data)
             email = serializer.data.get('email')
             password = serializer.data.get('password')
-            print(email, password)
             user = authenticate(email=email, password=password)
             if user is not None:
                 token = get_tokens_for_user(user)
@@ -52,13 +55,29 @@ class UserLoginView(APIView):
 class UserProfileView(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated]
+    @swagger_auto_schema(operation_description="View user profile",responses={200: UserProfileSerializer,400: "Bad Request"})
     def get(self, request, format=None):
-        serializer = UserProfileSerializer(request.user)
+        user = request.user
+        if user.user_type == UserType.PARENT.value:
+            parent = Parent.objects.get(user=user)
+            serializer = ParentProfileSerializer(parent)
+        elif user.user_type == UserType.TEACHER.value:
+            teacher = Teacher.objects.get(user=user)
+            serializer = TeacherProfileSerializer(teacher)
+        elif user.user_type == UserType.RESEARCHER.value:
+            researcher = Researcher.objects.get(user=user)
+            serializer = ResearcherProfileSerializer(researcher)
+        elif user.user_type == UserType.ADMIN.value:
+            admin = Admin.objects.get(user=user)
+            serializer = AdminProfileSerializer(admin)
+        else:
+            serializer = UserProfileSerializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class UserChangePasswordView(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated]
+    @swagger_auto_schema(request_body=UserChangePasswordSerializer, operation_description="Change user password",responses={200: "{'message': 'Password Changed Successfully'}" ,400: "Bad Request"})
     def post(self, request, format=None):
         serializer = UserChangePasswordSerializer(data=request.data, context={'user':request.user})
         if serializer.is_valid(raise_exception=True):
@@ -67,6 +86,7 @@ class UserChangePasswordView(APIView):
 
 class SendPasswordResetEmailView(APIView):
     renderer_classes = [UserRenderer]
+    @swagger_auto_schema(request_body=SendPasswordResetEmailSerializer, operation_description="Send password reset email",responses={200: "{'message': 'Password reset link send. Please check your email.'}" ,400: "Bad Request"})
     def post(self, request, format=None):
         serializer = SendPasswordResetEmailSerializer(data=request.data)
         serializer.is_valid(raise_exception=True) 
@@ -74,6 +94,7 @@ class SendPasswordResetEmailView(APIView):
 
 class UserPaswordResetView(APIView):
     renderer_classes = [UserRenderer]
+    @swagger_auto_schema(request_body=UserPasswordResetSerializer, operation_description="Reset user password",responses={200: "{'message': 'Password Changed Successfully'}" ,400: "Bad Request"})
     def post(self, request, uid, token, format=None):
         serializer = UserPasswordResetSerializer(data=request.data, context={'uid':uid, 'token':token})
         if serializer.is_valid(raise_exception=True):
