@@ -1,43 +1,45 @@
+:root {
+    --margin-vsmall: 5px 5px 5px 5px;
+    --margin-small: 10px 10px 10px 10px;
+    --margin-medium: 20px 20px 20px 20px;
+    --margin-large: 40px 40px 40px 40px;
+}
+
+h1 {
+    font-size: 30px;
+    font-weight: bold;
+}
+
 .label{
     display: block;
     font-size: larger;
-    color: black;
-    padding: 5px;
+    margin: var(--margin-vsmall);
+    color: rgb(5, 5, 5);
 }
-
-.input{
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-}
-
-.btn{
-    color: white;
-    background-color: red;
-    border-radius: 5px;
-    font-size: larger;
-    display: block;
-    padding: 5px;
-    margin: 10px auto;
-}
-    
-.messages{
-    display: flex;
-    justify-content: center;
-}
-    
 .error{
-    display: block;
-    color: black;
-    width: fit-content;
-    height: 50px;
-    padding: 5px;
+    margin: var(--margin-small);
+    color: rgb(204, 0, 0);
 }
-    
 .success{
-    display: block;
-    color: black;
-    width: fit-content;
-    height: 50px;
-    padding: 5px;
+    margin: var(--margin-small);
+    color: rgb(4, 202, 4);
+}
+
+.form-group{
+    margin: var(--margin-small);
+}
+
+.card {
+  position: absolute;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: aliceblue;
+  padding: 2%;
+  top: 40%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
