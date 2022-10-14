@@ -15,9 +15,10 @@ export default function Dashboard() {
     return (
         <div className="dashboard-wrapper">
             <Card>
-                <img src={logo} className="logo" alt="logo" />
                 <h2>Welcome to LinGrow dashboard</h2>
                 <button onClick={clearSession}>Logout</button>
+                <a href="https://drive.google.com/drive/folders/1h4pmfp66la3ZBpEIwcfHb7TEY5QbUgOj">Kitchen Activities</a>
+                <a href="https://drive.google.com/drive/folders/1Pbaax2cLWvOSO8sY2Lm8by0lE0G8njRJ">Bath Time!</a>
             </Card>
         </div>
     );
