@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
+import { Form, Button, Card } from 'react-bootstrap';
 
 import logo from "../Img/lingrow.png";
 import './Login.css';
@@ -39,22 +40,16 @@ export default function Login() {
     }
 
     return (
-        <div className="login-wrapper">
+        <Card>
             <img src={logo} className="logo" alt="logo" />
-            <h1>linGrow Login</h1>
-            <form>
-                <label>
-                    <p>Username</p>
-                    <input type="text" onChange={e => setUserName(e.target.value)}/>
-                </label>
-                <label>
-                    <p>Password</p>
-                    <input type="password" onChange={e => setPassWord(e.target.value)}/>
-                </label>
-            </form>
-            <button onClick={handleSubmit} type="submit">Submit</button>
-            <button onClick={redirectToSignup}>Signup</button>
-        </div>
+            <h1>LinGrow Login</h1>
+            <label className="label">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter name" onChange={e => setUserName(e.target.value)}/>
+            <label className="label">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter Password" onChange={e => setPassWord(e.target.value)}/>
+            <Button variant="primary" type="submit" onClick={handleSubmit}>Login</Button>
+            <Button variant="primary" type="submit" onClick={redirectToSignup}>Sign Up</Button>
+        </Card>
     )
 }
 

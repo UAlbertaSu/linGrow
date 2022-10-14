@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import './Dashboard.css';
 import logo from '../Img/lingrow.png';
+import { Button, Card } from 'react-bootstrap';
 
 export default function Dashboard() {
     const nav = useNavigate();
@@ -13,9 +14,11 @@ export default function Dashboard() {
 
     return (
         <div className="dashboard-wrapper">
-            <img src={logo} className="logo" alt="logo" />
-            <h2>Welcome to linGrow dashboard</h2>
-            <button onClick={clearSession}>Logout</button>
+            <Card>
+                <img src={logo} className="logo" alt="logo" />
+                <h2>Welcome to LinGrow dashboard</h2>
+                <button onClick={clearSession}>Logout</button>
+            </Card>
         </div>
     );
 }

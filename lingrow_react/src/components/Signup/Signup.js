@@ -78,7 +78,7 @@ import Button from 'react-bootstrap/Button'
                                     {errorMessage()}
                                     {successMessage()}
                                 </div>
-                            <Button variant="outline-primary" type="submit" onClick={handleSubmit}>Submit</Button>
+                            <Button variant="primary" onClick={handleSubmit}>Submit</Button>{''}
                         </form>
                     </div>
                 </Card>
