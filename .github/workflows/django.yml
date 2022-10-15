@@ -28,4 +28,5 @@ jobs:
     - name: Run Tests
       run: |
         ls -la
+        cd lingrow
         python manage.py test
