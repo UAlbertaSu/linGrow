@@ -1,0 +1,290 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot testing of frontend Render dashboard 1`] = `
+<div
+  className="dashboard-wrapper"
+>
+  <div
+    className="card"
+  >
+    <h2>
+      Welcome to LinGrow dashboard
+    </h2>
+    <button
+      onClick={[Function]}
+    >
+      Logout
+    </button>
+    <a
+      href="https://drive.google.com/drive/folders/1h4pmfp66la3ZBpEIwcfHb7TEY5QbUgOj"
+    >
+      Kitchen Activities
+    </a>
+    <a
+      href="https://drive.google.com/drive/folders/1Pbaax2cLWvOSO8sY2Lm8by0lE0G8njRJ"
+    >
+      Bath Time!
+    </a>
+  </div>
+</div>
+`;
+
+exports[`Snapshot testing of frontend Render login page 1`] = `
+<div
+  className="card"
+>
+  <img
+    alt="logo"
+    className="logo"
+    src="lingrow.png"
+  />
+  <h1>
+    LinGrow Login
+  </h1>
+  <label
+    className="label"
+  >
+    Email address
+  </label>
+  <input
+    class="form-control"
+    id="name"
+    onChange={[Function]}
+    placeholder="Enter Email Address"
+    type="text"
+  />
+  <label
+    className="label"
+  >
+    Password
+  </label>
+  <input
+    class="form-control"
+    id="password"
+    onChange={[Function]}
+    placeholder="Enter Password"
+    type="password"
+  />
+  <div
+    className="message"
+  >
+    <div
+      className="error"
+      style={
+        Object {
+          "display": "none",
+        }
+      }
+    >
+      Invalid email or password
+    </div>
+  </div>
+  <button
+    className="btn btn-primary"
+    disabled={false}
+    onClick={[Function]}
+    type="submit"
+  >
+    Login
+  </button>
+  <button
+    className="btn btn-primary"
+    disabled={false}
+    onClick={[Function]}
+    type="submit"
+  >
+    Sign Up
+  </button>
+  <a
+    href="https://drive.google.com/drive/folders/1h4pmfp66la3ZBpEIwcfHb7TEY5QbUgOj"
+  >
+    Kitchen Activities
+  </a>
+  <a
+    href="https://drive.google.com/drive/folders/1Pbaax2cLWvOSO8sY2Lm8by0lE0G8njRJ"
+  >
+    Bath Time!
+  </a>
+</div>
+`;
+
+exports[`Snapshot testing of frontend Render signup page 1`] = `
+<div
+  className="card"
+  style={
+    Object {
+      "width": "18rem",
+    }
+  }
+>
+  <div
+    className="form"
+  >
+    <form
+      className="input"
+    >
+      <div>
+        <h1>
+          User Registration
+        </h1>
+        <h2>
+          Field with * must be filled out.
+        </h2>
+        <label
+          className="label"
+        >
+          Email address*
+        </label>
+        <input
+          id="email"
+          onChange={[Function]}
+          placeholder="Enter Email Address"
+          type="text"
+          value=""
+        />
+        <label
+          className="label"
+        >
+          First name*
+        </label>
+        <input
+          id="first_name"
+          onChange={[Function]}
+          placeholder="Enter First Name"
+          type="text"
+          value=""
+        />
+        <label
+          className="label"
+        >
+          Middle name
+        </label>
+        <input
+          id="middle_name"
+          onChange={[Function]}
+          placeholder="Enter Middle Name"
+          type="text"
+          value=""
+        />
+        <label
+          className="label"
+        >
+          Last name*
+        </label>
+        <input
+          id="last_name"
+          onChange={[Function]}
+          placeholder="Enter Last Name"
+          type="text"
+          value=""
+        />
+        <label
+          className="label"
+        >
+          User type*
+        </label>
+        <select
+          onChange={[Function]}
+          value=""
+        >
+          <option
+            value="0"
+          >
+            Please Select a User Type
+          </option>
+          <option
+            value="1"
+          >
+            Parent
+          </option>
+          <option
+            value="2"
+          >
+            Teacher
+          </option>
+          <option
+            value="3"
+          >
+            Researcher
+          </option>
+          <option
+            value="4"
+          >
+            Admin
+          </option>
+        </select>
+        <label
+          className="label"
+        >
+          Password*
+        </label>
+        <input
+          id="password"
+          onChange={[Function]}
+          placeholder="Enter Password"
+          type="password"
+          value=""
+        />
+        <label
+          className="label"
+        >
+          Confirm password*
+        </label>
+        <input
+          id="password2"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value=""
+        />
+        <label
+          className="label"
+        >
+          Child name(* if parent)
+        </label>
+        <input
+          id="name"
+          onChange={[Function]}
+          placeholder="Enter Child Name"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="message"
+      >
+        <div
+          className="error"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        >
+          Registration failed
+        </div>
+        <div
+          className="success"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        >
+          Welcome to linGrow 
+           
+          !
+        </div>
+      </div>
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        onClick={[Function]}
+        type="submit"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
+`;
