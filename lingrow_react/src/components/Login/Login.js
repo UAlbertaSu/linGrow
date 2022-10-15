@@ -8,7 +8,7 @@ import './Login.css';
 import useToken from '../App/useToken.js';
 
 async function loginUser(credentials) {
-    return fetch('http://localhost:8080/login', {
+    return fetch('http://127.0.0.1:8000/api/user/login/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -21,16 +21,19 @@ async function loginUser(credentials) {
 export default function Login() {
     const nav = useNavigate();
     const{setToken} = useToken();
-    const[username, setUserName] = useState();
+    const[email, setEmail] = useState();
     const[password, setPassWord] = useState();
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event) =>{
         event.preventDefault();
         const token = await loginUser({
-            username,
-            password
+            "email": email,
+            "password": password
         });
+
+            
         setToken(token);
+        console.log(token);
         nav("/dashboard");
     }
 
@@ -44,7 +47,7 @@ export default function Login() {
             <img src={logo} className="logo" alt="logo" />
             <h1>LinGrow Login</h1>
             <label className="label">Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter name" onChange={e => setUserName(e.target.value)}/>
+            <input type="text" class="form-control" id="name" placeholder="Enter name" onChange={e => setEmail(e.target.value)}/>
             <label className="label">Password</label>
             <input type="password" class="form-control" id="password" placeholder="Enter Password" onChange={e => setPassWord(e.target.value)}/>
             <Button variant="primary" type="submit" onClick={handleSubmit}>Login</Button>
