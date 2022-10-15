@@ -16,6 +16,15 @@ class AccountTests(APITestCase):
                     "password": "testpassword",
                     "password2": "testpassword"
                 }
+    admin_data = {
+                    "email": "testnew@admin.com",
+                    "first_name": "First",
+                    "middle_name": "Middle",
+                    "last_name": "Last",
+                    "user_type": 4,
+                    "password": "testpassword",
+                    "password2": "testpassword"
+    }
     login_url = '/api/user/login/'
     register_url = '/api/user/register/'
     profile_url = '/api/user/profile/'
@@ -116,10 +125,52 @@ class AccountTests(APITestCase):
         response = self.client.post(self.reset_pass_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_admin_user_listview(self):
+        self.client.post(self.register_url, self.user_data, format='json')
+        response = self.client.post(self.register_url, self.admin_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        data = {
+            "email": self.admin_data['email'],
+            "password": self.admin_data['password']
+        }
+        response = self.client.post(self.login_url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        token = response.json()['token']['access']
+        response = self.client.get(self.profile_url+'parents/', HTTP_AUTHORIZATION='Bearer ' + token)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.json()), 1)
+        response = self.client.get(self.profile_url+'teachers/', HTTP_AUTHORIZATION='Bearer ' + token)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.json()), 0)
+        response = self.client.get(self.profile_url+'researchers/', HTTP_AUTHORIZATION='Bearer ' + token)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.json()), 0)
 
     
-
-    
-
+    def test_admin_user_patch(self):
+        self.client.post(self.register_url, self.user_data, format='json')
+        response = self.client.post(self.register_url, self.admin_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        data = {
+            "email": self.admin_data['email'],
+            "password": self.admin_data['password']
+        }
+        response = self.client.post(self.login_url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        token = response.json()['token']['access']
+        data = {
+            "first_name": "newfirstname",
+            "last_name": "newlastname",
+            "middle_name": "newmiddlename",
+            "child_name": "newchildname"
+        }
+        response = self.client.get(self.profile_url+'parents/', HTTP_AUTHORIZATION='Bearer ' + token)
+        id = response.json()[0]['user']['id']
+        response = self.client.patch(self.profile_url+str(id)+'/', data, format='json', HTTP_AUTHORIZATION='Bearer ' + token)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json()['user']['first_name'], data['first_name'])
+        self.assertEqual(response.json()['user']['last_name'], data['last_name'])
+        self.assertEqual(response.json()['user']['middle_name'], data['middle_name'])
+        self.assertEqual(response.json()['child_name'], data['child_name'])
 
     
