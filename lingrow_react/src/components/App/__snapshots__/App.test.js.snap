@@ -11,6 +11,7 @@ exports[`Snapshot testing of frontend Render dashboard 1`] = `
       Welcome to LinGrow dashboard
     </h2>
     <button
+      data-testid="logout"
       onClick={[Function]}
     >
       Logout
@@ -47,8 +48,8 @@ exports[`Snapshot testing of frontend Render login page 1`] = `
     Email address
   </label>
   <input
-    class="form-control"
-    id="name"
+    className="form-control"
+    data-testid="email"
     onChange={[Function]}
     placeholder="Enter Email Address"
     type="text"
@@ -59,8 +60,8 @@ exports[`Snapshot testing of frontend Render login page 1`] = `
     Password
   </label>
   <input
-    class="form-control"
-    id="password"
+    className="form-control"
+    data-testid="password"
     onChange={[Function]}
     placeholder="Enter Password"
     type="password"
@@ -70,6 +71,7 @@ exports[`Snapshot testing of frontend Render login page 1`] = `
   >
     <div
       className="error"
+      data-testid="errormessage"
       style={
         Object {
           "display": "none",
@@ -81,6 +83,7 @@ exports[`Snapshot testing of frontend Render login page 1`] = `
   </div>
   <button
     className="btn btn-primary"
+    data-testid="login"
     disabled={false}
     onClick={[Function]}
     type="submit"
@@ -89,6 +92,7 @@ exports[`Snapshot testing of frontend Render login page 1`] = `
   </button>
   <button
     className="btn btn-primary"
+    data-testid="signup"
     disabled={false}
     onClick={[Function]}
     type="submit"
@@ -136,7 +140,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
           Email address*
         </label>
         <input
-          id="email"
+          data-testid="email"
           onChange={[Function]}
           placeholder="Enter Email Address"
           type="text"
@@ -148,7 +152,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
           First name*
         </label>
         <input
-          id="first_name"
+          data-testid="first_name"
           onChange={[Function]}
           placeholder="Enter First Name"
           type="text"
@@ -160,7 +164,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
           Middle name
         </label>
         <input
-          id="middle_name"
+          data-testid="middle_name"
           onChange={[Function]}
           placeholder="Enter Middle Name"
           type="text"
@@ -172,7 +176,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
           Last name*
         </label>
         <input
-          id="last_name"
+          data-testid="last_name"
           onChange={[Function]}
           placeholder="Enter Last Name"
           type="text"
@@ -184,13 +188,14 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
           User type*
         </label>
         <select
+          data-testid="user_type"
           onChange={[Function]}
           value=""
         >
           <option
             value="0"
           >
-            Please Select a User Type
+            Please Select User Type
           </option>
           <option
             value="1"
@@ -219,7 +224,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
           Password*
         </label>
         <input
-          id="password"
+          data-testid="password"
           onChange={[Function]}
           placeholder="Enter Password"
           type="password"
@@ -231,7 +236,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
           Confirm password*
         </label>
         <input
-          id="password2"
+          data-testid="password2"
           onChange={[Function]}
           placeholder="Confirm Password"
           type="password"
@@ -243,7 +248,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
           Child name(* if parent)
         </label>
         <input
-          id="name"
+          data-testid="child_name"
           onChange={[Function]}
           placeholder="Enter Child Name"
           type="text"
@@ -278,6 +283,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
       </div>
       <button
         className="btn btn-primary"
+        data-testid="submit_button"
         disabled={false}
         onClick={[Function]}
         type="submit"

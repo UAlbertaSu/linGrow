@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import './Signup.css';
@@ -12,13 +12,30 @@ export default function Form() {
 
     async function signupUser(credentials) {
         console.log(credentials);
+        sessionStorage.clear();
+        sessionStorage.setItem('registration', "success");
         return fetch('http://127.0.0.1:8000/api/user/register/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(credentials)
-        }).then(data => data.json())
+        }).then(data => {
+            console.log(data);
+            if (data['status'] === 201) {
+                sessionStorage.clear();
+                sessionStorage.setItem('registration', "success");
+                setSubmitted(true);
+                setError(false);
+                nav("/login");
+            }
+            else {
+                sessionStorage.clear();
+                sessionStorage.setItem('registration', "failed");
+                setSubmitted(false);
+                setError(true);
+            }
+        })
     }
 
     // States for registration
@@ -82,12 +99,18 @@ export default function Form() {
         e.preventDefault();
         if (email === '' || first_name === '' || last_name === '' || user_type === '' || password === '' || password2 === '') {
             setError(true);
+            sessionStorage.clear();
+            sessionStorage.setItem('registration', "failed");
         }
-        else if (password != password2) {
+        else if (password !== password2) {
             setError(true);
+            sessionStorage.clear();
+            sessionStorage.setItem('registration', "failed");
         }
         else if (user_type === '1' && child_name === '') {
             setError(true);
+            sessionStorage.clear();
+            sessionStorage.setItem('registration', "failed");
         }
         else {
             e.preventDefault();
@@ -101,11 +124,9 @@ export default function Form() {
                 "child_name": child_name,
                 "middle_name": middle_name
             });
-            setSubmitted(true);
-            setError(false);
 
-            // TODO: Would be nice to have a timed redirect to dashboard, rather than immediate redirect.
-            nav("/dashboard");
+            // // TODO: Would be nice to have a timed redirect to dashboard, rather than immediate redirect.
+            // nav("/dashboard");
         }
     };
 
@@ -140,15 +161,15 @@ export default function Form() {
                     <h2>Field with * must be filled out.</h2>
                         {/* Labels and inputs for form data */}
                     <label className="label">Email address*</label>
-                    <input type="text" id="email" placeholder="Enter Email Address" value={email} onChange={handleEmail} />
+                    <input type="text" data-testid="email" placeholder="Enter Email Address" value={email} onChange={handleEmail} />
                     <label className="label">First name*</label>
-                    <input type="text" id="first_name" placeholder="Enter First Name" value={first_name} onChange={handleFirstName} />
+                    <input type="text" data-testid="first_name" placeholder="Enter First Name" value={first_name} onChange={handleFirstName} />
                     <label className="label">Middle name</label>
-                    <input type="text" id="middle_name" placeholder="Enter Middle Name" value={middle_name} onChange={handleMiddleName} />
+                    <input type="text" data-testid="middle_name" placeholder="Enter Middle Name" value={middle_name} onChange={handleMiddleName} />
                     <label className="label">Last name*</label>
-                    <input type="text" id="last_name" placeholder="Enter Last Name" value={last_name} onChange={handleLastName} />
+                    <input type="text" data-testid="last_name" placeholder="Enter Last Name" value={last_name} onChange={handleLastName} />
                     <label className="label">User type*</label>
-                    <select value={user_type} onChange={handleUserType}>
+                    <select value={user_type} data-testid="user_type" onChange={handleUserType}>
                         <option value="0">Please Select User Type</option>
                         <option value="1">Parent</option>
                         <option value="2">Teacher</option>
@@ -156,17 +177,17 @@ export default function Form() {
                         <option value="4">Admin</option>
                     </select>
                     <label className="label">Password*</label>
-                    <input type="password" id="password" placeholder="Enter Password" value={password} onChange={handlePassword} />
+                    <input type="password" data-testid="password" placeholder="Enter Password" value={password} onChange={handlePassword} />
                     <label className="label">Confirm password*</label>
-                    <input type="password" id="password2" placeholder="Confirm Password" value={password2} onChange={handleConfirmPassword} />
+                    <input type="password" data-testid="password2" placeholder="Confirm Password" value={password2} onChange={handleConfirmPassword} />
                     <label className="label">Child name(* if parent)</label>
-                    <input type="text" id="name" placeholder="Enter Child Name" value={child_name} onChange={handleChildName} />
+                    <input type="text" data-testid="child_name" placeholder="Enter Child Name" value={child_name} onChange={handleChildName} />
                     </div>
                     <div className="message">
                         {errorMessage()}
                         {successMessage()}
                     </div>
-                    <Button variant="primary" type="submit" onClick={handleSubmit}>Submit</Button>{''}
+                    <Button variant="primary" type="submit" data-testid="submit_button" onClick={handleSubmit}>Submit</Button>{''}
                 </form>
             </div>
         </Card>
