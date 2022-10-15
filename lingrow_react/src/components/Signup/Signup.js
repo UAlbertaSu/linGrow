@@ -12,8 +12,7 @@ export default function Form() {
 
     async function signupUser(credentials) {
         console.log(credentials);
-        // return fetch('http://127.0.0.1:8000/api/user/register/', {
-        return fetch('http://localhost:8080/login', {
+        return fetch('http://127.0.0.1:8000/api/user/register/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
