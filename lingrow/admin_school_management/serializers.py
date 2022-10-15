@@ -1,4 +1,3 @@
-from msilib.schema import Class
 from rest_framework import serializers
 from admin_school_management.models import School, Classroom
 

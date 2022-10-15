@@ -20,3 +20,7 @@
     margin: var(--margin-small);
     width: 70px;
 }
+.error{
+    margin: var(--margin-small);
+    color: rgb(204, 0, 0);
+}
