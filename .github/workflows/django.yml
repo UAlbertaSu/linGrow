@@ -27,6 +27,5 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        ls -la
         cd lingrow
-        python manage.py test
+        python manage.py test --settings=settings.test
