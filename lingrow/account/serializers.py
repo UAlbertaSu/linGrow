@@ -13,8 +13,8 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     #Confirm password in Registration request
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
     # add more optional fields for different user types here
-    child_name = serializers.CharField(max_length=255, required=False)
-    middle_name = serializers.CharField(max_length=255, required=False)
+    child_name = serializers.CharField(max_length=255, required=False, allow_blank=True)
+    middle_name = serializers.CharField(max_length=255, required=False, allow_blank=True)
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name','user_type', 'password', 'password2','child_name','middle_name')
