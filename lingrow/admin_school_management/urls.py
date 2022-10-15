@@ -1,10 +1,13 @@
 from django.urls import path
-from rest_framework.urlpatterns import format_suffix_patterns
-from admin_school_management import views
+from .views import SchoolRegistrationView, SchoolUpdateView, \
+                    ClassroomRegistrationView, ClassroomUpdateView
 
+'''
+URL patterns for admin_school_management app
+'''
 urlpatterns = [
-    path('schools/', views.school_list),
-    path('schools/<int:pk>/', views.school_detail),
+    path('', SchoolRegistrationView.as_view(), name='school-registration'),
+    path('<int:pk>/', SchoolUpdateView.as_view(), name='school-detail'),
+    path('<int:pk>/classroom/', ClassroomRegistrationView.as_view(), name='classroom-registration'),
+    path('<int:sk>/classroom/<int:ck>/', ClassroomUpdateView.as_view() , name='classroom-detail'),
 ]
-
-urlpatterns = format_suffix_patterns(urlpatterns)
