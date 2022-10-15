@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import './Dashboard.css';
 import logo from '../Img/lingrow.png';
@@ -6,6 +6,12 @@ import { Button, Card } from 'react-bootstrap';
 
 export default function Dashboard() {
     const nav = useNavigate();
+
+    useEffect(() => {
+        if (sessionStorage.getItem('token') === null) {
+            nav("/");
+        }    
+    }, []);
 
     const clearSession = async (event) => {
         sessionStorage.clear();
