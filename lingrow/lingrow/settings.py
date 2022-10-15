@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
     'account',
-    'drf_yasg'
+    'drf_yasg',
+    'admin_school_management'
     
 ]
 
