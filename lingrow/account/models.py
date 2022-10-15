@@ -34,6 +34,9 @@ class UserManager(BaseUserManager):
             user_type=4,
             password=password,
         )
+        new_user.is_admin = True
+        new_user.is_staff = True
+        new_user.save(using=self._db)
         admin = Admin(user=new_user)
         admin.save()
         return new_user

@@ -1,16 +1,15 @@
-import email
-from xml.dom import ValidationErr
 from rest_framework import serializers
 from account.models import User, Parent, Teacher, Researcher, Admin
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from .enums import UserType
-
-
 from .utils import Util
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
+    '''
+        Serializer for user registration endpoint.
+    '''
     #Confirm password in Registration request
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
     # add more optional fields for different user types here
@@ -23,6 +22,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     #Validate password
     def validate(self, data):
+        '''
+            Validate password and password2 fields
+        '''
         password = data['password']
         password2 = data['password2']
         user_type = data['user_type']
@@ -34,6 +36,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
+        '''
+            Create user and user type object
+        '''
         user = None
         user_type = validated_data['user_type']
         # validate user type fields here (a bit messy at the moment)
@@ -61,41 +66,63 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
+    '''
+        Serializer for user login endpoint.
+    '''
     email = serializers.EmailField(max_length=255)
     class Meta:
         model = User
         fields = ['email', 'password']
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    '''
+        Serializer for user profile endpoint.
+    '''
     class Meta:
         model = User
         fields = ['id','email', 'first_name','middle_name','last_name','user_type']
+        read_only_fields = ['id','user_type']
 
 class ParentProfileSerializer(serializers.ModelSerializer):
+    '''
+        Serializer for parent profile endpoint.
+    '''
     user = UserProfileSerializer()
     class Meta:
         model = Parent
         fields = '__all__'
 
 class TeacherProfileSerializer(serializers.ModelSerializer):
+    '''
+        Serializer for teacher profile endpoint.
+    '''
     user = UserProfileSerializer()
     class Meta:
         model = Teacher
         fields = '__all__'
 
 class ResearcherProfileSerializer(serializers.ModelSerializer):
+    '''
+        Serializer for researcher profile endpoint.
+    '''
     user = UserProfileSerializer()
     class Meta:
         model = Researcher
         fields = '__all__'
 
 class AdminProfileSerializer(serializers.ModelSerializer):
+    '''
+        Serializer for admin profile endpoint.
+    '''
     user = UserProfileSerializer()
     class Meta:
         model = Admin
         fields = '__all__'
 
 class UserChangePasswordSerializer(serializers.Serializer):
+    '''
+        Serializer for user change password endpoint.
+    '''
     old_password = serializers.CharField(max_length=255, style={'input_type':'password'}, write_only=True)
     password = serializers.CharField(max_length=255, style={'input_type':'password'}, write_only=True)
     password2 = serializers.CharField(max_length=255, style={'input_type':'password'}, write_only=True)
@@ -116,6 +143,9 @@ class UserChangePasswordSerializer(serializers.Serializer):
         return data
 
 class SendPasswordResetEmailSerializer(serializers.Serializer):
+    '''
+        Serializer for sending password reset email endpoint.
+    '''
     email = serializers.EmailField(min_length=2)
 
     class Meta:
@@ -139,6 +169,9 @@ class SendPasswordResetEmailSerializer(serializers.Serializer):
             raise serializers.ValidationError({'email':'Email does not exist'})
 
 class UserPasswordResetSerializer(serializers.Serializer):
+    '''
+        Serializer for user password reset endpoint.
+    '''
     old_password = serializers.CharField(max_length=255, style={'input_type':'password'}, write_only=True)
     password = serializers.CharField(min_length=6, style={'input_type':'password'}, max_length=255, write_only=True)
     password2 = serializers.CharField(min_length=6, style={'input_type':'password'}, max_length=255, write_only=True)
