@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Navigate, useNavigate } from "react-router-dom";
-// import PropTypes from 'prop-types';
+import { useNavigate } from "react-router-dom";
 import { Form, Button, Card } from 'react-bootstrap';
 
 import logo from "../Img/lingrow.png";
 import './Login.css';
-// import useToken from '../App/useToken.js';
 
 async function loginUser(credentials) {
     console.log(JSON.stringify(credentials));
@@ -20,7 +18,6 @@ async function loginUser(credentials) {
 
 export default function Login() {
     const nav = useNavigate();
-    // const[token, setToken] = useToken();
     const[email, setEmail] = useState();
     const[password, setPassWord] = useState();
     const[error, setError] = useState(false);
@@ -64,8 +61,8 @@ export default function Login() {
         <Card>
             <img src={logo} className="logo" alt="logo" />
             <h1>LinGrow Login</h1>
-            <label className="label">Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter name" onChange={e => setEmail(e.target.value)}/>
+            <label className="label">Email address</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter Email Address" onChange={e => setEmail(e.target.value)}/>
             <label className="label">Password</label>
             <input type="password" class="form-control" id="password" placeholder="Enter Password" onChange={e => setPassWord(e.target.value)}/>
             <div className="message">
@@ -78,7 +75,3 @@ export default function Login() {
         </Card>
     )
 }
-
-// Login.propTypes = {
-//     setToken: PropTypes.func.isRequired
-// };
