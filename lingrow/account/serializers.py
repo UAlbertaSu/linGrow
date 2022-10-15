@@ -70,6 +70,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id','email', 'first_name','middle_name','last_name','user_type']
+        read_only_fields = ['id','user_type']
 
 class ParentProfileSerializer(serializers.ModelSerializer):
     user = UserProfileSerializer()

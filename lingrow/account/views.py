@@ -7,9 +7,9 @@ from account.serializers import UserRegistrationSerializer, UserLoginSerializer,
                                 ResearcherProfileSerializer, AdminProfileSerializer
 from django.contrib.auth import authenticate
 from account.renderers import UserRenderer
-from .models import Parent, Teacher, Researcher, Admin
+from .models import User, Parent, Teacher, Researcher, Admin
 from rest_framework_simplejwt.tokens import RefreshToken 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .enums import UserType
 from drf_yasg.utils import swagger_auto_schema
 
@@ -74,6 +74,30 @@ class UserProfileView(APIView):
             serializer = UserProfileSerializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def patch(self, request, format=None):
+        user = request.user
+        user_serializer = UserProfileSerializer(request.user, data=request.data, partial=True)
+        if user_serializer.is_valid(raise_exception=True):
+            user_serializer.save()
+        if user.user_type == UserType.PARENT.value:
+            parent = Parent.objects.get(user=user)
+            serializer = ParentProfileSerializer(parent, data=request.data, partial=True)
+        elif user.user_type == UserType.TEACHER.value:
+            teacher = Teacher.objects.get(user=user)
+            serializer = TeacherProfileSerializer(teacher, data=request.data, partial=True)
+        elif user.user_type == UserType.RESEARCHER.value:
+            researcher = Researcher.objects.get(user=user)
+            serializer = ResearcherProfileSerializer(researcher, data=request.data, partial=True)
+        elif user.user_type == UserType.ADMIN.value:
+            admin = Admin.objects.get(user=user)
+            serializer = AdminProfileSerializer(admin, data=request.data, partial=True)
+        else:
+            serializer = UserProfileSerializer(request.user, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class UserChangePasswordView(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated]
@@ -100,3 +124,47 @@ class UserPaswordResetView(APIView):
         if serializer.is_valid(raise_exception=True):
             return Response({'msg':'Password Changed Successfully'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class AdminUserIDListView(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    
+    def get(self, request, id, format=None):
+        if not User.objects.filter(id=id).exists():
+            return Response({'error':'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        user = User.objects.get(id=id)
+        if user.user_type == UserType.PARENT.value:
+            parent = Parent.objects.get(user=user)
+            serializer = ParentProfileSerializer(parent)
+        elif user.user_type == UserType.TEACHER.value:
+            teacher = Teacher.objects.get(user=user)
+            serializer = TeacherProfileSerializer(teacher)
+        elif user.user_type == UserType.RESEARCHER.value:
+            researcher = Researcher.objects.get(user=user)
+            serializer = ResearcherProfileSerializer(researcher)
+        else:
+            serializer = UserProfileSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class AdminUserListView(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    
+    def get(self, request, user_cat, format=None):
+        if type(user_cat) == str:
+            if user_cat == 'all':
+                users = User.objects.all()
+                serializer = UserProfileSerializer(users, many=True)
+            elif user_cat == 'parents':
+                users = Parent.objects.all()
+                serializer = ParentProfileSerializer(users, many=True)
+            elif user_cat == 'teachers':
+                users = Teacher.objects.all()
+                serializer = TeacherProfileSerializer(users, many=True)
+            elif user_cat == 'researchers':
+                users = Researcher.objects.all()
+                serializer = ResearcherProfileSerializer(users, many=True)
+            else:
+                return Response({'error':'Invalid Argument'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        

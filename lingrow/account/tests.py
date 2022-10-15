@@ -116,6 +116,9 @@ class AccountTests(APITestCase):
         response = self.client.post(self.reset_pass_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+
+    
+
     
 
 
