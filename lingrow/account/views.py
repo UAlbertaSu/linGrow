@@ -146,6 +146,29 @@ class AdminUserIDListView(APIView):
             serializer = UserProfileSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def patch(self, request, id, format=None):
+        if not User.objects.filter(id=id).exists():
+            return Response({'error':'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        user = User.objects.get(id=id)
+        user_serializer = UserProfileSerializer(user, data=request.data, partial=True)
+        if user_serializer.is_valid(raise_exception=True):
+            user_serializer.save()
+        if user.user_type == UserType.PARENT.value:
+            parent = Parent.objects.get(user=user)
+            serializer = ParentProfileSerializer(parent, data=request.data, partial=True)
+        elif user.user_type == UserType.TEACHER.value:
+            teacher = Teacher.objects.get(user=user)
+            serializer = TeacherProfileSerializer(teacher, data=request.data, partial=True)
+        elif user.user_type == UserType.RESEARCHER.value:
+            researcher = Researcher.objects.get(user=user)
+            serializer = ResearcherProfileSerializer(researcher, data=request.data, partial=True)
+        else:
+            serializer = UserProfileSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class AdminUserListView(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated, IsAdminUser]
