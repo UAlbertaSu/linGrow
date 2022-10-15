@@ -127,10 +127,13 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
         <h1>
           User Registration
         </h1>
+        <h2>
+          Field with * must be filled out.
+        </h2>
         <label
           className="label"
         >
-          Email address
+          Email address*
         </label>
         <input
           id="email"
@@ -142,7 +145,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
         <label
           className="label"
         >
-          First name
+          First name*
         </label>
         <input
           id="first_name"
@@ -166,7 +169,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
         <label
           className="label"
         >
-          Last name
+          Last name*
         </label>
         <input
           id="last_name"
@@ -178,7 +181,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
         <label
           className="label"
         >
-          User type
+          User type*
         </label>
         <select
           onChange={[Function]}
@@ -187,7 +190,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
           <option
             value="0"
           >
-            Select User Type
+            Please Select a User Type
           </option>
           <option
             value="1"
@@ -213,7 +216,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
         <label
           className="label"
         >
-          Password
+          Password*
         </label>
         <input
           id="password"
@@ -225,7 +228,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
         <label
           className="label"
         >
-          Confirm password
+          Confirm password*
         </label>
         <input
           id="password2"
@@ -237,7 +240,7 @@ exports[`Snapshot testing of frontend Render signup page 1`] = `
         <label
           className="label"
         >
-          Child name
+          Child name(* if parent)
         </label>
         <input
           id="name"

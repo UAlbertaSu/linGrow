@@ -137,28 +137,29 @@ export default function Form() {
                 <form className='input'>
                     <div>
                     <h1>User Registration</h1>
+                    <h2>Field with * must be filled out.</h2>
                         {/* Labels and inputs for form data */}
-                    <label className="label">Email address</label>
+                    <label className="label">Email address*</label>
                     <input type="text" id="email" placeholder="Enter Email Address" value={email} onChange={handleEmail} />
-                    <label className="label">First name</label>
+                    <label className="label">First name*</label>
                     <input type="text" id="first_name" placeholder="Enter First Name" value={first_name} onChange={handleFirstName} />
                     <label className="label">Middle name</label>
                     <input type="text" id="middle_name" placeholder="Enter Middle Name" value={middle_name} onChange={handleMiddleName} />
-                    <label className="label">Last name</label>
+                    <label className="label">Last name*</label>
                     <input type="text" id="last_name" placeholder="Enter Last Name" value={last_name} onChange={handleLastName} />
-                    <label className="label">User type</label>
+                    <label className="label">User type*</label>
                     <select value={user_type} onChange={handleUserType}>
-                        <option value="0">Select User Type</option>
+                        <option value="0">Please Select User Type</option>
                         <option value="1">Parent</option>
                         <option value="2">Teacher</option>
                         <option value="3">Researcher</option>
                         <option value="4">Admin</option>
                     </select>
-                    <label className="label">Password</label>
+                    <label className="label">Password*</label>
                     <input type="password" id="password" placeholder="Enter Password" value={password} onChange={handlePassword} />
-                    <label className="label">Confirm password</label>
+                    <label className="label">Confirm password*</label>
                     <input type="password" id="password2" placeholder="Confirm Password" value={password2} onChange={handleConfirmPassword} />
-                    <label className="label">Child name</label>
+                    <label className="label">Child name(* if parent)</label>
                     <input type="text" id="name" placeholder="Enter Child Name" value={child_name} onChange={handleChildName} />
                     </div>
                     <div className="message">
