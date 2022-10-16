@@ -1,4 +1,5 @@
 from email.policy import default
+from enum import unique
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from .enums import UserType
@@ -58,6 +59,7 @@ class User(AbstractBaseUser):
     middle_name = models.CharField(max_length=255, blank=True,null=True)
     last_name = models.CharField(max_length=255)
     user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
+    phone = models.IntegerField( blank=True, null=True, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -90,7 +92,7 @@ class Admin(models.Model):
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    # teacher_id = models.IntegerField()
+    teacher_id = models.CharField(max_length=100,unique=True)
     # teacher_name = models.CharField(max_length=255)
     # teacher_surname = models.CharField(max_length=255)
     # teacher_tc = models.CharField(max_length=255)
@@ -115,7 +117,7 @@ class Parent(models.Model):
 
 class Researcher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    # researcher_id = models.IntegerField()
+    researcher_id = models.CharField(max_length=100,unique=True)
     # researcher_name = models.CharField(max_length=255)
     # researcher_surname = models.CharField(max_length=255)
     # researcher_tc = models.CharField(max_length=255)
