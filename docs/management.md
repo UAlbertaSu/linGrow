@@ -28,6 +28,7 @@
 
 * **Due**: October 15, 2022
 * **Velocity Conversion**: tiny = 1, small = 2, medium = 3, large = 5, X-Large = 8
+* **Estimated Velocity**: 34 / 22 = 1.54
 
 | Tasks                     | Related US(Story Points)   | Assigned To                    | Due Date|
 |---------------------------|-----------------|---------------------------------------------|---------|
@@ -51,6 +52,7 @@
 
 * **Due**: October 29, 2022
 * **Velocity Conversion**: tiny = 1, small = 2, medium = 3, large = 5, X-Large = 8
+* **Estimated Velocity**: 31 / 13 = 2.38
 * **SUBJECT TO CHANGE**
 
 | Tasks                     | Related US(Story Points)   | Assigned To                    | Due Date|
@@ -67,6 +69,8 @@
 
 * **Due**: November 19, 2022
 * **Velocity Conversion**: tiny = 1, small = 2, medium = 3, large = 5, X-Large = 8
+* **Estimated Velocity**: 17 / 20 = 0.85
+
 * **SUBJECT TO CHANGE**
 
 | Tasks                     | Related US(Story Points)   | Assigned To                    | Due Date|
@@ -83,6 +87,7 @@
 
 * **Due**: December 3, 2022
 * **Velocity Conversion**: tiny = 1, small = 2, medium = 3, large = 5, X-Large = 8
+* **Estimated Velocity**: 16 / 13 = 1.23
 * **SUBJECT TO CHANGE**
 
 | Tasks                     | Related US(Story Points)   | Assigned To                    | Due Date|
