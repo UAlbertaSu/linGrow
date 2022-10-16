@@ -33,3 +33,9 @@
 ![UML](img/UML.png)
 
 ---
+
+## Latest API Flowchart (Will be updated as we progress)
+
+![API](img/APIFlowchart.png)
+
+---
