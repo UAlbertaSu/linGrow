@@ -27,3 +27,9 @@
 ![wireframes](img/Wireframes.png)
 
 ---
+
+## Latest UML Diagram (Will be updated as we progress)
+
+![UML](img/UML.png)
+
+---
