@@ -477,3 +477,137 @@
 > ##### Steve
 
 >> * Update Story Map to be consistent with Github issues' user stories.
+
+---
+
+### October 10, 2022
+
+> * 4:15 PM - 5:00 PM
+> * Google Meet
+
+#### Agenda
+
+> * Progress check before client meeting on October 11, 2022.
+> * Identify what aspect the group must work on for the Sprint 2 deliverable.
+
+#### Attendee
+
+> * Kash
+> * Kevin
+> * Sam
+> * Steve
+> * Scott
+
+#### Minutes
+
+> ##### Progress Report - Frontend
+
+>> * Sam, Steve, and Scott shared mock login screen, dashboard (home screen), and logout functionality. 
+>> * Sam modified frontend's user interface to be more aesthetically pleasing, and better modularized for future modifications.
+>> * There are still bugs that needs to be fixed before Sprint 2.
+>> * Should be possible to progress further once backend and frontend has been joined.
+
+> ##### Progress Report - Backend
+
+>> * Loyal reported API endpoint for the user creation functionality, including user creation, user password reset (with automated email), user login.
+>> * Kevin and Jeff are continuing to work on the admin functionality, but wasn’t able to share the progress due to most of the work being done on Jeff’s Github branch.
+
+#### Action Items
+
+> ##### All Teams
+
+>> * Keep up the pace, continue bugfixes and work on integration of backend with frontend.
+
+--- 
+
+### October 11, 2022
+
+> * 3:00 PM - 3:30 PM
+> * Google Meet
+
+#### Agenda
+
+> * Update client on the team's current progress and obtain feedback.
+
+#### Attendee
+
+> * Dr. Andrea McLeod (Client)
+> * Dr. Catrine Demers (Client)
+> * Kevin
+> * Steve
+> * Loyal
+> * Sam
+> * Scott
+> * Kash
+
+#### Minutes
+
+> ##### Feedback - Software Design
+
+>> * Informed clients on the modularity of some of the websites' designs (such as logo), and clarified the framework being used for the development of LinGrow - for the future modification if needed.
+>> * Different homepages for different users - similar to the prototype provided in the beginning of the project - would be preferable.
+>> * Clarified some of the requirements that will be worked on for future sprint, such as website translation, messaging functionality, and message translation.
+
+> ##### Feedback - Requirements
+
+>> * User creation en-masse by the Admin using excel sheet is a must have.
+>> * Activities should be accessible by all users, regardless of whether they are user of LinGrow or not.
+>> * *Would like* an activity hub integrated within the LinGrow, but links leading to the activities page is sufficient for the project.
+>>> * [https://bilingualacquisition.ca/covid-19-multilingual-families-talking-and-playing/](https://bilingualacquisition.ca/covid-19-multilingual-families-talking-and-playing/)
+
+#### Action Items
+
+> ##### All Teams
+
+>> * Schedule next meeting with the client once Sprint 2 is over - preferably in a timeframe where Jeff can also join.
+>> * Stick to the assigned tasks, and complete Sprint 2 deliverable.
+
+---
+
+### October 14, 2022
+
+> * 7:00 PM - 10:25 PM
+> * Google Meet
+
+#### Agenda
+
+> * Final checkup for the current state of Sprint 2 deliverable.
+> * Triage of what requirements need to be satisfied before Sprint 2 due date.
+
+#### Attendee
+
+> * Kevin
+> * Scott
+> * Steve
+> * Jeff
+> * Loyal
+> * Kash
+
+#### Minutes
+
+> ##### Backend-Frontend Integration
+
+>> * Integrated current working versions of the frontend with the API endpoints for users.
+>> * Ensured that members participating in the meeting has fully functional back- and front-end on their local machine.
+
+> ##### Hackathon
+
+>> * Remainder of the meeting was spent on modifying current codebase and test cases.
+
+#### Action Items
+
+> ##### Scott, Steve
+
+>> * Ensure that issues relating to the frontend has been resolved by tomorrow, and all Sprint requirements are accounted for, including the test cases.
+
+> ##### Jeff, Kevin
+
+>> * Generate test cases for admin and school management functionality API.
+
+> ##### Sam
+
+>> * Update diagrams and documentation to reflect feedback from Sprint 1’s documentation.
+
+> ##### Kash, Loyal
+
+>> * Further fixes on user API endpoints.
