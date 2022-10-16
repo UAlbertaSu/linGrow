@@ -8,7 +8,7 @@
 
 ## Major Data Elements
 
-![major_data_elem](img/class_diagram.png)
+![major_data_elem](img/class_diagram_2.png)
 
 ---
 
