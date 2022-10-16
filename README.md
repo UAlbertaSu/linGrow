@@ -5,10 +5,10 @@ linGrow (Multilingual Families Lab, U of A)
 
 ## Testing
 
-### `./lingrow/python manage.py`
+### `python manage.py (./lingrow/)`
 
 Launches backend tests.
 
-### `./lingrow_react/npm test`
+### `npm test (./lingrow_react/)`
 
 Launches frontend tests. `npm install` may be required for all the dependencies.
