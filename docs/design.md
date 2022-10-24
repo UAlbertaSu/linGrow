@@ -39,3 +39,7 @@
 ![API](img/APIFlowchart.png)
 
 ---
+
+## Detailed Design
+
+[https://www.figma.com/file/CXDeqntO7tIghC5yLOpbq7/Samuel-Rittwage-Scott's-team-library?node-id=0%3A1](https://www.figma.com/file/CXDeqntO7tIghC5yLOpbq7/Samuel-Rittwage-Scott's-team-library?node-id=0%3A1)
