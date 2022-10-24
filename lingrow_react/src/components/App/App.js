@@ -7,7 +7,7 @@ import Signup from '../Signup/Signup';
 import Welcome from '../Welcome/Welcome';
 
 function App() {
-  if (sessionStorage.getItem('lang') === null) {
+  if (localStorage.getItem('lang') === null) {
     return <Welcome />
   }
 
