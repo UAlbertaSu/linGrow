@@ -5,6 +5,7 @@ import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
 export default function Welcome() {
+
     let [welcome_msg, setWelcome] = useState("Welcome!");
     let [link_msg, setLink] = useState("Login to LinGrow");
 

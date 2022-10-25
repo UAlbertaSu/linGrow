@@ -21,7 +21,6 @@ export default function Login() {
     const [signup_btn, setSignupBtn] = useState("Signup");
     const [error_msg, setErrorMsg] = useState("Invalid email or password");
 
-
     async function handleSubmit(event) {
         event.preventDefault();
         const token = await loginUser({

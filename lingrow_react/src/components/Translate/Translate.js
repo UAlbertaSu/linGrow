@@ -1,4 +1,16 @@
-import { useEffect } from "react";
+// Example translate call:
+//
+// const translateMessage = useCallback((e) => {
+//     if (localStorage.getItem('lang')) {
+//         Translate(localStorage.getItem('lang'), "Welcome!").then(response => setWelcome(response));
+//         Translate(localStorage.getItem('lang'), "Login to LinGrow").then(response => setLink(response));
+//     }
+// });
+//
+// useEffect(() => {
+//     window.addEventListener("New language set", translateMessage);
+//     return () => window.removeEventListener("New language set", translateMessage);
+// });
 
 export default async function Translate(lang, query) {
     let API_KEY = 'AIzaSyC1UIimGmDHQfFesxsum3ifUObJuQo-W6U';
