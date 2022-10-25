@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
+import LanguageList from '../Translate/LanguageList';
+
 import './Signup.css';
 import 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card';
