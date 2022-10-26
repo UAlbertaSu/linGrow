@@ -18,7 +18,6 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('admin_school_management.urls')),
     path('api/user/', include('account.urls')),
     path('api/school/', include('admin_school_management.urls')),
     path('api/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
