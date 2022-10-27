@@ -51,7 +51,7 @@ exports[`Snapshot testing of frontend Render login page 1`] = `
     className="form-control"
     data-testid="email"
     onChange={[Function]}
-    placeholder="Enter Email Address"
+    placeholder="lingrow@email.com"
     type="text"
   />
   <label
@@ -63,7 +63,7 @@ exports[`Snapshot testing of frontend Render login page 1`] = `
     className="form-control"
     data-testid="password"
     onChange={[Function]}
-    placeholder="Enter Password"
+    placeholder="Password"
     type="password"
   />
   <div
@@ -97,7 +97,7 @@ exports[`Snapshot testing of frontend Render login page 1`] = `
     onClick={[Function]}
     type="submit"
   >
-    Sign Up
+    Signup
   </button>
   <a
     href="https://drive.google.com/drive/folders/1h4pmfp66la3ZBpEIwcfHb7TEY5QbUgOj"

@@ -159,6 +159,7 @@ export default function Form() {
             <div className="form">
                 <form className='input'>
                     <div>
+                    <LanguageList />
                     <h1>User Registration</h1>
                     <h2>Field with * must be filled out.</h2>
                         {/* Labels and inputs for form data */}

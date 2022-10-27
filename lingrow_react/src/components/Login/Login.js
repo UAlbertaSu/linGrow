@@ -68,6 +68,9 @@ export default function Login() {
         );
     };
 
+    // Setter for initial page translation.
+    const [translated, setTranslated] = useState(0);
+
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
@@ -81,7 +84,12 @@ export default function Login() {
     });
 
     useEffect(() => {
-        translateMessage();
+        // Prevents page from being constantly translated.
+        if (!translated) {
+            translateMessage();
+            setTranslated(1);
+        }
+
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
     });
