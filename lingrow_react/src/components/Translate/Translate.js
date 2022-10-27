@@ -1,26 +1,40 @@
 // Example translate call:
 //
+// // Setter for initial page translation.
+// const [translated, setTranslated] = useState(0);
+
 // const translateMessage = useCallback((e) => {
-//     if (localStorage.getItem('lang')) {
-//         Translate(localStorage.getItem('lang'), "Welcome!").then(response => setWelcome(response));
-//         Translate(localStorage.getItem('lang'), "Login to LinGrow").then(response => setLink(response));
+//     let lang = localStorage.getItem('lang');
+//     if (lang) {
+//         Translate(lang, "LinGrow Login").then(response => setHeader(response));
+//         Translate(lang, "Email address").then(response => setEmailMsg(response));
+//         Translate(lang, "Password").then(response => setPassMsg(response));
+//         Translate(lang, "Login").then(response => setLoginBtn(response));
+//         Translate(lang, "Signup").then(response => setSignupBtn(response));
+//         Translate(lang, "Invalid email or password").then(response => setErrorMsg(response));
 //     }
 // });
 //
 // useEffect(() => {
+//     // Prevents page from being constantly translated.
+//     if (!translated) {
+//         translateMessage();
+//         setTranslated(1);
+//     }
+//
 //     window.addEventListener("New language set", translateMessage);
 //     return () => window.removeEventListener("New language set", translateMessage);
 // });
 
 export default async function Translate(lang, query) {
     let API_KEY = 'AIzaSyC1UIimGmDHQfFesxsum3ifUObJuQo-W6U';
-    let url = `https://translation.googleapis.com/language/translate/v2`;
+    let url = "https://translation.googleapis.com/language/translate/v2";
 
     let result = "...";
     console.log("Target language: ", lang);
     console.log("Target message: ", query);
     
-    let translateTextUrl = url + `?key=${API_KEY}`;
+    let translateTextUrl = url + "?key=" + API_KEY + "&format=text";
     let query_json = {
         "q": query,
         "target": lang
