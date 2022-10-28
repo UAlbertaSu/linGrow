@@ -38,7 +38,7 @@ export default function Activities() {
     });
 
     return (
-        <Card style={{height:"110%"}}>
+        <Card style={{height:"80%"}}>
             <LanguageList />
             <h1>{header}</h1>
             <a href="https://drive.google.com/drive/folders/1h4pmfp66la3ZBpEIwcfHb7TEY5QbUgOj">{activity1}</a>

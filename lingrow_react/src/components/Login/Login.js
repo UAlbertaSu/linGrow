@@ -104,7 +104,7 @@ export default function Login() {
 
     return (
         <Card style={{minHeight:"fit-content"}}>
-            <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px"}}/></a>
+            <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px", maxWidth:"600px"}}/></a>
             <LanguageList />
             <h1>{header}</h1>
             <label className="label">{email_msg}</label>
@@ -114,9 +114,9 @@ export default function Login() {
             <div className="message">
                 {errorMessage()}
             </div>
-            <Button variant="primary" type="submit" data-testid="login" onClick={handleSubmit}>{login_btn}</Button>
-            <Button variant="primary" type="submit" data-testid="signup" onClick={redirectToSignup}>{signup_btn}</Button>
-            <Button variant="primary" type="submit" data-testid="forgot" onClick={redirectToActivities}>{activities}</Button>
+            <Button variant="primary" type="submit" data-testid="login" onClick={handleSubmit} style={{minWidth:"100px"}}>{login_btn}</Button>
+            <Button variant="primary" type="submit" data-testid="signup" onClick={redirectToSignup} style={{minWidth:"100px"}}>{signup_btn}</Button>
+            <Button variant="secondary" type="submit" data-testid="forgot" onClick={redirectToActivities} style={{margin:"35px"}}>{activities}</Button>
         </Card>
     )
 }

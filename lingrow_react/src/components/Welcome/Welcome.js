@@ -29,7 +29,7 @@ export default function Welcome() {
     });
 
     return (
-        <Card style={{top:"40%", width:"20%", left:"40%", height:"20%", minWidth:"fit-content"}}>
+        <Card style={{top:"40%", width:"20%", left:"40%", right:"40%", height:"20%", minWidth:"fit-content", minHeight:"fit-content"}}>
             <LanguageList />
             <h2>{welcome_msg}</h2>
             <a href="" data-testid="welcome_link" onClick={handleSubmit}>{link_msg}</a>
