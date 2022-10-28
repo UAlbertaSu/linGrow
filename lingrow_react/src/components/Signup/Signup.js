@@ -155,24 +155,20 @@ export default function Form() {
     };
 
     return (
-        <Card style={{ width: '18rem' }}>
-            <div className="form">
-                <form className='input'>
-                    <div>
+        <Card style={{ width: '18rem', width:"20%", top:"5%", left:"40%", minWidth:"fit-content"}}>
                     <LanguageList />
                     <h1>User Registration</h1>
-                    <h2>Field with * must be filled out.</h2>
                         {/* Labels and inputs for form data */}
                     <label className="label">Email address*</label>
-                    <input type="text" data-testid="email" placeholder="Enter Email Address" value={email} onChange={handleEmail} />
+                    <input className="form-control" type="text" data-testid="email" placeholder="Enter Email Address" value={email} onChange={handleEmail} />
                     <label className="label">First name*</label>
-                    <input type="text" data-testid="first_name" placeholder="Enter First Name" value={first_name} onChange={handleFirstName} />
+                    <input className="form-control" type="text" data-testid="first_name" placeholder="Enter First Name" value={first_name} onChange={handleFirstName} />
                     <label className="label">Middle name</label>
-                    <input type="text" data-testid="middle_name" placeholder="Enter Middle Name" value={middle_name} onChange={handleMiddleName} />
+                    <input className="form-control" type="text" data-testid="middle_name" placeholder="Enter Middle Name" value={middle_name} onChange={handleMiddleName} />
                     <label className="label">Last name*</label>
-                    <input type="text" data-testid="last_name" placeholder="Enter Last Name" value={last_name} onChange={handleLastName} />
+                    <input className="form-control" type="text" data-testid="last_name" placeholder="Enter Last Name" value={last_name} onChange={handleLastName} />
                     <label className="label">User type*</label>
-                    <select value={user_type} data-testid="user_type" onChange={handleUserType}>
+                    <select className="form-select" value={user_type} data-testid="user_type" onChange={handleUserType}>
                         <option value="0">Please Select User Type</option>
                         <option value="1">Parent</option>
                         <option value="2">Teacher</option>
@@ -180,19 +176,19 @@ export default function Form() {
                         <option value="4">Admin</option>
                     </select>
                     <label className="label">Password*</label>
-                    <input type="password" data-testid="password" placeholder="Enter Password" value={password} onChange={handlePassword} />
+                    <input className="form-control" type="password" data-testid="password" placeholder="Enter Password" value={password} onChange={handlePassword} />
                     <label className="label">Confirm password*</label>
-                    <input type="password" data-testid="password2" placeholder="Confirm Password" value={password2} onChange={handleConfirmPassword} />
+                    <input className="form-control" type="password" data-testid="password2" placeholder="Confirm Password" value={password2} onChange={handleConfirmPassword} />
                     <label className="label">Child name(* if parent)</label>
-                    <input type="text" data-testid="child_name" placeholder="Enter Child Name" value={child_name} onChange={handleChildName} />
-                    </div>
+                    <input className="form-control" type="text" data-testid="child_name" placeholder="Enter Child Name" value={child_name} onChange={handleChildName} />
+                    <label classname="label" >Field with * must be filled out.</label>
                     <div className="message">
                         {errorMessage()}
                         {successMessage()}
                     </div>
+
+                    
                     <Button variant="primary" type="submit" data-testid="submit_button" onClick={handleSubmit}>Submit</Button>{''}
-                </form>
-            </div>
         </Card>
     );
 }

@@ -4,6 +4,8 @@ import { Card } from 'react-bootstrap';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
+import './Welcome.css';
+
 export default function Welcome() {
 
     let [welcome_msg, setWelcome] = useState("Welcome!");
@@ -27,7 +29,7 @@ export default function Welcome() {
     });
 
     return (
-        <Card>
+        <Card style={{top:"40%", width:"20%", left:"40%", height:"20%", minWidth:"fit-content"}}>
             <LanguageList />
             <h2>{welcome_msg}</h2>
             <a href="" data-testid="welcome_link" onClick={handleSubmit}>{link_msg}</a>

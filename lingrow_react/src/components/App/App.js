@@ -5,6 +5,7 @@ import Login from '../Login/Login';
 import Dashboard from '../Dashboard/Dashboard';
 import Signup from '../Signup/Signup';
 import Welcome from '../Welcome/Welcome';
+import Activities from '../Activities/Activities';
 
 function App() {
   if (localStorage.getItem('lang') === null) {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/welcome" element={<Welcome/ >}></Route>
           <Route path="/login" element={<Login/ >}></Route>
           <Route path="/signup" element={<Signup/ >}></Route>
+          <Route path="/activities" element={<Activities/ >}></Route>
         </Routes>
       </BrowserRouter>
     </div>

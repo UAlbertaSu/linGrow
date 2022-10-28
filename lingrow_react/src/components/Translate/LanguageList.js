@@ -31,7 +31,7 @@ export default function LanguageList() {
 
     if (typeof language_list !== "undefined") {
         return (
-            <select defaultValue={localStorage.getItem('lang')} className='form-control' data-testid='language_dropdown' onChange={handleChange}>
+            <select defaultValue={localStorage.getItem('lang')} className='form-select' data-testid='language_dropdown' onChange={handleChange} style={{margin:"20px"}}>
                 {language_list.map((lang) => <option key={lang.language} value={lang.language}>{lang.name}</option>)}
             </select>
         );
