@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
-import { Button, Card } from 'react-bootstrap';
+import { useNavigate, Link } from "react-router-dom";
+import { Button, Card} from 'react-bootstrap';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
@@ -20,6 +20,7 @@ export default function Login() {
     const [login_btn, setLoginBtn] = useState("Login");
     const [signup_btn, setSignupBtn] = useState("Signup");
     const [error_msg, setErrorMsg] = useState("Invalid email or password");
+    const [activities, setActivity] = useState("Language Learning Activities");
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -57,6 +58,12 @@ export default function Login() {
         event.preventDefault();
         nav("/signup");
     }
+    const redirectToActivities = async (event) => {
+        sessionStorage.clear();
+        sessionStorage.setItem('redirect', "success");
+        event.preventDefault();
+        nav("/activities");
+    }
 
     const errorMessage = () => {
         return (
@@ -80,6 +87,7 @@ export default function Login() {
             Translate(lang, "Login").then(response => setLoginBtn(response));
             Translate(lang, "Signup").then(response => setSignupBtn(response));
             Translate(lang, "Invalid email or password").then(response => setErrorMsg(response));
+            Translate(lang, "Language Learning Activities").then(response => setActivity(response));
         }
     });
 
@@ -95,8 +103,8 @@ export default function Login() {
     });
 
     return (
-        <Card>
-            <img src={logo} className="logo" alt="logo" />
+        <Card style={{minHeight:"fit-content"}}>
+            <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px", maxWidth:"750px"}}/></a>
             <LanguageList />
             <h1>{header}</h1>
             <label className="label">{email_msg}</label>
@@ -106,10 +114,9 @@ export default function Login() {
             <div className="message">
                 {errorMessage()}
             </div>
-            <Button variant="primary" type="submit" data-testid="login" onClick={handleSubmit}>{login_btn}</Button>
-            <Button variant="primary" type="submit" data-testid="signup" onClick={redirectToSignup}>{signup_btn}</Button>
-            <a href="https://drive.google.com/drive/folders/1h4pmfp66la3ZBpEIwcfHb7TEY5QbUgOj">Kitchen Activities</a>
-            <a href="https://drive.google.com/drive/folders/1Pbaax2cLWvOSO8sY2Lm8by0lE0G8njRJ">Bath Time!</a>
+            <Button variant="primary" type="submit" data-testid="login" onClick={handleSubmit} style={{minWidth:"100px"}}>{login_btn}</Button>
+            <Button variant="primary" type="submit" data-testid="signup" onClick={redirectToSignup} style={{minWidth:"100px"}}>{signup_btn}</Button>
+            <Button variant="secondary" type="submit" data-testid="forgot" onClick={redirectToActivities} style={{margin:"35px"}}>{activities}</Button>
         </Card>
     )
 }
