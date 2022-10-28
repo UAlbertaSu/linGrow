@@ -5,6 +5,7 @@ from django.utils.encoding import force_bytes, smart_str, DjangoUnicodeDecodeErr
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from .enums import UserType
 from .utils import Util
+from chat.models import UserProfile
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     '''
@@ -46,20 +47,24 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             if not validated_data.get('child_name'):
                 raise serializers.ValidationError({'child_name': 'This field is required.'})
             user = User.objects.create_user(**validated_data)
+            UserProfile.objects.create(user=user)
             parent = Parent(user=user,child_name=validated_data.get('child_name'))
             parent.save()
         elif user_type == UserType.TEACHER.value:
             user = User.objects.create_user(**validated_data)
             teacher = Teacher(user=user)
             teacher.save()
+            UserProfile.objects.create(user=user)
         elif user_type == UserType.RESEARCHER.value:
             user = User.objects.create_user(**validated_data)
             researcher = Researcher(user=user)
             researcher.save()
+            UserProfile.objects.create(user=user)
         elif user_type == UserType.ADMIN.value:
             user = User.objects.create_user(**validated_data)
             admin = Admin(user=user)
             admin.save()
+            UserProfile.objects.create(user=user)
         else:
             raise serializers.ValidationError({'user_type': 'User type is not valid.'})
         return user
