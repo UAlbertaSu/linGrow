@@ -17,8 +17,6 @@ export default function Dashboard() {
     const [profile, setProfile] = useState("Profile");
     const [logout_msg, setLogoutMsg] = useState("Logout");
     
-
-
     useEffect(() => {
         if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token').includes("error")) {
             nav("/");
@@ -91,7 +89,7 @@ export default function Dashboard() {
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
-                <Button variant="secondary" type="submit" data-testid="logout" onClick={clearSession}>{logout_msg}</Button>
+                <Button variant="secondary" type="submit" id="logout" onClick={clearSession}>{logout_msg}</Button>
             </Card>
         </div>
     );

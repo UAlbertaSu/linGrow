@@ -42,8 +42,8 @@ export default function Activities() {
             <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
             <LanguageList />
             <h1>{header}</h1>
-            <a href="https://drive.google.com/drive/folders/1h4pmfp66la3ZBpEIwcfHb7TEY5QbUgOj"><Button>{activity1}</Button></a>
-            <a href="https://drive.google.com/drive/folders/1Pbaax2cLWvOSO8sY2Lm8by0lE0G8njRJ"><Button>{activity2}</Button></a>
+            <Button href="https://drive.google.com/drive/folders/1h4pmfp66la3ZBpEIwcfHb7TEY5QbUgOj" id="activity_btn_1">{activity1}</Button>
+            <Button href="https://drive.google.com/drive/folders/1Pbaax2cLWvOSO8sY2Lm8by0lE0G8njRJ" id="activity_btn_2">{activity2}</Button>
         </Card>
     )
 }
