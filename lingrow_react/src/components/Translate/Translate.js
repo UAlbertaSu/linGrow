@@ -31,15 +31,13 @@ export default async function Translate(lang, query) {
     let url = "https://translation.googleapis.com/language/translate/v2";
 
     let result = "...";
-    console.log("Target language: ", lang);
-    console.log("Target message: ", query);
-    
     let translateTextUrl = url + "?key=" + API_KEY + "&format=text";
     let query_json = {
         "q": query,
         "target": lang
     }
 
+    console.log("Query: ", query_json);
     return fetch(translateTextUrl, {
         method: 'POST',
         headers: {
@@ -49,9 +47,9 @@ export default async function Translate(lang, query) {
     }).then(data => data.json()
     ).then(data => {
         result = data.data.translations['0'].translatedText;
-        console.log("Translate result: ", result);
+        // console.log("Translate result: ", result);
         return result;
     }).catch(error => {
-        console.log("Translation error: ", error);
+        // console.log("Translation error: ", error);
     });
 }

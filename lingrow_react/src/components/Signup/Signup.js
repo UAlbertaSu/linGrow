@@ -42,8 +42,8 @@ export default function Form() {
 
     async function signupUser(credentials) {
         console.log(credentials);
-        sessionStorage.clear();
-        sessionStorage.setItem('registration', "success");
+        // sessionStorage.clear();
+        // sessionStorage.setItem('registration', "success");
         return fetch('http://127.0.0.1:8000/api/user/register/', {
             method: 'POST',
             headers: {
@@ -53,15 +53,15 @@ export default function Form() {
         }).then(data => {
             console.log(data);
             if (data['status'] === 201) {
-                sessionStorage.clear();
-                sessionStorage.setItem('registration', "success");
+                // sessionStorage.clear();
+                // sessionStorage.setItem('registration', "success");
                 setSubmitted(true);
                 setError(false);
                 nav("/login");
             }
             else {
-                sessionStorage.clear();
-                sessionStorage.setItem('registration', "failed");
+                // sessionStorage.clear();
+                // sessionStorage.setItem('registration', "failed");
                 setSubmitted(false);
                 setError(true);
             }
@@ -129,18 +129,18 @@ export default function Form() {
         e.preventDefault();
         if (email === '' || first_name === '' || last_name === '' || user_type === '' || password === '' || password2 === '') {
             setError(true);
-            sessionStorage.clear();
-            sessionStorage.setItem('registration', "failed");
+            // sessionStorage.clear();
+            // sessionStorage.setItem('registration', "failed");
         }
         else if (password !== password2) {
             setError(true);
-            sessionStorage.clear();
-            sessionStorage.setItem('registration', "failed");
+            // sessionStorage.clear();
+            // sessionStorage.setItem('registration', "failed");
         }
         else if (user_type === '1' && child_name === '') {
             setError(true);
-            sessionStorage.clear();
-            sessionStorage.setItem('registration', "failed");
+            // sessionStorage.clear();
+            // sessionStorage.setItem('registration', "failed");
         }
         else {
             e.preventDefault();
@@ -218,7 +218,7 @@ export default function Form() {
     // Showing error message if error is true
     const errorMessage = () => {
         return (
-            <div className="error" style={{
+            <div className="error" id="errormessage" style={{
             display: error ? '' : 'none',
             }}>
                 {error_msg}
@@ -232,27 +232,27 @@ export default function Form() {
                     <h1>{header}</h1>
                         {/* Labels and inputs for form data */}
                     <label className="label">{email_msg}</label>
-                    <input className="form-control" type="text" data-testid="email" placeholder={enter_email_msg} value={email} onChange={handleEmail} />
+                    <input className="form-control" type="text" id="email" placeholder={enter_email_msg} value={email} onChange={handleEmail} />
                     <label className="label">{first_msg}</label>
-                    <input className="form-control" type="text" data-testid="first_name" placeholder={enter_first_msg} value={first_name} onChange={handleFirstName} />
+                    <input className="form-control" type="text" id="first_name" placeholder={enter_first_msg} value={first_name} onChange={handleFirstName} />
                     <label className="label">{middle_msg}</label>
-                    <input className="form-control" type="text" data-testid="middle_name" placeholder={enter_middle_msg} value={middle_name} onChange={handleMiddleName} />
+                    <input className="form-control" type="text" id="middle_name" placeholder={enter_middle_msg} value={middle_name} onChange={handleMiddleName} />
                     <label className="label">{last_msg}</label>
-                    <input className="form-control" type="text" data-testid="last_name" placeholder={enter_last_msg} value={last_name} onChange={handleLastName} />
+                    <input className="form-control" type="text" id="last_name" placeholder={enter_last_msg} value={last_name} onChange={handleLastName} />
                     <label className="label">{type_msg}</label>
-                    <select className="form-select" value={user_type} data-testid="user_type" onChange={handleUserType}>
-                        <option value="0">{enter_type_msg}</option>
+                    <select className="form-select" value={user_type} id="user_type" onChange={handleUserType}>
+                        <option value="" disabled selected>{enter_type_msg}</option>
                         <option value="1">{parent_msg}</option>
                         <option value="2">{teacher_msg}</option>
                         <option value="3">{researcher_msg}</option>
                         <option value="4">{admin_msg}</option>
                     </select>
                     <label className="label">{pass_msg}</label>
-                    <input className="form-control" type="password" data-testid="password" placeholder={enter_pass_msg} value={password} onChange={handlePassword} />
+                    <input className="form-control" type="password" id="password1" placeholder={enter_pass_msg} value={password} onChange={handlePassword} />
                     <label className="label">{confirm_msg}</label>
-                    <input className="form-control" type="password" data-testid="password2" placeholder={enter_confirm_msg} value={password2} onChange={handleConfirmPassword} />
+                    <input className="form-control" type="password" id="password2" placeholder={enter_confirm_msg} value={password2} onChange={handleConfirmPassword} />
                     <label className="label">{child_msg}</label>
-                    <input className="form-control" type="text" data-testid="child_name" placeholder={enter_child_msg} value={child_name} onChange={handleChildName} />
+                    <input className="form-control" type="text" id="child_name" placeholder={enter_child_msg} value={child_name} onChange={handleChildName} />
                     <label classname="label" >{require_msg}</label>
                     <div className="message">
                         {errorMessage()}
@@ -260,7 +260,7 @@ export default function Form() {
                     </div>
 
                     
-                    <Button variant="primary" type="submit" data-testid="submit_button" onClick={handleSubmit}>{register_btn}</Button>{''}
+                    <Button variant="primary" type="submit" id="submit_button" onClick={handleSubmit}>{register_btn}</Button>{''}
         </Card>
     );
 }

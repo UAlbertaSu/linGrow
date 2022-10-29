@@ -10,6 +10,9 @@ import './Login.css';
 
 export default function Login() {
     const nav = useNavigate();
+
+    const [token, setToken] = useState();
+
     const [email, setEmail] = useState();
     const [password, setPassWord] = useState();
     const [error, setError] = useState(false);
@@ -30,15 +33,33 @@ export default function Login() {
         });
         sessionStorage.setItem('token', JSON.stringify(token));
 
-        if (sessionStorage.getItem('token').includes("error")) {
-            setError(true);
-            console.log("Validation failed");
-        }
-        else {
+        retrieveUserType(token).then(response => {
+            if (response.hasOwnProperty('errors')) {
+                throw Error("Failed to retrieve user due to invalid login credentials or database request error.");
+            }
+
             setError(false);
-            console.log("Valid credentials");
+            let user = response.user;
+            let userType = user.user_type;
+
+            // Create conditional statement leading to dashboard for appropriate user types.
             nav("/dashboard");
-        }
+        }).catch(error => {
+            setError(true);
+            console.log("Validation failed: ", error);
+        });
+    }
+
+    async function retrieveUserType(token) {
+        return fetch('http://127.0.0.1:8000/api/user/profile/', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(data => data.json()
+        ).then(data => {
+            return data;
+        });
     }
 
     async function loginUser(credentials) {
@@ -49,25 +70,27 @@ export default function Login() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(credentials)
-        }).then(data => data.json())
+        }).then(data => data.json()
+        ).then(data => {
+            console.log(data);
+            return data.token.access;
+        }).catch(error => {
+            console.log(error);
+        });
     }
 
     const redirectToSignup = async (event) => {
-        sessionStorage.clear();
-        sessionStorage.setItem('redirect', "success");
         event.preventDefault();
         nav("/signup");
     }
     const redirectToActivities = async (event) => {
-        sessionStorage.clear();
-        sessionStorage.setItem('redirect', "success");
         event.preventDefault();
         nav("/activities");
     }
 
     const errorMessage = () => {
         return (
-            <div className="error" data-testid="errormessage" style={{
+            <div className="error" id="errormessage" style={{
             display: error ? '' : 'none',
             }}>
                 {error_msg}
@@ -108,15 +131,15 @@ export default function Login() {
             <LanguageList />
             <h1>{header}</h1>
             <label className="label">{email_msg}</label>
-            <input type="text" className="form-control" data-testid="email" placeholder={"lingrow@email.com"} onChange={e => setEmail(e.target.value)}/>
+            <input type="text" className="form-control" id="email" placeholder={"lingrow@email.com"} onChange={e => setEmail(e.target.value)}/>
             <label className="label">{pass_msg}</label>
-            <input type="password" className="form-control" data-testid="password" placeholder={pass_msg} onChange={e => setPassWord(e.target.value)}/>
+            <input type="password" className="form-control" id="password" placeholder={pass_msg} onChange={e => setPassWord(e.target.value)}/>
             <div className="message">
                 {errorMessage()}
             </div>
-            <Button variant="primary" type="submit" data-testid="login" onClick={handleSubmit} style={{minWidth:"100px"}}>{login_btn}</Button>
-            <Button variant="primary" type="submit" data-testid="signup" onClick={redirectToSignup} style={{minWidth:"100px"}}>{signup_btn}</Button>
-            <Button variant="secondary" type="submit" data-testid="forgot" onClick={redirectToActivities} style={{margin:"35px"}}>{activities}</Button>
+            <Button variant="primary" type="submit" id="login" onClick={handleSubmit} style={{minWidth:"100px"}}>{login_btn}</Button>
+            <Button variant="primary" type="submit" id="signup" onClick={redirectToSignup} style={{minWidth:"100px"}}>{signup_btn}</Button>
+            <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{margin:"35px"}}>{activities}</Button>
         </Card>
     )
 }
