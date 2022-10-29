@@ -85,7 +85,7 @@ export default function Dashboard() {
             <Card style={{height:"120%"}}>
                 <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
                 <LanguageList />
-                <Navbar bg="light" expand="lg" style={{width:"90%", margin:""}}>
+                <Navbar bg="light" expand="lg" style={{width:"90%", margin:"35px"}}>
                     <Container>
                         <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>{dashboard}</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -99,8 +99,8 @@ export default function Dashboard() {
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
-                <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{margin:"35px"}}>{activities}</Button>
-                <Button variant="secondary" type="submit" id="chat" style={{margin:"35px"}}>{activities}</Button>  
+                <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities}>{activities}</Button>
+                <Button variant="secondary" type="submit" id="chat" style={{margin:"35px"}}>{chat}</Button>  
                 <Button variant="secondary" type="submit" id="logout" onClick={clearSession}>{logout_msg}</Button>
             </Card>
         </div>

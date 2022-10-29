@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import './App.css';
 import Login from '../Login/Login';
-import Dashboard from '../Dashboard/Dashboard';
+import Dashboard from '../Dashboard/DashboardParent';
 import Signup from '../Signup/Signup';
 import Welcome from '../Welcome/Welcome';
 import Activities from '../Activities/Activities';
