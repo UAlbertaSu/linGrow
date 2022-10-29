@@ -12,10 +12,10 @@ import user_icon from "../Img/user_icon.png";
 export default function Dashboard() {
     const nav = useNavigate();
 
-    const [dashboard, setDashboard] = useState("LinGrow Dashboard");
+    const [dashboard, setDashboard] = useState("LinGrow Parent Dashboard");
     const [home, setHome] = useState("Home");
     const [profile, setProfile] = useState("Profile");
-    const [activities, setEnglishLearningActivitiesMsg] = useState("Language Learning Activities");
+    const [activities, setLanguageLearningActivitiesMsg] = useState("Language Learning Activities");
     const [chat, setChatMsg] = useState("Chat");
     const [logout_msg, setLogoutMsg] = useState("Logout");
 
@@ -41,10 +41,10 @@ export default function Dashboard() {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate(lang, "LinGrow Dashboard").then(response => setDashboard(response));
+            Translate(lang, "LinGrow Parent Dashboard").then(response => setDashboard(response));
             Translate(lang, "Home").then(response => setHome(response));
             Translate(lang, "Profile").then(response => setProfile(response));
-            Translate(lang, "English Learning Activities").then(response => setEnglishLearningActivitiesMsg(response));
+            Translate(lang, "Language Learning Activities").then(response => setLanguageLearningActivitiesMsg(response));
             Translate(lang, "Chat").then(response => setChatMsg(response));
             Translate(lang, "Logout").then(response => setLogoutMsg(response));
 
