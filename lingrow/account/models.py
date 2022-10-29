@@ -1,13 +1,21 @@
-from email.policy import default
-from enum import unique
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from .enums import UserType
+from admin_school_management.models import School, Classroom
+from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
+
+PHONE_NUMBER_VALIDATOR = [RegexValidator(regex=r'^[0-9]{10}$',
+                                         message="Please enter a valid phone number. Digits length should be 10.")]
+NAME_VALIDATOR = [RegexValidator(regex=r'^[a-zA-Z]{2,64}$',
+                                 message="Please enter a valid first name. Minimum 2 and maximum 64 alphabets allowed.")]
+ID_VALIDATOR = [RegexValidator(regex=r'^[a-zA-Z0-9]{4,30}$',
+                               message="Please enter a valid id. Maximum 30 alphabets and digits allowed.")]
 
 # Custom User Manager
 class UserManager(BaseUserManager):
 
-    def create_user(self, email, first_name, last_name, user_type, password=None, password2=None, middle_name=None, **extra_fields):
+    def create_user(self, email, first_name, last_name, user_type, password=None, password2=None, middle_name=None, phone=None, **extra_fields):
         """
         Creates and saves a user with the given email, first_name, last_name, user_type and password.
         """
@@ -18,10 +26,14 @@ class UserManager(BaseUserManager):
             first_name=first_name,
             last_name=last_name,
             middle_name=middle_name,
-            user_type=user_type,)
-
+            user_type=user_type,
+            phone=phone)
         user.set_password(password)
-        user.save(using=self._db)
+        try:
+            user.full_clean()
+            user.save(using=self._db)
+        except ValidationError as e:
+            raise ValidationError(e)
         return user
 
     def create_superuser(self, email, first_name, last_name, password=None, **extra_fields):
@@ -55,11 +67,11 @@ class User(AbstractBaseUser):
       (UserType.RESEARCHER.value, 'researcher'),
       (UserType.ADMIN.value, 'admin')
     )
-    first_name = models.CharField(max_length=255)
-    middle_name = models.CharField(max_length=255, blank=True,null=True)
-    last_name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=64, validators=NAME_VALIDATOR)
+    middle_name = models.CharField(max_length=64, blank=True,null=True, validators=NAME_VALIDATOR)
+    last_name = models.CharField(max_length=64, validators=NAME_VALIDATOR)
     user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
-    phone = models.IntegerField( blank=True, null=True, unique=True)
+    phone = models.IntegerField( blank=True, null=True, unique=True, validators=PHONE_NUMBER_VALIDATOR)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -92,43 +104,28 @@ class Admin(models.Model):
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    teacher_id = models.CharField(max_length=100,unique=True)
-    # teacher_name = models.CharField(max_length=255)
-    # teacher_surname = models.CharField(max_length=255)
-    # teacher_tc = models.CharField(max_length=255)
-    # teacher_email = models.CharField(max_length=255)
-    # teacher_password = models.CharField(max_length=255)
-    # teacher_phone = models.CharField(max_length=255)
+    teacher_id = models.CharField(max_length=30,unique=True, validators=ID_VALIDATOR, blank=True, null=True)
+    school = models.ForeignKey(School, null=True, blank=True, on_delete=models.SET_NULL)
+    classrooms = models.ManyToManyField(Classroom, blank=True)
     def __str__(self):
         return self.user.email
 
 class Parent(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    child_name = models.CharField(max_length=255)
-    # parent_id = models.IntegerField()
-    # parent_name = models.CharField(max_length=255)
-    # parent_surname = models.CharField(max_length=255)
-    # parent_tc = models.CharField(max_length=255)
-    # parent_email = models.CharField(max_length=255)
-    # parent_password = models.CharField(max_length=255)
-    # parent_phone = models.CharField(max_length=255)
     def __str__(self):
         return self.user.email
 
 class Researcher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    researcher_id = models.CharField(max_length=100,unique=True)
-    # researcher_name = models.CharField(max_length=255)
-    # researcher_surname = models.CharField(max_length=255)
-    # researcher_tc = models.CharField(max_length=255)
-    # researcher_email = models.CharField(max_length=255)
-    # researcher_password = models.CharField(max_length=255)
-    # researcher_phone = models.CharField(max_length=255)
+    researcher_id = models.CharField(max_length=30,unique=True, validators=ID_VALIDATOR, null=True, blank=True)
     def __str__(self):
         return self.user.email
 
-# class Child(models.Model):
-#     student_id = models.IntegerField()
-#     first_name = models.CharField(max_length=255)
-#     middle_name = models.CharField(max_length=255)
-#     last_name = models.CharField(max_length=255)
+class Child(models.Model):
+    first_name = models.CharField(max_length=64, validators=NAME_VALIDATOR)
+    middle_name = models.CharField(max_length=64, blank=True,null=True, validators=NAME_VALIDATOR)
+    last_name = models.CharField(max_length=64, validators=NAME_VALIDATOR)
+    student_id = models.CharField(max_length=30, unique=True, validators=ID_VALIDATOR, blank=True, null=True)
+    school = models.ForeignKey(School, null=True, blank=True, on_delete=models.SET_NULL)
+    classroom = models.ForeignKey(Classroom, null=True, blank=True, on_delete=models.SET_NULL)
+    parent = models.ForeignKey(Parent, on_delete=models.CASCADE)

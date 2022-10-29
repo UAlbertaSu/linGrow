@@ -10,7 +10,6 @@ class AccountTests(APITestCase):
                     "middle_name": "Middle",
                     "last_name": "Last",
                     "user_type": 1,
-                    "child_name": "Child",
                     "password": "testpassword",
                     "password2": "testpassword"
                 }
@@ -23,11 +22,20 @@ class AccountTests(APITestCase):
                     "password": "testpassword",
                     "password2": "testpassword"
     }
+    child_data = {
+        "first_name": "First",
+        "last_name": "Last",
+        "student_id": "123456",
+    }
+
     login_url = '/api/user/login/'
     register_url = '/api/user/register/'
     profile_url = '/api/user/profile/'
     change_pass_url = '/api/user/changepassword/'
     reset_pass_url = '/api/user/send-reset-password-email/'
+    child_parent = '/api/user/child/'
+    admin_child_prefix = '/api/user/parent/'
+    admin_child_postfix = '/child/'
 
     def test_registration(self):
         '''
@@ -83,7 +91,6 @@ class AccountTests(APITestCase):
         self.assertEqual(response.json()['user']['middle_name'], self.user_data['middle_name'])
         self.assertEqual(response.json()['user']['last_name'], self.user_data['last_name'])
         self.assertEqual(response.json()['user']['user_type'], self.user_data['user_type'])
-        self.assertEqual(response.json()['child_name'], self.user_data['child_name'])
 
     def test_change_password(self):
         '''
@@ -107,21 +114,21 @@ class AccountTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         data = {
             "old_password": "wrongpassword",
-            "password": "newpassword",
-            "password2": "newpassword"
+            "password": "Newpassword@123",
+            "password2": "Newpassword@123"
         }
         response = self.client.post(self.change_pass_url, data, HTTP_AUTHORIZATION='Bearer ' + token)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         data = {
             "old_password": self.user_data['password'],
-            "password": "newpassword",
-            "password2": "newpassword"
+            "password": "Newpassword@123",
+            "password2": "Newpassword@123"
         }
         response = self.client.post(self.change_pass_url, data, format='json', HTTP_AUTHORIZATION='Bearer ' + token)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = {
             "email": self.user_data['email'],
-            "password": "newpassword"
+            "password": "Newpassword@123"
         }
         response = self.client.post(self.login_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -156,14 +163,12 @@ class AccountTests(APITestCase):
             "first_name": "newfirst",
             "last_name": "newlast",
             "middle_name": "newmiddle",
-            "child_name": "newchild"
         }
         response = self.client.patch(self.profile_url, data, format='json', HTTP_AUTHORIZATION='Bearer ' + token)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json()['user']['first_name'], data['first_name'])
         self.assertEqual(response.json()['user']['last_name'], data['last_name'])
         self.assertEqual(response.json()['user']['middle_name'], data['middle_name'])
-        self.assertEqual(response.json()['child_name'], data['child_name'])
 
     def test_admin_user_listview(self):
         '''
@@ -208,7 +213,6 @@ class AccountTests(APITestCase):
             "first_name": "newfirstname",
             "last_name": "newlastname",
             "middle_name": "newmiddlename",
-            "child_name": "newchildname"
         }
         response = self.client.get(self.profile_url+'parents/', HTTP_AUTHORIZATION='Bearer ' + token)
         id = response.json()[0]['user']['id']
@@ -217,6 +221,49 @@ class AccountTests(APITestCase):
         self.assertEqual(response.json()['user']['first_name'], data['first_name'])
         self.assertEqual(response.json()['user']['last_name'], data['last_name'])
         self.assertEqual(response.json()['user']['middle_name'], data['middle_name'])
-        self.assertEqual(response.json()['child_name'], data['child_name'])
 
-    
+    def test_add_child(self):
+        '''
+            Test for adding a child
+        '''
+        response = self.client.post(self.register_url, self.user_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        data = {
+            "email": self.user_data['email'],
+            "password": self.user_data['password']
+        }
+        response = self.client.post(self.login_url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        token = response.json()['token']['access']
+        response = self.client.post(self.child_parent, self.child_data, format='json', HTTP_AUTHORIZATION='Bearer ' + token)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.json()['child']['first_name'], self.child_data['first_name'])
+        self.assertEqual(response.json()['child']['last_name'], self.child_data['last_name'])
+        self.assertEqual(response.json()['child']['student_id'], self.child_data['student_id'])
+        self.assertNotEqual(response.json()['child']['parent'],None)
+        response = self.client.delete(self.child_parent+str(response.json()['child']['id'])+'/', HTTP_AUTHORIZATION='Bearer ' + token)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_add_child_admin(self):
+        '''
+            Test for admin to add a child
+        '''
+        response = self.client.post(self.register_url, self.user_data, format='json')
+        parent_id = str(response.json()['user']['id'])
+        response = self.client.post(self.register_url, self.admin_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        data = {
+            "email": self.admin_data['email'],
+            "password": self.admin_data['password']
+        }
+        response = self.client.post(self.login_url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        token = response.json()['token']['access']
+        response = self.client.post(self.admin_child_prefix+parent_id+self.admin_child_postfix, self.child_data, format='json', HTTP_AUTHORIZATION='Bearer ' + token)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.json()['child']['first_name'], self.child_data['first_name'])
+        self.assertEqual(response.json()['child']['last_name'], self.child_data['last_name'])
+        self.assertEqual(response.json()['child']['student_id'], self.child_data['student_id'])
+        self.assertNotEqual(response.json()['child']['parent'], parent_id)
+        response = self.client.delete(self.admin_child_prefix+parent_id+self.admin_child_postfix+str(response.json()['child']['id'])+'/', HTTP_AUTHORIZATION='Bearer ' + token)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
