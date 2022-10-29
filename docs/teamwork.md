@@ -611,3 +611,188 @@
 > ##### Kash, Loyal
 
 >> * Further fixes on user API endpoints.
+
+---
+
+### October 17, 2022
+
+> * 9:00 AM - 10:50 AM
+> * CSC B-10
+
+#### Agenda
+
+> * Demo Sprint 2 result.
+
+#### Attendee
+
+> * Kevin
+> * Steve
+> * Jeff
+> * Loyal
+> * Kash
+> * Scott
+
+#### Minutes
+
+> ##### Sprint 2 Demo
+>> * Demonstrated current state of the React frontend and its implemented functions (login, signup, dashboard).
+>> * Demonstrated Django REST API endpoints implemented so far.
+>>> * Profile and user management.
+>>> * Admin functions and school management.
+
+#### Action Items
+
+> ##### All Teams
+>> * Identified three areas that needs to be worked on - translation functionality, messaging functionality, and cybera deployment.
+>> * Identified some point of confusion regarding data model.
+>>> * Database constraint between children and parent, as well as children with other users.
+
+---
+
+### October 20, 2022
+
+> * 3:00 PM - 3:54 PM
+> * Google Meet
+
+#### Agenda
+
+> * Demo current version of Sprint 2 deliverable to clients.
+> * Clarify confusions regarding app's data model.
+> * Receive feedback on detailed design.
+> * Inform client of the team's plans regarding Sprint 3.
+
+#### Attendee
+
+> * Dr. Andrea McLeod (Client)
+> * Dr. Catrine Demers (Client)
+> * Kevin
+> * Steve
+> * Loyal
+> * Sam
+> * Scott
+> * Kash
+
+#### Minutes
+
+> ##### Feedback - Sprint 2 Frontend
+>> * Reported current progress with the frontend to clients (login/signup/dashboard).
+>> * Communicated that backend APIs are more advanced than frontend at the moment.
+
+> ##### Feedback - Detailed Design
+>> * "Activities" should have clearer name, such as "Language Activities".
+>> * Furthermore, all activities should be organized under their own separate page.
+>> * On the language dropdown menu, it would be useful for each language to be in their home language.
+>> * There should be a language select page before login/signup.
+>> * Classroom could be organized by name - e.g. Grade 1 Section B.
+>> * Each element of the webpage could be larger in general.
+
+> ##### Feedback - Requirements
+>> * As a teacher/researcher/admin, it should be possible to retrieve parents by searching childrens' name.
+>> * Admin should have access to all functionalities other users have, including individual messages to all user types.
+
+> ##### Feedback - Miscellaneous
+>> * Researchers do not belong to a school.
+>> * Should it be possible to pin important messages?
+>> * Should it be possible to have more than one 'chatroom' with the same person?
+>> * Should parents be able to respond in the group messages?
+
+#### Action Items
+
+> ##### Scott, Sam, Steve
+>> * Continue working on the frontend.
+>>> * Modify frontend UI to reflect detailed design.
+>>> * Implement translation functionalities.
+>>> * Rewrite test cases.
+
+---
+
+### October 24, 2022
+
+> * 9:00 AM - 10:50 AM
+> * CSC B-10
+
+#### Agenda
+
+> * Identify what has been done during the past week, and what needs to be worked on.
+> * Assign tasks for each member of the team.
+
+#### Attendee
+
+> * Loyal
+> * Kash
+> * Steve
+> * Sam
+> * Kevin
+> * Scott
+
+#### Minutes
+
+> ##### Weekly Standup
+>> * Translation functionality implemented to the frontend.
+>>> * Will need to move the functionality to the backend later, but it shall remain in the frontend for Sprint 3.
+
+#### Action Items
+
+> ##### Scott, Steve
+>> * See if it's possible to fix quirks in translation results before client meeting.
+>> * Rewrite test cases from Jest to other webdriver-driven language.
+
+> ##### Sam
+>> * Continue redesigning the frontend UI as outlined in the detailed design.
+
+> ##### Loyal, Kash
+>> * Deployment of Django REST API backend to Cybera.
+
+---
+
+### October 27, 2022
+
+> * 3:00 PM - 3:34 PM
+> * Google Meet
+
+#### Agenda
+
+> * Demo work-in-progress Sprint 3 deliverable to clients, and receive feedback.
+> * Update our current progress with the Sprint 3, and report what we plan to implement by the end of Sprint 3.
+
+#### Attendee
+
+> * Dr. Andrea McLeod (Client)
+> * Dr. Catrine Demers (Client)
+> * Kevin
+> * Steve
+> * Loyal
+> * Sam
+> * Scott
+> * Kash
+
+#### Minutes
+
+> ##### Feedback - Frontend
+>> * Scott demonstrated Google cloud API translation to clients.
+>>> * There seems to be an accuracy issue with the data retrieved from Google cloud API.
+>>> * It would be great to be able to have hard-coded translation result for 10 most common languages in Canada.
+>> * Loyal and Kash reported their progress on the messaging functionalities to clients.
+>>> * For messaging, it would be beneficial to have access to original message along with translated message, in case there is an error with the translation.
+>>> * Maybe a warning or caution message notifying users of possible translation errors?
+>> * Sam presented work-in-progress design of the frontend to clients.
+>>> * Issue with logo's design clashing with the background colour.
+>>> * Colour scheme to be decided by clients.
+
+> ##### Feedback - Requirements
+>> * Parents and teachers should be able to assign themselves to the classroom.
+>>> * There should be "change classroom" functionality, in case teachers and/or parents assign themselves to wrong classroom.
+
+#### Action Items
+
+> ##### Loyal, Kash
+>> * Continue working on implementation of the message functionalities to the backend.
+
+> ##### Steve
+>> * Design and implement UI for the message functionality.
+
+> ##### Sam, Kevin
+>> * Redesign and expand frontend to include dashboards depending on different user types.
+
+> ##### Scott
+>> * Continue writing webdriver test cases for frontend pages.
