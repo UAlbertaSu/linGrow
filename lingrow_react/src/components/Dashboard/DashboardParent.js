@@ -19,6 +19,10 @@ export default function Dashboard() {
     const [chat, setChatMsg] = useState("Chat");
     const [logout_msg, setLogoutMsg] = useState("Logout");
 
+    const redirectToActivities = async (event) => {
+        event.preventDefault();
+        nav("/activities");
+    }
     
     useEffect(() => {
         if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token').includes("error")) {
