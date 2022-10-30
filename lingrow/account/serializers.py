@@ -5,6 +5,7 @@ from django.utils.encoding import force_bytes, smart_str, DjangoUnicodeDecodeErr
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from .enums import UserType
 from .utils import Util
+from chat.models import UserProfile
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from admin_school_management.models import School, Classroom

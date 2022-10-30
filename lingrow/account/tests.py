@@ -10,8 +10,8 @@ class AccountTests(APITestCase):
                     "middle_name": "Middle",
                     "last_name": "Last",
                     "user_type": 1,
-                    "password": "testpassword",
-                    "password2": "testpassword"
+                    "password": "Testpassword@123",
+                    "password2": "Testpassword@123"
                 }
     admin_data = {
                     "email": "testnew@admin.com",
@@ -19,8 +19,8 @@ class AccountTests(APITestCase):
                     "middle_name": "Middle",
                     "last_name": "Last",
                     "user_type": 4,
-                    "password": "testpassword",
-                    "password2": "testpassword"
+                    "password": "Testpassword@123",
+                    "password2": "Testpassword@123"
     }
     child_data = {
         "first_name": "First",
