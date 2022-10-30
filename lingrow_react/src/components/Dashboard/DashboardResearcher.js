@@ -52,7 +52,7 @@ export default function Dashboard() {
             Translate(lang, "Search Parents").then(response => setSearchParents(response));
             Translate(lang, "Parent Groups").then(response => setParentGroups(response));
             Translate(lang, "Search Teachers").then(response => setSearchTeachers(response));
-            Translate(lang, "Teachers Groups").then(response => setTeachersGroups(response));
+            Translate(lang, "Teachers Groups").then(response => setTeacherGroups(response));
             Translate(lang, "Language Learning Activities").then(response => setLanguageLearningActivitiesMsg(response));
             Translate(lang, "Logout").then(response => setLogoutMsg(response));
 
@@ -90,7 +90,7 @@ export default function Dashboard() {
 
     return (
         <div className="dashboard-wrapper">
-            <Card style={{height:"120%"}}>
+            <Card style={{minHeight:"fit-content"}}>
                 <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
                 <LanguageList />
                 <Navbar bg="light" expand="lg" style={{width:"90%", margin:"35px"}}>
@@ -107,11 +107,11 @@ export default function Dashboard() {
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
-                <Button variant="secondary" type="submit" id="chat" style={{margin:"35px"}}>{chat}</Button>  
-                <Button variant="secondary" type="submit" id="searchParents">{searchParents}</Button>  
-                <Button variant="secondary" type="submit" id="parentGroups">{parentGroups}</Button>  
-                <Button variant="secondary" type="submit" id="searchTeachers">{searchTeachers}</Button>  
-                <Button variant="secondary" type="submit" id="teacherGroups">{teacherGroups}</Button>  
+                <Button variant="primary" type="submit" id="chat" style={{margin:"35px"}}>{chat}</Button>  
+                <Button variant="primary" type="submit" id="searchParents">{searchParents}</Button>  
+                <Button variant="primary" type="submit" id="parentGroups">{parentGroups}</Button>  
+                <Button variant="primary" type="submit" id="searchTeachers">{searchTeachers}</Button>  
+                <Button variant="primary" type="submit" id="teacherGroups">{teacherGroups}</Button>  
                 <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities}>{activities}</Button>
                 <Button variant="secondary" type="submit" id="logout" onClick={clearSession}>{logout_msg}</Button>
             </Card>
