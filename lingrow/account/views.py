@@ -207,7 +207,8 @@ class AdminUserIDListView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    
+    @swagger_auto_schema(operation_description="Delete user",responses={200: "{'message': 'User deleted successfully'}",400: "Bad Request"})
     def delete(self, request, id, format=None):
         '''
             View to let admin delete user
@@ -366,6 +367,7 @@ class ChildAdminView(APIView):
         child.delete()
         return Response({'msg':'Child Deleted Successfully'}, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema(operation_description="Create child for a parent",responses={200: ChildSerializer,400: "Bad Request"})
     def post(self, request, pid, cid=None, format=None):
         '''
             View to let admin add child
