@@ -2,7 +2,7 @@
 
 ## Story Map
 
-![storyMap](img/updatedStoryMap401.png)
+![storyMap](img/Sprint3StoryMap401.png)
 
 ---
 
