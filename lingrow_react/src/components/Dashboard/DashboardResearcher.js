@@ -52,7 +52,7 @@ export default function Dashboard() {
             Translate(lang, "Search Parents").then(response => setSearchParents(response));
             Translate(lang, "Parent Groups").then(response => setParentGroups(response));
             Translate(lang, "Search Teachers").then(response => setSearchTeachers(response));
-            Translate(lang, "Teachers Groups").then(response => setTeachersGroups(response));
+            Translate(lang, "Teachers Groups").then(response => setTeacherGroups(response));
             Translate(lang, "Language Learning Activities").then(response => setLanguageLearningActivitiesMsg(response));
             Translate(lang, "Logout").then(response => setLogoutMsg(response));
 

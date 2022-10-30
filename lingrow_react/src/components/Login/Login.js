@@ -46,12 +46,16 @@ export default function Login() {
             switch(userType) {
                 case 1:
                     var userTypeString = "parent";
+                    break;
                 case 2:
                     var userTypeString = "teacher";
+                    break;
                 case 3:
                     var userTypeString = "researcher";
+                    break;
                 case 4:
                     var userTypeString = "admin";
+                    break;
             }
             nav("/dashboard".concat(userTypeString));
         }).catch(error => {
