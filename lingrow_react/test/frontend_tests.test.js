@@ -447,61 +447,351 @@ describe ('Signup page elements', async () => {
 });
 
 describe ('Dashboard elements', async () => {
-    it ('Change in language is reflected in dashboard elements', async () => {
-        let browser = await puppeteer.launch({
-            headless: true
+    describe ('Parent dashboard elements', async () => {
+        it ('Change in language is reflected in dashboard elements', async () => {
+            let browser = await puppeteer.launch({
+                headless: true
+            });
+            try {
+                let page = await browser.newPage();
+                await page.goto('http://localhost:3000/');
+    
+                page.evaluate(() => {
+                    sessionStorage.setItem('token', 'frontend_test_token');
+                })
+    
+                await page.goto('http://localhost:3000/dashboardParent', {waitUntil: 'networkidle0',});
+    
+                await page.waitForSelector('#language_dropdown');
+                await page.select('#language_dropdown', 'it');
+                await new Promise(r => setTimeout(r, 500));
+    
+                const html = await page.$eval('#logout', e => e.innerHTML);
+                expect(html).to.contain('Disconnettersi');
+                expect(html).to.not.contain('Logout');
+            }
+            catch (error) {
+                throw(error);
+            }
+            finally {
+                await browser.close();
+            }
         });
-        try {
-            let page = await browser.newPage();
-            await page.goto('http://localhost:3000/');
+    
+        it ('Logout button should navigate user back to login page, and block access to dashboard', async () => {
+            let browser = await puppeteer.launch({
+                headless: true
+            });
+            try {
+                let page = await browser.newPage();
+                await page.goto('http://localhost:3000/');
+                page.evaluate(() => {
+                    sessionStorage.setItem('token', 'frontend_test_token');
+                })
+    
+                await page.goto('http://localhost:3000/dashboardParent', {waitUntil: 'networkidle0',});
+                await page.waitForSelector('#logout');
+                await page.click('#logout');
+                await new Promise(r => setTimeout(r, 500));
+    
+                const url = await page.evaluate(() => document.location.href);
+                expect(url).is.equal('http://localhost:3000/login');
+            }
+            catch (error) {
+                throw(error);
+            }
+            finally {
+                await browser.close();
+            }
+        });
 
-            page.evaluate(() => {
-                sessionStorage.setItem('token', 'frontend_test_token');
-            })
-
-            await page.goto('http://localhost:3000/dashboard', {waitUntil: 'networkidle0',});
-
-            await page.waitForSelector('#language_dropdown');
-            await page.select('#language_dropdown', 'it');
-            await new Promise(r => setTimeout(r, 500));
-
-            const html = await page.$eval('#logout', e => e.innerHTML);
-            expect(html).to.contain('Disconnettersi');
-            expect(html).to.not.contain('Logout');
-        }
-        catch (error) {
-            throw(error);
-        }
-        finally {
-            await browser.close();
-        }
+        it ('English Learning Activity link takes user to the activities page', async () => {
+            let browser = await puppeteer.launch({
+                headless: true
+            });
+            try {
+                let page = await browser.newPage();
+                await page.goto('http://localhost:3000/');
+    
+                page.evaluate(() => {
+                    sessionStorage.setItem('token', 'frontend_test_token');
+                })
+    
+                await page.goto('http://localhost:3000/dashboardParent', {waitUntil: 'networkidle0',});
+                await page.waitForSelector('#activities');
+                await page.click('#activities');
+                await new Promise(r => setTimeout(r, 500));
+    
+                const url = await page.evaluate(() => document.location.href);
+                expect(url).is.equal('http://localhost:3000/activities');
+            }
+            catch (error) {
+                throw(error);
+            }
+            finally {
+                await browser.close();
+            }
+        });
     });
 
-    it ('Logout button should navigate user back to login page, and block access to dashboard', async () => {
-        let browser = await puppeteer.launch({
-            headless: true
+    describe ('Teacher dashboard elements', async () => {
+        it ('Change in language is reflected in dashboard elements', async () => {
+            let browser = await puppeteer.launch({
+                headless: true
+            });
+            try {
+                let page = await browser.newPage();
+                await page.goto('http://localhost:3000/');
+    
+                page.evaluate(() => {
+                    sessionStorage.setItem('token', 'frontend_test_token');
+                })
+    
+                await page.goto('http://localhost:3000/dashboardTeacher', {waitUntil: 'networkidle0',});
+    
+                await page.waitForSelector('#language_dropdown');
+                await page.select('#language_dropdown', 'it');
+                await new Promise(r => setTimeout(r, 500));
+    
+                const html = await page.$eval('#logout', e => e.innerHTML);
+                expect(html).to.contain('Disconnettersi');
+                expect(html).to.not.contain('Logout');
+            }
+            catch (error) {
+                throw(error);
+            }
+            finally {
+                await browser.close();
+            }
         });
-        try {
-            let page = await browser.newPage();
-            await page.goto('http://localhost:3000/');
-            page.evaluate(() => {
-                sessionStorage.setItem('token', 'frontend_test_token');
-            })
+    
+        it ('Logout button should navigate user back to login page, and block access to dashboard', async () => {
+            let browser = await puppeteer.launch({
+                headless: true
+            });
+            try {
+                let page = await browser.newPage();
+                await page.goto('http://localhost:3000/');
+                page.evaluate(() => {
+                    sessionStorage.setItem('token', 'frontend_test_token');
+                })
+    
+                await page.goto('http://localhost:3000/dashboardTeacher', {waitUntil: 'networkidle0',});
+                await page.waitForSelector('#logout');
+                await page.click('#logout');
+                await new Promise(r => setTimeout(r, 500));
+    
+                const url = await page.evaluate(() => document.location.href);
+                expect(url).is.equal('http://localhost:3000/login');
+            }
+            catch (error) {
+                throw(error);
+            }
+            finally {
+                await browser.close();
+            }
+        });
 
-            await page.goto('http://localhost:3000/dashboard', {waitUntil: 'networkidle0',});
-            await page.waitForSelector('#logout');
-            await page.click('#logout');
-            await new Promise(r => setTimeout(r, 500));
+        it ('English Learning Activity link takes user to the activities page', async () => {
+            let browser = await puppeteer.launch({
+                headless: true
+            });
+            try {
+                let page = await browser.newPage();
+                await page.goto('http://localhost:3000/');
+    
+                page.evaluate(() => {
+                    sessionStorage.setItem('token', 'frontend_test_token');
+                })
+    
+                await page.goto('http://localhost:3000/dashboardTeacher', {waitUntil: 'networkidle0',});
+                await page.waitForSelector('#activities');
+                await page.click('#activities');
+                await new Promise(r => setTimeout(r, 500));
+    
+                const url = await page.evaluate(() => document.location.href);
+                expect(url).is.equal('http://localhost:3000/activities');
+            }
+            catch (error) {
+                throw(error);
+            }
+            finally {
+                await browser.close();
+            }
+        });
+    });
+    describe ('Researcher dashboard elements', async () => {
+        it ('Change in language is reflected in dashboard elements', async () => {
+            let browser = await puppeteer.launch({
+                headless: true
+            });
+            try {
+                let page = await browser.newPage();
+                await page.goto('http://localhost:3000/');
+    
+                page.evaluate(() => {
+                    sessionStorage.setItem('token', 'frontend_test_token');
+                })
+    
+                await page.goto('http://localhost:3000/dashboardResearcher', {waitUntil: 'networkidle0',});
+    
+                await page.waitForSelector('#language_dropdown');
+                await page.select('#language_dropdown', 'it');
+                await new Promise(r => setTimeout(r, 500));
+    
+                const html = await page.$eval('#logout', e => e.innerHTML);
+                expect(html).to.contain('Disconnettersi');
+                expect(html).to.not.contain('Logout');
+            }
+            catch (error) {
+                throw(error);
+            }
+            finally {
+                await browser.close();
+            }
+        });
+    
+        it ('Logout button should navigate user back to login page, and block access to dashboard', async () => {
+            let browser = await puppeteer.launch({
+                headless: true
+            });
+            try {
+                let page = await browser.newPage();
+                await page.goto('http://localhost:3000/');
+                page.evaluate(() => {
+                    sessionStorage.setItem('token', 'frontend_test_token');
+                })
+    
+                await page.goto('http://localhost:3000/dashboardResearcher', {waitUntil: 'networkidle0',});
+                await page.waitForSelector('#logout');
+                await page.click('#logout');
+                await new Promise(r => setTimeout(r, 500));
+    
+                const url = await page.evaluate(() => document.location.href);
+                expect(url).is.equal('http://localhost:3000/login');
+            }
+            catch (error) {
+                throw(error);
+            }
+            finally {
+                await browser.close();
+            }
+        });
 
-            const url = await page.evaluate(() => document.location.href);
-            expect(url).is.equal('http://localhost:3000/login');
-        }
-        catch (error) {
-            throw(error);
-        }
-        finally {
-            await browser.close();
-        }
+        it ('English Learning Activity link takes user to the activities page', async () => {
+            let browser = await puppeteer.launch({
+                headless: true
+            });
+            try {
+                let page = await browser.newPage();
+                await page.goto('http://localhost:3000/');
+    
+                page.evaluate(() => {
+                    sessionStorage.setItem('token', 'frontend_test_token');
+                })
+    
+                await page.goto('http://localhost:3000/dashboardResearcher', {waitUntil: 'networkidle0',});
+                await page.waitForSelector('#activities');
+                await page.click('#activities');
+                await new Promise(r => setTimeout(r, 500));
+    
+                const url = await page.evaluate(() => document.location.href);
+                expect(url).is.equal('http://localhost:3000/activities');
+            }
+            catch (error) {
+                throw(error);
+            }
+            finally {
+                await browser.close();
+            }
+        });
+    });
+
+    describe ('Admin dashboard elements', async () => {
+        it ('Change in language is reflected in dashboard elements', async () => {
+            let browser = await puppeteer.launch({
+                headless: true
+            });
+            try {
+                let page = await browser.newPage();
+                await page.goto('http://localhost:3000/');
+    
+                page.evaluate(() => {
+                    sessionStorage.setItem('token', 'frontend_test_token');
+                })
+    
+                await page.goto('http://localhost:3000/dashboardAdmin', {waitUntil: 'networkidle0',});
+    
+                await page.waitForSelector('#language_dropdown');
+                await page.select('#language_dropdown', 'it');
+                await new Promise(r => setTimeout(r, 500));
+    
+                const html = await page.$eval('#logout', e => e.innerHTML);
+                expect(html).to.contain('Disconnettersi');
+                expect(html).to.not.contain('Logout');
+            }
+            catch (error) {
+                throw(error);
+            }
+            finally {
+                await browser.close();
+            }
+        });
+    
+        it ('Logout button should navigate user back to login page, and block access to dashboard', async () => {
+            let browser = await puppeteer.launch({
+                headless: true
+            });
+            try {
+                let page = await browser.newPage();
+                await page.goto('http://localhost:3000/');
+                page.evaluate(() => {
+                    sessionStorage.setItem('token', 'frontend_test_token');
+                })
+    
+                await page.goto('http://localhost:3000/dashboardAdmin', {waitUntil: 'networkidle0',});
+                await page.waitForSelector('#logout');
+                await page.click('#logout');
+                await new Promise(r => setTimeout(r, 500));
+    
+                const url = await page.evaluate(() => document.location.href);
+                expect(url).is.equal('http://localhost:3000/login');
+            }
+            catch (error) {
+                throw(error);
+            }
+            finally {
+                await browser.close();
+            }
+        });
+
+        it ('English Learning Activity link takes user to the activities page', async () => {
+            let browser = await puppeteer.launch({
+                headless: true
+            });
+            try {
+                let page = await browser.newPage();
+                await page.goto('http://localhost:3000/');
+    
+                page.evaluate(() => {
+                    sessionStorage.setItem('token', 'frontend_test_token');
+                })
+    
+                await page.goto('http://localhost:3000/dashboardAdmin', {waitUntil: 'networkidle0',});
+                await page.waitForSelector('#activities');
+                await page.click('#activities');
+                await new Promise(r => setTimeout(r, 500));
+    
+                const url = await page.evaluate(() => document.location.href);
+                expect(url).is.equal('http://localhost:3000/activities');
+            }
+            catch (error) {
+                throw(error);
+            }
+            finally {
+                await browser.close();
+            }
+        });
     });
 });
 
