@@ -101,7 +101,7 @@ export default function Dashboard() {
                 </Navbar>
                 <Button variant="primary" type="submit" id="chat" style={{margin:"35px"}}>{chat}</Button>  
                 <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities}>{activities}</Button>
-                <Button variant="primary" type="submit" id="logout" onClick={clearSession}>{logout_msg}</Button>
+                <Button variant="secondary" type="submit" id="logout" onClick={clearSession}>{logout_msg}</Button>
             </Card>
         </div>
     );

@@ -113,7 +113,7 @@ export default function Dashboard() {
                 <Button variant="primary" type="submit" id="searchUsers">{searchUsers}</Button>  
                 <Button variant="primary" type="submit" id="groups">{groups}</Button>  
                 <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities}>{activities}</Button>
-                <Button variant="primary" type="submit" id="logout" onClick={clearSession}>{logout_msg}</Button>
+                <Button variant="secondary" type="submit" id="logout" onClick={clearSession}>{logout_msg}</Button>
             </Card>
         </div>
     );
