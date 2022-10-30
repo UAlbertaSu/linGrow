@@ -2,7 +2,7 @@
 
 ## High-level Architecture
 
-![high-level_architecture](img/architecture.png)
+![high-level_architecture](img/architecture_2.png)
 
 ---
 

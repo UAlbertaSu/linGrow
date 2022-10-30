@@ -1,5 +1,4 @@
 from django.db import models
-from account.models import Teacher, Parent
 
 
 class School(models.Model):
@@ -7,8 +6,7 @@ class School(models.Model):
     School model
     '''
     name = models.CharField(max_length=100,blank=False)
-    school_id = models.CharField(max_length=100,unique=True, blank=False)
-    teachers = models.ManyToManyField(Teacher)
+    school_id = models.CharField(max_length=100,unique=True, blank=True,null=True)
     address = models.TextField(blank=True)
     email = models.EmailField(blank=False, unique=True)
     phone = models.IntegerField(blank=True, null=True,unique=True)
@@ -25,10 +23,8 @@ class Classroom(models.Model):
     Classroom model
     '''
     name = models.CharField(max_length=100,blank=False)
-    class_id = models.CharField(max_length=100,unique=True, blank=False)
-    school = models.OneToOneField(School, on_delete=models.CASCADE)
-    teachers = models.ManyToManyField(Teacher)
-    parents = models.ManyToManyField(Parent)
+    class_id = models.CharField(max_length=100,unique=True, blank=True, null=True)
+    school = models.ForeignKey(School, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

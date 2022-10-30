@@ -21,8 +21,8 @@ class SchoolTests(APITestCase):
     }
     admin_data = {
         "email": "admin@admin.com",
-        "password": "admin123",
-        "password2": "admin123",
+        "password": "Admin@123",
+        "password2": "Admin@123",
         "user_type": 4,
         "first_name": "Admin",
         "last_name": "Admin"

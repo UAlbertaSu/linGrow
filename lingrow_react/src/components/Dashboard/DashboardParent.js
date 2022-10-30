@@ -12,10 +12,17 @@ import user_icon from "../Img/user_icon.png";
 export default function Dashboard() {
     const nav = useNavigate();
 
-    const [dashboard, setDashboard] = useState("LinGrow Dashboard");
+    const [dashboard, setDashboard] = useState("LinGrow Parent Dashboard");
     const [home, setHome] = useState("Home");
     const [profile, setProfile] = useState("Profile");
+    const [activities, setLanguageLearningActivitiesMsg] = useState("Language Learning Activities");
+    const [chat, setChatMsg] = useState("Chat");
     const [logout_msg, setLogoutMsg] = useState("Logout");
+
+    const redirectToActivities = async (event) => {
+        event.preventDefault();
+        nav("/activities");
+    }
     
     useEffect(() => {
         if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token').includes("error")) {
@@ -34,10 +41,13 @@ export default function Dashboard() {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate(lang, "LinGrow Dashboard").then(response => setDashboard(response));
+            Translate(lang, "LinGrow Parent Dashboard").then(response => setDashboard(response));
             Translate(lang, "Home").then(response => setHome(response));
             Translate(lang, "Profile").then(response => setProfile(response));
+            Translate(lang, "Language Learning Activities").then(response => setLanguageLearningActivitiesMsg(response));
+            Translate(lang, "Chat").then(response => setChatMsg(response));
             Translate(lang, "Logout").then(response => setLogoutMsg(response));
+
         }
     });
 
@@ -75,7 +85,7 @@ export default function Dashboard() {
             <Card style={{height:"120%"}}>
                 <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
                 <LanguageList />
-                <Navbar bg="light" expand="lg" style={{width:"90%", margin:""}}>
+                <Navbar bg="light" expand="lg" style={{width:"90%", margin:"35px"}}>
                     <Container>
                         <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>{dashboard}</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -89,6 +99,8 @@ export default function Dashboard() {
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
+                <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities}>{activities}</Button>
+                <Button variant="secondary" type="submit" id="chat" style={{margin:"35px"}}>{chat}</Button>  
                 <Button variant="secondary" type="submit" id="logout" onClick={clearSession}>{logout_msg}</Button>
             </Card>
         </div>
