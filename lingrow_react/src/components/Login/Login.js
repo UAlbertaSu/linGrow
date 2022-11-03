@@ -127,7 +127,7 @@ export default function Login() {
 
     return (
         <Card style={{minHeight:"fit-content"}}>
-            <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px", maxWidth:"750px"}}/></a>
+            <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px"}}/></a>
             <LanguageList />
             <h1>{header}</h1>
             <label className="label">{email_msg}</label>

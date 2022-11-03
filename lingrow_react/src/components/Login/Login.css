@@ -24,3 +24,9 @@
     color: rgb(138, 0, 0);
     font-weight: bold;
 }
+@media only screen and (max-width: 800px) {
+    [class*="card"]{
+        width: 94%;
+        left: 3%;
+    }
+}

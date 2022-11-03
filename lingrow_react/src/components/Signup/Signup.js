@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 
 import LanguageList from '../Translate/LanguageList';
@@ -227,7 +227,7 @@ export default function Form() {
     };
 
     return (
-        <Card style={{ width: '18rem', width:"20%",height:"fit-content", top:"5%", left:"40%", minWidth:"fit-content"}}>
+        <Card style={{position:"relative",height:"fit-content", maxWidth:"fit-content", left:"40%"}}>
                     <LanguageList />
                     <h1>{header}</h1>
                         {/* Labels and inputs for form data */}
@@ -258,8 +258,6 @@ export default function Form() {
                         {errorMessage()}
                         {successMessage()}
                     </div>
-
-                    
                     <Button variant="primary" type="submit" id="submit_button" onClick={handleSubmit}>{register_btn}</Button>{''}
         </Card>
     );
