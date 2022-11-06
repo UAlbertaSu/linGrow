@@ -96,6 +96,18 @@ class User(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.user_type == UserType.ADMIN.value
 
+    def is_parent(self):
+        return self.user_type == UserType.PARENT.value
+    
+    def is_teacher(self):
+        return self.user_type == UserType.TEACHER.value
+    
+    def is_researcher(self):
+        return self.user_type == UserType.RESEARCHER.value
+
+    def is_admin(self):
+        return self.user_type == UserType.ADMIN.value
+
 class Admin(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
