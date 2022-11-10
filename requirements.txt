@@ -17,3 +17,10 @@ pytz==2022.2.1
 sqlparse==0.2.4
 tzdata==2022.4
 Pillow==9.2.0
+google-api-core==2.10.2
+google-auth==2.14.0
+google-cloud-core==2.3.2
+google-cloud-translate==3.8.4
+googleapis-common-protos==1.56.4
+grpcio==1.50.0
+grpcio-status==1.50.0
