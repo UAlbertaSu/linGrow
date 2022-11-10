@@ -4,14 +4,15 @@ from rest_framework.views import APIView
 from account.serializers import UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer,\
                                 UserChangePasswordSerializer, SendPasswordResetEmailSerializer,\
                                 UserPasswordResetSerializer, ParentProfileSerializer, TeacherProfileSerializer,\
-                                ResearcherProfileSerializer, AdminProfileSerializer
+                                ResearcherProfileSerializer, AdminProfileSerializer, ChildSerializer, ChildEditSerializerParent
 from django.contrib.auth import authenticate
 from account.renderers import UserRenderer
-from .models import User, Parent, Teacher, Researcher, Admin
+from .models import User, Parent, Teacher, Researcher, Admin, Child
 from rest_framework_simplejwt.tokens import RefreshToken 
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .enums import UserType
 from drf_yasg.utils import swagger_auto_schema
+from .permissions import IsParent
 
 
 class UserRegistrationView(APIView):
@@ -25,7 +26,7 @@ class UserRegistrationView(APIView):
         if serializer.is_valid():
             user = serializer.save()
             token = get_tokens_for_user(user)
-            return Response({'token':token,'message':'Registration Successful'},status=status.HTTP_201_CREATED)
+            return Response({'token':token,'message':'Registration Successful', 'user': serializer.data},status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def get_tokens_for_user(user):
@@ -86,6 +87,7 @@ class UserProfileView(APIView):
             serializer = UserProfileSerializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema(request_body=UserProfileSerializer,operation_description="Update user profile",responses={200: UserProfileSerializer,400: "Bad Request"})
     def patch(self, request, format=None):
         '''
             View to update user profile
@@ -161,6 +163,7 @@ class AdminUserIDListView(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated, IsAdminUser]
     
+    @swagger_auto_schema(operation_description="Get user with ID",responses={200: UserProfileSerializer,400: "Bad Request"})
     def get(self, request, id, format=None):
         if not User.objects.filter(id=id).exists():
             return Response({'error':'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
@@ -178,6 +181,7 @@ class AdminUserIDListView(APIView):
             serializer = UserProfileSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema(request_body=UserProfileSerializer,operation_description="Update user profile",responses={200: UserProfileSerializer,400: "Bad Request"})
     def patch(self, request, id, format=None):
         '''
             View to let admin update user profile
@@ -203,6 +207,17 @@ class AdminUserIDListView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @swagger_auto_schema(operation_description="Delete user",responses={200: "{'message': 'User deleted successfully'}",400: "Bad Request"})
+    def delete(self, request, id, format=None):
+        '''
+            View to let admin delete user
+        '''
+        if not User.objects.filter(id=id).exists():
+            return Response({'error':'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        user = User.objects.get(id=id)
+        user.delete()
+        return Response({'msg':'User deleted successfully'}, status=status.HTTP_200_OK)
 
 
 class AdminUserListView(APIView):
@@ -212,6 +227,7 @@ class AdminUserListView(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated, IsAdminUser]
     
+    @swagger_auto_schema(operation_description="Get all users",responses={200: UserProfileSerializer(many=True),400: "Bad Request"})
     def get(self, request, user_cat, format=None):
         if type(user_cat) == str:
             if user_cat == 'all':
@@ -229,4 +245,139 @@ class AdminUserListView(APIView):
             else:
                 return Response({'error':'Invalid Argument'}, status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.data, status=status.HTTP_200_OK)
+
+class ChildView(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated, IsParent]
+
+    @swagger_auto_schema(operation_description="Add a new child",responses={200: ChildSerializer,400: "Bad Request"})
+    def post(self, request, format=None):
+        '''
+            View to let parent add child
+        '''
+        user = request.user
+        parent = Parent.objects.get(user=user)
+        request.data['parent'] = parent
+        serializer = ChildSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({'msg':'Child Added Successfully', 'child': serializer.data}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @swagger_auto_schema(operation_description="Get all children",responses={200: ChildSerializer(many=True),400: "Bad Request"})
+    def get(self,request, format=None):
+        '''
+            View to let parent get all child
+        '''
+        user = request.user
+        parent = Parent.objects.get(user=user)
+        children = Child.objects.filter(parent=parent)
+        serializer = ChildSerializer(children, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(operation_description="Update child",responses={200: ChildSerializer,400: "Bad Request"})
+    def patch(self, request, id, format=None):
+        '''
+            View to let parent update child
+        '''
+        user = request.user
+        parent = Parent.objects.get(user=user)
+        child = Child.objects.get(id=id)
+        if child.parent != parent:
+            return Response({'error':'Child does not belong to the parent'}, status=status.HTTP_400_BAD_REQUEST)
+        serializer = ChildEditSerializerParent(child, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({'msg':'Child Updated Successfully', 'child': serializer.data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @swagger_auto_schema(operation_description="Delete child",responses={200: "OK",400: "Bad Request"})
+    def delete(self, request, id, format=None):
+        '''
+            View to let parent delete child
+        '''
+        user = request.user
+        parent = Parent.objects.get(user=user)
+        child = Child.objects.get(id=id)
+        if child.parent != parent:
+            return Response({'error':'Child does not belong to the parent'}, status=status.HTTP_400_BAD_REQUEST)
+        child.delete()
+        return Response({'msg':'Child Deleted Successfully'}, status=status.HTTP_200_OK)
+
+class ChildAdminView(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    @swagger_auto_schema(operation_description="Get all children for a parent",responses={200: ChildSerializer(many=True),400: "Bad Request"})
+    def get(self, request, pid, cid=None, format=None):
+        '''
+            View to let admin get child
+        '''
+        if not Parent.objects.filter(pk=pid).exists():
+            return Response({'error':'Parent does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        parent = Parent.objects.get(pk=pid)
+        if cid is None:
+            children = Child.objects.filter(parent=parent)
+            serializer = ChildSerializer(children, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        if not Child.objects.filter(id=cid).exists():
+            return Response({'error':'Child does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        child = Child.objects.get(id=cid)
+        if child.parent != parent:
+            return Response({'error':'Child does not belong to the parent'}, status=status.HTTP_400_BAD_REQUEST)
+        serializer = ChildSerializer(child)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    @swagger_auto_schema(operation_description="Update child for a parent",responses={200: ChildSerializer,400: "Bad Request"})
+    def patch(self, request, pid, cid=None, format=None):
+        '''
+            View to let admin update child
+        '''
+        if cid is None:
+            return Response({'error':'Child ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+        if not Parent.objects.filter(pk=pid).exists():
+            return Response({'error':'Parent does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        parent = Parent.objects.get(pk=pid)
+        if not Child.objects.filter(pk=cid).exists():
+            return Response({'error':'Child does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        child = Child.objects.get(pk=cid)
+        if child.parent != parent:
+            return Response({'error':'Child does not belong to the parent'}, status=status.HTTP_400_BAD_REQUEST)
+        serializer = ChildSerializer(child, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({'msg':'Child Updated Successfully', 'child': serializer.data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @swagger_auto_schema(operation_description="Delete child for a parent",responses={200: "OK",400: "Bad Request"})
+    def delete(self, request, pid, cid=None, format=None):
+        '''
+            View to let admin delete child
+        '''
+        if cid is None:
+            return Response({'error':'Child ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+        if not Parent.objects.filter(pk=pid).exists():
+            return Response({'error':'Parent does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        parent = Parent.objects.get(pk=pid)
+        if not Child.objects.filter(pk=cid).exists():
+            return Response({'error':'Child does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        child = Child.objects.get(pk=cid)
+        if child.parent != parent:
+            return Response({'error':'Child does not belong to the parent'}, status=status.HTTP_400_BAD_REQUEST)
+        child.delete()
+        return Response({'msg':'Child Deleted Successfully'}, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(operation_description="Create child for a parent",responses={200: ChildSerializer,400: "Bad Request"})
+    def post(self, request, pid, cid=None, format=None):
+        '''
+            View to let admin add child
+        '''
+        if not Parent.objects.filter(pk=pid).exists():
+            return Response({'error':'Parent does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        request.data['parent'] = pid
+        serializer = ChildSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({'msg':'Child Added Successfully', 'child': serializer.data}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         

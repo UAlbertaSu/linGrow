@@ -42,8 +42,22 @@ export default function Login() {
             let user = response.user;
             let userType = user.user_type;
 
-            // Create conditional statement leading to dashboard for appropriate user types.
-            nav("/dashboard");
+            // navigate based on appropriate user type
+            switch(userType) {
+                case 1:
+                    var userTypeString = "parent";
+                    break;
+                case 2:
+                    var userTypeString = "teacher";
+                    break;
+                case 3:
+                    var userTypeString = "researcher";
+                    break;
+                case 4:
+                    var userTypeString = "admin";
+                    break;
+            }
+            nav("/dashboard".concat(userTypeString));
         }).catch(error => {
             setError(true);
             console.log("Validation failed: ", error);

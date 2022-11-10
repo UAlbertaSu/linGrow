@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     'corsheaders',
     'account',
     'drf_yasg',
-    'admin_school_management'
-    
+    'admin_school_management',
+    'chat',
+    'django_password_validators',
+    'django_password_validators.password_history'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -69,7 +71,7 @@ AUTH_USER_MODEL = 'account.User'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,7 +85,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'lingrow.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -109,13 +110,27 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8
+        }
     },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+        'NAME': 'django_password_validators.password_character_requirements.password_validation.PasswordCharacterValidator',
+        'OPTIONS': {
+             'min_length_digit': 1,
+             'min_length_alpha': 1,
+             'min_length_special': 1,
+             'min_length_lower': 1,
+             'min_length_upper': 1,
+             'special_characters': "~!@#$%^&*()_+{}\":;'[]"
+         }
+    }
 ]
 
 REST_FRAMEWORK = {
@@ -140,7 +155,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

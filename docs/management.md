@@ -2,7 +2,7 @@
 
 ## Story Map
 
-![storyMap](img/updatedStoryMap401.png)
+![storyMap](img/Sprint3StoryMap401.png)
 
 ---
 
@@ -52,29 +52,28 @@
 
 * **Due**: October 29, 2022
 * **Velocity Conversion**: tiny = 1, small = 2, medium = 3, large = 5, X-Large = 8
-* **Estimated Velocity**: 31 / 13 = 2.38
-* **SUBJECT TO CHANGE**
+* **Estimated Velocity**: 22 / 13 = 1.69
 
 | Tasks                     | Related US(Story Points)   | Assigned To                    | Due Date|
 |---------------------------|-----------------|---------------------------------------------|---------|
-| Sending Messages          | Parent-Teacher communication(5)  |  Not yet decided        | Oct. 28  |
-| Reciving Messages from Parent| Parent-Teacher Communication (5) | Not yet decided        | Oct. 28 |
-| Sending Mass Messages    | Teacher group Message(5)|     Not yet decided                 | Oct. 28 |
-| Send Mass messages       | Admin group message (2)| Not yet decided                          | Oct.28   |
-| Mark Important Messages  |important messages(1) | Not yet decided                      | Oct.28 |
-| Translate messages          | message translation(8) |  Not yet decided                  | Oct. 28|
-| Translate Whole App       | App translation (5)   |  Not yet decided                      |Oct. 28|
+| Sending Messages          | Parent-Teacher communication(5)  |  Kash, Loyal        | Oct. 29  |
+| Reciving Messages from Parent| Parent-Teacher Communication (5) | Kash, Loyal        | Oct. 29 |
+| Sending Mass Messages    | Teacher group Message(5)|     Kash, Loyal                 | Oct. 29 |
+| Send Mass messages       | Admin group message (2)| Kash, Loyal                          | Oct. 29   |
+| Translate Whole App       | App translation (5)   |  Scott                      |Oct. 28|
 
 ### Sprint 4
 
 * **Due**: November 19, 2022
 * **Velocity Conversion**: tiny = 1, small = 2, medium = 3, large = 5, X-Large = 8
-* **Estimated Velocity**: 17 / 20 = 0.85
+* **Estimated Velocity**: 17 / 20 = 1.30
 
 * **SUBJECT TO CHANGE**
 
 | Tasks                     | Related US(Story Points)   | Assigned To                    | Due Date|
 |---------------------------|-----------------|---------------------------------------------|---------|
+| Translate messages          | message translation(8) |  Not yet decided                  | Nov. 18 |
+| Mark Important Messages  |important messages(1) | Not yet decided                      | Nov. 18 |
 | Search for Parents          | Teacher Function(1)  |  Not yet decided                    | Nov. 18  |
 | Parent Activities        | Language Development (1)      | Not yet decided                    | Nov. 18 |
 | Parent English information  | Language Development(1)|     Not yet decided                 | Nov. 18 |

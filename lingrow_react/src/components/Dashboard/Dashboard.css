@@ -1,0 +1,26 @@
+
+.form-control{
+    margin: var(--margin-vsmall);
+    width: fit-content;
+}
+.card {
+    background-color: rgb(124, 194, 255);
+    position: absolute;
+    left:20%; 
+    width: 60%; 
+    min-width: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.btn{
+    margin: var(--margin-small);
+    width: fit-content;
+}
+.error{
+    margin: var(--margin-small);
+    color: rgb(138, 0, 0);
+    font-weight: bold;
+}
