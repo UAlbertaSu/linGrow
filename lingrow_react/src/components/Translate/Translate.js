@@ -2,16 +2,12 @@
 //
 // // Setter for initial page translation.
 // const [translated, setTranslated] = useState(0);
-
+//
 // const translateMessage = useCallback((e) => {
 //     let lang = localStorage.getItem('lang');
 //     if (lang) {
-//         Translate(lang, "LinGrow Login").then(response => setHeader(response));
-//         Translate(lang, "Email address").then(response => setEmailMsg(response));
-//         Translate(lang, "Password").then(response => setPassMsg(response));
-//         Translate(lang, "Login").then(response => setLoginBtn(response));
-//         Translate(lang, "Signup").then(response => setSignupBtn(response));
-//         Translate(lang, "Invalid email or password").then(response => setErrorMsg(response));
+//         Translate('en', lang, "LinGrow Login").then(response => setHeader(response));
+//         ...
 //     }
 // });
 //
@@ -26,19 +22,19 @@
 //     return () => window.removeEventListener("New language set", translateMessage);
 // });
 
-export default async function Translate(lang, query) {
-    let API_KEY = 'AIzaSyC1UIimGmDHQfFesxsum3ifUObJuQo-W6U';
-    let url = "https://translation.googleapis.com/language/translate/v2";
-
+// Function for making translation request.
+export default async function Translate(source, lang, query) {
     let result = "...";
-    let translateTextUrl = url + "?key=" + API_KEY + "&format=text";
     let query_json = {
-        "q": query,
-        "target": lang
+        "Text": query,
+        "Target": lang,
+        "Source": source
     }
 
+    // Create request to the Django backend. This creates a promise object.
+    let url = "http://127.0.0.1:8000/api/translate/";
     console.log("Query: ", query_json);
-    return fetch(translateTextUrl, {
+    return fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -46,10 +42,10 @@ export default async function Translate(lang, query) {
         body: JSON.stringify(query_json)
     }).then(data => data.json()
     ).then(data => {
-        result = data.data.translations['0'].translatedText;
-        // console.log("Translate result: ", result);
+        console.log("Translate result: ", data);
+        result = data;
         return result;
     }).catch(error => {
-        // console.log("Translation error: ", error);
+        console.log("Translation error: ", error);
     });
 }

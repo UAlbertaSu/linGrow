@@ -45,16 +45,16 @@ export default function Dashboard() {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate(lang, "LinGrow Admin Dashboard").then(response => setDashboard(response));
-            Translate(lang, "Home").then(response => setHome(response));
-            Translate(lang, "Profile").then(response => setProfile(response));
-            Translate(lang, "Chat").then(response => setChatMsg(response));
-            Translate(lang, "Manage Schools").then(response => setManageSchools(response));
-            Translate(lang, "Manage Users").then(response => setManageUsers(response));
-            Translate(lang, "Search Users").then(response => setSearchUsers(response));
-            Translate(lang, "Groups").then(response => setGroups(response));
-            Translate(lang, "Language Learning Activities").then(response => setLanguageLearningActivitiesMsg(response));
-            Translate(lang, "Logout").then(response => setLogoutMsg(response));
+            Translate('en', lang, "LinGrow Admin Dashboard").then(response => setDashboard(response));
+            Translate('en', lang, "Home").then(response => setHome(response));
+            Translate('en', lang, "Profile").then(response => setProfile(response));
+            Translate('en', lang, "Chat").then(response => setChatMsg(response));
+            Translate('en', lang, "Manage Schools").then(response => setManageSchools(response));
+            Translate('en', lang, "Manage Users").then(response => setManageUsers(response));
+            Translate('en', lang, "Search Users").then(response => setSearchUsers(response));
+            Translate('en', lang, "Groups").then(response => setGroups(response));
+            Translate('en', lang, "Language Learning Activities").then(response => setLanguageLearningActivitiesMsg(response));
+            Translate('en', lang, "Logout").then(response => setLogoutMsg(response));
 
         }
     });
