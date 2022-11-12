@@ -16,8 +16,6 @@ function App() {
     return <Welcome />
   }
 
-   
-
   return (
     <div className="wrapper">
       <BrowserRouter>

@@ -34,10 +34,10 @@ export default function Dashboard() {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate(lang, "LinGrow Dashboard").then(response => setDashboard(response));
-            Translate(lang, "Home").then(response => setHome(response));
-            Translate(lang, "Profile").then(response => setProfile(response));
-            Translate(lang, "Logout").then(response => setLogoutMsg(response));
+            Translate('en', lang, "LinGrow Dashboard").then(response => setDashboard(response));
+            Translate('en', lang, "Home").then(response => setHome(response));
+            Translate('en', lang, "Profile").then(response => setProfile(response));
+            Translate('en', lang, "Logout").then(response => setLogoutMsg(response));
         }
     });
 

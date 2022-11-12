@@ -1,0 +1,12 @@
+{
+  "name":"projects/lingrow-testing-api/locations/us-central1/glossaries/lingrow_glossary",
+  "languagePair": {
+    "sourceLanguageCode": "en",
+    "targetLanguageCode": "fr"
+    },
+  "inputConfig": {
+    "gcsSource": {
+      "inputUri": "gs://lingrow_translate/glossary.csv"
+    }
+  }
+}
