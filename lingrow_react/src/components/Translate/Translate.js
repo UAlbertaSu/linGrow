@@ -2,10 +2,11 @@
 //
 // // Setter for initial page translation.
 // const [translated, setTranslated] = useState(0);
+//
 // const translateMessage = useCallback((e) => {
 //     let lang = localStorage.getItem('lang');
 //     if (lang) {
-//         Translate(lang, "LinGrow Login").then(response => setHeader(response));
+//         Translate('en', lang, "LinGrow Login").then(response => setHeader(response));
 //         ...
 //     }
 // });
