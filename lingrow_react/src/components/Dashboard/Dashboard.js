@@ -1,96 +1,23 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from "react-router-dom";
+import React from 'react';
 import './Dashboard.css';
-import { Card, Button, Nav, NavDropdown, Container, Navbar} from 'react-bootstrap';
 
-import LanguageList from '../Translate/LanguageList';
-import Translate from '../Translate/Translate';
-import logo from "../Img/lingrow.png";
-import home_icon from "../Img/home_icon.png";
-import user_icon from "../Img/user_icon.png";
+import DashboardAdmin from './DashboardAdmin';
+import DashboardParent from './DashboardParent';
+import DashboardTeacher from './DashboardTeacher';
+import DashboardResearcher from './DashboardResearcher';
 
 export default function Dashboard() {
-    const nav = useNavigate();
+    let userType = parseInt(sessionStorage.getItem('userType'));
 
-    const [dashboard, setDashboard] = useState("LinGrow Dashboard");
-    const [home, setHome] = useState("Home");
-    const [profile, setProfile] = useState("Profile");
-    const [logout_msg, setLogoutMsg] = useState("Logout");
-    
-    useEffect(() => {
-        if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token').includes("error")) {
-            nav("/");
-        }
-    }, []);
-
-    const clearSession = async (event) => {
-        sessionStorage.clear();
-        sessionStorage.setItem('redirect', "success");
-        nav("/");
+    // navigate based on appropriate user type
+    switch(userType) {
+        case 1:
+            return (<div><DashboardParent /></div>);
+        case 2:
+            return (<div><DashboardTeacher /></div>);
+        case 3:
+            return (<div><DashboardResearcher /></div>);
+        case 4:
+            return (<div><DashboardAdmin /></div>);
     }
-
-    const [translated, setTranslated] = useState(0);
-    
-    const translateMessage = useCallback((e) => {
-        let lang = localStorage.getItem('lang');
-        if (lang) {
-            Translate('en', lang, "LinGrow Dashboard").then(response => setDashboard(response));
-            Translate('en', lang, "Home").then(response => setHome(response));
-            Translate('en', lang, "Profile").then(response => setProfile(response));
-            Translate('en', lang, "Logout").then(response => setLogoutMsg(response));
-        }
-    });
-
-    function dash_render(props) {
-        const home = props.home;
-        if (home) {
-            return (
-                <Card style={{marginTop:"10px", position:"relative", left:"0%", backgroundColor:"white", width:"80%"}}>
-                    <Card.Body>
-                        <Card.Title>Profile</Card.Title>
-    
-                        <Card.Text>
-                            <p>Username: {sessionStorage.getItem('username')}</p>
-                            <p>Email: {sessionStorage.getItem('email')}</p>
-                            <p>Language: {sessionStorage.getItem('language')}</p>
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            );
-        } else {
-            return (
-                <Card style={{marginTop:"10px", position:"relative", left:"0%", backgroundColor:"white", width:"80%"}}></Card>
-            );
-        }
-    };
-
-    useEffect(() => {
-        translateMessage();
-        window.addEventListener("New language set", translateMessage);
-        return () => window.removeEventListener("New language set", translateMessage);
-    });
-
-    return (
-        <div className="dashboard-wrapper">
-            <Card style={{height:"120%"}}>
-                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
-                <LanguageList />
-                <Navbar bg="light" expand="lg" style={{width:"90%", margin:""}}>
-                    <Container>
-                        <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>{dashboard}</Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <img src={home_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
-                            <Nav.Link href="#home" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px"}}>{home}</Nav.Link>
-                            <img src={user_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
-                            <Nav.Link href="#profile" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", border:""}}>{profile}</Nav.Link>
-                        </Nav>
-                        </Navbar.Collapse>
-                    </Container>
-                </Navbar>
-                <Button variant="secondary" type="submit" id="logout" onClick={clearSession}>{logout_msg}</Button>
-            </Card>
-        </div>
-    );
 }

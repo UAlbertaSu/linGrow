@@ -9,7 +9,7 @@ import logo from "../Img/lingrow.png";
 import home_icon from "../Img/home_icon.png";
 import user_icon from "../Img/user_icon.png";
 
-export default function Dashboard() {
+export default function DashboardParent() {
     const nav = useNavigate();
 
     const [dashboard, setDashboard] = useState("LinGrow Parent Dashboard");
@@ -75,11 +75,15 @@ export default function Dashboard() {
     };
 
     useEffect(() => {
-        translateMessage();
+        if (!translated) {
+            translateMessage();
+            setTranslated(1);
+        }
+        
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
     });
-
+    
     return (
         <div className="dashboard-wrapper">
             <Card style={{minHeight:"fit-content"}}>
