@@ -9,7 +9,7 @@ import logo from "../Img/lingrow.png";
 import home_icon from "../Img/home_icon.png";
 import user_icon from "../Img/user_icon.png";
 
-export default function Dashboard() {
+export default function DashboardTeacher() {
     const nav = useNavigate();
 
     const [dashboard, setDashboard] = useState("LinGrow Teacher Dashboard");
@@ -34,7 +34,6 @@ export default function Dashboard() {
 
     const clearSession = async (event) => {
         sessionStorage.clear();
-        sessionStorage.setItem('redirect', "success");
         nav("/");
     }
 
@@ -77,9 +76,13 @@ export default function Dashboard() {
             );
         }
     };
-
+    
     useEffect(() => {
-        translateMessage();
+        if (!translated) {
+            translateMessage();
+            setTranslated(1);
+        }
+        
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
     });
