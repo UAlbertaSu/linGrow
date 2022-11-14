@@ -8,6 +8,23 @@ import Translate from '../Translate/Translate';
 import logo from "../Img/lingrow.png";
 import './Login.css';
 
+export async function retrieveUserType(token) {
+    return fetch('http://127.0.0.1:8000/api/user/profile/', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(data => data.json()
+    ).then(data => {
+        if (data.hasOwnProperty('error')) {
+            throw Error("Failed to retrieve user due to invalid login credentials or database request error.");
+        }
+        else {
+            return data;
+        }
+    });
+}
+
 export default function Login() {
     const nav = useNavigate();
 
@@ -32,10 +49,6 @@ export default function Login() {
         sessionStorage.setItem('token', JSON.stringify(token));
 
         retrieveUserType(token).then(response => {
-            if (response.hasOwnProperty('errors')) {
-                throw Error("Failed to retrieve user due to invalid login credentials or database request error.");
-            }
-
             setError(false);
             let user = response.user;
             let userType = user.user_type;
@@ -44,18 +57,6 @@ export default function Login() {
         }).catch(error => {
             setError(true);
             console.log("Validation failed: ", error);
-        });
-    }
-
-    async function retrieveUserType(token) {
-        return fetch('http://127.0.0.1:8000/api/user/profile/', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).then(data => data.json()
-        ).then(data => {
-            return data;
         });
     }
 

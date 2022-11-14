@@ -36,7 +36,6 @@ export default function DashboardAdmin() {
 
     const clearSession = async (event) => {
         sessionStorage.clear();
-        sessionStorage.setItem('redirect', "success");
         nav("/");
     }
 

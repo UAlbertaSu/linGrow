@@ -34,7 +34,6 @@ export default function DashboardTeacher() {
 
     const clearSession = async (event) => {
         sessionStorage.clear();
-        sessionStorage.setItem('redirect', "success");
         nav("/");
     }
 
