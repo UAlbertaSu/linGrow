@@ -4,6 +4,8 @@ from .enums import UserType
 from admin_school_management.models import School, Classroom
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
+from rest_framework import serializers
+
 
 PHONE_NUMBER_VALIDATOR = [RegexValidator(regex=r'^[0-9]{10}$',
                                          message="Please enter a valid phone number. Digits length should be 10.")]
@@ -119,6 +121,20 @@ class Teacher(models.Model):
     teacher_id = models.CharField(max_length=30,unique=True, validators=ID_VALIDATOR, blank=True, null=True)
     school = models.ForeignKey(School, null=True, blank=True, on_delete=models.SET_NULL)
     classrooms = models.ManyToManyField(Classroom, blank=True)
+
+    def clean(self):
+        if not self.school and self.classrooms:
+            raise serializers.ValidationError("Teacher must have a school if they have classrooms")
+        if self.classrooms:
+            for classroom in self.classrooms.all():
+                if classroom.school != self.school:
+                    raise serializers.ValidationError("Teacher's school and classroom's school must be the same")
+        return super().clean()
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.user.email
 
@@ -141,3 +157,18 @@ class Child(models.Model):
     school = models.ForeignKey(School, null=True, blank=True, on_delete=models.SET_NULL)
     classroom = models.ForeignKey(Classroom, null=True, blank=True, on_delete=models.SET_NULL)
     parent = models.ForeignKey(Parent, on_delete=models.CASCADE)
+
+    def clean(self) -> None:
+        if not self.school and self.classroom:
+            raise serializers.ValidationError("Classroom must have a school")
+        if self.classroom:
+            if self.school != self.classroom.school:
+                raise serializers.ValidationError("Classroom must have the same school as the child")
+        return super().clean()
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.first_name + " " + self.last_name

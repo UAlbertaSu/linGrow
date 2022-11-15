@@ -44,16 +44,16 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         valid_user_types = [user_type[0] for user_type in User.USER_TYPE_CHOICES]
         if user_type not in valid_user_types:
             raise serializers.ValidationError({'user_type': 'User type is not valid.'})
-        if data.get('school'):
-            if not School.objects.filter(id=data.get('school')).exists():
-                raise serializers.ValidationError({'school': 'School does not exist.'})
-        if data.get('classroom'):
-            if not Classroom.objects.filter(id=data.get('classroom')).exists():
-                raise serializers.ValidationError({'classroom': 'Classroom does not exist.'})
-        if data.get('classrooms'):
-            for classroom in data.get('classrooms'):
-                if not Classroom.objects.filter(id=classroom).exists():
-                    raise serializers.ValidationError({'classroom': 'Classroom does not exist.'})
+        # if data.get('school'):
+        #     if not School.objects.filter(id=data.get('school')).exists():
+        #         raise serializers.ValidationError({'school': 'School does not exist.'})
+        # if data.get('classroom'):
+        #     if not Classroom.objects.filter(id=data.get('classroom')).exists():
+        #         raise serializers.ValidationError({'classroom': 'Classroom does not exist.'})
+        # if data.get('classrooms'):
+        #     for classroom in data.get('classrooms'):
+        #         if not Classroom.objects.filter(id=classroom).exists():
+        #             raise serializers.ValidationError({'classroom': 'Classroom does not exist.'})
         return data
 
     def create(self, validated_data):
@@ -66,7 +66,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         try:
             user = User.objects.create_user(**validated_data)
         except ValidationError as e:
-            print('here')
             raise serializers.ValidationError(e)
     
         if user_type == UserType.PARENT.value:
@@ -82,7 +81,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             if validated_data.get('classroom'):
                 teacher.classrooms.add(validated_data.get('classroom'))
             try:
-                teacher.full_clean()
                 teacher.save()
             except Exception as e:
                 delete_user = True
@@ -90,7 +88,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         elif user_type == UserType.RESEARCHER.value:
             researcher = Researcher(user=user, researcher_id=validated_data.get('researcher_id'))
             try:
-                researcher.full_clean()
                 researcher.save()
             except Exception as e:
                 delete_user = True
