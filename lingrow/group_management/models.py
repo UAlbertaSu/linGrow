@@ -25,18 +25,10 @@ class Group(models.Model):
         abstract = True
 
 class TeacherGroup(Group):
-    teacher = models.ManyToManyField(Teacher, related_name='teacher_group')
+    teacher = models.ManyToManyField(Teacher, related_name='teacher_group', blank=True)
 
     def clean(self):
         self.clean_helper()
-        if self.school:
-            for teacher in self.teacher.all():
-                if teacher.school != self.school:
-                    raise serializers.ValidationError("Teacher's school and group's school must be the same")
-        if self.classroom:
-            for teacher in self.teacher.all():
-                if self.classroom not in teacher.classrooms.all():
-                    raise serializers.ValidationError("Teacher must be in the group's classroom")
         return super().clean()
 
     def __str__(self):
@@ -57,16 +49,7 @@ class ParentGroup(Group):
                 raise serializers.ValidationError("Teacher (Owner) must be in the same school as the group")
             if self.classroom and self.classroom not in teacher.classrooms.all():
                 raise serializers.ValidationError("Teacher (Owner) must be in the classroom")
-
-        for parent in self.parent.all():
-            if self.classroom:
-                children = Child.objects.filter(parent=parent)
-                count = 0
-                for child in children:
-                    if child.classroom == self.classroom:
-                        count += 1
-                if count == 0:
-                    raise serializers.ValidationError("Parent must have a child in the classroom")
+                
         return super().clean()
 
     def __str__(self):
@@ -80,12 +63,8 @@ class ResearcherGroup(Group):
     researcher = models.ManyToManyField(Researcher, related_name='researcher_group')
 
     def clean(self):
-        if self.classroom and self.school:
+        if self.classroom or self.school:
             raise serializers.ValidationError("Researcher groups can't have a classroom and school")
-        if self.classroom:
-            raise serializers.ValidationError("Researcher groups cannot have classrooms")
-        if self.school:
-            raise serializers.ValidationError("Researcher groups cannot have schools")
         return super().clean()
 
     def __str__(self):

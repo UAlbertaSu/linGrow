@@ -10,7 +10,7 @@ from account.permissions import IsTeacher, IsResearcher
 from account.models import Teacher
 from django.db.models import Q
 from .serializers import ParentGroupSerializer, TeacherGroupSerializer, ResearcherGroupSerializer, ParentGroupEditSerializer, TeacherGroupEditSerializer
-# Create your views here.
+from itertools import chain
 
 
 class ParentGroupView(APIView):
@@ -23,10 +23,15 @@ class ParentGroupView(APIView):
         if user.is_teacher():
             teacher = Teacher.objects.get(user=user)
             if id:
-                if ParentGroup.objects.filter(Q(pk=id) & (Q(owner=user) | Q(classroom__in=teacher.classrooms.all()))).exists():
+                if ParentGroup.objects.filter(Q(pk=id) & (Q(owner=user) | Q(classroom__in=teacher.classrooms.all(),owner__isnull=True))).exists():
                     return Response(ParentGroupSerializer(ParentGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
-                return Response({"message": "Group does not exist"}, status=status.HTTP_404_NOT_FOUND)  
-            groups = ParentGroup.objects.filter(Q(owner=user) | Q(classroom__in=teacher.classrooms.all()))
+                return Response({"message": "Group does not exist"}, status=status.HTTP_404_NOT_FOUND)
+            if teacher.school and teacher.classrooms:
+                groups = chain(ParentGroup.objects.filter(Q(owner=user) | Q(classroom__in=teacher.classrooms.all(),owner__isnull=True,school=teacher.school)), ParentGroup.objects.filter(Q(classroom__isnull=True,owner__isnull=True,school=teacher.school)))
+            elif teacher.school:
+                groups = ParentGroup.objects.filter(Q(owner=user) | Q(owner__isnull=True,school=teacher.school,classroom__isnull=True))
+            else:
+                groups = ParentGroup.objects.filter(owner=user)
         
         elif user.is_researcher():
             if id:

@@ -1,19 +1,20 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from .models import Teacher, Researcher, Child
+from rest_framework import serializers
 from group_management.models import TeacherGroup, ResearcherGroup, ParentGroup
 
 @receiver(post_save, sender=Teacher)
 def update_teacher_groups(sender, instance, created, **kwargs):
-    if instance.school:
-        teacher_group = TeacherGroup.objects.get(school=instance.school,owner__isnull=True,classroom__isnull=True)
-        teacher_group.teacher.add(instance)
-        teacher_group.save()
     if instance.classrooms:
         for classroom in instance.classrooms.all():
             teacher_group = TeacherGroup.objects.get(classroom=classroom,school=instance.school, owner__isnull=True)
             teacher_group.teacher.add(instance)
             teacher_group.save()
+    if instance.school:
+        teacher_group = TeacherGroup.objects.get(school=instance.school,owner__isnull=True,classroom__isnull=True)
+        teacher_group.teacher.add(instance)
+        teacher_group.save()
 
 @receiver(post_save, sender=Researcher)
 def update_researcher_groups(sender, instance, created, **kwargs):
@@ -30,7 +31,7 @@ def update_researcher_groups(sender, instance, created, **kwargs):
 def update_child_groups(sender, instance, created, **kwargs):
     if instance.school:
         parent_group = ParentGroup.objects.get(school=instance.school,classroom__isnull=True, owner__isnull=True)
-        parent_group.child.add(instance.parent)
+        parent_group.parent.add(instance.parent)
         parent_group.save()
     if instance.classroom:
         parent_group = ParentGroup.objects.get(school=instance.school,classroom=instance.classroom, owner__isnull=True)

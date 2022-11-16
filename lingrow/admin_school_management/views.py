@@ -25,10 +25,12 @@ class SchoolRegistrationView(APIView):
         serializer = SchoolRegistrationSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             school = serializer.save()
-            teacher_group = TeacherGroup.objects.create(name=f"{school.name}-Teachers", school=school)
-            parent_group = ParentGroup.objects.create(name=f"{school.name}-Parents", school=school)
-            teacher_group.save()
-            parent_group.save()
+            try:
+                teacher_group = TeacherGroup.objects.create(name=f"{school.name}-Teachers", school=school)
+                parent_group = ParentGroup.objects.create(name=f"{school.name}-Parents", school=school)
+            except Exception as e:
+                school.delete()
+                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
             return Response({"message": "School added!" ,"school": SchoolDetailSerializer(school).data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -80,11 +82,11 @@ class SchoolUpdateView(APIView):
         serializer = SchoolDetailSerializer(school, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             school = serializer.save()
-            teacher_group = TeacherGroup.objects.get(school=school,owner=None)
+            teacher_group = TeacherGroup.objects.get(school=school,owner__isnull=True,classroom__isnull=True)
             if teacher_group.name != f"{school.name}-Teachers":
                 teacher_group.name = f"{school.name}-Teachers"
                 teacher_group.save()
-            parent_group = ParentGroup.objects.get(school=school,owner=None)
+            parent_group = ParentGroup.objects.get(school=school,owner__isnull=True,classroom__isnull=True)
             if parent_group.name != f"{school.name}-Parents":
                 parent_group.name = f"{school.name}-Parents"
                 parent_group.save()
@@ -178,8 +180,8 @@ class ClassroomUpdateView(APIView):
         serializer = ClassroomDetailSerializer(classroom, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             classroom = serializer.save()
-            teacher_group = TeacherGroup.objects.get(school=school,classroom=classroom,owner=None)
-            parent_group = ParentGroup.objects.get(school=school,classroom=classroom,owner=None)
+            teacher_group = TeacherGroup.objects.get(school=school,classroom=classroom,owner__isnull=True)
+            parent_group = ParentGroup.objects.get(school=school,classroom=classroom,owner__isnull=True)
             if teacher_group.name != f"{classroom.name}-Teachers":
                 teacher_group.name = f"{classroom.name}-Teachers"
                 teacher_group.save()

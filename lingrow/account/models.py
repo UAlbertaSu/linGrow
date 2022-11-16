@@ -31,11 +31,7 @@ class UserManager(BaseUserManager):
             user_type=user_type,
             phone=phone)
         user.set_password(password)
-        try:
-            user.full_clean()
-            user.save(using=self._db)
-        except ValidationError as e:
-            raise ValidationError(e)
+        user.save(using=self._db)
         return user
 
     def create_superuser(self, email, first_name, last_name, password=None, **extra_fields):
@@ -50,7 +46,6 @@ class UserManager(BaseUserManager):
             password=password,
         )
         new_user.is_admin = True
-        new_user.is_staff = True
         new_user.save(using=self._db)
         admin = Admin(user=new_user)
         admin.save()
@@ -123,12 +118,8 @@ class Teacher(models.Model):
     classrooms = models.ManyToManyField(Classroom, blank=True)
 
     def clean(self):
-        if not self.school and self.classrooms:
+        if not self.school and self.classrooms.count() > 0:
             raise serializers.ValidationError("Teacher must have a school if they have classrooms")
-        if self.classrooms:
-            for classroom in self.classrooms.all():
-                if classroom.school != self.school:
-                    raise serializers.ValidationError("Teacher's school and classroom's school must be the same")
         return super().clean()
 
     def save(self, *args, **kwargs):
