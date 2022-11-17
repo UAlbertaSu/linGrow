@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     'admin_school_management',
     'chat',
     'account',
+    'django_password_validators',
+    'django_password_validators.password_history',
+    'translate'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

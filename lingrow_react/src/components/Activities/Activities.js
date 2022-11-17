@@ -20,9 +20,9 @@ export default function Activities() {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate(lang, "Language Learning Activities").then(response => setHeader(response));
-            Translate(lang, "Kitchen Activities").then(response => setActivity1(response));
-            Translate(lang, "Bath Activities").then(response => setActivity2(response));
+            Translate('en', lang, "Language Learning Activities").then(response => setHeader(response));
+            Translate('en', lang, "Kitchen Activities").then(response => setActivity1(response));
+            Translate('en', lang, "Bath Activities").then(response => setActivity2(response));
         }
     });
 
