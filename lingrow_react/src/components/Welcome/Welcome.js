@@ -8,7 +8,7 @@ import './Welcome.css';
 
 export default function Welcome() {
 
-    let [welcome_msg, setWelcome] = useState("Welcome!");
+    let [welcome_msg, setWelcome] = useState("Hello!");
     let [link_msg, setLink] = useState("Login to LinGrow");
 
     const handleSubmit = (e) => {
@@ -21,7 +21,7 @@ export default function Welcome() {
 
     const translateMessage = useCallback((e) => {
         if (localStorage.getItem('lang')) {
-            Translate('en', localStorage.getItem('lang'), "Welcome!").then(response => setWelcome(response));
+            Translate('en', localStorage.getItem('lang'), "Hello!").then(response => setWelcome(response));
             Translate('en', localStorage.getItem('lang'), "Login to LinGrow").then(response => setLink(response));
         }
         else {
