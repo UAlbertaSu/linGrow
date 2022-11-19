@@ -8,10 +8,25 @@ import Translate from '../Translate/Translate';
 import logo from "../Img/lingrow.png";
 import './Login.css';
 
+export async function retrieveUserType(token) {
+    return fetch('http://127.0.0.1:8000/api/user/profile/', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(data => data.json()
+    ).then(data => {
+        if (data.hasOwnProperty('error')) {
+            throw Error("Failed to retrieve user due to invalid login credentials or database request error.");
+        }
+        else {
+            return data;
+        }
+    });
+}
+
 export default function Login() {
     const nav = useNavigate();
-
-    const [token, setToken] = useState();
 
     const [email, setEmail] = useState();
     const [password, setPassWord] = useState();
@@ -34,30 +49,11 @@ export default function Login() {
         sessionStorage.setItem('token', JSON.stringify(token));
 
         retrieveUserType(token).then(response => {
-            if (response.hasOwnProperty('errors')) {
-                throw Error("Failed to retrieve user due to invalid login credentials or database request error.");
-            }
-
             setError(false);
             let user = response.user;
             let userType = user.user_type;
-
-            // navigate based on appropriate user type
-            switch(userType) {
-                case 1:
-                    var userTypeString = "parent";
-                    break;
-                case 2:
-                    var userTypeString = "teacher";
-                    break;
-                case 3:
-                    var userTypeString = "researcher";
-                    break;
-                case 4:
-                    var userTypeString = "admin";
-                    break;
-            }
-            nav("/dashboard".concat(userTypeString));
+            sessionStorage.setItem('userType', userType);
+            nav("/dashboard");
         }).catch(error => {
             setError(true);
             console.log("Validation failed: ", error);
@@ -74,7 +70,7 @@ export default function Login() {
             return data;
         });
     }
-
+    
     async function loginUser(credentials) {
         console.log(JSON.stringify(credentials));
         return fetch('http://127.0.0.1:8000/api/user/login/', {
@@ -117,13 +113,13 @@ export default function Login() {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate(lang, "LinGrow Login").then(response => setHeader(response));
-            Translate(lang, "Email address").then(response => setEmailMsg(response));
-            Translate(lang, "Password").then(response => setPassMsg(response));
-            Translate(lang, "Login").then(response => setLoginBtn(response));
-            Translate(lang, "Signup").then(response => setSignupBtn(response));
-            Translate(lang, "Invalid email or password").then(response => setErrorMsg(response));
-            Translate(lang, "Language Learning Activities").then(response => setActivity(response));
+            Translate('en', lang, "LinGrow Login").then(response => setHeader(response));
+            Translate('en', lang, "Email address").then(response => setEmailMsg(response));
+            Translate('en', lang, "Password").then(response => setPassMsg(response));
+            Translate('en', lang, "Login").then(response => setLoginBtn(response));
+            Translate('en', lang, "Signup").then(response => setSignupBtn(response));
+            Translate('en', lang, "Invalid email or password").then(response => setErrorMsg(response));
+            Translate('en', lang, "Language Learning Activities").then(response => setActivity(response));
         }
     });
     
