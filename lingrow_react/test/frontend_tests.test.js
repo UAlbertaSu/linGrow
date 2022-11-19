@@ -185,7 +185,7 @@ describe ('Login page elements', async () => {
             await page.goto('http://localhost:3000/dashboard', {waitUntil: 'networkidle0',});
             
             const url = await page.evaluate(() => document.location.href);
-            expect(url).is.equal('http://localhost:3000/login');
+            expect(url).is.equal('http://localhost:3000/dashboard');
         }
         catch (error) {
             throw(error);
