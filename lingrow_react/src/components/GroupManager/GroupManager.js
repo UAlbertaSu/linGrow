@@ -6,23 +6,81 @@ import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
 // Group manager component.
-export default function GroupManager(flag) {
-
-    flag = 'user';
-
-
-    // const selected = [];
+export default function GroupManager({userType}) {
 
     const [selected, setSelected] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
+    const [token, setToken] = useState(JSON.parse(sessionStorage.getItem('token')));
 
     const [group_create_header, setHeader] = useState("Create New Group");
     const [submit_btn, setSubmitBtn] = useState("Create Group");
-    const [search_bar, setSearchBar] = useState("");
     const [search_bar_placeholder, setSearchBarPlaceholder] = useState("");
     const [flagSet, setFlagSet] = useState(0);
     const [group_name, setGroupName] = useState("Group Name");
     const [group_id, setGroupID] = useState("Group ID");
+
+    // Sets the initial state of search results.
+    const setInitialState = (e) => {
+        let userType = parseInt(sessionStorage.getItem('userType'));
+        let arr = [];
+
+        if (userType === 4) { // Admin can add all users into group.
+            arr = [];
+
+            fetch('http://127.0.0.1:8000/api/search/researchers', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            }).then(data => data.json()
+            ).then(data => {
+                data.map((item) => {
+                    arr.push(item.user);
+                })
+            }).then(() => {
+                setSearchResult([...searchResult, ...arr]);
+            });
+        }
+
+        if (userType === 3) { // Admin and researcher can add teachers and parents into group.
+            arr = [];
+
+            fetch('http://127.0.0.1:8000/api/search/teachers', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            }).then(data => data.json()
+            ).then(data => {
+                data.map((item) => {
+                    arr.push(item.user);
+                })
+            }).then(() => {
+                setSearchResult([...searchResult, ...arr]);
+            });
+        }
+
+        if (userType === 2) { // Admin, researcher, and teacher can add parents into group.
+            arr = [];
+
+            fetch('http://127.0.0.1:8000/api/search/parents', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            }).then(data => data.json()
+            ).then(data => {
+                data.map((item) => {
+                    arr.push(item.user);
+                })
+            }).then(() => {
+                setSearchResult([...searchResult, ...arr]);
+            });
+        }
+    }
 
     const selectListItem = (item) => {
         if (selected.includes(item)) {
@@ -36,30 +94,72 @@ export default function GroupManager(flag) {
         }
     }
 
-    const setInitialState = (e) => {
-        setSearchResult(DUMMY_DATA);
-    }
-
     const handleSearchResult = (e) => {
         dispatchEvent(new Event("Search result changed"));
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Selected users: ", selected);
+
+        if (userType === 4) { // Admin can add all users into group.
+            var request = {
+                'name': group_name,
+                'researcher': selected
+            }
+
+            fetch('http://127.0.0.1:8000/api/group/researchergroup/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(request),
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+
+        else if (userType === 3) {
+            var request = {
+                'name': group_name,
+                'teacher': selected
+            }
+
+            fetch('http://127.0.0.1:8000/api/group/teachergroup/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(request),
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+
+        else if (userType === 2) {
+            var request = {
+                'name': group_name,
+                'parent': selected
+            }
+
+            fetch('http://127.0.0.1:8000/api/group/parentgroup/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(request),
+            }).catch(error => {
+                console.log(error);
+            })
+        }
     }
 
     useEffect(() => {
         if (!flagSet) {
-            if (flag === 'user') {
-                setSearchBarPlaceholder("Search User");
-            }
-            else if (flag === 'group') {
-                setSearchBarPlaceholder("Search Group");
-            }
-            setFlagSet(1);
-
             setInitialState();
+            setFlagSet(1);
         }
     }, []);
 
@@ -88,40 +188,6 @@ export default function GroupManager(flag) {
         return () => window.removeEventListener("New language set", translateMessage);
     });
 
-    // TODO: Delete later, only for testing
-    const DUMMY_DATA = [
-        {
-            "user": {
-                "id": 3,
-                "email": "parent@parent.com",
-                "first_name": "parent",
-                "middle_name": "",
-                "last_name": "parentson",
-                "user_type": 1
-            }
-        },
-        {
-            "user": {
-                "id": 8,
-                "email": "parent2@email.com",
-                "first_name": "parent",
-                "middle_name": "",
-                "last_name": "parent",
-                "user_type": 1
-            }
-        },
-        {
-            "user": {
-                "id": 9,
-                "email": "parent3@email.com",
-                "first_name": "parent3",
-                "middle_name": "",
-                "last_name": "thirdParent",
-                "user_type": 1
-            }
-        }
-    ]
-
     return (
         <Card style={{minHeight:"fit-content"}}>
             <LanguageList />
@@ -132,8 +198,8 @@ export default function GroupManager(flag) {
             <div style={{ display: 'block', width: 400, padding: 30 }}>
                 <ListGroup>
                     {searchResult.map((elem) => 
-                        <ListGroup.Item action active={selected.includes(elem.user.id) ? true : false} onClick={() => selectListItem(elem.user.id)} key={elem.user.id} value={elem.user.id}>
-                            {[elem.user.first_name, " ", elem.user.last_name]}
+                        <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} key={elem.id} value={elem.id}>
+                            {[elem.first_name, " ", elem.last_name]}
                         </ListGroup.Item>)}
                 </ListGroup>
             </div>

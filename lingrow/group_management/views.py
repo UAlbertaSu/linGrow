@@ -142,7 +142,8 @@ class TeacherGroupView(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @swagger_auto_schema(operation_description="Update teacher group with id",request_body=TeacherGroupEditSerializer, responses={200: TeacherGroupEditSerializer,400: "Bad Request", 404: "Not Found"})
     def patch(self, request, id=None):
