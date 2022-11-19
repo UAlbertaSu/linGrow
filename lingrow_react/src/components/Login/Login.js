@@ -63,7 +63,6 @@ export default function Login() {
             console.log("Validation failed: ", error);
         });
     }
-
     async function retrieveUserType(token) {
         return fetch('http://127.0.0.1:8000/api/user/profile/', {
             method: 'GET',
@@ -127,6 +126,23 @@ export default function Login() {
             Translate(lang, "Language Learning Activities").then(response => setActivity(response));
         }
     });
+    
+    useEffect(() => {
+        const keyDownHandler = event => {
+          console.log('User pressed: ', event.key);
+    
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            handleSubmit(event);
+          }
+        };
+    
+        window.addEventListener('keydown', keyDownHandler);
+    
+        return () => {
+          window.removeEventListener('keydown', keyDownHandler);
+        };
+      }, []);
 
     useEffect(() => {
         // Prevents page from being constantly translated.
@@ -140,20 +156,22 @@ export default function Login() {
     });
 
     return (
-        <Card style={{minHeight:"fit-content"}}>
-            <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px"}}/></a>
-            <LanguageList />
-            <h1>{header}</h1>
-            <label className="label">{email_msg}</label>
-            <input type="text" className="form-control" id="email" placeholder={"lingrow@email.com"} onChange={e => setEmail(e.target.value)}/>
-            <label className="label">{pass_msg}</label>
-            <input type="password" className="form-control" id="password" placeholder={pass_msg} onChange={e => setPassWord(e.target.value)}/>
-            <div className="message">
-                {errorMessage()}
-            </div>
-            <Button variant="primary" type="submit" id="login" onClick={handleSubmit} style={{minWidth:"100px"}}>{login_btn}</Button>
-            <Button variant="primary" type="submit" id="signup" onClick={redirectToSignup} style={{minWidth:"100px"}}>{signup_btn}</Button>
-            <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{margin:"35px"}}>{activities}</Button>
-        </Card>
+        <div>
+            <Card>
+                <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px"}}/></a>
+                <LanguageList />
+                <h1>{header}</h1>
+                <label className="label">{email_msg}</label>
+                <input type="text" className="form-control" id="email" placeholder={"lingrow@email.com"} onChange={e => setEmail(e.target.value)}/>
+                <label className="label">{pass_msg}</label>
+                <input type="password" className="form-control" id="password" placeholder={pass_msg} onChange={e => setPassWord(e.target.value)}/>
+                <div className="message">
+                    {errorMessage()}
+                </div>
+                <Button variant="primary" type="submit" id="login" onClick={handleSubmit} style={{minWidth:"100px"}}>{login_btn}</Button>
+                <Button variant="primary" type="submit" id="signup" onClick={redirectToSignup} style={{minWidth:"100px"}}>{signup_btn}</Button>
+                <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{margin:"35px"}}>{activities}</Button>
+            </Card>
+        </div>
     )
 }
