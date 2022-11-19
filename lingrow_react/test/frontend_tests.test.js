@@ -795,6 +795,139 @@ describe ('Dashboard elements', async () => {
     });
 });
 
+describe ('Group Management', async () => {
+    it ('Create a new group', async () => {
+        let browser = await puppeteer.launch({
+            headless: true
+        });
+        try {
+            let page = await browser.newPage();   
+            await page.goto('http://localhost:3000/');
+            await page.goto('http://localhost:3000/groupmanager ', {waitUntil: 'networkidle0',});
+            
+            await page.waitForSelector('#createnewgroup'); //Create New Group button
+            await page.click('#createnewgroup');
+            await new Promise(r => setTimeout(r, 500));
+
+            const url = await page.evaluate(() => document.location.href); //Check if the page is redirected to the correct page
+            expect(url).is.equal('http://localhost:3000/groupcreator');
+
+            const textbox = await page.$('#groupname'); //group name input
+            await textbox.type('testgroupxx');
+            value = await (await passbox.getProperty("value")).jsonValue();
+            expect(value).to.equal('testgroupxx');
+
+            await page.waitForSelector('#user_list');//first user in the user list
+            await page.click('#user_list');
+
+            await page.waitForSelector('#creategroup'); //Create Group button
+            await page.click('#creategroup');
+            await new Promise(r => setTimeout(r, 500));
+
+            const url2 = await page.evaluate(() => document.location.href); //Check if the page is redirected to the correct page
+            expect(url2).is.equal('http://localhost:3000/groupmanager');
+        }
+        catch (error) {
+            throw(error);
+        }
+        finally {
+            await browser.close();
+        }
+    }, 20000);
+
+});
+
+describe ('Chat function', async () => {
+    it ('Add new direct chat to first contact', async () => {
+        let browser = await puppeteer.launch({
+            headless: true
+        });
+        try {
+            let page = await browser.newPage();   
+            await page.goto('http://localhost:3000/');
+            await page.goto('http://localhost:3000/new_chat ', {waitUntil: 'networkidle0',});
+            
+            await page.waitForSelector('#new_chat');
+            await page.click('#new_chat'); //first contact's chat button
+            await new Promise(r => setTimeout(r, 500));
+        }
+        catch (error) {
+            throw(error);
+        }
+        finally {
+            await browser.close();
+        }
+    }, 20000);
+
+    it ('Direct chat with first contact', async () => {
+        let browser = await puppeteer.launch({
+            headless: true
+        });
+        try {
+            let page = await browser.newPage();   
+            await page.goto('http://localhost:3000/');
+            await page.goto('http://localhost:3000/profile ', {waitUntil: 'networkidle0',});
+            
+            await page.waitForSelector('#user_list'); //first contact's email 
+            await page.click('#user_list');
+            await new Promise(r => setTimeout(r, 500));
+
+            const textbox = await page.$('#text'); //text box
+            await textbox.type('testtest');
+            value = await (await passbox.getProperty("value")).jsonValue();
+            expect(value).to.equal('testtest');
+
+            await page.waitForSelector('#send');
+            await page.click('#send');
+
+            const isHidden = await page.$eval('#errormessage', (elem) => {
+                return window.getComputedStyle(elem).getPropertyValue('display') === 'none'
+            });
+            expect(isHidden); //expect no error message like "message cannot be empty"
+        }
+        catch (error) {
+            throw(error);
+        }
+        finally {
+            await browser.close();
+        }
+    }, 20000);
+
+    it ('Send a message in group chat', async () => {
+        let browser = await puppeteer.launch({
+            headless: true
+        });
+        try {
+            let page = await browser.newPage();   
+            await page.goto('http://localhost:3000/');
+            await page.goto('http://localhost:3000/group_chat ', {waitUntil: 'networkidle0',});
+            
+            await page.waitForSelector('#group_list'); //first group 
+            await page.click('#group_list');
+            await new Promise(r => setTimeout(r, 500));
+
+            const textbox = await page.$('#text'); //text box
+            await textbox.type('testtest');
+            value = await (await passbox.getProperty("value")).jsonValue();
+            expect(value).to.equal('testtest');
+
+            await page.waitForSelector('#send');
+            await page.click('#send');
+
+            const isHidden = await page.$eval('#errormessage', (elem) => {
+                return window.getComputedStyle(elem).getPropertyValue('display') === 'none'
+            });
+            expect(isHidden); //expect no error message like "message cannot be empty"
+        }
+        catch (error) {
+            throw(error);
+        }
+        finally {
+            await browser.close();
+        }
+    }, 20000);
+});
+
 describe ('Activities page elements', async () => {
     it ('Activity link should navigate to the corresponding google folder containing those activities', async () => {
         let browser = await puppeteer.launch({
@@ -877,3 +1010,4 @@ describe ('Translation functionalities', async () => {
         }
     }, 20000);
 });
+
