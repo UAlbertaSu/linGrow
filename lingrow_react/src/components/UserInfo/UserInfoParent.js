@@ -7,7 +7,6 @@ import Translate from '../Translate/Translate';
 // Group manager component.
 export default function UserInfo(AccountType) {
 
-    // TODO: need to link to profile button
 
     // TODO: implement hiding of elements based on account type
     AccountType = 'Parent';
