@@ -138,7 +138,8 @@ export default function Login() {
         return () => {
           window.removeEventListener('keydown', keyDownHandler);
         };
-      }, []);
+      }, []
+    );
 
     useEffect(() => {
         // Prevents page from being constantly translated.
@@ -154,7 +155,7 @@ export default function Login() {
     return (
         <div>
             <Card>
-                <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px"}}/></a>
+                <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px"}}/></a>
                 <LanguageList />
                 <h1>{header}</h1>
                 <label className="label">{email_msg}</label>

@@ -227,7 +227,7 @@ export default function Form() {
     };
 
     return (
-        <Card style={{position:"relative",height:"fit-content", maxWidth:"fit-content", left:"40%"}}>
+        <Card className="signup" style={{}}>
                     <LanguageList />
                     <h1>{header}</h1>
                         {/* Labels and inputs for form data */}

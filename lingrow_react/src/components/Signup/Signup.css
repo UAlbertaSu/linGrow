@@ -4,6 +4,18 @@ h1 {
     font-weight: bold;
     margin: var(--margin-medium);
 }
+
+.signup{
+    position: relative;
+    padding:10px;
+    left:37%;
+    height:fit-content;
+    width: 26%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .form-select {
     margin: var(--margin-small);
     width: fit-content;
@@ -21,4 +33,10 @@ h1 {
 .success{
     margin: var(--margin-small);
     color: rgb(4, 202, 4);
+}
+@media only screen and (max-width: 1200px) {
+    [class*="signup"]{
+        width: 70%;
+        left: 15%;
+    }
 }

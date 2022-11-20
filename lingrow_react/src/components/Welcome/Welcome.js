@@ -9,7 +9,7 @@ import './Welcome.css';
 export default function Welcome() {
 
     let [welcome_msg, setWelcome] = useState("Welcome!");
-    let [link_msg, setLink] = useState("Login to LinGrow");
+    let [link_msg, setLink] = useState("Enter Website");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,7 +22,7 @@ export default function Welcome() {
     const translateMessage = useCallback((e) => {
         if (localStorage.getItem('lang')) {
             Translate('en', localStorage.getItem('lang'), "Welcome!").then(response => setWelcome(response));
-            Translate('en', localStorage.getItem('lang'), "Login to LinGrow").then(response => setLink(response));
+            Translate('en', localStorage.getItem('lang'), "Enter Website").then(response => setLink(response));
         }
         else {
             localStorage.setItem('lang', 'en');
@@ -38,12 +38,19 @@ export default function Welcome() {
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
     });
-
+//  Elements for background after discussing with client
+//  <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%"}}/>
+//  <Card.ImgOverlay>
+//  </Card.ImgOverlay>
     return (
-        <Card style={{top:"40%", width:"20%", left:"40%", right:"40%", height:"20%", minWidth:"fit-content", minHeight:"fit-content"}}>
-            <LanguageList />
-            <h2 id="welcome_msg">{welcome_msg}</h2>
-            <a href="" id="welcome_link" onClick={handleSubmit}>{link_msg}</a>
-        </Card>
+        <div>
+            <Card className="bg-light" style={{left:"0%",width:"100%", height:"100%", borderRadius:"0px"}}>
+                    <Card className="welcome">
+                        <LanguageList />
+                        <h2 id="welcome_msg">{welcome_msg}</h2>
+                        <a href="" id="welcome_link" onClick={handleSubmit}>{link_msg}</a>
+                    </Card>
+            </Card>
+        </div>
     );
 }
