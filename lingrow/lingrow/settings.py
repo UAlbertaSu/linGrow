@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'admin_school_management',
     'chat',
     'account',
+    'translate'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

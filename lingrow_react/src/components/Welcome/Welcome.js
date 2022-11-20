@@ -21,8 +21,8 @@ export default function Welcome() {
 
     const translateMessage = useCallback((e) => {
         if (localStorage.getItem('lang')) {
-            Translate(localStorage.getItem('lang'), "Welcome!").then(response => setWelcome(response));
-            Translate(localStorage.getItem('lang'), "Login to LinGrow").then(response => setLink(response));
+            Translate('en', localStorage.getItem('lang'), "Welcome!").then(response => setWelcome(response));
+            Translate('en', localStorage.getItem('lang'), "Login to LinGrow").then(response => setLink(response));
         }
         else {
             localStorage.setItem('lang', 'en');
