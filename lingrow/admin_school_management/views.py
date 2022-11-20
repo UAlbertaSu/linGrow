@@ -7,6 +7,7 @@ from admin_school_management.models import Classroom, School
 from admin_school_management.serializers import SchoolRegistrationSerializer, \
      SchoolDetailSerializer, ClassroomRegistrationSerializer, ClassroomDetailSerializer
 from drf_yasg.utils import swagger_auto_schema
+from group_management.models import ParentGroup, TeacherGroup, ResearcherGroup
 
 
 class SchoolRegistrationView(APIView):
@@ -24,6 +25,12 @@ class SchoolRegistrationView(APIView):
         serializer = SchoolRegistrationSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             school = serializer.save()
+            try:
+                teacher_group = TeacherGroup.objects.create(name=f"{school.name}-Teachers", school=school)
+                parent_group = ParentGroup.objects.create(name=f"{school.name}-Parents", school=school)
+            except Exception as e:
+                school.delete()
+                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
             return Response({"message": "School added!" ,"school": SchoolDetailSerializer(school).data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -75,6 +82,14 @@ class SchoolUpdateView(APIView):
         serializer = SchoolDetailSerializer(school, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             school = serializer.save()
+            teacher_group = TeacherGroup.objects.get(school=school,owner__isnull=True,classroom__isnull=True)
+            if teacher_group.name != f"{school.name}-Teachers":
+                teacher_group.name = f"{school.name}-Teachers"
+                teacher_group.save()
+            parent_group = ParentGroup.objects.get(school=school,owner__isnull=True,classroom__isnull=True)
+            if parent_group.name != f"{school.name}-Parents":
+                parent_group.name = f"{school.name}-Parents"
+                parent_group.save()
             return Response(SchoolDetailSerializer(school).data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -97,6 +112,10 @@ class ClassroomRegistrationView(APIView):
         serializer = ClassroomRegistrationSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             classroom = serializer.save()
+            teacher_group = TeacherGroup.objects.create(name=f"{classroom.name}-Teachers", school=classroom.school, classroom=classroom)
+            parent_group = ParentGroup.objects.create(name=f"{classroom.name}-Parents", school=classroom.school, classroom=classroom)
+            teacher_group.save()
+            parent_group.save()
             return Response({"message": "Classroom added!" ,"classroom": ClassroomDetailSerializer(classroom).data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -161,5 +180,13 @@ class ClassroomUpdateView(APIView):
         serializer = ClassroomDetailSerializer(classroom, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             classroom = serializer.save()
+            teacher_group = TeacherGroup.objects.get(school=school,classroom=classroom,owner__isnull=True)
+            parent_group = ParentGroup.objects.get(school=school,classroom=classroom,owner__isnull=True)
+            if teacher_group.name != f"{classroom.name}-Teachers":
+                teacher_group.name = f"{classroom.name}-Teachers"
+                teacher_group.save()
+            if parent_group.name != f"{classroom.name}-Parents":
+                parent_group.name = f"{classroom.name}-Parents"
+                parent_group.save()
             return Response(ClassroomDetailSerializer(classroom).data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

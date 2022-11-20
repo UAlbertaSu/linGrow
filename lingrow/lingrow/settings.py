@@ -43,12 +43,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    'account',
     'drf_yasg',
-    'admin_school_management',
-    'chat',
     'django_password_validators',
     'django_password_validators.password_history',
+    'group_management',
+    'admin_school_management',
+    'search_users',
+    'chat',
+    'account',
     'translate'
 ]
 

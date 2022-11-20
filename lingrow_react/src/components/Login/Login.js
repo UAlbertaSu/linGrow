@@ -46,6 +46,7 @@ export default function Login() {
             "email": email,
             "password": password
         });
+        console.log(token);
         sessionStorage.setItem('token', JSON.stringify(token));
 
         retrieveUserType(token).then(response => {

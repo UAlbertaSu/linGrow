@@ -24,5 +24,7 @@ urlpatterns = [
     path('api/school/', include('admin_school_management.urls')),
     path('api/translate/', views.TranslationView.as_view()),
     path('api/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('', include('chat.urls'))
+    path('', include('chat.urls')),
+    path('api/group/', include('group_management.urls')),
+    path('api/search/', include('search_users.urls'))
 ]

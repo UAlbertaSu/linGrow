@@ -19,7 +19,7 @@ export default function DashboardAdmin() {
     const [manageSchools, setManageSchools] = useState("Manage Schools");
     const [manageUsers, setManageUsers] = useState("Manage Users");
     const [searchUsers, setSearchUsers] = useState("Search Users");
-    const [groups, setGroups] = useState("Groups");
+    const [group_manager, setGroupManagerMsg] = useState("Group Manager");
     const [activities, setLanguageLearningActivitiesMsg] = useState("Language Learning Activities");
     const [logout_msg, setLogoutMsg] = useState("Logout");
 
@@ -51,7 +51,7 @@ export default function DashboardAdmin() {
             Translate('en', lang, "Manage Schools").then(response => setManageSchools(response));
             Translate('en', lang, "Manage Users").then(response => setManageUsers(response));
             Translate('en', lang, "Search Users").then(response => setSearchUsers(response));
-            Translate('en', lang, "Groups").then(response => setGroups(response));
+            Translate('en', lang, "Group Manager").then(response => setGroupManagerMsg(response));
             Translate('en', lang, "Language Learning Activities").then(response => setLanguageLearningActivitiesMsg(response));
             Translate('en', lang, "Logout").then(response => setLogoutMsg(response));
 
@@ -115,11 +115,10 @@ export default function DashboardAdmin() {
                     <Button variant="primary" type="submit" id="manageSchools" style={{minWidth:"150px"}}>{manageSchools}</Button>  
                     <Button variant="primary" type="submit" id="manageUsers" style={{minWidth:"150px"}}>{manageUsers}</Button>  
                     <Button variant="primary" type="submit" id="searchUsers" style={{minWidth:"150px"}}>{searchUsers}</Button>  
-                    <Button variant="primary" type="submit" id="groups" style={{minWidth:"150px"}}>{groups}</Button>  
+                    <Button href="/groupmanager" variant="primary" type="submit" id="groups" style={{minWidth:"150px"}}>{group_manager}</Button>  
                     <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{minWidth:"150px"}}>{activities}</Button>
                     <Button variant="danger" type="submit" id="logout" onClick={clearSession} style={{minWidth:"150px"}}>{logout_msg}</Button>
                 </Card>
-                
             </Card>
         </div>
     );
