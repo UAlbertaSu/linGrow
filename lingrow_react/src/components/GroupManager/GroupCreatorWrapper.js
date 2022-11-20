@@ -1,6 +1,6 @@
 import React from 'react';
 
-import GroupManager from './GroupManager';
+import GroupCreator from './GroupCreator';
 import Dashboard from '../Dashboard/DashboardParent';
 
 // Navigate users to the group manager component, if the user type is valid (2 = teacher, 3 = researcher, 4 = admin)
@@ -11,6 +11,6 @@ export default function GroupManagerWrapper() {
         return (<div><Dashboard /></div>);
     }
     else {
-        return (<div><GroupManager userType={userType} /></div>);
+        return (<div><GroupCreator userType={userType} /></div>);
     }
 }

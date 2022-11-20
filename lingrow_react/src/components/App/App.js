@@ -7,6 +7,8 @@ import Signup from '../Signup/Signup';
 import Welcome from '../Welcome/Welcome';
 import Activities from '../Activities/Activities';
 import GroupManagerWrapper from '../GroupManager/GroupManagerWrapper';
+import GroupCreatorWrapper from '../GroupManager/GroupCreatorWrapper';
+import GroupDetail from '../GroupManager/GroupDetail';
 
 function App() {
   if (localStorage.getItem('lang') === null) {
@@ -21,6 +23,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard/ >}></Route>
           <Route path="/welcome" element={<Welcome/ >}></Route>
           <Route path="/groupmanager" element={<GroupManagerWrapper/ >}></Route>
+          <Route path="/groupcreator" element={<GroupCreatorWrapper/ >}></Route>
+          <Route path="/groupdetail" element={<GroupDetail/ >}></Route>
           <Route path="/login" element={<Login/ >}></Route>
           <Route path="/signup" element={<Signup/ >}></Route>
           <Route path="/activities" element={<Activities/ >}></Route>

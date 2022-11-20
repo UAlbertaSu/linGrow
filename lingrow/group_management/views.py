@@ -9,7 +9,7 @@ from .renderers import GroupRenderer
 from account.permissions import IsTeacher, IsResearcher
 from account.models import Teacher
 from django.db.models import Q
-from .serializers import ParentGroupSerializer, TeacherGroupSerializer, ResearcherGroupSerializer, ParentGroupEditSerializer, TeacherGroupEditSerializer
+from .serializers import ParentNameSerializer, TeacherNameSerializer, ResearcherNameSerializer, ParentGroupSerializer, TeacherGroupSerializer, ResearcherGroupSerializer, ParentGroupEditSerializer, TeacherGroupEditSerializer
 from itertools import chain
 
 
@@ -24,7 +24,7 @@ class ParentGroupView(APIView):
             teacher = Teacher.objects.get(user=user)
             if id:
                 if ParentGroup.objects.filter(Q(pk=id) & (Q(owner=user) | Q(classroom__in=teacher.classrooms.all(),owner__isnull=True))).exists():
-                    return Response(ParentGroupSerializer(ParentGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
+                    return Response(ParentNameSerializer(ParentGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
                 return Response({"message": "Group does not exist"}, status=status.HTTP_404_NOT_FOUND)
             if teacher.school and teacher.classrooms:
                 groups = chain(ParentGroup.objects.filter(Q(owner=user) | Q(classroom__in=teacher.classrooms.all(),owner__isnull=True,school=teacher.school)), ParentGroup.objects.filter(Q(classroom__isnull=True,owner__isnull=True,school=teacher.school)))
@@ -36,14 +36,14 @@ class ParentGroupView(APIView):
         elif user.is_researcher():
             if id:
                 if ParentGroup.objects.filter(pk=id,owner=user).exists():
-                    return Response(ParentGroupSerializer(ParentGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
+                    return Response(ParentNameSerializer(ParentGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
                 return Response({"message": "Group does not exist"}, status=status.HTTP_404_NOT_FOUND)
             groups = ParentGroup.objects.filter(owner=user)
 
         elif user.is_admin():
             if id:
                 if ParentGroup.objects.filter(pk=id).exists():
-                    return Response(ParentGroupSerializer(ParentGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
+                    return Response(ParentNameSerializer(ParentGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
                 return Response({"message": "Group does not exist"}, status=status.HTTP_404_NOT_FOUND)
             groups = ParentGroup.objects.all()
 
@@ -117,14 +117,14 @@ class TeacherGroupView(APIView):
         if user.is_researcher():
             if id:
                 if TeacherGroup.objects.filter(pk=id,owner=user).exists():
-                    return Response(TeacherGroupSerializer(TeacherGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
+                    return Response(TeacherNameSerializer(TeacherGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
                 return Response({"message": "Group does not exist"}, status=status.HTTP_404_NOT_FOUND)
             groups = TeacherGroup.objects.filter(owner=user)
         
         elif user.is_admin():
             if id:
                 if TeacherGroup.objects.filter(pk=id).exists():
-                    return Response(TeacherGroupSerializer(TeacherGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
+                    return Response(TeacherNameSerializer(TeacherGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
                 return Response({"message": "Group does not exist"}, status=status.HTTP_404_NOT_FOUND)
             groups = TeacherGroup.objects.all()
 
@@ -197,7 +197,7 @@ class ResearcherGroupView(APIView):
     def get(self, request, id=None):
         if id:
             if ResearcherGroup.objects.filter(pk=id).exists():
-                return Response(ResearcherGroupSerializer(ResearcherGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
+                return Response(ResearcherNameSerializer(ResearcherGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
             return Response({"message": "Group does not exist"}, status=status.HTTP_404_NOT_FOUND)
         groups = ResearcherGroup.objects.all()
         return Response(ResearcherGroupSerializer(groups, many=True).data, status=status.HTTP_200_OK)
