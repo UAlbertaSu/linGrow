@@ -4,12 +4,38 @@ import { Button, Card } from 'react-bootstrap';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
+// TODO: should be imported instead
+export async function retrieveUserType(token) {
+    return fetch('http://127.0.0.1:8000/api/user/profile/', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(data => data.json()
+    ).then(data => {
+        if (data.hasOwnProperty('error')) {
+            throw Error("Failed to retrieve user due to invalid login credentials or database request error.");
+        }
+        else {
+            return data;
+        }
+    });
+}
+
+
 // Group manager component.
 export default function UserInfo(AccountType) {
 
 
     // TODO: implement hiding of elements based on account type
     AccountType = 'Teacher';
+
+    retrieveUserType(JSON.parse(sessionStorage.getItem('token'))).then(response => {
+        let user = response.user;
+        console.log(user);
+        sessionStorage.setItem('user_email', user.email);
+        sessionStorage.setItem('user_first_name', user.first_name);
+    });
 
     // headers
     const [account_type_header, setAccountTypeHeader] = useState("Account Type");
@@ -19,27 +45,13 @@ export default function UserInfo(AccountType) {
     const [classrooms_header, setClassroomsHeader] = useState("Classroom(s)");
     const [schools_header, setSchoolsHeader] = useState("School(s)");
 
-
-    // TODO: need to get data from backend
-    const DUMMY_DATA = [
-        {
-            "user": {
-                "id": 3,
-                "email": "parent@parent.com",
-                "first_name": "parent",
-                "middle_name": "",
-                "last_name": "parentson",
-                "user_type": 1
-            }
-        },
-    ]
-
+    
 
     // textfields
     // TODO: we need to implement password changing
-    const [username_email_input, setUsernameEmailInput] = useState(DUMMY_DATA[0].user.email);
+    const [username_email_input, setUsernameEmailInput] = useState(sessionStorage.getItem('user_email'));
     const [password_input, setPasswordInput] = useState("[Password]");
-    const [name_input, setNameInput] = useState(DUMMY_DATA[0].user.first_name + " " + DUMMY_DATA[0].user.last_name);
+    const [name_input, setNameInput] = useState(sessionStorage.getItem('user_first_name'));
     
     // Setter for initial page translation.
     const [translated, setTranslated] = useState(0);
