@@ -1,15 +1,21 @@
-:root {
-    --margin-vsmall: 5px 5px 5px 5px;
-    --margin-small: 10px 10px 10px 10px;
-    --margin-medium: 20px 20px 20px 20px;
-    --margin-large: 40px 40px 40px 40px;
-}
 
 h1 {
     font-size: 30px;
     font-weight: bold;
     margin: var(--margin-medium);
 }
+
+.signup{
+    position: relative;
+    padding:10px;
+    left:37%;
+    height:fit-content;
+    width: 26%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .form-select {
     margin: var(--margin-small);
     width: fit-content;
@@ -28,4 +34,9 @@ h1 {
     margin: var(--margin-small);
     color: rgb(4, 202, 4);
 }
-
+@media only screen and (max-width: 1200px) {
+    [class*="signup"]{
+        width: 70%;
+        left: 15%;
+    }
+}
