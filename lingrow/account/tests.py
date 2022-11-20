@@ -267,3 +267,32 @@ class AccountTests(APITestCase):
         self.assertNotEqual(response.json()['child']['parent'], parent_id)
         response = self.client.delete(self.admin_child_prefix+parent_id+self.admin_child_postfix+str(response.json()['child']['id'])+'/', HTTP_AUTHORIZATION='Bearer ' + token)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class ChatTests(APITestCase):
+    user_data = {
+                    "email": "testnew@parent.com",
+                    "first_name": "First",
+                    "middle_name": "Middle",
+                    "last_name": "Last",
+                    "user_type": 1,
+                    "password": "Testpassword@123",
+                    "password2": "Testpassword@123"
+                }
+    admin_data = {
+                    "email": "testnew@admin.com",
+                    "first_name": "First",
+                    "middle_name": "Middle",
+                    "last_name": "Last",
+                    "user_type": 4,
+                    "password": "Testpassword@123",
+                    "password2": "Testpassword@123"
+    }
+    login_url = '/api/user/login/'
+    chat_url = '/api/user/profile/'
+    new_chat_url = '/api/user/new_chat/'
+    create_chat_url = '/api/user/create_chat/'
+    group_chat_url = '/api/user/group_chat/'
+    child_parent = '/api/user/child/'
+    admin_child_prefix = '/api/user/parent/'
+    admin_child_postfix = '/child/'
