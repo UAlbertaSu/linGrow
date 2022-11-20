@@ -22,20 +22,20 @@ class ChatTests(APITestCase):
                     "password2": "Testpassword@123"
     }
     login_url = '/api/user/login/'
-    chat_url = '/api/user/profile/'
+    private_chat_url = '/api/chat/private_chat/'
+    create_chat_url='/api/chat/create_chat/'
+    message_send_url='/api/chat/send_message/'
+    chat_list_url = '/api/user/profile/'
     new_chat_url = '/api/user/new_chat/'
     create_chat_url = '/api/user/create_chat/'
     group_chat_url = '/api/user/group_chat/'
-    child_parent = '/api/user/child/'
-    admin_child_prefix = '/api/user/parent/'
-    admin_child_postfix = '/child/'
 
 
     def test_direct_chat(self):
         '''
             Test sending a message to a user
         '''
-        response = self.client.post(self.register_url, self.user_data, format='json')
+        response = self.client.post(self.chat_url, self.user_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         data = {
             "email": self.user_data['email'],
