@@ -12,7 +12,9 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .enums import UserType
 from drf_yasg.utils import swagger_auto_schema
-from .permissions import IsParent
+from .permissions import IsParent, IsTeacher, IsResearcher
+from group_management.models import ParentGroup, TeacherGroup
+from .utils import Util
 
 
 class UserRegistrationView(APIView):
@@ -94,6 +96,10 @@ class UserProfileView(APIView):
         '''
         user = request.user
         user_serializer = UserProfileSerializer(request.user, data=request.data, partial=True)
+        if user.is_teacher():
+            teacher = Teacher.objects.get(user=user)
+            og_school = teacher.school
+            og_classrooms = set(teacher.classrooms.all())
         if user_serializer.is_valid(raise_exception=True):
             user_serializer.save()
         if user.user_type == UserType.PARENT.value:
@@ -111,7 +117,29 @@ class UserProfileView(APIView):
         else:
             serializer = UserProfileSerializer(request.user, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            new_user = serializer.save()
+            if user.is_teacher():
+                new_teacher = Teacher.objects.get(user=new_user)
+                if new_teacher.school != og_school:
+                    all_groups = TeacherGroup.objects.filter(school=og_school)
+                    for group in all_groups:
+                        if teacher in group.teacher.all():
+                            group.teacher.remove(teacher)
+                            group.save()
+                new_classrooms = set(new_teacher.classrooms.all())
+                if new_classrooms != og_classrooms:
+                    delete_classrooms = og_classrooms - new_classrooms
+                    add_classrooms = new_classrooms - og_classrooms
+                    for classroom in delete_classrooms:
+                        all_groups = TeacherGroup.objects.filter(school=new_teacher.school,classroom=classroom)
+                        for group in all_groups:
+                            if teacher in group.teacher.all():
+                                group.teacher.remove(teacher)
+                                group.save()
+                    for classroom in add_classrooms:
+                        teacher_group = TeacherGroup.objects.get(classroom=classroom,school=new_teacher.school, owner__isnull=True)
+                        teacher_group.teacher.add(new_teacher)
+                        teacher_group.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -190,6 +218,10 @@ class AdminUserIDListView(APIView):
             return Response({'error':'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
         user = User.objects.get(id=id)
         user_serializer = UserProfileSerializer(user, data=request.data, partial=True)
+        if user.is_teacher():
+            teacher = Teacher.objects.get(user=user)
+            og_school = teacher.school
+            og_classrooms = set(teacher.classrooms.all())
         if user_serializer.is_valid(raise_exception=True):
             user_serializer.save()
         if user.user_type == UserType.PARENT.value:
@@ -204,7 +236,29 @@ class AdminUserIDListView(APIView):
         else:
             serializer = UserProfileSerializer(user, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            new_user = serializer.save()
+            if user.is_teacher():
+                new_teacher = Teacher.objects.get(user=new_user)
+                if new_teacher.school != og_school:
+                    all_groups = TeacherGroup.objects.filter(school=og_school)
+                    for group in all_groups:
+                        if teacher in group.teacher.all():
+                            group.teacher.remove(teacher)
+                            group.save()
+                new_classrooms = set(new_teacher.classrooms.all())
+                if new_classrooms != og_classrooms:
+                    delete_classrooms = og_classrooms - new_classrooms
+                    add_classrooms = new_classrooms - og_classrooms
+                    for classroom in delete_classrooms:
+                        all_groups = TeacherGroup.objects.filter(school=new_teacher.school,classroom=classroom)
+                        for group in all_groups:
+                            if teacher in group.teacher.all():
+                                group.teacher.remove(teacher)
+                                group.save()
+                    for classroom in add_classrooms:
+                        teacher_group = TeacherGroup.objects.get(classroom=classroom,school=new_teacher.school, owner__isnull=True)
+                        teacher_group.teacher.add(new_teacher)
+                        teacher_group.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -246,6 +300,109 @@ class AdminUserListView(APIView):
                 return Response({'error':'Invalid Argument'}, status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
+class AdminAddUsersView(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def post(self, request):
+        if not request.user.is_admin():
+            return Response({'error':'You are not an admin'}, status=status.HTTP_400_BAD_REQUEST)
+        users_to_create = request.data.get('users')
+        if users_to_create is None:
+            return Response({'error':'No users to create'}, status=status.HTTP_400_BAD_REQUEST)
+        created_users = []
+        failed_users = []
+        failed_children = []
+        for user in users_to_create:
+            password = Util.generate_password()
+            user['password'], user['password2'] = password, password
+            user_serializer = UserRegistrationSerializer(data=user)
+            if user_serializer.is_valid():
+                user = user_serializer.save()
+                user_data = user_serializer.data
+                user_data['password'] = password
+                created_users.append(user_data)
+                children = user.get('children')
+                if children is None:
+                    continue
+                if len(children) > 0 and not user.is_parent():
+                    failed_children.append({'user': user_data.get('id'),"children":children, 'error':'User is not a parent'})
+                elif len(children) > 0 and user.is_parent():
+                    parent = Parent.objects.get(user=user)
+                    for child in children:
+                        child['parent'] = parent.id
+                        child_serializer = ChildSerializer(data=child)
+                        if child_serializer.is_valid():
+                            child_serializer.save()
+                        else:
+                            child['error'] = child_serializer.errors
+                            failed_children.append({'user': user_data.get('id'),"child":child})
+            else:
+                user.pop('password'), user.pop('password2')
+                user['error'] = user_serializer.errors
+                failed_users.append(user)
+        msg = 'Users created successfully!'
+        if len(failed_users) > 0 and len(failed_children) > 0:
+            msg = 'Some users and children were not created successfully!'
+        elif len(failed_users) > 0:
+            msg = 'Some users were not created successfully!'
+        elif len(failed_children) > 0:
+            msg = 'Some children were not created successfully!'
+        return Response({'msg':msg, 'not_created_users': failed_users ,'created_users': created_users}, status=status.HTTP_200_OK)
+
+class GetUserView(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated,IsParent|IsTeacher|IsResearcher]
+
+    def get(self, request, id=None):
+        if not id:
+            return Response({'error':'Please provide an id'}, status=status.HTTP_400_BAD_REQUEST)
+        if not User.objects.filter(id=id).exists():
+            return Response({'error':'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        user = request.user
+        if user.is_teacher():
+            teacher = Teacher.objects.get(user=user)
+            if not teacher.school:
+                return Response({'error':'Teacher does not have a school'}, status=status.HTTP_400_BAD_REQUEST)
+            queried_user = User.objects.get(id=id)
+            if queried_user.is_teacher():
+                queried_teacher = Teacher.objects.get(user=queried_user)
+                if queried_teacher.school != teacher.school:
+                    return Response({'error':'Teacher does not belong to your school'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(TeacherProfileSerializer(queried_teacher).data, status=status.HTTP_200_OK)
+            elif queried_user.is_parent():
+                queried_parent = Parent.objects.get(user=queried_user)
+                if Child.objects.filter(parent=queried_parent, school=teacher.school).count() == 0:
+                    return Response({'error':'Parent does not belong to your school'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(ParentProfileSerializer(queried_parent).data, status=status.HTTP_200_OK)
+            else:
+                return Response({'error':'Queried user is not a teacher or parent'}, status=status.HTTP_400_BAD_REQUEST)    
+        elif user.is_researcher():
+            queried_user = User.objects.get(id=id)
+            if queried_user.is_parent():
+                queried_parent = Parent.objects.get(user=queried_user)
+                return Response(ParentProfileSerializer(queried_parent).data, status=status.HTTP_200_OK)
+            elif queried_user.is_teacher():
+                queried_teacher = Teacher.objects.get(user=queried_user)
+                return Response(TeacherProfileSerializer(queried_teacher).data, status=status.HTTP_200_OK)
+            else:
+                return Response({'error':'Queried user is not a teacher or parent'}, status=status.HTTP_400_BAD_REQUEST)
+        elif user.is_parent():
+            queried_user = User.objects.get(id=id)
+            if queried_user.is_teacher():
+                queried_teacher = Teacher.objects.get(user=queried_user)
+                if not queried_teacher.school:
+                    return Response({'error':'Teacher does not have a school'}, status=status.HTTP_400_BAD_REQUEST)
+                school = queried_teacher.school
+                parent = Parent.objects.get(user=user)
+                if Child.objects.filter(parent=parent, school=school).count() == 0:
+                    return Response({'error':'Teacher does not belong to your school'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(TeacherProfileSerializer(queried_teacher).data, status=status.HTTP_200_OK)
+            else:
+                return Response({'error':'Queried user is not a teacher'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
 class ChildView(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated, IsParent]
@@ -260,7 +417,7 @@ class ChildView(APIView):
         request.data['parent'] = parent
         serializer = ChildSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            child = serializer.save()
             return Response({'msg':'Child Added Successfully', 'child': serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -283,11 +440,25 @@ class ChildView(APIView):
         user = request.user
         parent = Parent.objects.get(user=user)
         child = Child.objects.get(id=id)
+        og_school = child.school
+        og_classroom = child.classroom
         if child.parent != parent:
             return Response({'error':'Child does not belong to the parent'}, status=status.HTTP_400_BAD_REQUEST)
         serializer = ChildEditSerializerParent(child, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            new_child = serializer.save()
+            if og_school != new_child.school:
+                parent_groups = ParentGroup.objects.filter(school=og_school)
+                for group in parent_groups:
+                    if parent in group.parent.all():
+                        group.parent.remove(parent)
+                        group.save()
+            if og_classroom != new_child.classroom:
+                parent_groups = ParentGroup.objects.filter(school=og_school,classroom=og_classroom)
+                for group in parent_groups:
+                    if parent in group.parent.all():
+                        group.parent.remove(parent)
+                        group.save()
             return Response({'msg':'Child Updated Successfully', 'child': serializer.data}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -343,9 +514,25 @@ class ChildAdminView(APIView):
         child = Child.objects.get(pk=cid)
         if child.parent != parent:
             return Response({'error':'Child does not belong to the parent'}, status=status.HTTP_400_BAD_REQUEST)
+        og_school = child.school
+        og_classroom = child.classroom
+        og_parent = child.parent
         serializer = ChildSerializer(child, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            new_child = serializer.save()
+            parent_to_remove = og_parent
+            if og_school != new_child.school or og_parent != new_child.parent:
+                parent_groups = ParentGroup.objects.filter(school=og_school)
+                for group in parent_groups:
+                    if parent_to_remove in group.parent.all():
+                        group.parent.remove(parent_to_remove)
+                        group.save()
+            if og_classroom != new_child.classroom or og_parent != new_child.parent:
+                parent_groups = ParentGroup.objects.filter(school=og_school,classroom=og_classroom)
+                for group in parent_groups:
+                    if parent_to_remove in group.parent.all():
+                        group.parent.remove(parent_to_remove)
+                        group.save()
             return Response({'msg':'Child Updated Successfully', 'child': serializer.data}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -377,7 +564,6 @@ class ChildAdminView(APIView):
         request.data['parent'] = pid
         serializer = ChildSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            child = serializer.save()
             return Response({'msg':'Child Added Successfully', 'child': serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        

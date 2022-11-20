@@ -40,20 +40,16 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user_type = data['user_type']
         if password != password2:
             raise serializers.ValidationError({'password': 'Passwords must match.'})
+        if user_type == UserType.TEACHER.value:
+            school = data.get('school')
+            classrooms = data.get('classrooms')
+            if not school and classrooms:
+                raise serializers.ValidationError({'school': 'School is required for adding classrooms.'})
+            if classrooms:
+                for classroom in classrooms:
+                    if classroom.school != school:
+                        raise serializers.ValidationError({'classrooms': 'Classrooms must belong to the same school.'})
         validate_password(password)
-        valid_user_types = [user_type[0] for user_type in User.USER_TYPE_CHOICES]
-        if user_type not in valid_user_types:
-            raise serializers.ValidationError({'user_type': 'User type is not valid.'})
-        if data.get('school'):
-            if not School.objects.filter(id=data.get('school')).exists():
-                raise serializers.ValidationError({'school': 'School does not exist.'})
-        if data.get('classroom'):
-            if not Classroom.objects.filter(id=data.get('classroom')).exists():
-                raise serializers.ValidationError({'classroom': 'Classroom does not exist.'})
-        if data.get('classrooms'):
-            for classroom in data.get('classrooms'):
-                if not Classroom.objects.filter(id=classroom).exists():
-                    raise serializers.ValidationError({'classroom': 'Classroom does not exist.'})
         return data
 
     def create(self, validated_data):
@@ -66,7 +62,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         try:
             user = User.objects.create_user(**validated_data)
         except ValidationError as e:
-            print('here')
             raise serializers.ValidationError(e)
     
         if user_type == UserType.PARENT.value:
@@ -82,7 +77,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             if validated_data.get('classroom'):
                 teacher.classrooms.add(validated_data.get('classroom'))
             try:
-                teacher.full_clean()
                 teacher.save()
             except Exception as e:
                 delete_user = True
@@ -90,7 +84,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         elif user_type == UserType.RESEARCHER.value:
             researcher = Researcher(user=user, researcher_id=validated_data.get('researcher_id'))
             try:
-                researcher.full_clean()
                 researcher.save()
             except Exception as e:
                 delete_user = True
@@ -126,7 +119,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id','email', 'first_name','middle_name','last_name','user_type']
-        read_only_fields = ['id','user_type']
+        read_only_fields = ['user_type']
 
 class ParentProfileSerializer(serializers.ModelSerializer):
     '''
@@ -145,6 +138,19 @@ class TeacherProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
         fields = '__all__'
+
+    def validate(self, data):
+        instance = self.instance
+        school = data.get('school', instance.school)
+        old_classrooms = instance.classrooms.all()
+        new_classrooms = data.get('classrooms', old_classrooms)
+        if not school and new_classrooms:
+            raise serializers.ValidationError({'school': 'School is required for adding classrooms.'})
+        if new_classrooms:
+            for classroom in new_classrooms:
+                if classroom.school != school:
+                    raise serializers.ValidationError({'classrooms': 'Classroom must be in the same school as teacher.'})
+        return data
 
 class ResearcherProfileSerializer(serializers.ModelSerializer):
     '''
@@ -267,4 +273,4 @@ class ChildEditSerializerParent(serializers.ModelSerializer):
     class Meta:
         model = Child
         fields = '__all__'
-        read_only_fields = ['parent','id']
+        read_only_fields = ['parent']

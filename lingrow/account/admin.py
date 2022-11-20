@@ -1,5 +1,5 @@
 from django.contrib import admin
-from account.models import User, Admin, Teacher, Parent, Researcher
+from account.models import User, Admin, Teacher, Parent, Researcher, Child
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 class UserModelAdmin(BaseUserAdmin):
@@ -31,3 +31,4 @@ admin.site.register(Admin)
 admin.site.register(Teacher)
 admin.site.register(Parent)
 admin.site.register(Researcher)
+admin.site.register(Child)
