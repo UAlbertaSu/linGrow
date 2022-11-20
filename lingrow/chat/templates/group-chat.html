@@ -4,20 +4,11 @@
 {% block title %}Chat gruppo {{ group_chat.group.name }} {% endblock title %}
 {% block activity_title %}
     {{ group_chat.group.name }}
-    <!-- <p id="teal-user-list">
-        {% for partecipant in partecipants %}
-            {{ partecipant.username }}
+    <p id="teal-user-list">
+        {% for participant in participants %}
+            {{ participant.user.email }}
         {% endfor %}
-    </p> -->
-    <!-- <form action="/add_partecipants/" method="post"
-          style="display: inline-block; float:right; position: relative; top:15px">
-        <input type="hidden" value="{{ group_chat.id_chat }}" name="id_chat" id="id_chat">
-
-        <button class="btn btn-primary button-contacts" id="btn-teal" type="submit">
-            Add participant
-        </button>
-        {% csrf_token %}
-    </form> -->
+    </p>
 {% endblock activity_title %}
 
 {% block single_page_head %}
@@ -42,7 +33,6 @@
 
             function updateChat() {
                 var id_chat = $('#id_chat').val();
-
                 $.ajaxSetup({
                     beforeSend: function (xhr, settings) {
                         function getCookie(name) {
@@ -159,7 +149,7 @@
 
     <form id="send-message-form" method="post" action="/send_message/">
         {% csrf_token %}
-        <input type="hidden" name="id_chat" value="{{ group_chat.id_chat }}">
+        <input type="hidden" name="id_chat" value="{{ id_chat }}" id="id_chat">
         <div id="input-bar" style="display: inline-flex;">
             <div style="flex-grow: 100">
                 <input type="text"

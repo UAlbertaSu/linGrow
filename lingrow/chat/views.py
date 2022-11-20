@@ -3,8 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from chat import utility_functions as chat_utility_functions
-from django.contrib.auth.models import User
-from chat.models import Chat, PrivateChat, Message
+from account.models import User
+from chat.models import Chat, PrivateChat, Message, TeacherGroupChat, ParentGroupChat, ResearcherGroupChat
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import JsonResponse
 import json
@@ -37,42 +37,16 @@ def new_group_chat(request):
     addable = chat_utility_functions.get_addable_users_private_chat(request)
     return render(request, 'new-group-chat.html', {'users': addable, 'len_addable': len(addable)})
 
-
 # Generates a private chat between the current user and another given participant, redirects us directly to the chat page.
 @login_required
 def create_chat(request):
     other_username = request.POST.get("other_username")
-    other_user = User.objects.get(username=other_username)
+    other_user = User.objects.get(email=other_username)
     private_chat = PrivateChat()
     new_chat = PrivateChat.add_this(private_chat, request.user, other_user)
     messages = Message.objects.all().filter(chat=new_chat)
     return render(request, 'chat.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages})
 
-
-# Generates a group chat with the current user and a given list of participants taken as input
-def create_group(request):
-    user_list = request.POST.getlist('participants')
-    channel_name = request.POST.get("chat_name_input")
-    # if I haven't set a name for the channel, I put one by default
-    if len(channel_name) == 0:
-        channel_name = "Default name"
-    # I create the group
-    group_channel = GroupChannel()
-    new_chat = GroupChannel.add_this(group_channel, channel_name)
-    # I create tuples in join to remember the group participants
-    create_partecipa(request, new_chat, user_list)
-    return group_chat(request, new_chat)  # redirect to group chat page
-
-
-# Create tuples (chat - user) in join, for the current user and for a given list of users
-@login_required
-def create_partecipa(request, chat, participants_list):
-    # add the current user
-    Partecipate.add_this(Partecipate(), chat, request.user)
-    # adds all the users present in the list of participants
-    for user in participants_list:
-        Partecipate.add_this(Partecipate(), chat, (User.objects.all().get(username=user)))
-    return
 
 #takes us back to the private chat page after retrieving the messages
 @login_required
@@ -86,20 +60,26 @@ def private_chat(request):
         participant = chat.participant1
     return render(request, 'chat.html', {'user2': participant, 'id_chat': chat_id, 'messages': messages})
 
-
 # find a group chat given the id and call the function to generate its page
 @login_required
 def goto_groupchat_from_id(request):
     chat_id = request.POST.get("id_chat")
-    chat = GroupChannel.objects.get(id_chat=chat_id)
+    if TeacherGroupChat.objects.filter(id_chat=chat_id).exists():
+        chat = TeacherGroupChat.objects.get(id_chat=chat_id)
+    elif ParentGroupChat.objects.filter(id_chat=chat_id).exists():
+        chat = ParentGroupChat.objects.get(id_chat=chat_id)
+    elif ResearcherGroupChat.objects.filter(id_chat=chat_id).exists():
+        chat = ResearcherGroupChat.objects.get(id_chat=chat_id)
+    else:
+        chat = None
     return group_chat(request, chat)
 
 # taking a group chat, retrieves messages and participants and redirects us to his page
 @login_required
 def group_chat(request, chat):
     messages = Message.objects.all().filter(chat=chat)
-    partecipants = chat_utility_functions.get_group_chat_partecipants(request, chat.id_chat)
-    return render(request, 'group-chat.html', {'group_chat': chat, 'messages': messages, 'partecipants': partecipants})
+    participants = chat_utility_functions.get_group_chat_partecipants(request, chat.id_chat)
+    return render(request, 'group-chat.html', {'group_chat': chat, 'messages': messages, 'participants': participants,'id_chat': chat.id_chat})
 
 # sends a message given its input fields. It works for both private and group chat as it is the message
 # that remembers the chat it belongs to.
@@ -119,23 +99,6 @@ def get_message_by_id(id):
     return Message.objects.all().get(id=id)
 
 
-# generates the list of participants that we can add to a given group
-@login_required
-def add_partecipants(request):
-    chat_id = request.POST.get("id_chat")
-    group = GroupChannel.objects.get(id_chat=chat_id)
-    partecipanti = chat_utility_functions.get_addable_user_group_chat(request, chat_id)
-    return render(request, 'add_users_group_chat.html', {'users': partecipanti, 'len_addable': len(partecipanti),
-                                                         'group': group})
-
-# physically add users by creating the tuples in participate
-def add_users_to_group(request):
-    user_list = request.POST.getlist('participants')
-    group_id = request.POST.get("group_id")
-    group = GroupChannel.objects.get(id_chat=group_id)
-    create_partecipa(request, group, user_list)
-    return group_chat(request, group)  # redirect alla chat di gruppo
-
 #returns the messages of a chat (single or private), in json, it is used for ajax refresh
 def get_json_chat_messages(request):
     id_chat = request.POST.get("id_chat")
@@ -143,7 +106,7 @@ def get_json_chat_messages(request):
     messaggi_query = Message.objects.all().filter(chat=chat)
     messaggi_json_array = []
     for messaggio in messaggi_query:
-        msg = {'username': messaggio.sender.username, 'text': messaggio.text,
+        msg = {'username': messaggio.sender.email, 'text': messaggio.text,
                'timestamp': messaggio.timestamp.strftime('%Y-%m-%d %H:%M')}
         messaggi_json_array.append(msg)
     return JsonResponse(messaggi_json_array, safe=False)

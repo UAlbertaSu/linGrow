@@ -1,6 +1,6 @@
 {% extends 'base_logged.html' %}
 
-{% block title %}CheChat - New Chat{% endblock title %}
+{% block title %}Lingrow - New Chat{% endblock title %}
 {% block activity_title %}New private chat{% endblock activity_title %}
 {% block current_page_menu %}menu-newchat{% endblock current_page_menu %}
 
@@ -15,8 +15,8 @@
                 <div class="img" style="background:url(https://profile.actionsprout.com/default.jpeg)"></div>
                 <div class="item-container container-contacts">
                     <h4 class="h4-contacts">
-                        <b>{{ user.username }}</b>
-                        <input type="hidden" name="other_username" value="{{ user.username }}">
+                        <b>{{ user.email }}</b>
+                        <input type="hidden" name="other_username" value="{{ user.email }}">
                         {% csrf_token %}
                     </h4>
                     <button class="btn btn-primary button-contacts" type="submit">Chat</button>

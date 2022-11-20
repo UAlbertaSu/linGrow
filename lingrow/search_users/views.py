@@ -12,6 +12,9 @@ class ParentSearchView(APIView):
     permission_classes = [IsAuthenticated,IsTeacher|IsResearcher|IsAdminUser]
 
     def get(self, request, search = None):
+        '''
+        Returns a list of parents that match the search criteria
+        '''
         user = request.user
         parents = None
         if user.is_teacher():
@@ -54,6 +57,9 @@ class TeacherSearchView(APIView):
     permission_classes = [IsAuthenticated,IsResearcher|IsAdminUser]
 
     def get(self, request, search = None):
+        '''
+        Returns a list of teachers that match the search criteria
+        '''
         user = request.user
         if user.is_reacher() or user.is_admin():
             teachers = Teacher.objects.all()
@@ -83,6 +89,9 @@ class ResearcherSearchView(APIView):
     permission_classes = [IsAuthenticated,IsAdminUser]
 
     def get(self,request, search=None):
+        '''
+        Returns a list of researchers that match the search criteria
+        '''
         user = request.user
         if user.is_admin():
             researchers = Researcher.objects.all()
@@ -104,6 +113,9 @@ class UserSearchView(APIView):
     permission_classes = [IsAuthenticated,IsAdminUser]
 
     def get(self,request,search=None):
+        '''
+        Returns a list of users that match the search criteria
+        '''
         user = request.user
         if user.is_admin():
             users = User.objects.all()

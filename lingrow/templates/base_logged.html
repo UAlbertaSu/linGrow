@@ -1,19 +1,15 @@
 {% extends 'base.html' %}
 <!--set navigation-->
  {% block navigation %}
-     <!--account section-->
+     <!-- account section
      <h2 style="margin-top:10px">Account:</h2>
-     <div href="#" class="w3-bar-item w3-button current-user"><i class="user-avatar-img menu-icon"></i><div class="text">{{ user.username }}</div></div>
+     <div href="#" class="w3-bar-item w3-button current-user"><i class="user-avatar-img menu-icon"></i><div class="text">{{ user.username }}</div></div> -->
 
      <!--chat section-->
      <h2>Chat:</h2>
-     <!-- <a href="#" id="menu-privatechats" class="w3-bar-item w3-button color-gradient" onclick="window.location.href='{% url 'profile' %}'; w3_close()"><i class="fa fa-location-arrow menu-icon" ></i><div class="text">Direct chats</div></a> -->
+     <a href="#" id="menu-privatechats" class="w3-bar-item w3-button color-gradient" onclick="window.location.href='{% url 'profile' %}'; w3_close()"><i class="fa fa-location-arrow menu-icon" ></i><div class="text">Direct chats</div></a>
      <a href="#" id="menu-groupchats" class="w3-bar-item w3-button color-gradient" onclick="window.location.href='{% url 'group_chat' %}'; w3_close()"><i class="fa fa-comments menu-icon" ></i><div class="text">Group chats</div></a>
      <a href="#" id="menu-newchat" class="w3-bar-item w3-button color-gradient" onclick="window.location.href='{% url 'new_chat' %}'; w3_close()"><i class="fa fa-plus  menu-icon"></i><div class="text">New chat</div></a>
-     <a href="#" id="menu-newgroup" class="w3-bar-item w3-button color-gradient" onclick="window.location.href='{% url 'new_group_chat' %}'; w3_close()"><i class="fa fa-plus  menu-icon"></i><div class="text">New group</div></a>
-
-     <!--contact section-->
-     <h2>Contacts:</h2>
      
 
  {% endblock navigation %}

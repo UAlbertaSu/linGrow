@@ -5,9 +5,7 @@ from json import JSONEncoder
 from django.db.models import Max
 from account.models import User
 from group_management.models import TeacherGroup, ParentGroup, ResearcherGroup
-
-# Create your models here.
-# AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
+from django.utils import timezone
 
 # Chat, contains id and id_last message
 class Chat(models.Model):
@@ -29,7 +27,6 @@ class PrivateChat(Chat):
     unique_together = (('participant1', 'participant2'),)
 
     #add a private chat
-
     def add_this(self, user1, user2):
         #check if it exists, if it doesn't exist, create it
         if not self.check_if_exist(user1, user2):
@@ -54,49 +51,32 @@ class PrivateChat(Chat):
         else:
             return True
 
+# teacher group chat
 class TeacherGroupChat(Chat):
     group = models.ForeignKey(TeacherGroup, on_delete=models.CASCADE, related_name='group')
 
+    def add_this(self):
+        self.id_chat = self.counter()
+        self.save()
+        return self
+
+# parent group chat
 class ParentGroupChat(Chat):
     group = models.ForeignKey(ParentGroup, on_delete=models.CASCADE, related_name='group')
+    
+    def add_this(self):
+        self.id_chat = self.counter()
+        self.save()
+        return self
 
+# researcher group chat
 class ResearcherGroupChat(Chat):
     group = models.ForeignKey(ResearcherGroup, on_delete=models.CASCADE, related_name='group')
 
-
-# # Group chat, just remember the group name
-# class GroupChannel(Chat):
-#     channel_name = models.CharField('channel_name', max_length=255, default=-1)
-
-#     def add_this(self, channel_name):
-#         self.id_chat = self.counter()
-#         self.channel_name = channel_name
-#         self.save()
-#         return self
-
-
-
-# # Participate, remember the participants of each group using a pair (group, user)
-# class Partecipate(models.Model):
-#     group_channel = models.ForeignKey(GroupChannel, on_delete=models.CASCADE, related_name='group_channel')
-#     participant = models.ForeignKey(User, on_delete=models.CASCADE, related_name='participant')
-#     unique_together = (('group_channel', 'participant'),)
-
-#     #adds a tuple in join given group and user, if the join does not exist
-#     def add_this(self, group_channel, user):
-#         # if I don't have the participation
-#         if not self.check_if_exist(group_channel, user):
-#             self.group_channel = group_channel
-#             self.participant = user
-#             self.save()
-#         return
-
-#     #check if there is participation
-#     def check_if_exist(self, group_channel, user):
-#         if Partecipate.objects.filter(group_channel=group_channel, participant=user).count() == 0:
-#             return False
-#         else:
-#             return True
+    def add_this(self):
+        self.id_chat = self.counter()
+        self.save()
+        return self
 
 #Message, remember id, sender, timestamp, text, chat where it belongs
 class Message(models.Model):
