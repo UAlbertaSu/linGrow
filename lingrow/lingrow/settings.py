@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django_password_validators.password_history',
     'group_management',
     'admin_school_management',
+    'search_users',
     'chat',
     'account',
     'translate'

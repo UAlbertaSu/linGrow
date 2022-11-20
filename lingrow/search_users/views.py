@@ -61,7 +61,7 @@ class TeacherSearchView(APIView):
         Returns a list of teachers that match the search criteria
         '''
         user = request.user
-        if user.is_reacher() or user.is_admin():
+        if user.is_researcher() or user.is_admin():
             teachers = Teacher.objects.all()
             if not search:
                 serializer = TeacherProfileSerializer(teachers, many=True)

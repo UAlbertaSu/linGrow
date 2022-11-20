@@ -19,7 +19,7 @@ export default function DashboardAdmin() {
     const [manageSchools, setManageSchools] = useState("Manage Schools");
     const [manageUsers, setManageUsers] = useState("Manage Users");
     const [searchUsers, setSearchUsers] = useState("Search Users");
-    const [groups, setGroups] = useState("Groups");
+    const [group_manager, setGroupManagerMsg] = useState("Group Manager");
     const [activities, setLanguageLearningActivitiesMsg] = useState("Language Learning Activities");
     const [logout_msg, setLogoutMsg] = useState("Logout");
 
@@ -51,7 +51,7 @@ export default function DashboardAdmin() {
             Translate('en', lang, "Manage Schools").then(response => setManageSchools(response));
             Translate('en', lang, "Manage Users").then(response => setManageUsers(response));
             Translate('en', lang, "Search Users").then(response => setSearchUsers(response));
-            Translate('en', lang, "Groups").then(response => setGroups(response));
+            Translate('en', lang, "Group Manager").then(response => setGroupManagerMsg(response));
             Translate('en', lang, "Language Learning Activities").then(response => setLanguageLearningActivitiesMsg(response));
             Translate('en', lang, "Logout").then(response => setLogoutMsg(response));
 
@@ -114,7 +114,7 @@ export default function DashboardAdmin() {
                 <Button variant="primary" type="submit" id="manageSchools">{manageSchools}</Button>  
                 <Button variant="primary" type="submit" id="manageUsers">{manageUsers}</Button>  
                 <Button variant="primary" type="submit" id="searchUsers">{searchUsers}</Button>  
-                <Button variant="primary" type="submit" id="groups">{groups}</Button>  
+                <Button href="/groupmanager" variant="primary" type="submit" id="groups">{group_manager}</Button>  
                 <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities}>{activities}</Button>
                 <Button variant="secondary" type="submit" id="logout" onClick={clearSession}>{logout_msg}</Button>
             </Card>
