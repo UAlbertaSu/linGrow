@@ -304,6 +304,7 @@ class AdminAddUsersView(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated, IsAdminUser]
 
+    @swagger_auto_schema(request_body=UserProfileSerializer,operation_description="Add Multiple Users",responses={200: UserProfileSerializer(many=True),400: "Bad Request"})
     def post(self, request):
         if not request.user.is_admin():
             return Response({'error':'You are not an admin'}, status=status.HTTP_400_BAD_REQUEST)
@@ -322,21 +323,21 @@ class AdminAddUsersView(APIView):
                 user_data = user_serializer.data
                 user_data['password'] = password
                 created_users.append(user_data)
-                children = user.get('children')
-                if children is None:
-                    continue
-                if len(children) > 0 and not user.is_parent():
-                    failed_children.append({'user': user_data.get('id'),"children":children, 'error':'User is not a parent'})
-                elif len(children) > 0 and user.is_parent():
-                    parent = Parent.objects.get(user=user)
-                    for child in children:
-                        child['parent'] = parent.id
-                        child_serializer = ChildSerializer(data=child)
-                        if child_serializer.is_valid():
-                            child_serializer.save()
-                        else:
-                            child['error'] = child_serializer.errors
-                            failed_children.append({'user': user_data.get('id'),"child":child})
+                # children = user.get('children')
+                # if children is None:
+                #     continue
+                # if len(children) > 0 and not user.is_parent():
+                #     failed_children.append({'user': user_data.get('id'),"children":children, 'error':'User is not a parent'})
+                # elif len(children) > 0 and user.is_parent():
+                #     parent = Parent.objects.get(user=user)
+                #     for child in children:
+                #         child['parent'] = parent.id
+                #         child_serializer = ChildSerializer(data=child)
+                #         if child_serializer.is_valid():
+                #             child_serializer.save()
+                #         else:
+                #             child['error'] = child_serializer.errors
+                #             failed_children.append({'user': user_data.get('id'),"child":child})
             else:
                 user.pop('password'), user.pop('password2')
                 user['error'] = user_serializer.errors
@@ -354,6 +355,7 @@ class GetUserView(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated,IsParent|IsTeacher|IsResearcher]
 
+    @swagger_auto_schema(operation_description="Get A User by ID",responses={200: UserProfileSerializer,400: "Bad Request"})
     def get(self, request, id=None):
         if not id:
             return Response({'error':'Please provide an id'}, status=status.HTTP_400_BAD_REQUEST)
