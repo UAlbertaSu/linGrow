@@ -37,7 +37,6 @@ class TeacherGroup(Group):
     class Meta:
         ordering = ['name']
         verbose_name_plural = "teacher groups"
-        app_label = 'teacher_group_management'
 
 class ParentGroup(Group):
     parent = models.ManyToManyField(Parent, related_name='parent_group')
@@ -59,7 +58,6 @@ class ParentGroup(Group):
     class Meta:
         ordering = ['name']
         verbose_name_plural = "parent groups"
-        app_label = 'parent_group_management'
 
 class ResearcherGroup(Group):
     researcher = models.ManyToManyField(Researcher, related_name='researcher_group')
@@ -75,4 +73,3 @@ class ResearcherGroup(Group):
     class Meta:
         ordering = ['name']
         verbose_name_plural = "researcher groups"
-        app_label = 'researcher_group_management'
