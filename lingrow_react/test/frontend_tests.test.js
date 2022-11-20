@@ -817,7 +817,7 @@ describe ('Group Management', async () => {
             value = await (await passbox.getProperty("value")).jsonValue();
             expect(value).to.equal('testgroupxx');
 
-            await page.waitForSelector('#user_list');//first user in the user list
+            await page.waitForSelector('#user1');//first user in the user list
             await page.click('#user_list');
 
             await page.waitForSelector('#submit'); //Create Group button
