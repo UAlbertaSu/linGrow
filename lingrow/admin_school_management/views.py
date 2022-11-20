@@ -7,7 +7,8 @@ from admin_school_management.models import Classroom, School
 from admin_school_management.serializers import SchoolRegistrationSerializer, \
      SchoolDetailSerializer, ClassroomRegistrationSerializer, ClassroomDetailSerializer
 from drf_yasg.utils import swagger_auto_schema
-from group_management.models import ParentGroup, TeacherGroup, ResearcherGroup
+from group_management.models import ParentGroup, TeacherGroup
+from chat.models import TeacherGroupChat, ParentGroupChat
 
 
 class SchoolRegistrationView(APIView):
@@ -27,7 +28,13 @@ class SchoolRegistrationView(APIView):
             school = serializer.save()
             try:
                 teacher_group = TeacherGroup.objects.create(name=f"{school.name}-Teachers", school=school)
+                chat_group = TeacherGroupChat(group=teacher_group)
+                TeacherGroupChat.add_this(chat_group)
+                chat_group.save()
                 parent_group = ParentGroup.objects.create(name=f"{school.name}-Parents", school=school)
+                chat_group = ParentGroupChat(group=parent_group)
+                ParentGroupChat.add_this(chat_group)
+                chat_group.save()
             except Exception as e:
                 school.delete()
                 return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -116,6 +123,12 @@ class ClassroomRegistrationView(APIView):
             parent_group = ParentGroup.objects.create(name=f"{classroom.name}-Parents", school=classroom.school, classroom=classroom)
             teacher_group.save()
             parent_group.save()
+            teacher_chat = TeacherGroupChat(group=teacher_group)
+            TeacherGroupChat.add_this(teacher_chat)
+            teacher_chat.save()
+            parent_chat = ParentGroupChat(group=parent_group)
+            ParentGroupChat.add_this(parent_chat)
+            parent_chat.save()
             return Response({"message": "Classroom added!" ,"classroom": ClassroomDetailSerializer(classroom).data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

@@ -11,6 +11,9 @@ import UserInfoParent from '../UserInfo/UserInfoParent';
 import UserInfoTeacher from '../UserInfo/UserInfoTeacher';
 import UserInfoResearcher from '../UserInfo/UserInfoResearcher';
 import UserInfoAdmin from '../UserInfo/UserInfoAdmin';
+import GroupManagerWrapper from '../GroupManager/GroupManagerWrapper';
+import GroupCreatorWrapper from '../GroupManager/GroupCreatorWrapper';
+import GroupDetail from '../GroupManager/GroupDetail';
 
 function App() {
   if (localStorage.getItem('lang') === null) {
@@ -29,6 +32,9 @@ function App() {
           <Route path="/userinfoteacher" element={<UserInfoTeacher/ >}></Route>
           <Route path="/userinforesearcher" element={<UserInfoResearcher/ >}></Route>
           <Route path="/userinfoadmin" element={<UserInfoAdmin/ >}></Route>
+          <Route path="/groupmanager" element={<GroupManagerWrapper/ >}></Route>
+          <Route path="/groupcreator" element={<GroupCreatorWrapper/ >}></Route>
+          <Route path="/groupdetail" element={<GroupDetail/ >}></Route>
           <Route path="/login" element={<Login/ >}></Route>
           <Route path="/signup" element={<Signup/ >}></Route>
           <Route path="/activities" element={<Activities/ >}></Route>

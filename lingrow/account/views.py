@@ -12,8 +12,9 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .enums import UserType
 from drf_yasg.utils import swagger_auto_schema
-from .permissions import IsParent
+from .permissions import IsParent, IsTeacher, IsResearcher
 from group_management.models import ParentGroup, TeacherGroup
+from .utils import Util
 
 
 class UserRegistrationView(APIView):
@@ -298,6 +299,111 @@ class AdminUserListView(APIView):
             else:
                 return Response({'error':'Invalid Argument'}, status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.data, status=status.HTTP_200_OK)
+
+class AdminAddUsersView(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    @swagger_auto_schema(request_body=UserProfileSerializer,operation_description="Add Multiple Users",responses={200: UserProfileSerializer(many=True),400: "Bad Request"})
+    def post(self, request):
+        if not request.user.is_admin():
+            return Response({'error':'You are not an admin'}, status=status.HTTP_400_BAD_REQUEST)
+        users_to_create = request.data.get('users')
+        if users_to_create is None:
+            return Response({'error':'No users to create'}, status=status.HTTP_400_BAD_REQUEST)
+        created_users = []
+        failed_users = []
+        failed_children = []
+        for user in users_to_create:
+            password = Util.generate_password()
+            user['password'], user['password2'] = password, password
+            user_serializer = UserRegistrationSerializer(data=user)
+            if user_serializer.is_valid():
+                user = user_serializer.save()
+                user_data = user_serializer.data
+                user_data['password'] = password
+                created_users.append(user_data)
+                # children = user.get('children')
+                # if children is None:
+                #     continue
+                # if len(children) > 0 and not user.is_parent():
+                #     failed_children.append({'user': user_data.get('id'),"children":children, 'error':'User is not a parent'})
+                # elif len(children) > 0 and user.is_parent():
+                #     parent = Parent.objects.get(user=user)
+                #     for child in children:
+                #         child['parent'] = parent.id
+                #         child_serializer = ChildSerializer(data=child)
+                #         if child_serializer.is_valid():
+                #             child_serializer.save()
+                #         else:
+                #             child['error'] = child_serializer.errors
+                #             failed_children.append({'user': user_data.get('id'),"child":child})
+            else:
+                user.pop('password'), user.pop('password2')
+                user['error'] = user_serializer.errors
+                failed_users.append(user)
+        msg = 'Users created successfully!'
+        if len(failed_users) > 0 and len(failed_children) > 0:
+            msg = 'Some users and children were not created successfully!'
+        elif len(failed_users) > 0:
+            msg = 'Some users were not created successfully!'
+        elif len(failed_children) > 0:
+            msg = 'Some children were not created successfully!'
+        return Response({'msg':msg, 'not_created_users': failed_users ,'created_users': created_users}, status=status.HTTP_200_OK)
+
+class GetUserView(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated,IsParent|IsTeacher|IsResearcher]
+
+    @swagger_auto_schema(operation_description="Get A User by ID",responses={200: UserProfileSerializer,400: "Bad Request"})
+    def get(self, request, id=None):
+        if not id:
+            return Response({'error':'Please provide an id'}, status=status.HTTP_400_BAD_REQUEST)
+        if not User.objects.filter(id=id).exists():
+            return Response({'error':'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        user = request.user
+        if user.is_teacher():
+            teacher = Teacher.objects.get(user=user)
+            if not teacher.school:
+                return Response({'error':'Teacher does not have a school'}, status=status.HTTP_400_BAD_REQUEST)
+            queried_user = User.objects.get(id=id)
+            if queried_user.is_teacher():
+                queried_teacher = Teacher.objects.get(user=queried_user)
+                if queried_teacher.school != teacher.school:
+                    return Response({'error':'Teacher does not belong to your school'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(TeacherProfileSerializer(queried_teacher).data, status=status.HTTP_200_OK)
+            elif queried_user.is_parent():
+                queried_parent = Parent.objects.get(user=queried_user)
+                if Child.objects.filter(parent=queried_parent, school=teacher.school).count() == 0:
+                    return Response({'error':'Parent does not belong to your school'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(ParentProfileSerializer(queried_parent).data, status=status.HTTP_200_OK)
+            else:
+                return Response({'error':'Queried user is not a teacher or parent'}, status=status.HTTP_400_BAD_REQUEST)    
+        elif user.is_researcher():
+            queried_user = User.objects.get(id=id)
+            if queried_user.is_parent():
+                queried_parent = Parent.objects.get(user=queried_user)
+                return Response(ParentProfileSerializer(queried_parent).data, status=status.HTTP_200_OK)
+            elif queried_user.is_teacher():
+                queried_teacher = Teacher.objects.get(user=queried_user)
+                return Response(TeacherProfileSerializer(queried_teacher).data, status=status.HTTP_200_OK)
+            else:
+                return Response({'error':'Queried user is not a teacher or parent'}, status=status.HTTP_400_BAD_REQUEST)
+        elif user.is_parent():
+            queried_user = User.objects.get(id=id)
+            if queried_user.is_teacher():
+                queried_teacher = Teacher.objects.get(user=queried_user)
+                if not queried_teacher.school:
+                    return Response({'error':'Teacher does not have a school'}, status=status.HTTP_400_BAD_REQUEST)
+                school = queried_teacher.school
+                parent = Parent.objects.get(user=user)
+                if Child.objects.filter(parent=parent, school=school).count() == 0:
+                    return Response({'error':'Teacher does not belong to your school'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(TeacherProfileSerializer(queried_teacher).data, status=status.HTTP_200_OK)
+            else:
+                return Response({'error':'Queried user is not a teacher'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class ChildView(APIView):
     renderer_classes = [UserRenderer]

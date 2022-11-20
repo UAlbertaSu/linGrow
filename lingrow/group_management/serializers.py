@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import ParentGroup, TeacherGroup, ResearcherGroup
 from account.models import Child 
+from account.serializers import ResearcherProfileSerializer, TeacherProfileSerializer, ParentProfileSerializer
 
 class ParentGroupSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,6 +45,12 @@ class ParentGroupEditSerializer(serializers.ModelSerializer):
                             raise serializers.ValidationError("Parent must have a child in the group's school")
         return data
 
+class ParentNameSerializer(serializers.ModelSerializer):
+    parent = ParentProfileSerializer(many=True,read_only=True)
+    class Meta:
+        model = ParentGroup
+        fields = '__all__'
+
 class TeacherGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeacherGroup
@@ -85,7 +92,19 @@ class TeacherGroupEditSerializer(serializers.ModelSerializer):
                             raise serializers.ValidationError("Teacher must be in the group's classroom")
         return data
 
+class TeacherNameSerializer(serializers.ModelSerializer):
+    teacher = TeacherProfileSerializer(many=True)
+    class Meta:
+        model = TeacherGroup
+        fields = '__all__'
+
 class ResearcherGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ResearcherGroup
+        fields = '__all__'
+
+class ResearcherNameSerializer(serializers.ModelSerializer):
+    researcher = ResearcherProfileSerializer(many=True)
     class Meta:
         model = ResearcherGroup
         fields = '__all__'

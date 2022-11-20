@@ -9,7 +9,7 @@ from .renderers import GroupRenderer
 from account.permissions import IsTeacher, IsResearcher
 from account.models import Teacher
 from django.db.models import Q
-from .serializers import ParentGroupSerializer, TeacherGroupSerializer, ResearcherGroupSerializer, ParentGroupEditSerializer, TeacherGroupEditSerializer
+from .serializers import ParentNameSerializer, TeacherNameSerializer, ResearcherNameSerializer, ParentGroupSerializer, TeacherGroupSerializer, ResearcherGroupSerializer, ParentGroupEditSerializer, TeacherGroupEditSerializer
 from itertools import chain
 
 
@@ -19,12 +19,15 @@ class ParentGroupView(APIView):
 
     @swagger_auto_schema(operation_description="Get all parent groups/ Get parent group with id",responses={200: ParentGroupSerializer(many=True),400: "Bad Request", 404: "Not Found"})
     def get(self, request, id=None):
+        '''
+        Get all parent groups/ Get parent group with id
+        '''
         user = request.user
         if user.is_teacher():
             teacher = Teacher.objects.get(user=user)
             if id:
                 if ParentGroup.objects.filter(Q(pk=id) & (Q(owner=user) | Q(classroom__in=teacher.classrooms.all(),owner__isnull=True))).exists():
-                    return Response(ParentGroupSerializer(ParentGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
+                    return Response(ParentNameSerializer(ParentGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
                 return Response({"message": "Group does not exist"}, status=status.HTTP_404_NOT_FOUND)
             if teacher.school and teacher.classrooms:
                 groups = chain(ParentGroup.objects.filter(Q(owner=user) | Q(classroom__in=teacher.classrooms.all(),owner__isnull=True,school=teacher.school)), ParentGroup.objects.filter(Q(classroom__isnull=True,owner__isnull=True,school=teacher.school)))
@@ -36,14 +39,14 @@ class ParentGroupView(APIView):
         elif user.is_researcher():
             if id:
                 if ParentGroup.objects.filter(pk=id,owner=user).exists():
-                    return Response(ParentGroupSerializer(ParentGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
+                    return Response(ParentNameSerializer(ParentGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
                 return Response({"message": "Group does not exist"}, status=status.HTTP_404_NOT_FOUND)
             groups = ParentGroup.objects.filter(owner=user)
 
         elif user.is_admin():
             if id:
                 if ParentGroup.objects.filter(pk=id).exists():
-                    return Response(ParentGroupSerializer(ParentGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
+                    return Response(ParentNameSerializer(ParentGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
                 return Response({"message": "Group does not exist"}, status=status.HTTP_404_NOT_FOUND)
             groups = ParentGroup.objects.all()
 
@@ -53,6 +56,9 @@ class ParentGroupView(APIView):
 
     @swagger_auto_schema(operation_description="Create parent group",request_body=ParentGroupSerializer, responses={201: ParentGroupSerializer,400: "Bad Request"})
     def post(self, request, id=None):
+        '''
+        Create parent group
+        '''
         if id:
             return Response({"message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
         user = request.user
@@ -65,6 +71,9 @@ class ParentGroupView(APIView):
 
     @swagger_auto_schema(operation_description="Update parent group with id",request_body=ParentGroupEditSerializer, responses={200: ParentGroupEditSerializer,400: "Bad Request", 404: "Not Found"})
     def patch(self, request, id=None):
+        '''
+        Update parent group with id
+        '''
         if not id:
             return Response({"message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
         user = request.user
@@ -91,6 +100,9 @@ class ParentGroupView(APIView):
 
     @swagger_auto_schema(operation_description="Delete parent group with id",request_body=ParentGroupSerializer, responses={200: "Group Deleted!",400: "Bad Request", 404: "Group does not exist"})
     def delete(self, request, id=None):
+        '''
+        Delete parent group with id
+        '''
         if id:
             user = request.user
             if user.is_teacher() or user.is_researcher():
@@ -113,18 +125,21 @@ class TeacherGroupView(APIView):
 
     @swagger_auto_schema(operation_description="Get all teacher groups/ get teacher group with id", responses={200: TeacherGroupSerializer,400: "Bad Request", 404: "Group does not exist"})
     def get(self, request, id=None):
+        '''
+        Get all teacher groups/ get teacher group with id
+        '''
         user = request.user
         if user.is_researcher():
             if id:
                 if TeacherGroup.objects.filter(pk=id,owner=user).exists():
-                    return Response(TeacherGroupSerializer(TeacherGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
+                    return Response(TeacherNameSerializer(TeacherGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
                 return Response({"message": "Group does not exist"}, status=status.HTTP_404_NOT_FOUND)
             groups = TeacherGroup.objects.filter(owner=user)
         
         elif user.is_admin():
             if id:
                 if TeacherGroup.objects.filter(pk=id).exists():
-                    return Response(TeacherGroupSerializer(TeacherGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
+                    return Response(TeacherNameSerializer(TeacherGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
                 return Response({"message": "Group does not exist"}, status=status.HTTP_404_NOT_FOUND)
             groups = TeacherGroup.objects.all()
 
@@ -134,6 +149,9 @@ class TeacherGroupView(APIView):
 
     @swagger_auto_schema(operation_description="Create teacher group",request_body=TeacherGroupSerializer, responses={201: TeacherGroupSerializer,400: "Bad Request"})
     def post(self, request, id=None):
+        '''
+        Create teacher group
+        '''
         if id:
             return Response({"message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
         user = request.user
@@ -142,10 +160,14 @@ class TeacherGroupView(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @swagger_auto_schema(operation_description="Update teacher group with id",request_body=TeacherGroupEditSerializer, responses={200: TeacherGroupEditSerializer,400: "Bad Request", 404: "Not Found"})
     def patch(self, request, id=None):
+        '''
+        Update teacher group with id
+        '''
         if not id:
             return Response({"message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
         user = request.user
@@ -172,6 +194,9 @@ class TeacherGroupView(APIView):
 
     @swagger_auto_schema(operation_description="Delete teacher group with id",request_body=TeacherGroupSerializer, responses={200: "Group Deleted!",400: "Bad Request", 404: "Group does not exist"})
     def delete(self, request, id=None):
+        '''
+        Delete teacher group with id
+        '''
         if id:
             user = request.user
             if user.is_researcher():
@@ -194,15 +219,21 @@ class ResearcherGroupView(APIView):
 
     @swagger_auto_schema(operation_description="Get all researcher groups/ get researcher group with id", responses={200: ResearcherGroupSerializer,400: "Bad Request", 404: "Group does not exist"})
     def get(self, request, id=None):
+        '''
+        Get all researcher groups/ get researcher group with id
+        '''
         if id:
             if ResearcherGroup.objects.filter(pk=id).exists():
-                return Response(ResearcherGroupSerializer(ResearcherGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
+                return Response(ResearcherNameSerializer(ResearcherGroup.objects.get(pk=id)).data, status=status.HTTP_200_OK)
             return Response({"message": "Group does not exist"}, status=status.HTTP_404_NOT_FOUND)
         groups = ResearcherGroup.objects.all()
         return Response(ResearcherGroupSerializer(groups, many=True).data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(operation_description="Create researcher group",request_body=ResearcherGroupSerializer, responses={201: ResearcherGroupSerializer,400: "Bad Request"})
     def post(self, request, id=None):
+        '''
+        Create researcher group
+        '''
         if id:
             return Response({"message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
         request.data['owner'] = request.user.id
@@ -214,6 +245,9 @@ class ResearcherGroupView(APIView):
 
     @swagger_auto_schema(operation_description="Update researcher group with id",request_body=ResearcherGroupSerializer, responses={200: ResearcherGroupSerializer,400: "Bad Request", 404: "Not Found"})
     def patch(self, request, id=None):
+        '''
+        Update researcher group with id
+        '''
         if not id:
             return Response({"message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
         user = request.user
@@ -231,6 +265,9 @@ class ResearcherGroupView(APIView):
 
     @swagger_auto_schema(operation_description="Delete researcher group with id",request_body=ResearcherGroupSerializer, responses={200: "Group Deleted!",400: "Bad Request", 404: "Group does not exist"})
     def delete(self, request, id=None):
+        '''
+        Delete researcher group with id
+        '''
         if id:
             if ResearcherGroup.objects.filter(pk=id).exists():
                 ResearcherGroup.objects.get(pk=id).delete()

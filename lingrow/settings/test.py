@@ -43,12 +43,15 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    'account',
     'drf_yasg',
-    'admin_school_management',
-    'chat',
     'django_password_validators',
-    'django_password_validators.password_history'
+    'django_password_validators.password_history',
+    'group_management',
+    'admin_school_management',
+    'search_users',
+    'chat',
+    'account',
+    'translate'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -141,7 +144,7 @@ REST_FRAMEWORK = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Canada/Mountain'
 
 USE_I18N = True
 
