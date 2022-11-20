@@ -128,12 +128,13 @@ export default function Login() {
           console.log('User pressed: ', event.key);
     
           if (event.key === 'Enter') {
-            event.preventDefault();
             handleSubmit(event);
+            event.preventDefault();
           }
         };
     
         window.addEventListener('keydown', keyDownHandler);
+        
     
         return () => {
           window.removeEventListener('keydown', keyDownHandler);

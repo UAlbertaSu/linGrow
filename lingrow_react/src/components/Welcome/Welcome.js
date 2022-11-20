@@ -30,6 +30,24 @@ export default function Welcome() {
     });
 
     useEffect(() => {
+        const keyDownHandler = event => {
+          console.log('User pressed: ', event.key);
+    
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            handleSubmit(event);
+          }
+        };
+    
+        window.addEventListener('keydown', keyDownHandler);
+    
+        return () => {
+          window.removeEventListener('keydown', keyDownHandler);
+        };
+      }, []
+    );
+
+    useEffect(() => {
         if (!translated) {
             translateMessage();
             setTranslated(1);
