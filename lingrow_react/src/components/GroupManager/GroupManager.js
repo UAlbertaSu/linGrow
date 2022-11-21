@@ -19,7 +19,6 @@ export default function GroupManager({userType}) {
 
     const setInitialState = () => {
         let arr = [];
-        console.log(token)
 
         if (userType === 4) { // Admin can add all users into group.
             arr = [];

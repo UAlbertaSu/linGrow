@@ -66,33 +66,30 @@
 
 * **Due**: November 19, 2022
 * **Velocity Conversion**: tiny = 1, small = 2, medium = 3, large = 5, X-Large = 8
-* **Estimated Velocity**: 17 / 20 = 1.30
+* **Estimated Velocity**: 13 / 20 = 0.65
 
 * **SUBJECT TO CHANGE**
 
 | Tasks                     | Related US(Story Points)   | Assigned To                    | Due Date|
 |---------------------------|-----------------|---------------------------------------------|---------|
-| Translate messages          | message translation(8) |  Not yet decided                  | Nov. 18 |
-| Mark Important Messages  |important messages(1) | Not yet decided                      | Nov. 18 |
-| Search for Parents          | Teacher Function(1)  |  Not yet decided                    | Nov. 18  |
-| Parent Activities        | Language Development (1)      | Not yet decided                    | Nov. 18 |
-| Parent English information  | Language Development(1)|     Not yet decided                 | Nov. 18 |
-| Pictograms               | Accessibility (1)| Not yet decided                      | Nov. 18   |
-| Text-To-Speech            |Text-To-Speech (5) | Not yet decided                         | Nov. 18|
-| Speech-to-Text         | Speech-to-Text (8) |  Not yet decided                  | Nov. 18|
-
+| Sending Messages          | Parent-Teacher communication(5)  |  Kash, Loyal        | Nov. 18  |
+| Sending Mass Messages    | Teacher group Message(5)|     Kash, Loyal                 | Nov. 18 |
+| Search for Parents          | Teacher Function(1)  |  Loyal, Kash, Scott                    | Nov. 18  |
+| Parent Activities        | Language Development (1)      | Sam, Kevin                    | Nov. 18 |
+| Parent English information  | Language Development(1)|     Sam, Kevin                 | Nov. 18 |
 
 ### Sprint 5
 
 * **Due**: December 3, 2022
 * **Velocity Conversion**: tiny = 1, small = 2, medium = 3, large = 5, X-Large = 8
-* **Estimated Velocity**: 16 / 13 = 1.23
+* **Estimated Velocity**: 10 / 13 = 0.76
 * **SUBJECT TO CHANGE**
 
 | Tasks                     | Related US(Story Points)   | Assigned To                    | Due Date|
 |---------------------------|-----------------|---------------------------------------------|---------|
-| Clean-up                   | All (8)         |  Not yet decided                          | Dec. 2  |
-| Implement other accessories| All (8)         | Not yet decided                           | Dec. 2  |
+| Mark Important Messages  |important messages(1) | Not yet decided                      | Dec. 2 |
+| Pictograms               | Accessibility (1)| Not yet decided                      | Dec. 2   |
+| Translate messages          | message translation(8) |  Not yet decided                  | Dec. 2 |
 <!-- | Sending Mass Messages    | Teacher group Message(5)|     Not yet decided                 | Dec. 2  |
 | Send Mass messages       | Admin group message (2)| Not yet decided                      | Dec. 2   |
 | Mark Important Messages  |important messages(1) | Not yet decided                         | Dec. 2 |
