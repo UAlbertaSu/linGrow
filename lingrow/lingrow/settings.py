@@ -43,12 +43,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    'account',
     'drf_yasg',
-    'admin_school_management',
-    'chat',
     'django_password_validators',
     'django_password_validators.password_history',
+    'group_management',
+    'admin_school_management',
+    'search_users',
+    'chat',
+    'account',
     'translate'
 ]
 
@@ -146,7 +148,7 @@ REST_FRAMEWORK = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Canada/Mountain'
 
 USE_I18N = True
 
@@ -157,7 +159,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), 'static/lingrow/',]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type

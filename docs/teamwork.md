@@ -796,3 +796,158 @@
 
 > ##### Scott
 >> * Continue writing webdriver test cases for frontend pages.
+
+---
+
+### October 31, 2022
+> * 9:00 AM - 10:50 AM
+> * CSC B-10
+
+#### Agenda
+> * Demo Sprint 3 result.
+
+#### Attendee
+> * Jeff
+> * Kash
+> * Kevin
+> * Loyal
+> * Sam
+> * Scott
+> * Steve
+
+#### Minutes
+
+> ##### Dashboard Elements
+>> * Custom dashboard for each user types.
+>> * Needs validator to make sure user cannot simply access these elements with right URL.
+
+> ##### Chat Functionalities
+>> * Chat functionalities with HTML testing interface.
+>> * Able to send messages from one user to another, with each messages saved on backend.
+
+#### Action Items
+
+> ##### Loyal, Kash
+>> * Refine chat functionalities and group management API endpoints, create group chat.
+
+> ##### Steve, Jeff
+>> * Design frontend UI for chats and group chat once completed.
+
+> ##### Sam, Kevin
+>> * Modify frontend to be able to handle mobile devices.
+
+> ##### Scott
+>> * Implement page caching and glossary functionality, modify language list to be in native language.
+
+---
+
+### November 3, 2022
+
+> * 3:00 PM - 3:26 PM
+> * Google Meet
+
+#### Agenda
+
+> * Demo finished Sprint 3 product to the client, and report our progress.
+> * Ask questions and clarify implementation details.
+
+#### Attendee
+
+> * Dr. Andrea McLeod (Client)
+> * Dr. Catrine Demers (Client)
+> * Kevin
+> * Steve
+> * Loyal
+> * Sam
+> * Scott
+> * Kash
+> * Jeff
+
+#### Minutes
+
+> ##### Demo - Chat
+>> * Kash and Loyal demonstrated backend chat functionality using HTML testing frontend.
+
+> ##### Demo - Dashboard
+>> * Frontend has multiple dashboards, advanced translation API integration.
+
+> ##### Feedback & Clarifications
+>> * It shouldn't be necessary to have groups within another group, although it is possible that a single teacher may possess multiple groups (grade 1, grade 2, grade 3, etc.).
+>> * Maximum upper bound for users is estimated to be around 5000.
+>>> * It is unlikely that numbers of concurrent users will be that high, but it should be able to handle multiple users.
+
+#### Action Items
+
+> ##### All Teams
+>> * Continue with assigned tasks from Monday's lab meeting.
+
+---
+
+### November 12, 2022
+
+> * 12:00 PM - 1:00 PM
+> * Google Meet
+
+#### Agenda
+> * Progress report before the Monday's lab meeting.
+
+#### Attendee
+> * Scott
+> * Loyal
+> * Sam
+> * Steve
+> * Jeff
+
+#### Minutes
+
+> ##### Frontend Update
+>> * Translation call has been moved to the backend.
+
+> ##### Backend Update
+>> * Models for group management backend API is now complete.
+
+#### Action Items
+
+> ##### All Teams
+>> * Refine code before meeting on Monday, November 14th.
+
+---
+
+### November 14, 2022
+
+> * 9:00 AM - 10:50 AM
+> * CSC B-10
+
+#### Agenda
+
+> * Progress update before Sprint 4 due date.
+> * Identify what aspect of the project needs to be prioritized.
+
+#### Attendee
+
+> * Kevin
+> * Steve
+> * Jeff
+> * Scott
+> * Loyal
+> * Sam (Virtual)
+
+#### Minutes
+
+> ##### Frontend Updates
+>> * All Google-cloud based translation API call has been moved to the backend, rather than calling directly from frontend.
+>> * Language list is now written in their native language rather than English names.
+>> * Pages now use caching.
+
+> ##### Backend Updates
+>> * Backend API calls for Group management functionalities has been completed.
+
+#### Action Items
+> ##### Kash, Loyal
+>> * Continue working on group chat functionalities.
+
+> ##### Jeff
+>> * Start implementing new test cases for frontends.
+
+> ##### Scott, Kevin, Steve, Sam
+>> * General frontend works.

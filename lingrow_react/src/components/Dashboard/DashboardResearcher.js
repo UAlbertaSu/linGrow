@@ -16,10 +16,7 @@ export default function DashboardResearcher() {
     const [home, setHome] = useState("Home");
     const [profile, setProfile] = useState("Profile");
     const [chat, setChatMsg] = useState("Chat");
-    const [searchParents, setSearchParents] = useState("Search Parents");
-    const [parentGroups, setParentGroups] = useState("Parent Groups");
-    const [searchTeachers, setSearchTeachers] = useState("Search Teachers");
-    const [teacherGroups, setTeacherGroups] = useState("Teachers Groups");
+    const [group_manager, setGroupManagerMsg] = useState("Group Manager");
     const [activities, setLanguageLearningActivitiesMsg] = useState("Language Learning Activities");
     const [logout_msg, setLogoutMsg] = useState("Logout");
 
@@ -48,10 +45,7 @@ export default function DashboardResearcher() {
             Translate('en', lang, "Home").then(response => setHome(response));
             Translate('en', lang, "Profile").then(response => setProfile(response));
             Translate('en', lang, "Chat").then(response => setChatMsg(response));
-            Translate('en', lang, "Search Parents").then(response => setSearchParents(response));
-            Translate('en', lang, "Parent Groups").then(response => setParentGroups(response));
-            Translate('en', lang, "Search Teachers").then(response => setSearchTeachers(response));
-            Translate('en', lang, "Teachers Groups").then(response => setTeacherGroups(response));
+            Translate('en', lang, "Group Manager").then(response => setGroupManagerMsg(response));
             Translate('en', lang, "Language Learning Activities").then(response => setLanguageLearningActivitiesMsg(response));
             Translate('en', lang, "Logout").then(response => setLogoutMsg(response));
 
@@ -93,10 +87,10 @@ export default function DashboardResearcher() {
 
     return (
         <div className="dashboard-wrapper">
-            <Card style={{minHeight:"fit-content"}}>
+            <Card style={{minHeight:"fit-content", paddingBottom:"20px"}}>
                 <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
                 <LanguageList />
-                <Navbar bg="light" expand="lg" style={{width:"90%", margin:"35px"}}>
+                <Navbar bg="light" expand="lg" style={{width:"94%", margin:"20px 0px 10px 0px"}}>
                     <Container>
                         <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>{dashboard}</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -105,18 +99,17 @@ export default function DashboardResearcher() {
                             <img src={home_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
                             <Nav.Link href="#home" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px"}}>{home}</Nav.Link>
                             <img src={user_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
-                            <Nav.Link href="#profile" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", border:""}}>{profile}</Nav.Link>
+                            <Nav.Link href="userinforesearcher" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", border:""}}>{profile}</Nav.Link>
                         </Nav>
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
-                <Button variant="primary" type="submit" id="chat" style={{margin:"35px"}}>{chat}</Button>  
-                <Button variant="primary" type="submit" id="searchParents">{searchParents}</Button>  
-                <Button variant="primary" type="submit" id="parentGroups">{parentGroups}</Button>  
-                <Button variant="primary" type="submit" id="searchTeachers">{searchTeachers}</Button>  
-                <Button variant="primary" type="submit" id="teacherGroups">{teacherGroups}</Button>  
-                <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities}>{activities}</Button>
-                <Button variant="secondary" type="submit" id="logout" onClick={clearSession}>{logout_msg}</Button>
+                <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px"}}>
+                    <Button variant="primary" type="submit" id="chat" style={{minWidth:"150px"}}>{chat}</Button>  
+                    <Button href="/groupmanager" variant="primary" type="submit" id="groups" style={{minWidth:"150px"}}>{group_manager}</Button>  
+                    <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{minWidth:"150px"}}>{activities}</Button>
+                    <Button variant="danger" type="submit" id="logout" onClick={clearSession} style={{minWidth:"150px"}}>{logout_msg}</Button>
+                </Card>
             </Card>
         </div>
     );

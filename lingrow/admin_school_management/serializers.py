@@ -48,6 +48,7 @@ class ClassroomDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Classroom
         fields = '__all__'
+        read_only_fields = ['school']
 
 
 class ClassroomRegistrationSerializer(serializers.ModelSerializer):
