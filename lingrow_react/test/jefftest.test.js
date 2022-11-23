@@ -5,17 +5,15 @@ var randomEmail = require('random-email');
 describe ('Group Management', async () => {
     it ('Create a new group', async () => {
         let browser = await puppeteer.launch({
-            headless: true
+            headless: false
         });
         try {
             let page = await browser.newPage();   
             await page.goto('http://localhost:3000/');
             page.evaluate(() => {
                 sessionStorage.setItem('token', 'frontend_test_token');
-            })
-            // page.evaluate(() => {
-            //     sessionStorage.setItem('userType', '1');
-            // })
+                //sessionStorage.setItem('userType', '4');
+            });
             await page.goto('http://localhost:3000/groupmanager ', {waitUntil: 'networkidle0',});
             
             await page.waitForSelector('#create'); //Create New Group button
@@ -30,8 +28,8 @@ describe ('Group Management', async () => {
             // value = await (await passbox.getProperty("value")).jsonValue();
             // expect(value).to.equal('testgroupxx');
 
-            // await page.waitForSelector('#user1');//first user in the user list
-            // await page.click('#user_list');
+            // await page.waitForSelector('#user_list');//first user in the user list
+            // await page.click('#user_list', '1');
 
             // await page.waitForSelector('#submit'); //Create Group button
             // await page.click('#submit');
