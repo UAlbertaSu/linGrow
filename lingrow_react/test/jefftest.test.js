@@ -11,8 +11,8 @@ describe ('Group Management', async () => {
             let page = await browser.newPage();   
             await page.goto('http://localhost:3000/');
             page.evaluate(() => {
-                sessionStorage.setItem('token', 'frontend_test_token');
                 //sessionStorage.setItem('userType', '4');
+                sessionStorage.setItem('token', 'jeff');
             });
             await page.goto('http://localhost:3000/groupmanager ', {waitUntil: 'networkidle0',});
             
