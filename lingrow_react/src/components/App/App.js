@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import './App.css';
 import Login from '../Login/Login';
-import Dashboard from '../Dashboard/Dashboard';
+import DashboardWrapper from '../Dashboard/DashboardWrapper';
 import Signup from '../Signup/Signup';
 import Welcome from '../Welcome/Welcome';
 import Activities from '../Activities/Activities';
@@ -25,9 +25,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate to="/login" />}></Route>
-          <Route path="/dashboard" element={<Dashboard/ >}></Route>
+          <Route path="/dashboard" element={<DashboardWrapper/ >}></Route>
           <Route path="/welcome" element={<Welcome/ >}></Route>
-          <Route path="/groupmanager" element={<GroupManager/ >}></Route>
           <Route path="/userinfoparent" element={<UserInfoParent/ >}></Route>
           <Route path="/userinfoteacher" element={<UserInfoTeacher/ >}></Route>
           <Route path="/userinforesearcher" element={<UserInfoResearcher/ >}></Route>

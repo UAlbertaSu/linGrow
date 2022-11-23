@@ -47,6 +47,12 @@ export default function UserInfo(AccountType) {
     const [username_email_input, setUsernameEmailInput] = useState(sessionStorage.getItem('user_email'));
     const [password_input, setPasswordInput] = useState("[Password]");
     const [name_input, setNameInput] = useState(sessionStorage.getItem('user_first_name'));
+
+    useEffect(() => {
+        setUsernameEmailInput(sessionStorage.getItem('user_email'));
+        setPasswordInput("[Password]");
+        setNameInput(sessionStorage.getItem('user_first_name'));
+    }, []);
     
     // Setter for initial page translation.
     const [translated, setTranslated] = useState(0);
