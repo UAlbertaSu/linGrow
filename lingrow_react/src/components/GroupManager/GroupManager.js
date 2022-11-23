@@ -137,7 +137,7 @@ export default function GroupManager({userType}) {
             <h1>{group_display_header}</h1>
             <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>Create New Group</Button>
             <div style={{ display: 'block', width: 400, padding: 30 }}>
-                <ListGroup id="user1">
+                <ListGroup>
                     {groups.map((elem) => 
                     <ListGroup.Item action onClick={() => handleDetail(elem)} key={elem.id} value={elem.id}>
                         {[elem.name]}
