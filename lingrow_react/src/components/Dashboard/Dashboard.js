@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import './Dashboard.css';
-import { Card, Button, Nav, NavDropdown, Container, Navbar} from 'react-bootstrap';
+import { Card, Button, Nav, Container, Navbar} from 'react-bootstrap';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
@@ -12,8 +12,23 @@ import user_icon from "../Img/user_icon.png";
 export default function Dashboard({ userType }) {
     const nav = useNavigate();
 
+    const setDashboardType = () => {
+        if (userType === 1) {
+            return 'LinGrow Parent Dashboard';
+        }
+        else if (userType === 2) {
+            return 'LinGrow Teacher Dashboard';
+        }
+        else if (userType === 3) {
+            return 'LinGrow Researcher Dashboard';
+        }
+        else if (userType === 4) {
+            return 'LinGrow Admin Dashboard';
+        }
+    }
+
+    const [dashboard, setDashboard] = useState(setDashboardType());
     const [dashboardString, setDashboardString] = useState();
-    const [dashboard, setDashboard] = useState();
     const [home, setHome] = useState("Home");
     const [profile, setProfile] = useState("Profile");
     const [chat, setChatMsg] = useState("Chat");
@@ -28,22 +43,10 @@ export default function Dashboard({ userType }) {
         event.preventDefault();
         nav("/activities");
     }
-    
+
     useEffect(() => {
         if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token').includes("error")) {
             nav("/");
-        }
-        if (userType === 4) {
-            setDashboard("LinGrow Admin Dashboard");
-        }
-        else if (userType === 3) {
-            setDashboard("LinGrow Researcher Dashboard");
-        }
-        else if (userType === 2) {
-            setDashboard("LinGrow Teacher Dashboard");
-        }
-        else if (userType === 1) {
-            setDashboard("LinGrow Parent Dashboard");
         }
     }, []);
 
@@ -56,8 +59,8 @@ export default function Dashboard({ userType }) {
     
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
-        if (lang && dashboard !== undefined) {
-            Translate('en', lang, dashboard).then(response => setDashboard(response));
+        if (lang) {
+            Translate('en', lang, dashboard).then(response => setDashboardString(response));
             Translate('en', lang, "Home").then(response => setHome(response));
             Translate('en', lang, "Profile").then(response => setProfile(response));
             Translate('en', lang, "Chat").then(response => setChatMsg(response));
@@ -67,7 +70,6 @@ export default function Dashboard({ userType }) {
             Translate('en', lang, "Group Manager").then(response => setGroupManagerMsg(response));
             Translate('en', lang, "Language Learning Activities").then(response => setLanguageLearningActivitiesMsg(response));
             Translate('en', lang, "Logout").then(response => setLogoutMsg(response));
-
         }
     });
 
@@ -95,6 +97,10 @@ export default function Dashboard({ userType }) {
     };
 
     useEffect(() => {
+        console.log("Dashboard String: ",dashboardString);
+    }, [dashboardString])
+
+    useEffect(() => {
         if (!translated) {
             translateMessage();
             setTranslated(1);
@@ -103,10 +109,6 @@ export default function Dashboard({ userType }) {
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
     }, [dashboard]);
-
-    // if (userType === 4) {
-    //     return ();
-    // }
 
     return (
         <div className="dashboard-wrapper">
@@ -132,7 +134,7 @@ export default function Dashboard({ userType }) {
                     <div>{userType === 4 ? <Button variant="primary" type="submit" id="manageSchools" style={{minWidth:"150px"}}>{manageSchools}</Button> : null}</div>
                     <div>{userType === 4 ? <Button variant="primary" type="submit" id="manageUsers" style={{minWidth:"150px"}}>{manageUsers}</Button> : null}</div>
                     <div>{userType === 4 ? <Button variant="primary" type="submit" id="searchUsers" style={{minWidth:"150px"}}>{searchUsers}</Button> : null}</div>
-                    <Button href="/groupmanager" variant="primary" type="submit" id="groups" style={{minWidth:"150px"}}>{group_manager}</Button>  
+                    <div>{userType !== 1 ? <Button href="/groupmanager" variant="primary" type="submit" id="groups" style={{minWidth:"150px"}}>{group_manager}</Button> : null}</div>  
                     <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{minWidth:"150px"}}>{activities}</Button>
                     <Button variant="danger" type="submit" id="logout" onClick={clearSession} style={{minWidth:"150px"}}>{logout_msg}</Button>
                 </Card>

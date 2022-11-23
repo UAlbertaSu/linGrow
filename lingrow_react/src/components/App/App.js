@@ -6,7 +6,6 @@ import DashboardWrapper from '../Dashboard/DashboardWrapper';
 import Signup from '../Signup/Signup';
 import Welcome from '../Welcome/Welcome';
 import Activities from '../Activities/Activities';
-import GroupManager from '../GroupManager/GroupManager';
 import UserInfoParent from '../UserInfo/UserInfoParent';
 import UserInfoTeacher from '../UserInfo/UserInfoTeacher';
 import UserInfoResearcher from '../UserInfo/UserInfoResearcher';
