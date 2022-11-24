@@ -24,6 +24,12 @@ export default function Dashboard({ userType }) {
     const [activities, setLanguageLearningActivitiesMsg] = useState("Language Learning Activities");
     const [logout_msg, setLogoutMsg] = useState("Logout");
 
+   const searchUserHandler = async (event) => {
+    
+        event.preventDefault();
+        nav('/searchuser');
+   }
+   
     const redirectToActivities = async (event) => {
         event.preventDefault();
         nav("/activities");
@@ -131,7 +137,7 @@ export default function Dashboard({ userType }) {
                     <Button variant="primary" type="submit" id="chat" style={{minWidth:"150px"}}>{chat}</Button>  
                     <div>{userType === 4 ? <Button variant="primary" type="submit" id="manageSchools" style={{minWidth:"150px"}}>{manageSchools}</Button> : null}</div>
                     <div>{userType === 4 ? <Button variant="primary" type="submit" id="manageUsers" style={{minWidth:"150px"}}>{manageUsers}</Button> : null}</div>
-                    <div>{userType === 4 ? <Button variant="primary" type="submit" id="searchUsers" style={{minWidth:"150px"}}>{searchUsers}</Button> : null}</div>
+                    <div>{userType === 4 ? <Button variant="primary" type="submit" id="searchUsers" onClick = {searchUserHandler}style={{minWidth:"150px"}}>{searchUsers}</Button> : null}</div>
                     <Button href="/groupmanager" variant="primary" type="submit" id="groups" style={{minWidth:"150px"}}>{group_manager}</Button>  
                     <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{minWidth:"150px"}}>{activities}</Button>
                     <Button variant="danger" type="submit" id="logout" onClick={clearSession} style={{minWidth:"150px"}}>{logout_msg}</Button>
