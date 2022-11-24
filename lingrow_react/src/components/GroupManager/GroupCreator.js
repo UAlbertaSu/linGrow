@@ -1,26 +1,27 @@
 import React, { setState, useState, useEffect, useCallback } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
 // Allows users to create a new parent, teacher, or researcher group.
 export default function GroupCreator({userType}) {
-
+    const loc = useLocation();
     const nav = useNavigate();
 
-    const [selected, setSelected] = useState([]);
+    const [selected, setSelected] = useState(loc.state !== undefined ? loc.state.groupMembers : []);
     const [searchResult, setSearchResult] = useState([]);
     const [token, setToken] = useState(JSON.parse(sessionStorage.getItem('token')));
     const [flagSet, setFlagSet] = useState(0);
-    const [userChoice, setUserChoice] = useState(1);
+    const [userChoice, setUserChoice] = useState(loc.state !== undefined ? loc.state.groupType : 1);
 
+    const [no_user_message, setNoUsersFound] = useState("No user found");
     const [group_create_header, setHeader] = useState("Create New Group");
     const [submit_btn, setSubmitBtn] = useState("Create Group");
     const [search_bar_placeholder, setSearchBarPlaceholder] = useState("");
-    const [group_name, setGroupName] = useState("Group Name");
+    const [group_name, setGroupName] = useState(loc.state !== undefined ? loc.state.groupName : "Group Name");
     const [group_id, setGroupID] = useState("Group ID");
 
     // Sets the initial state of search results.
@@ -52,7 +53,9 @@ export default function GroupCreator({userType}) {
             }).then(data => data.json()
             ).then(data => {
                 data.map((item) => {
-                    arr.push(item.user);
+                    if (!searchResult.includes(item)) {
+                        arr.push(item.user);
+                    }
                 })
             }).then(() => {
                 setSearchResult([...searchResult, ...arr]);
@@ -71,7 +74,9 @@ export default function GroupCreator({userType}) {
             }).then(data => data.json()
             ).then(data => {
                 data.map((item) => {
-                    arr.push(item.user);
+                    if (!searchResult.includes(item)) {
+                        arr.push(item.user);
+                    }
                 })
             }).then(() => {
                 setSearchResult([...searchResult, ...arr]);
@@ -90,7 +95,9 @@ export default function GroupCreator({userType}) {
             }).then(data => data.json()
             ).then(data => {
                 data.map((item) => {
-                    arr.push(item.user);
+                    if (!searchResult.includes(item)) {
+                        arr.push(item.user);
+                    }
                 })
             }).then(() => {
                 setSearchResult([...searchResult, ...arr]);
@@ -111,8 +118,13 @@ export default function GroupCreator({userType}) {
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleCreate = (e) => {
         e.preventDefault();
+
+        let method = 'POST';
+        if (loc.state !== undefined) {
+            method = 'PATCH';
+        }
 
         if (userChoice === 3) {
             var request = {
@@ -120,8 +132,14 @@ export default function GroupCreator({userType}) {
                 'researcher': selected
             }
 
-            fetch('http://127.0.0.1:8000/api/group/researchergroup/', {
-                method: 'POST',
+            let url = 'http://127.0.0.1:8000/api/group/researchergroup/'
+
+            if (loc.state !== undefined) {
+                url += loc.state.groupID + '/';
+            }
+
+            fetch(url, {
+                method: method,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
@@ -140,8 +158,14 @@ export default function GroupCreator({userType}) {
                 'teacher': selected
             }
 
-            fetch('http://127.0.0.1:8000/api/group/teachergroup/', {
-                method: 'POST',
+            let url = 'http://127.0.0.1:8000/api/group/teachergroup/'
+
+            if (loc.state !== undefined) {
+                url += loc.state.groupID + '/';
+            }
+
+            fetch(url, {
+                method: method,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
@@ -160,8 +184,14 @@ export default function GroupCreator({userType}) {
                 'parent': selected
             }
 
-            fetch('http://127.0.0.1:8000/api/group/parentgroup/', {
-                method: 'POST',
+            let url = 'http://127.0.0.1:8000/api/group/parentgroup/'
+
+            if (loc.state !== undefined) {
+                url += loc.state.groupID + '/';
+            }
+
+            fetch(url, {
+                method: method,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
@@ -174,7 +204,6 @@ export default function GroupCreator({userType}) {
             })
         }
     }
-
     useEffect(() => {
         if (!flagSet) {
             populateList(userChoice);
@@ -193,6 +222,7 @@ export default function GroupCreator({userType}) {
             Translate('en', lang, "Group Name").then(response => setGroupName(response));
             Translate('en', lang, "Group ID").then(response => setGroupID(response));
             Translate('en', lang, "Search User").then(response => setSearchBarPlaceholder(response));
+            Translate('en', lang, "No users found").then(response => setNoUsersFound(response));
         }
     });
 
@@ -213,20 +243,25 @@ export default function GroupCreator({userType}) {
             <h1>{group_create_header}</h1>
             <input type="text" className="form-control" id="group_name" placeholder={group_name} onChange={e => setGroupName(e.target.value)}/>
             <input type="text" className="form-control" id="group_id" placeholder={group_id} onChange={e => setGroupID(e.target.value)} />
-            <select defaultValue={1} className='form-select' id='language_dropdown' onChange={handleChange} style={{margin:"20px"}}>
+            <select defaultValue={loc.state !== undefined ? loc.state.groupType : userChoice} className='form-select' id='language_dropdown' onChange={handleChange} style={{margin:"20px"}}>
                 <option value={1}>Parents</option>
                 <option disabled={userType > 2 ? false : true} value={2}>Teachers</option>
                 <option disabled={userType > 3 ? false : true} value={3}>Researchers</option>
             </select>
             <div style={{ display: 'block', width: 400, padding: 30 }}>
-                <ListGroup>
-                    {searchResult.map((elem) => 
-                        <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} key={elem.id} value={elem.id}>
-                            {[elem.first_name, " ", elem.last_name]}
-                        </ListGroup.Item>)}
-                </ListGroup>
+                {
+                    searchResult.length > 0 ? 
+                        <ListGroup>
+                        {searchResult.map((elem) => 
+                            <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} key={elem.id} value={elem.id}>
+                                {[elem.first_name, " ", elem.last_name]}
+                            </ListGroup.Item>)}
+                        </ListGroup> 
+                    : 
+                        <ListGroup>{<ListGroup.Item disabled >{no_user_message}</ListGroup.Item>}</ListGroup>
+                }
             </div>
-            <Button variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleSubmit}>{submit_btn}</Button>
+            <Button disabled={selected.length == 0 ? true : false} variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
         </Card>
     );
 }
