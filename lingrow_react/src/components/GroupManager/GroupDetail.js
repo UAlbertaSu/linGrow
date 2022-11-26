@@ -82,8 +82,6 @@ export default function GroupDetail() {
             arr.push(elem.id);
         });
 
-        console.log(group_name, enumGroupType(location.state.groupType));
-
         navigate('/groupcreator', {state: {
             groupName: group_name,
             groupID: location.state.groupID, 

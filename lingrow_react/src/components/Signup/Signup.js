@@ -53,15 +53,11 @@ export default function Form() {
         }).then(data => {
             console.log(data);
             if (data['status'] === 201) {
-                // sessionStorage.clear();
-                // sessionStorage.setItem('registration', "success");
                 setSubmitted(true);
                 setError(false);
                 nav("/login");
             }
             else {
-                // sessionStorage.clear();
-                // sessionStorage.setItem('registration', "failed");
                 setSubmitted(false);
                 setError(true);
             }
