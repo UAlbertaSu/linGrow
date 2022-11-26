@@ -267,3 +267,5 @@ class AccountTests(APITestCase):
         self.assertNotEqual(response.json()['child']['parent'], parent_id)
         response = self.client.delete(self.admin_child_prefix+parent_id+self.admin_child_postfix+str(response.json()['child']['id'])+'/', HTTP_AUTHORIZATION='Bearer ' + token)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
