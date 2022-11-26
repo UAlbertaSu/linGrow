@@ -58,7 +58,7 @@ def translate_text(text, source_language, target_language):
     API_key = 'AIzaSyC1UIimGmDHQfFesxsum3ifUObJuQo-W6U'
     url = f"https://translation.googleapis.com/language/translate/v2"
     
-    response = session.post(url, params={'key': API_key, 'target': target_language, 'source': source_language, 'q': text})
+    response = session.post(url, params={'key': API_key, 'target': target_language, 'source': source_language, 'q': text, 'format': 'text'})
     return response.json()['data']['translations'][0]['translatedText']
 
 class TranslationView(APIView):

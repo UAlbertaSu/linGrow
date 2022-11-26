@@ -27,7 +27,6 @@ function App() {
           <Route path="/" element={<Navigate to="/login" />}></Route>
           <Route path="/dashboard" element={<Dashboard/ >}></Route>
           <Route path="/welcome" element={<Welcome/ >}></Route>
-          <Route path="/groupmanager" element={<GroupManager/ >}></Route>
           <Route path="/userinfoparent" element={<UserInfoParent/ >}></Route>
           <Route path="/userinfoteacher" element={<UserInfoTeacher/ >}></Route>
           <Route path="/userinforesearcher" element={<UserInfoResearcher/ >}></Route>

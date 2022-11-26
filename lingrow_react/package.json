@@ -25,7 +25,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "npm run single",
-    "single": "./node_modules/.bin/mocha --timeout 20000 ./test/frontend_tests.test.js",
+    "test_windows": "npm run windows_test",
+    "windows_test": ".\\node_modules\\.bin/mocha --timeout 20000 .\\test\\frontend_tests.test.js",
+    "single": "./node_modules/.bin/mocha --timeout 200000 ./test/frontend_tests.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
