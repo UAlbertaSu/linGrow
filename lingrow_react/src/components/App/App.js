@@ -13,6 +13,7 @@ import UserInfoAdmin from '../UserInfo/UserInfoAdmin';
 import GroupManagerWrapper from '../GroupManager/GroupManagerWrapper';
 import GroupCreatorWrapper from '../GroupManager/GroupCreatorWrapper';
 import GroupDetail from '../GroupManager/GroupDetail';
+import AdminAddUser from '../Signup/AdminAddUser';
 
 function App() {
   if (localStorage.getItem('lang') === null) {
@@ -36,6 +37,8 @@ function App() {
           <Route path="/login" element={<Login/ >}></Route>
           <Route path="/signup" element={<Signup/ >}></Route>
           <Route path="/activities" element={<Activities/ >}></Route>
+          <Route path="/adminadduser" element={<AdminAddUser/ >}></Route>
+          <Route path="/chat"></Route>
         </Routes>
       </BrowserRouter>
     </div>
