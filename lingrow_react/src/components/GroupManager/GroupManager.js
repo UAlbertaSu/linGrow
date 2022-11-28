@@ -139,7 +139,7 @@ export default function GroupManager({userType}) {
             <div style={{ display: 'block', width: 400, padding: 30 }}>
                 <ListGroup>
                     {groups.map((elem) => 
-                    <ListGroup.Item action onClick={() => handleDetail(elem)} key={elem.id} value={elem.id}>
+                    <ListGroup.Item action onClick={() => handleDetail(elem)} id={elem.id} key={elem.id} value={elem.id}>
                         {[elem.name]}
                     </ListGroup.Item>)}
                 </ListGroup>
