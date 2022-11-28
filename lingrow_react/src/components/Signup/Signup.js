@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
+import { useDropzone } from 'react-dropzone';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
@@ -42,8 +43,6 @@ export default function Form() {
 
     async function signupUser(credentials) {
         console.log(credentials);
-        // sessionStorage.clear();
-        // sessionStorage.setItem('registration', "success");
         return fetch('http://127.0.0.1:8000/api/user/register/', {
             method: 'POST',
             headers: {
@@ -53,15 +52,11 @@ export default function Form() {
         }).then(data => {
             console.log(data);
             if (data['status'] === 201) {
-                // sessionStorage.clear();
-                // sessionStorage.setItem('registration', "success");
                 setSubmitted(true);
                 setError(false);
                 nav("/login");
             }
             else {
-                // sessionStorage.clear();
-                // sessionStorage.setItem('registration', "failed");
                 setSubmitted(false);
                 setError(true);
             }
@@ -129,18 +124,12 @@ export default function Form() {
         e.preventDefault();
         if (email === '' || first_name === '' || last_name === '' || user_type === '' || password === '' || password2 === '') {
             setError(true);
-            // sessionStorage.clear();
-            // sessionStorage.setItem('registration', "failed");
         }
         else if (password !== password2) {
             setError(true);
-            // sessionStorage.clear();
-            // sessionStorage.setItem('registration', "failed");
         }
         else if (user_type === '1' && child_name === '') {
             setError(true);
-            // sessionStorage.clear();
-            // sessionStorage.setItem('registration', "failed");
         }
         else {
             e.preventDefault();

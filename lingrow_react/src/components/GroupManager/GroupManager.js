@@ -9,13 +9,13 @@ import Translate from "../Translate/Translate";
 // Allows users to view parent/teacher/researcher groups that they have created.
 export default function GroupManager({userType}) {
     const nav = useNavigate();
-    const [group_display_header, setHeader] = useState("Groups");
 
-    // Setter for initial page translation.
+    // State variables.
+    const [group_display_header, setHeader] = useState("Group Manager");
+    const [no_group_message, setNoGroupsFound] = useState("No group made yet...");
     const [translated, setTranslated] = useState(0);
     const [groups, setGroups] = useState([]);
-    const [token, setToken] = useState(JSON.parse(sessionStorage.getItem('token')));
-    const [flagSet, setFlagSet] = useState(0);
+    const [token] = useState(JSON.parse(sessionStorage.getItem('token')));
 
     const setInitialState = () => {
         let arr = [];
@@ -83,10 +83,11 @@ export default function GroupManager({userType}) {
         let lang = localStorage.getItem('lang');
         if (lang) {
             Translate('en', lang, "Groups").then(response => setHeader(response));
+            Translate('en', lang, "No group made yet...").then(response => setNoGroupsFound(response));
         }
     });
 
-    // 
+    // Navigate to the page showing user details of each group.
     const handleDetail = (elem) => {
 
         var groupType = '';
@@ -109,27 +110,25 @@ export default function GroupManager({userType}) {
         });
     }
 
+    // If user clicks a group creation button, navigate user to the group creation page.
     const handleNavigate = async (e) => {
         nav('/groupcreator');
     }
 
+    // Populate the list of groups made by user, and translate the page.
     useEffect(() => {
-        // Prevents page from being constantly translated.
+
+        // Prevent multiple translation calls, and multiple group fetch calls.
         if (!translated) {
+            setInitialState();
             translateMessage();
             setTranslated(1);
         }
 
+        // If the new language change is detected, translate the page.
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
     });
-
-    useEffect(() => {
-        if (!flagSet) {
-            setInitialState();
-            setFlagSet(1);
-        }
-    }, []);
 
     return (
         <Card style={{minHeight:"fit-content"}}>
@@ -137,12 +136,17 @@ export default function GroupManager({userType}) {
             <h1>{group_display_header}</h1>
             <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>Create New Group</Button>
             <div style={{ display: 'block', width: 400, padding: 30 }}>
-                <ListGroup>
-                    {groups.map((elem) => 
-                    <ListGroup.Item action onClick={() => handleDetail(elem)} id={elem.id} key={elem.id} value={elem.id}>
-                        {[elem.name]}
-                    </ListGroup.Item>)}
-                </ListGroup>
+                {
+                    groups.length > 0 ? 
+                        <ListGroup>
+                            {groups.map((elem) => 
+                            <ListGroup.Item action onClick={() => handleDetail(elem)} id={elem.id} key={elem.id} value={elem.id}>
+                                {[elem.name]}
+                            </ListGroup.Item>)}
+                        </ListGroup> 
+                    :
+                        <ListGroup>{<ListGroup.Item disabled >{no_group_message}</ListGroup.Item>}</ListGroup>
+                }
             </div>
         </Card>
     );
