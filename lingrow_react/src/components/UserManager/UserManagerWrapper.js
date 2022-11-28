@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import './Dashboard.css';
 
-import Dashboard from './Dashboard';
-import Login from '../Login/Login';
+import DashboardWrapper from '../Dashboard/DashboardWrapper';
 import Authenticate from '../Authenticate/Authenticate';
+import UserManager from './UserManager';
 
-export default function DashboardWrapper() {
+// Navigate users to the group manager component, if the user type is valid (2 = teacher, 3 = researcher, 4 = admin)
+export default function GroupManagerWrapper() {
 
     // State variable.
     const [userType, setUserType] = useState();
@@ -18,11 +18,11 @@ export default function DashboardWrapper() {
         console.log("Validation failed: ", error);
     });
 
-    // If the user type is valid, navigate to the dashboard component.
-    if (userType !== undefined) {
-        return (<div><Dashboard userType={userType} /></div>);
+    // If the user type is valid, navigate to the group manager component.
+    if (userType === 4) {
+        return (<div><UserManager /></div>);
     }
     else {
-        return (<div><Login /></div>);
+        return (<div><DashboardWrapper /></div>);
     }
 }

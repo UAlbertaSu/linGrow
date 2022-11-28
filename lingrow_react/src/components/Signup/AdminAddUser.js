@@ -5,6 +5,7 @@ import { Button, Card, Table } from 'react-bootstrap';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 import StyledDropzone from './Dropzone';
+import Authenticate from '../Authenticate/Authenticate';
 
 // Component to prompt admin users to add users one by one, or mass-create users via xlsx/csv file.
 export default function AdminAddUser() {
@@ -126,11 +127,12 @@ export default function AdminAddUser() {
             nav('/login');
         } 
         else {
-            let userType = JSON.parse(sessionStorage.getItem('userType'));
-            if (userType !== 4) {
-                alert("You must be an admin to view this page.");
-                nav('/dashboard');
-            }
+            Authenticate(JSON.parse(sessionStorage.getItem('token'))).then(response => {
+                if (response.user.user_type !== 4) {
+                    alert("You must be an admin to view this page.");
+                    nav('/dashboard');
+                }
+            });
         }
     }, []);
 

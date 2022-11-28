@@ -14,7 +14,6 @@ export default function GroupCreator({userType}) {
     const [selected, setSelected] = useState(loc.state !== null ? loc.state.groupMembers : []);
     const [searchResult, setSearchResult] = useState([]);
     const [token, setToken] = useState(JSON.parse(sessionStorage.getItem('token')));
-    const [flagSet, setFlagSet] = useState(0);
     const [userChoice, setUserChoice] = useState(loc.state !== null ? loc.state.groupType : 1);
 
     const [no_user_message, setNoUsersFound] = useState("No user found");
@@ -204,12 +203,6 @@ export default function GroupCreator({userType}) {
             })
         }
     }
-    useEffect(() => {
-        if (!flagSet) {
-            populateList(userChoice);
-            setFlagSet(1);
-        }
-    }, []);
 
     // Setter for initial page translation.
     const [translated, setTranslated] = useState(0);
@@ -226,13 +219,17 @@ export default function GroupCreator({userType}) {
         }
     });
 
+    // Translate the page and populate the list of users once the page load.
     useEffect(() => {
-        // Prevents page from being constantly translated.
+
+        // Prevent translation and list population from running multiple times.
         if (!translated) {
+            populateList(userChoice);
             translateMessage();
             setTranslated(1);
         }
 
+        // If the new language change is detected, translate the page.
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
     });
