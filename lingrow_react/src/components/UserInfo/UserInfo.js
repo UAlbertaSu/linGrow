@@ -3,40 +3,17 @@ import { Button, Card } from 'react-bootstrap';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
+import { retrieveUserType } from '../Login/Login';
 
-
-// TODO: should be imported instead
-export async function retrieveUserType(token) {
-    return fetch('http://127.0.0.1:8000/api/user/profile/', {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    }).then(data => data.json()
-    ).then(data => {
-        if (data.hasOwnProperty('error')) {
-            throw Error("Failed to retrieve user due to invalid login credentials or database request error.");
-        }
-        else {
-            return data;
-        }
-    });
-}
 
 // Group manager component.
-export default function UserInfo(AccountType) {
-
-
-    // TODO: implement hiding of elements based on account type
-    AccountType = 'Parent';
+export default function UserInfo({ userType }) {
 
     retrieveUserType(JSON.parse(sessionStorage.getItem('token'))).then(response => {
         let user = response.user;
-        console.log(user);
         sessionStorage.setItem('user_email', user.email);
         sessionStorage.setItem('user_first_name', user.first_name);
     });
-
 
     // headers
     const [account_type_header, setAccountTypeHeader] = useState("Account Type");
@@ -50,12 +27,13 @@ export default function UserInfo(AccountType) {
 
     // textfields
     // TODO: we need to implement password changing
-    // TODO: we need to get child's name
+    // TODO: need to implement child name getting
+    // TODO: resolve issue of fields not appearing before refresh
     const [username_email_input, setUsernameEmailInput] = useState(sessionStorage.getItem('user_email'));
     const [password_input, setPasswordInput] = useState("[Password]");
     const [name_input, setNameInput] = useState(sessionStorage.getItem('user_first_name'));
     const [childs_name_input, setChildsNameInput] = useState("[Child's Name]");
-    
+
     
     // Setter for initial page translation.
     const [translated, setTranslated] = useState(0);
@@ -90,19 +68,27 @@ export default function UserInfo(AccountType) {
         // TODO: add alignment 
         <Card style={{minHeight:"fit-content", position: "relative"}}>
             <LanguageList />
+
             <h5>{account_type_header}</h5>
-            <h5>{AccountType}</h5>
+            <div>{userType === 1 ? <h5>{"Parent"}</h5> : null}</div> 
+            <div>{userType === 2 ? <h5>{"Teacher"}</h5> : null}</div> 
+            <div>{userType === 3 ? <h5>{"Researcher"}</h5> : null}</div> 
+            <div>{userType === 4 ? <h5>{"Admin"}</h5> : null}</div> 
+            
             <h5>{username_email_header}</h5>
             <input type="text" className="form-control" id="username_email_input" placeholder={username_email_input} onChange={e => setUsernameEmailInput(e.target.value)}/>
             <h5>{password_header}</h5>
-            <input type="text" className="form-control" id="password_input" placeholder={password_input} onChange={e => setPasswordInput(e.target.value)} />
+            <input type="text" className="form-control" id="password_input" placeholder={password_input} onChange={e => setPasswordInput(e.target.value)} /> 
             <h5>{name_header}</h5>
-            <input type="text" className="form-control" id="name_input" placeholder={name_input} onChange={e => setNameInput(e.target.value)} />
-            <h5>{childs_name_header}</h5>
-            <input type="text" className="form-control" id="childs_name_input" placeholder={childs_name_input} onChange={e => setChildsNameInput(e.target.value)} />
-            <h5>{teachers_header}</h5>
-            <h5>{classrooms_header}</h5>
-            <h5>{schools_header}</h5>
+            <input type="text" className="form-control" id="name_input" placeholder={name_input} onChange={e => setNameInput(e.target.value)} /> 
+
+            <div>{userType === 1 ? <h5>{childs_name_header}</h5> : null}</div>
+            <div>{userType === 1 ? <input type="text" className="form-control" id="childs_name_input" placeholder={childs_name_input} onChange={e => setChildsNameInput(e.target.value)} /> : null}</div>
+            
+            <div>{userType === 1 ? <h5>{teachers_header}</h5> : null}</div>
+            <div>{userType === 1 || userType === 2 || userType === 3 ? <h5>{classrooms_header}</h5> : null}</div>
+            <div>{userType === 1 || userType === 2 || userType === 3 ? <h5>{schools_header}</h5> : null}</div>
+        
         </Card>
     );
 }

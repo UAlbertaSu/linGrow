@@ -6,10 +6,7 @@ import DashboardWrapper from '../Dashboard/DashboardWrapper';
 import Signup from '../Signup/Signup';
 import Welcome from '../Welcome/Welcome';
 import Activities from '../Activities/Activities';
-import UserInfoParent from '../UserInfo/UserInfoParent';
-import UserInfoTeacher from '../UserInfo/UserInfoTeacher';
-import UserInfoResearcher from '../UserInfo/UserInfoResearcher';
-import UserInfoAdmin from '../UserInfo/UserInfoAdmin';
+import UserInfoWrapper from '../UserInfo/UserInfoWrapper';
 import GroupManagerWrapper from '../GroupManager/GroupManagerWrapper';
 import GroupCreatorWrapper from '../GroupManager/GroupCreatorWrapper';
 import GroupDetail from '../GroupManager/GroupDetail';
@@ -26,10 +23,7 @@ function App() {
           <Route path="/" element={<Navigate to="/login" />}></Route>
           <Route path="/dashboard" element={<DashboardWrapper/ >}></Route>
           <Route path="/welcome" element={<Welcome/ >}></Route>
-          <Route path="/userinfoparent" element={<UserInfoParent/ >}></Route>
-          <Route path="/userinfoteacher" element={<UserInfoTeacher/ >}></Route>
-          <Route path="/userinforesearcher" element={<UserInfoResearcher/ >}></Route>
-          <Route path="/userinfoadmin" element={<UserInfoAdmin/ >}></Route>
+          <Route path="/userinfo" element={<UserInfoWrapper/ >}></Route>
           <Route path="/groupmanager" element={<GroupManagerWrapper/ >}></Route>
           <Route path="/groupcreator" element={<GroupCreatorWrapper/ >}></Route>
           <Route path="/groupdetail" element={<GroupDetail/ >}></Route>
