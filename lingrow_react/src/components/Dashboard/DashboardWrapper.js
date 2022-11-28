@@ -7,16 +7,8 @@ import Authenticate from '../Authenticate/Authenticate';
 
 export default function DashboardWrapper() {
 
-    // State variable.
-    const [userType, setUserType] = useState();
-
-    // Authenticate user via token.
-    Authenticate(JSON.parse(sessionStorage.getItem('token'))).then(response => {
-        let user = response.user;
-        setUserType(user.user_type);
-    }).catch(error => {
-        console.log("Validation failed: ", error);
-    });
+    // User type from sessionStorage.
+    const userType = JSON.parse(sessionStorage.getItem('userType'));
 
     // If the user type is valid, navigate to the dashboard component.
     if (userType !== undefined) {
