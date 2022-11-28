@@ -11,6 +11,7 @@ export default async function Authenticate(token) {
         if (data.hasOwnProperty("errors")) {
             sessionStorage.removeItem('token');
         }
+        sessionStorage.setItem('userType', data.user.user_type);
         return data;
     }).catch(error => {
         console.log("Validation failed in Authenticate component: ", error);
