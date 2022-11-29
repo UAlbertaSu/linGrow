@@ -4,6 +4,7 @@ import { Button, Card} from 'react-bootstrap';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
+import Authenticate from '../Authenticate/Authenticate';
 
 import logo from "../Img/lingrow.png";
 import './Login.css';
@@ -46,34 +47,18 @@ export default function Login() {
             "email": email,
             "password": password
         });
-        console.log(token);
         sessionStorage.setItem('token', JSON.stringify(token));
 
-        retrieveUserType(token).then(response => {
+        Authenticate(token).then(response => {
             setError(false);
-            let user = response.user;
-            let userType = user.user_type;
-            sessionStorage.setItem('userType', userType);
             nav("/dashboard");
         }).catch(error => {
             setError(true);
             console.log("Validation failed: ", error);
         });
     }
-    async function retrieveUserType(token) {
-        return fetch('http://127.0.0.1:8000/api/user/profile/', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).then(data => data.json()
-        ).then(data => {
-            return data;
-        });
-    }
     
     async function loginUser(credentials) {
-        console.log(JSON.stringify(credentials));
         return fetch('http://127.0.0.1:8000/api/user/login/', {
             method: 'POST',
             headers: {
@@ -82,7 +67,6 @@ export default function Login() {
             body: JSON.stringify(credentials)
         }).then(data => data.json()
         ).then(data => {
-            console.log(data);
             return data.token.access;
         }).catch(error => {
             console.log(error);
@@ -123,25 +107,6 @@ export default function Login() {
             Translate('en', lang, "Language Learning Activities").then(response => setActivity(response));
         }
     });
-    
-    useEffect(() => {
-        const keyDownHandler = event => {
-          console.log('User pressed: ', event.key);
-    
-          if (event.key === 'Enter') {
-            handleSubmit(event);
-            event.preventDefault();
-          }
-        };
-    
-        window.addEventListener('keydown', keyDownHandler);
-        
-    
-        return () => {
-          window.removeEventListener('keydown', keyDownHandler);
-        };
-      }, []
-    );
 
     useEffect(() => {
         // Prevents page from being constantly translated.
