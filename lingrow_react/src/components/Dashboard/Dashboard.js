@@ -20,6 +20,22 @@ export default function Dashboard({ userType }) {
     const [manageSchools, setManageSchools] = useState("Manage Schools");
     const [manageUsers, setManageUsers] = useState("Manage Users");
     const [searchUsers, setSearchUsers] = useState("Search Users");
+
+    const setDashboardType = () => {
+        if (userType === 1) {
+            return 'LinGrow Parent Dashboard';
+        }
+        else if (userType === 2) {
+            return 'LinGrow Teacher Dashboard';
+        }
+        else if (userType === 3) {
+            return 'LinGrow Researcher Dashboard';
+        }
+        else if (userType === 4) {
+            return 'LinGrow Admin Dashboard';
+        }
+    }
+
     const [group_manager, setGroupManagerMsg] = useState("Group Manager");
     const [activities, setLanguageLearningActivitiesMsg] = useState("Language Learning Activities");
     const [logout_msg, setLogoutMsg] = useState("Logout");
@@ -34,22 +50,10 @@ export default function Dashboard({ userType }) {
         event.preventDefault();
         nav("/activities");
     }
-    
+
     useEffect(() => {
         if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token').includes("error")) {
             nav("/");
-        }
-        if (userType === 4) {
-            setDashboard("LinGrow Admin Dashboard");
-        }
-        else if (userType === 3) {
-            setDashboard("LinGrow Researcher Dashboard");
-        }
-        else if (userType === 2) {
-            setDashboard("LinGrow Teacher Dashboard");
-        }
-        else if (userType === 1) {
-            setDashboard("LinGrow Parent Dashboard");
         }
     }, []);
 
@@ -73,7 +77,6 @@ export default function Dashboard({ userType }) {
             Translate('en', lang, "Group Manager").then(response => setGroupManagerMsg(response));
             Translate('en', lang, "Language Learning Activities").then(response => setLanguageLearningActivitiesMsg(response));
             Translate('en', lang, "Logout").then(response => setLogoutMsg(response));
-
         }
     });
 
@@ -99,6 +102,10 @@ export default function Dashboard({ userType }) {
             );
         }
     };
+
+    useEffect(() => {
+        console.log("Dashboard String: ",dashboardString);
+    }, [dashboardString])
 
     useEffect(() => {
         if (!translated) {
@@ -136,9 +143,9 @@ export default function Dashboard({ userType }) {
                 <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px"}}>
                     <Button variant="primary" type="submit" id="chat" style={{minWidth:"150px"}}>{chat}</Button>  
                     <div>{userType === 4 ? <Button variant="primary" type="submit" id="manageSchools" style={{minWidth:"150px"}}>{manageSchools}</Button> : null}</div>
-                    <div>{userType === 4 ? <Button variant="primary" type="submit" id="manageUsers" style={{minWidth:"150px"}}>{manageUsers}</Button> : null}</div>
                     <div>{userType > 1 ? <Button variant="primary" type="submit" id="searchUsers" onClick = {searchUserHandler}style={{minWidth:"150px"}}>{searchUsers}</Button> : null}</div>
-                    <Button href="/groupmanager" variant="primary" type="submit" id="groups" style={{minWidth:"150px"}}>{group_manager}</Button>  
+                    <div>{userType === 4 ? <Button href="/usermanager" variant="primary" type="submit" id="manageUsers" style={{minWidth:"150px"}}>{manageUsers}</Button> : null}</div>
+                    <div>{userType !== 1 ? <Button href="/groupmanager" variant="primary" type="submit" id="groups" style={{minWidth:"150px"}}>{group_manager}</Button> : null}</div>  
                     <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{minWidth:"150px"}}>{activities}</Button>
                     <Button variant="danger" type="submit" id="logout" onClick={clearSession} style={{minWidth:"150px"}}>{logout_msg}</Button>
                 </Card>
