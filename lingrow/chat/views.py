@@ -1,14 +1,10 @@
-from django.shortcuts import render, redirect
-from django.contrib import messages
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import get_user_model
 from chat import utility_functions as chat_utility_functions
 from account.models import User
 from chat.models import Chat, PrivateChat, Message, TeacherGroupChat, ParentGroupChat, ResearcherGroupChat
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponse
 from django.http import JsonResponse
-import json
-from django.db.models import Max
 
 
 # returns the list of private chats of the current user
@@ -28,6 +24,7 @@ def group_list(request):
 @login_required()
 def new_chat(request):
     addable = chat_utility_functions.get_addable_users_private_chat(request)
+    addable.remove(request.user)
     return render(request, 'new-chat.html', {'users': addable, 'len_addable': len(addable)})
 
 # It takes us to the page to create a new group chat, since the group hasn't been created yet,

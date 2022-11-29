@@ -11,6 +11,7 @@ from account.models import Teacher
 from django.db.models import Q
 from .serializers import ParentNameSerializer, TeacherNameSerializer, ResearcherNameSerializer, ParentGroupSerializer, TeacherGroupSerializer, ResearcherGroupSerializer, ParentGroupEditSerializer, TeacherGroupEditSerializer
 from itertools import chain
+from chat.models import ParentGroupChat, TeacherGroupChat, ResearcherGroupChat
 
 
 class ParentGroupView(APIView):
@@ -65,7 +66,10 @@ class ParentGroupView(APIView):
         request.data['owner'] = user.id
         serializer = ParentGroupSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            parent_group = serializer.save()
+            chat_group = ParentGroupChat(group=parent_group)
+            ParentGroupChat.add_this(chat_group)
+            chat_group.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -158,7 +162,10 @@ class TeacherGroupView(APIView):
         request.data['owner'] = user.id
         serializer = TeacherGroupSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            teacher_group = serializer.save()
+            chat_group = TeacherGroupChat(group=teacher_group)
+            TeacherGroupChat.add_this(chat_group)
+            chat_group.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -239,7 +246,10 @@ class ResearcherGroupView(APIView):
         request.data['owner'] = request.user.id
         serializer = ResearcherGroupSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            researcher_group = serializer.save()
+            chat_group = ResearcherGroupChat(group=researcher_group)
+            ResearcherGroupChat.add_this(chat_group)
+            chat_group.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

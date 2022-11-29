@@ -4,7 +4,6 @@
 {% block title %}Chat con {{ user2.email }} {% endblock title %}
 {% block activity_title %}
     To:{{ user2.email }}
-    <!-- <button class="btn btn-primary button-contacts" id="btn-teal" onclick="window.location.href='{% url 'new_group_chat' %}'" type="submit">Add participant</button> -->
 
 {% endblock activity_title %}
 
@@ -23,7 +22,7 @@
         });
     </script>
     <!--
-        refresh della chat in ajax
+        chat refresh in ajax
     -->
     <script>
         $(document).ready(function () {
@@ -114,7 +113,7 @@
         {% for message in messages %}
             {% if message.sender == user %}
                 <!--
-                    messaggio cevuto
+                    message received
                 -->
                 <div class="message-row">
                     <div class="triangle-right"></div>
@@ -124,11 +123,11 @@
                     </div>
                 </div>
                 <!--
-                   fine messaggio ricevuto
+                   end of message received
                -->
             {% else %}
                 <!--
-                    messaggio inviato
+                    message sent
                 -->
                 <div class="message-row">
                     <div class="triangle-left"></div>
@@ -138,7 +137,7 @@
                     </div>
                 </div>
                 <!--
-                   fine messaggio inviato
+                   end of message sent
                -->
             {% endif %}
         {% endfor %}
