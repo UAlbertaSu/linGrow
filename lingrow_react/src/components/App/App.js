@@ -13,6 +13,7 @@ import UserInfoAdmin from '../UserInfo/UserInfoAdmin';
 import GroupManagerWrapper from '../GroupManager/GroupManagerWrapper';
 import GroupCreatorWrapper from '../GroupManager/GroupCreatorWrapper';
 import GroupDetail from '../GroupManager/GroupDetail';
+import UserSearch from '../UserSearch/UserSearch';
 import AdminAddUser from '../Signup/AdminAddUser';
 import UserManagerWrapper from '../UserManager/UserManagerWrapper';
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/login" element={<Login/ >}></Route>
           <Route path="/signup" element={<Signup/ >}></Route>
           <Route path="/activities" element={<Activities/ >}></Route>
+          <Route path = "/searchuser" element= {<UserSearch />}> </Route>
           <Route path="/chat"></Route>
         </Routes>
       </BrowserRouter>
