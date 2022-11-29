@@ -12,15 +12,7 @@ import user_icon from "../Img/user_icon.png";
 export default function Dashboard({ userType }) {
     const nav = useNavigate();
 
-    const [dashboardString, setDashboardString] = useState();
-    const [dashboard, setDashboard] = useState();
-    const [home, setHome] = useState("Home");
-    const [profile, setProfile] = useState("Profile");
-    const [chat, setChatMsg] = useState("Chat");
-    const [manageSchools, setManageSchools] = useState("Manage Schools");
-    const [manageUsers, setManageUsers] = useState("Manage Users");
-    const [searchUsers, setSearchUsers] = useState("Search Users");
-
+    // Sets dashboard message based on user type retrieved from sessionStorage.
     const setDashboardType = () => {
         if (userType === 1) {
             return 'LinGrow Parent Dashboard';
@@ -36,34 +28,48 @@ export default function Dashboard({ userType }) {
         }
     }
 
+    // State variables.
+    const [dashboardString, setDashboardString] = useState(setDashboardType);
+    const [dashboard, setDashboard] = useState();
+    const [home, setHome] = useState("Home");
+    const [profile, setProfile] = useState("Profile");
+    const [chat, setChatMsg] = useState("Chat");
+    const [manageSchools, setManageSchools] = useState("Manage Schools");
+    const [manageUsers, setManageUsers] = useState("Manage Users");
+    const [searchUsers, setSearchUsers] = useState("Search Users");
     const [group_manager, setGroupManagerMsg] = useState("Group Manager");
     const [activities, setLanguageLearningActivitiesMsg] = useState("Language Learning Activities");
     const [logout_msg, setLogoutMsg] = useState("Logout");
 
+    // Navigate user to search user page.
    const searchUserHandler = async (event) => {
-    
         event.preventDefault();
         nav('/searchuser');
    }
    
+    // Navigate user to language development activities page.
     const redirectToActivities = async (event) => {
         event.preventDefault();
         nav("/activities");
     }
 
+    // Navigate user to login page if the token is not set or otherwise invalid.
     useEffect(() => {
         if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token').includes("error")) {
             nav("/");
         }
     }, []);
 
+    // Handle logout; clear session and navigate user to login page.
     const clearSession = async (event) => {
         sessionStorage.clear();
         nav("/");
     }
 
+    // State variable for check if the page has been translated.
     const [translated, setTranslated] = useState(0);
     
+    // Translate messages and set it to state variables.
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang && dashboard !== undefined) {
@@ -80,6 +86,7 @@ export default function Dashboard({ userType }) {
         }
     });
 
+    // ???
     function dash_render(props) {
         const home = props.home;
         if (home) {
@@ -103,10 +110,7 @@ export default function Dashboard({ userType }) {
         }
     };
 
-    useEffect(() => {
-        console.log("Dashboard String: ",dashboardString);
-    }, [dashboardString])
-
+    // Run on the page load; translate page, and handle translate request when new language is set.
     useEffect(() => {
         if (!translated) {
             translateMessage();
