@@ -227,9 +227,7 @@ function UserSearch(){
                                  {[elem.first_name, " ", elem.last_name]}
                             </ListGroup.Item>)}
                     </ListGroup>
-
                     :
-
                     <ListGroup>{<ListGroup.Item disabled >{noUserFoundMessage}</ListGroup.Item>}
                     </ListGroup>
                 }
