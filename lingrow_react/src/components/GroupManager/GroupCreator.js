@@ -11,17 +11,16 @@ export default function GroupCreator({userType}) {
     const loc = useLocation();
     const nav = useNavigate();
 
-    const [selected, setSelected] = useState(loc.state !== undefined ? loc.state.groupMembers : []);
+    const [selected, setSelected] = useState(loc.state !== null ? loc.state.groupMembers : []);
     const [searchResult, setSearchResult] = useState([]);
     const [token, setToken] = useState(JSON.parse(sessionStorage.getItem('token')));
-    const [flagSet, setFlagSet] = useState(0);
-    const [userChoice, setUserChoice] = useState(loc.state !== undefined ? loc.state.groupType : 1);
+    const [userChoice, setUserChoice] = useState(loc.state !== null ? loc.state.groupType : 1);
 
     const [no_user_message, setNoUsersFound] = useState("No user found");
     const [group_create_header, setHeader] = useState("Create New Group");
     const [submit_btn, setSubmitBtn] = useState("Create Group");
     const [search_bar_placeholder, setSearchBarPlaceholder] = useState("");
-    const [group_name, setGroupName] = useState(loc.state !== undefined ? loc.state.groupName : "Group Name");
+    const [group_name, setGroupName] = useState(loc.state !== null ? loc.state.groupName : "Group Name");
     const [group_id, setGroupID] = useState("Group ID");
 
     // Sets the initial state of search results.
@@ -122,7 +121,7 @@ export default function GroupCreator({userType}) {
         e.preventDefault();
 
         let method = 'POST';
-        if (loc.state !== undefined) {
+        if (loc.state !== null) {
             method = 'PATCH';
         }
 
@@ -134,7 +133,7 @@ export default function GroupCreator({userType}) {
 
             let url = 'http://127.0.0.1:8000/api/group/researchergroup/'
 
-            if (loc.state !== undefined) {
+            if (loc.state !== null) {
                 url += loc.state.groupID + '/';
             }
 
@@ -160,7 +159,7 @@ export default function GroupCreator({userType}) {
 
             let url = 'http://127.0.0.1:8000/api/group/teachergroup/'
 
-            if (loc.state !== undefined) {
+            if (loc.state !== null) {
                 url += loc.state.groupID + '/';
             }
 
@@ -186,7 +185,7 @@ export default function GroupCreator({userType}) {
 
             let url = 'http://127.0.0.1:8000/api/group/parentgroup/'
 
-            if (loc.state !== undefined) {
+            if (loc.state !== null) {
                 url += loc.state.groupID + '/';
             }
 
@@ -204,12 +203,6 @@ export default function GroupCreator({userType}) {
             })
         }
     }
-    useEffect(() => {
-        if (!flagSet) {
-            populateList(userChoice);
-            setFlagSet(1);
-        }
-    }, []);
 
     // Setter for initial page translation.
     const [translated, setTranslated] = useState(0);
@@ -226,13 +219,17 @@ export default function GroupCreator({userType}) {
         }
     });
 
+    // Translate the page and populate the list of users once the page load.
     useEffect(() => {
-        // Prevents page from being constantly translated.
+
+        // Prevent translation and list population from running multiple times.
         if (!translated) {
+            populateList(userChoice);
             translateMessage();
             setTranslated(1);
         }
 
+        // If the new language change is detected, translate the page.
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
     });
@@ -243,7 +240,7 @@ export default function GroupCreator({userType}) {
             <h1>{group_create_header}</h1>
             <input type="text" className="form-control" id="group_name" placeholder={group_name} onChange={e => setGroupName(e.target.value)}/>
             <input type="text" className="form-control" id="group_id" placeholder={group_id} onChange={e => setGroupID(e.target.value)} />
-            <select defaultValue={loc.state !== undefined ? loc.state.groupType : userChoice} className='form-select' id='language_dropdown' onChange={handleChange} style={{margin:"20px"}}>
+            <select defaultValue={loc.state !== null ? loc.state.groupType : userChoice} className='form-select' id='language_dropdown' onChange={handleChange} style={{margin:"20px"}}>
                 <option value={1}>Parents</option>
                 <option disabled={userType > 2 ? false : true} value={2}>Teachers</option>
                 <option disabled={userType > 3 ? false : true} value={3}>Researchers</option>

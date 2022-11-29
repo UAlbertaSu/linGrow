@@ -10,6 +10,9 @@ import UserInfoWrapper from '../UserInfo/UserInfoWrapper';
 import GroupManagerWrapper from '../GroupManager/GroupManagerWrapper';
 import GroupCreatorWrapper from '../GroupManager/GroupCreatorWrapper';
 import GroupDetail from '../GroupManager/GroupDetail';
+import UserSearch from '../UserSearch/UserSearch';
+import AdminAddUser from '../Signup/AdminAddUser';
+import UserManagerWrapper from '../UserManager/UserManagerWrapper';
 
 function App() {
   if (localStorage.getItem('lang') === null) {
@@ -25,11 +28,15 @@ function App() {
           <Route path="/welcome" element={<Welcome/ >}></Route>
           <Route path="/userinfo" element={<UserInfoWrapper/ >}></Route>
           <Route path="/groupmanager" element={<GroupManagerWrapper/ >}></Route>
+          <Route path="/usermanager" element={<UserManagerWrapper/ >}></Route>
           <Route path="/groupcreator" element={<GroupCreatorWrapper/ >}></Route>
+          <Route path="/adminadduser" element={<AdminAddUser/ >}></Route>
           <Route path="/groupdetail" element={<GroupDetail/ >}></Route>
           <Route path="/login" element={<Login/ >}></Route>
           <Route path="/signup" element={<Signup/ >}></Route>
           <Route path="/activities" element={<Activities/ >}></Route>
+          <Route path = "/searchuser" element= {<UserSearch />}> </Route>
+          <Route path="/chat"></Route>
         </Routes>
       </BrowserRouter>
     </div>
