@@ -215,8 +215,8 @@ function UserSearch(){
                     <option disabled = {userType > 3 ? false : true} value = {3}>{researcherLang}</option>
                 </select> : null  }
             </div>
-            <input type ='text' className = "form-control" placeholder = {enterName} ref = {refUserSearch} />
-            <Button onClick = {searchHandler}>{searchBtn}</Button>
+            <input id ='searchUsername' type ='text' className = "form-control" placeholder = {enterName} ref = {refUserSearch} />
+            <Button id ='searchstart' onClick = {searchHandler}>{searchBtn}</Button>
 
             <div style = {{display : 'block', width: 400, padding: 30 }}>
                 {
