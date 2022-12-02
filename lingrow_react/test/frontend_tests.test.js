@@ -795,34 +795,30 @@ describe ('Dashboard elements', async () => {
     });
 });
 
-
-
-
-
 describe ('Group Management', async () => {
     it ('Create a new group', async () => {
         let browser = await puppeteer.launch({
             headless: false
         });
-        // function callRegisterApi() {
-//     const option= {
-//         method: 'POST',
-//         uri: "http://127.0.0.1:8000/api/user/register/",
-//         header: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: {"email": "frontend@test.com", "password":'Aa1234567!',
-//         "password2": "Aa1234567!", "first_name": "frontend",
-//         "last_name": "test", "user_type": 4
-//         },
-//         json: true
-//     };
-//     rp(options).then (function (parseBody) {
-//         console.log(parseBody)
-//     }).catch(function(error){console.log("call api error" + error)})
-// }
+        function callRegisterApi() {
+    const option= {
+        method: 'POST',
+        uri: "http://127.0.0.1:8000/api/user/register/",
+        header: {
+            'Content-Type': 'application/json',
+        },
+        body: {"email": "frontend@test.com", "password":'Aa1234567!',
+        "password2": "Aa1234567!", "first_name": "frontend",
+        "last_name": "test", "user_type": 4
+        },
+        json: true
+    };
+    rp(options).then (function (parseBody) {
+        console.log(parseBody)
+    }).catch(function(error){console.log("call api error" + error)})
+}
         try {
-            //callRegisterApi();
+            callRegisterApi();
             let page = await browser.newPage(); 
             await page.goto('http://localhost:3000/login');
             page.evaluate(() => {
@@ -833,7 +829,7 @@ describe ('Group Management', async () => {
             const textbox = await page.$('#email'); //email input
             await textbox.type('frontend@test.com');
             const textbox2 = await page.$('#password'); //pswd input
-            await textbox2.type('A1234567!');
+            await textbox2.type('Aa1234567!');
             await new Promise(r => setTimeout(r, 500));
             await page.waitForSelector('#login'); //Create New Group button
             await page.click('#login');
@@ -1056,3 +1052,120 @@ describe ('Translation functionalities', async () => {
     }, 20000);
 });
 
+describe ('Searching users functionalities', async () => {
+    it ('Search user function should navigate to the corresponding page', async () => {
+        let browser = await puppeteer.launch({
+            headless: true
+        });
+        try {
+            let page = await browser.newPage();
+            await page.goto('http://localhost:3000/');
+            await page.goto('http://localhost:3000/login', {waitUntil: 'networkidle0',});
+            await page.click('#activities');
+
+            await page.waitForSelector('#activity_btn_1');
+            await page.click('#activity_btn_1');
+            const url = await page.evaluate(() => document.location.href);
+            expect(url).to.contain('https://drive.google.com/drive/folders/');
+        }
+        catch (error) {
+            throw(error);
+        }
+        finally {
+            await browser.close();
+        }
+    });
+});
+
+describe ('Searching users functionalities', async () => {
+    it ('Search user function should navigate to the corresponding page', async () => {
+        let browser = await puppeteer.launch({
+            headless: false
+        });
+        try {
+            let page = await browser.newPage(); 
+            await page.goto('http://localhost:3000/login');
+            page.evaluate(() => {
+                sessionStorage.setItem('token', 'frontend_test_token');
+            })  
+            await page.goto('http://localhost:3000/login', {waitUntil: 'networkidle0',});
+
+            const textbox = await page.$('#email'); //email input
+            await textbox.type('frontend@test.com');
+            const textbox2 = await page.$('#password'); //pswd input
+            await textbox2.type('Aa1234567!');
+            await new Promise(r => setTimeout(r, 500));
+            await page.waitForSelector('#login'); //login
+            await page.click('#login');
+            await new Promise(r => setTimeout(r, 500));
+
+            await page.waitForSelector('#searchUsers'); //Search users button
+            await page.click('#searchUsers');
+            await new Promise(r => setTimeout(r, 500));
+
+            const url1 = await page.evaluate(() => document.location.href); //Check if the page is redirected to the correct page
+            expect(url1).is.equal('http://localhost:3000/searchuser');
+
+            const textbox3 = await page.$('#searchUsername'); //Username input
+            await textbox3.type('frontendtest');
+
+            await page.waitForSelector('#searchstart'); //start searching users button
+            await page.click('#searchstart');
+            await new Promise(r => setTimeout(r, 800));
+
+            const url2 = await page.evaluate(() => document.location.href); //Check if the page is redirected to the correct page
+            expect(url2).is.equal('http://localhost:3000/searchuser');
+        }
+        catch (error) {
+            throw(error);
+        }
+        finally {
+            await browser.close();
+        }
+    });
+});
+
+describe ('Adding user functionalities', async () => {
+    it ('Adding user function should navigate to corrersponding page', async () => {
+        let browser = await puppeteer.launch({
+            headless: false
+        });
+        try {
+            let page = await browser.newPage(); 
+            await page.goto('http://localhost:3000/login');
+            page.evaluate(() => {
+                sessionStorage.setItem('token', 'frontend_test_token');
+            })  
+            await page.goto('http://localhost:3000/login', {waitUntil: 'networkidle0',});
+
+            const textbox = await page.$('#email'); //email input
+            await textbox.type('frontend@test.com');
+            const textbox2 = await page.$('#password'); //pswd input
+            await textbox2.type('Aa1234567!');
+            await new Promise(r => setTimeout(r, 500));
+            await page.waitForSelector('#login'); //login
+            await page.click('#login');
+            await new Promise(r => setTimeout(r, 500));
+
+            await page.waitForSelector('#manageUsers'); //Manage User button
+            await page.click('#manageUsers');
+            await new Promise(r => setTimeout(r, 500));
+
+            const url1 = await page.evaluate(() => document.location.href); //Check if the page is redirected to the correct page
+            expect(url1).is.equal('http://localhost:3000/usermanager');
+
+            await page.waitForSelector('#create'); //Add user button
+            await page.click('#create');
+            await new Promise(r => setTimeout(r, 800));
+
+            const url2 = await page.evaluate(() => document.location.href); //Check if the page is redirected to the correct page
+            expect(url2).is.equal('http://localhost:3000/adminadduser');
+        }
+        catch (error) {
+            throw(error);
+        }
+        finally {
+            await browser.close();
+        }
+    });
+});
