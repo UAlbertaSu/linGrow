@@ -13,6 +13,9 @@ import GroupDetail from '../GroupManager/GroupDetail';
 import UserSearch from '../UserSearch/UserSearch';
 import AdminAddUser from '../Signup/AdminAddUser';
 import UserManagerWrapper from '../UserManager/UserManagerWrapper';
+import SchoolManager from '../SchoolManager/SchoolManager';
+import SchoolCreator from '../SchoolManager/SchoolCreator';
+import ClassroomManager from '../ClassroomManager/ClassroomManager';
 
 function App() {
   if (localStorage.getItem('lang') === null) {
@@ -37,6 +40,10 @@ function App() {
           <Route path="/activities" element={<Activities/ >}></Route>
           <Route path = "/searchuser" element= {<UserSearch />}> </Route>
           <Route path="/chat"></Route>
+          <Route path="/schoolmanager" element={<SchoolManager/ >}></Route>
+          <Route path="/schoolcreator" element={<SchoolCreator/ >}></Route>
+          <Route path="/classroommanager" element={<SchoolCreator/ >}></Route>
+
         </Routes>
       </BrowserRouter>
     </div>
