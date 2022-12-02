@@ -3,6 +3,7 @@ import { Button, Card } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import clouds from '../Img/clouds.png';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
@@ -206,33 +207,37 @@ function UserSearch(){
 
 
     return(
-        <Card style = {{minHeight: "fit-content"}}>
-            <LanguageList />
-            <h1>{searchUserHeader}</h1>
-            <div>{userType !==4 ? <select defaultValue = {userChoice} onChange = {changeHandler}>
-                    <option value = {1}>{parentLang}</option>
-                    <option disabled = {userType > 2 ? false : true} value = {2}>{teacherLang}</option>
-                    <option disabled = {userType > 3 ? false : true} value = {3}>{researcherLang}</option>
-                </select> : null  }
-            </div>
-            <input id ='searchUsername' type ='text' className = "form-control" placeholder = {enterName} ref = {refUserSearch} />
-            <Button id ='searchstart' onClick = {searchHandler}>{searchBtn}</Button>
+        <Card className="background_cloud_card">
+        <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
+            <Card.ImgOverlay>
+                <Card className='function_card'>
+                    <LanguageList />
+                    <h1>{searchUserHeader}</h1>
+                    <div>{userType !==4 ? <select defaultValue = {userChoice} onChange = {changeHandler}>
+                            <option value = {1}>{parentLang}</option>
+                            <option disabled = {userType > 2 ? false : true} value = {2}>{teacherLang}</option>
+                            <option disabled = {userType > 3 ? false : true} value = {3}>{researcherLang}</option>
+                        </select> : null  }
+                    </div>
+                    <input id ='searchUsername' type ='text' className = "form-control" placeholder = {enterName} ref = {refUserSearch} />
+                    <Button id ='searchstart' onClick = {searchHandler}>{searchBtn}</Button>
 
-            <div style = {{display : 'block', width: 400, padding: 30 }}>
-                {
-                    searchResult.length > 0 ?
-                    <ListGroup>
-                        {searchResult.map((elem) =>
-                            <ListGroup.Item action active = {selected.includes(elem) ? true : false} onClick = {() => selectListItem(elem)} key = {elem.id} value = {elem}>
-                                 {[elem.first_name, " ", elem.last_name]}
-                            </ListGroup.Item>)}
-                    </ListGroup>
-                    :
-                    <ListGroup>{<ListGroup.Item disabled >{noUserFoundMessage}</ListGroup.Item>}
-                    </ListGroup>
-                }
-            </div>
-            
+                    <div style = {{display : 'block', width: 400, padding: 30 }}>
+                        {
+                            searchResult.length > 0 ?
+                            <ListGroup>
+                                {searchResult.map((elem) =>
+                                    <ListGroup.Item action active = {selected.includes(elem) ? true : false} onClick = {() => selectListItem(elem)} key = {elem.id} value = {elem}>
+                                        {[elem.first_name, " ", elem.last_name]}
+                                    </ListGroup.Item>)}
+                            </ListGroup>
+                            :
+                            <ListGroup>{<ListGroup.Item disabled >{noUserFoundMessage}</ListGroup.Item>}
+                            </ListGroup>
+                        }
+                    </div>
+                </Card>
+            </Card.ImgOverlay>
         </Card>
         );
 

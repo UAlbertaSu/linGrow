@@ -3,6 +3,8 @@ import { Button, Card } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import clouds from '../Img/clouds.png';
+
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
@@ -235,30 +237,35 @@ export default function GroupCreator({userType}) {
     });
 
     return (
-        <Card style={{minHeight:"fit-content"}}>
-            <LanguageList />
-            <h1>{group_create_header}</h1>
-            <input type="text" className="form-control" id="group_name" placeholder={group_name} onChange={e => setGroupName(e.target.value)}/>
-            <input type="text" className="form-control" id="group_id" placeholder={group_id} onChange={e => setGroupID(e.target.value)} />
-            <select defaultValue={loc.state !== null ? loc.state.groupType : userChoice} className='form-select' id='language_dropdown' onChange={handleChange} style={{margin:"20px"}}>
-                <option value={1}>Parents</option>
-                <option disabled={userType > 2 ? false : true} value={2}>Teachers</option>
-                <option disabled={userType > 3 ? false : true} value={3}>Researchers</option>
-            </select>
-            <div style={{ display: 'block', width: 400, padding: 30 }}>
-                {
-                    searchResult.length > 0 ? 
-                        <ListGroup>
-                        {searchResult.map((elem) => 
-                            <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} key={elem.id} value={elem.id}>
-                                {[elem.first_name, " ", elem.last_name]}
-                            </ListGroup.Item>)}
-                        </ListGroup> 
-                    : 
-                        <ListGroup>{<ListGroup.Item disabled >{no_user_message}</ListGroup.Item>}</ListGroup>
-                }
-            </div>
-            <Button disabled={selected.length == 0 ? true : false} variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
+        <Card className="background_cloud_card">
+            <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
+            <Card.ImgOverlay>
+                <Card className='function_card'>
+                    <LanguageList />
+                    <h1>{group_create_header}</h1>
+                    <input type="text" className="form-control" id="group_name" placeholder={group_name} onChange={e => setGroupName(e.target.value)}/>
+                    <input type="text" className="form-control" id="group_id" placeholder={group_id} onChange={e => setGroupID(e.target.value)} />
+                    <select defaultValue={loc.state !== null ? loc.state.groupType : userChoice} className='form-select' id='language_dropdown' onChange={handleChange} style={{margin:"20px"}}>
+                        <option value={1}>Parents</option>
+                        <option disabled={userType > 2 ? false : true} value={2}>Teachers</option>
+                        <option disabled={userType > 3 ? false : true} value={3}>Researchers</option>
+                    </select>
+                    <div style={{ display: 'block', width: 400, padding: 30 }}>
+                        {
+                            searchResult.length > 0 ? 
+                                <ListGroup>
+                                {searchResult.map((elem) => 
+                                    <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} key={elem.id} value={elem.id}>
+                                        {[elem.first_name, " ", elem.last_name]}
+                                    </ListGroup.Item>)}
+                                </ListGroup> 
+                            : 
+                                <ListGroup>{<ListGroup.Item disabled >{no_user_message}</ListGroup.Item>}</ListGroup>
+                        }
+                    </div>
+                    <Button disabled={selected.length == 0 ? true : false} variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
+                </Card>
+            </Card.ImgOverlay>
         </Card>
     );
 }

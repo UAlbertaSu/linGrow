@@ -78,7 +78,10 @@ export default function UserManager() {
     });
 
     return (
-        <Card style={{minHeight:"fit-content"}}>
+        <Card className="background_cloud_card">
+        <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
+            <Card.ImgOverlay>
+        <Card className='function_card'>
             <LanguageList />
             <h1>{header}</h1>
             <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>{addUsers}</Button>
@@ -95,6 +98,6 @@ export default function UserManager() {
                         <ListGroup>{<ListGroup.Item disabled >{no_user_message}</ListGroup.Item>}</ListGroup>
                 }
             </div>
-        </Card>
+        </Card></Card.ImgOverlay></Card>
     );
 }

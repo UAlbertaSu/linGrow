@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import './Dashboard.css';
-import { Card, Button, Nav, NavDropdown, Container, Navbar} from 'react-bootstrap';
+import { Card, Button, Nav, Container, Navbar} from 'react-bootstrap';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
+
+import clouds from '../Img/clouds.png';
 import logo from "../Img/lingrow.png";
 import home_icon from "../Img/home_icon.png";
 import user_icon from "../Img/user_icon.png";
@@ -123,7 +125,9 @@ export default function Dashboard({ userType }) {
 
 
     return (
-        <div className="dashboard-wrapper">
+        <Card className="background_cloud_card">
+            <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
+            <Card.ImgOverlay>
             <Card style={{minHeight:"fit-content", paddingBottom:"20px"}}>
                 <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
                 <LanguageList />
@@ -134,7 +138,7 @@ export default function Dashboard({ userType }) {
                         <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <img src={home_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
-                            <Nav.Link href="#home" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px"}}>{home}</Nav.Link>
+                            <Nav.Link style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", color:"black"}}>{home}</Nav.Link>
                             <img src={user_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
                             <Nav.Link href="userinfo" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", border:""}}>{profile}</Nav.Link>
                         </Nav>
@@ -151,6 +155,7 @@ export default function Dashboard({ userType }) {
                     <Button variant="danger" type="submit" id="logout" onClick={clearSession} style={{minWidth:"150px"}}>{logout_msg}</Button>
                 </Card>
             </Card>
-        </div>
+        </Card.ImgOverlay>
+        </Card>
     );
 }

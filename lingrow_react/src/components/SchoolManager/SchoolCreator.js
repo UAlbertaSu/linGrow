@@ -6,6 +6,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
+import clouds from '../Img/clouds.png';
+
 // Allows users to create a new school
 export default function SchoolCreator({userType}) {
     const loc = useLocation();
@@ -142,6 +144,9 @@ export default function SchoolCreator({userType}) {
 
     return (
         // TODO: change this
+        <Card className="background_cloud_card">
+        <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
+            <Card.ImgOverlay>
         <Card style={{minHeight:"fit-content"}}>
             <LanguageList />
             <h1>{group_create_header}</h1>
@@ -166,6 +171,6 @@ export default function SchoolCreator({userType}) {
                 }
             </div>
             <Button disabled={selected.length == 0 ? true : false} variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
-        </Card>
+        </Card></Card.ImgOverlay></Card>
     );
 }
