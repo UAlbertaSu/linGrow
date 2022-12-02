@@ -5,6 +5,14 @@ from account.models import User
 from chat.models import Chat, PrivateChat, Message, TeacherGroupChat, ParentGroupChat, ResearcherGroupChat
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django import forms
+from translate.views import translate_text, detect_language
+
+LANGUAGE_CHOICES = {
+    'English': 'en',
+    'Français': 'fr',
+    'हिन्दी': 'hi'
+}
 
 
 # returns the list of private chats of the current user
@@ -42,7 +50,8 @@ def create_chat(request):
     private_chat = PrivateChat()
     new_chat = PrivateChat.add_this(private_chat, request.user, other_user)
     messages = Message.objects.all().filter(chat=new_chat)
-    return render(request, 'chat.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages})
+    languages = list(LANGUAGE_CHOICES.keys())
+    return render(request, 'chat.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages, 'languages': languages})
 
 
 #takes us back to the private chat page after retrieving the messages
@@ -55,7 +64,8 @@ def private_chat(request):
         participant = chat.participant2
     else:
         participant = chat.participant1
-    return render(request, 'chat.html', {'user2': participant, 'id_chat': chat_id, 'messages': messages})
+    languages = list(LANGUAGE_CHOICES.keys())
+    return render(request, 'chat.html', {'user2': participant, 'id_chat': chat_id, 'messages': messages, 'languages': languages})
 
 # find a group chat given the id and call the function to generate its page
 @login_required
@@ -85,6 +95,9 @@ def send_message(request):
     chat_id = request.POST.get("id_chat")
     chat = Chat.objects.get(id_chat=chat_id)
     text_message = request.POST.get("text-message-input")
+    lang = detect_language(text_message)
+    if lang != 'en':
+        text_message = translate_text(text_message, lang, 'en')
     if len(text_message) > 0:
         messaggio=Message.add_this(Message(), chat, request.user, text_message)
     response = HttpResponse("200")
@@ -100,10 +113,13 @@ def get_message_by_id(id):
 def get_json_chat_messages(request):
     id_chat = request.POST.get("id_chat")
     chat = Chat.objects.get(id_chat=id_chat)
+    new_lang = LANGUAGE_CHOICES.get(request.POST.get("lang"))
     messaggi_query = Message.objects.all().filter(chat=chat)
     messaggi_json_array = []
     for messaggio in messaggi_query:
-        msg = {'username': messaggio.sender.email, 'text': messaggio.text,
+        message = messaggio.text
+        message = translate_text(message, 'en', new_lang)
+        msg = {'username': messaggio.sender.email, 'text': message,
                'timestamp': messaggio.timestamp.strftime('%Y-%m-%d %H:%M')}
         messaggi_json_array.append(msg)
     return JsonResponse(messaggi_json_array, safe=False)
