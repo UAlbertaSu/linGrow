@@ -7,6 +7,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.2",
+    "dropzone": "^6.0.0-beta.2",
     "mocha": "^10.1.0",
     "papaparse": "^5.3.2",
     "puppeteer": "^19.2.0",
@@ -31,7 +32,7 @@
     "test": "npm run single",
     "test_windows": "npm run windows_test",
     "windows_test": ".\\node_modules\\.bin/mocha --timeout 20000 .\\test\\frontend_tests.test.js",
-    "single": "./node_modules/.bin/mocha --timeout 200000 ./test/frontend_tests.js",
+    "single": "./node_modules/.bin/mocha --timeout 200000 ./test/jefftest.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

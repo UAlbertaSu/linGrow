@@ -215,21 +215,19 @@ function UserSearch(){
                     <option disabled = {userType > 3 ? false : true} value = {3}>{researcherLang}</option>
                 </select> : null  }
             </div>
-            <input type ='text' className = "form-control" placeholder = {enterName} ref = {refUserSearch} />
-            <Button onClick = {searchHandler}>{searchBtn}</Button>
+            <input id ='searchUsername' type ='text' className = "form-control" placeholder = {enterName} ref = {refUserSearch} />
+            <Button id ='searchstart' onClick = {searchHandler}>{searchBtn}</Button>
 
             <div style = {{display : 'block', width: 400, padding: 30 }}>
                 {
                     searchResult.length > 0 ?
                     <ListGroup>
                         {searchResult.map((elem) =>
-                            <ListGroup.Item action active = {selected.includes(elem.id) ? true : false} onClick = {() => selectListItem(elem.id)} key = {elem.id} value = {elem.id}>
+                            <ListGroup.Item action active = {selected.includes(elem) ? true : false} onClick = {() => selectListItem(elem)} key = {elem.id} value = {elem}>
                                  {[elem.first_name, " ", elem.last_name]}
                             </ListGroup.Item>)}
                     </ListGroup>
-
                     :
-
                     <ListGroup>{<ListGroup.Item disabled >{noUserFoundMessage}</ListGroup.Item>}
                     </ListGroup>
                 }
