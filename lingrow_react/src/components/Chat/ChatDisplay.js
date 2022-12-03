@@ -5,27 +5,27 @@ function ChatDisplay() {
 
     const [loadedMessages, setLoadedMessages] = useState([]);
 
-    useEffect(() => {
+    // useEffect(() => {
        
-        // get details from Kash 
-        fetch(
-            'http://127.0.0.1:8000/').then(response => {
-                return response.json();
-            }).then(data =>{
+    //     // get details from Kash 
+    //     fetch(
+    //         'http://127.0.0.1:8000/').then(response => {
+    //             return response.json();
+    //         }).then(data =>{
 
-                const messages = [];
-                //Need to find out how message API works
-                got(const message in data){
-                    const message = {
-                        id: message.id,
-                        ...data[message]
-                    };
-                    messages.push(message);
-                }
+    //             const messages = [];
+    //             //Need to find out how message API works
+    //             got(const message in data){
+    //                 const message = {
+    //                     id: message.id,
+    //                     ...data[message]
+    //                 };
+    //                 messages.push(message);
+    //             }
                 
-                setLoadedMessages(messages);
-            })
-    })
+    //             setLoadedMessages(messages);
+    //         })
+    // })
 
     //Need to find proper syntax. 
     return (

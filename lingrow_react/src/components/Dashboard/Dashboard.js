@@ -32,8 +32,8 @@ export default function Dashboard({ userType }) {
     }
 
     // State variables.
-    const [dashboardString, setDashboardString] = useState(setDashboardType);
-    const [dashboard, setDashboard] = useState();
+    const [dashboardString, setDashboardString] = useState();
+    const [dashboard, setDashboard] = useState(setDashboardType);
     const [home, setHome] = useState("Home");
     const [profile, setProfile] = useState("Profile");
     const [chat, setChatMsg] = useState("Chat");
@@ -48,6 +48,11 @@ export default function Dashboard({ userType }) {
    const searchUserHandler = async (event) => {
         event.preventDefault();
         nav('/searchuser');
+   }
+
+   const chatHandler = async (event) => {
+        event.preventDefault();
+        nav('/chat');
    }
    
     // Navigate user to language development activities page.
@@ -75,8 +80,8 @@ export default function Dashboard({ userType }) {
     // Translate messages and set it to state variables.
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
-        if (lang && dashboard !== undefined) {
-            Translate('en', lang, dashboard).then(response => setDashboard(response));
+        if (lang) {
+            Translate('en', lang, dashboard).then(response => setDashboardString(response));
             Translate('en', lang, "Home").then(response => setHome(response));
             Translate('en', lang, "Profile").then(response => setProfile(response));
             Translate('en', lang, "Chat").then(response => setChatMsg(response));
@@ -89,30 +94,6 @@ export default function Dashboard({ userType }) {
         }
     });
 
-    // ???
-    function dash_render(props) {
-        const home = props.home;
-        if (home) {
-            return (
-                <Card style={{marginTop:"10px", position:"relative", left:"0%", backgroundColor:"white", width:"80%"}}>
-                    <Card.Body>
-                        <Card.Title>Profile</Card.Title>
-    
-                        <Card.Text>
-                            <p>Username: {sessionStorage.getItem('username')}</p>
-                            <p>Email: {sessionStorage.getItem('email')}</p>
-                            <p>Language: {sessionStorage.getItem('language')}</p>
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            );
-        } else {
-            return (
-                <Card style={{marginTop:"10px", position:"relative", left:"0%", backgroundColor:"white", width:"80%"}}></Card>
-            );
-        }
-    };
-
     // Run on the page load; translate page, and handle translate request when new language is set.
     useEffect(() => {
         if (!translated) {
@@ -122,7 +103,7 @@ export default function Dashboard({ userType }) {
         
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
-    }, [dashboard]);
+    }, []);
 
 
     return (
