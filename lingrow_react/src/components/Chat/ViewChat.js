@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import './Chat.css';
 import { Card, Button, Nav, NavDropdown, Container, Navbar} from 'react-bootstrap';
@@ -28,9 +28,9 @@ export default function Chat() {
     const userType = JSON.parse(sessionStorage.getItem('userType'));
     const id_chat = JSON.parse(sessionStorage.getItem('id_chat'));
     const chat_type = JSON.parse(sessionStorage.getItem('chat_type'));
-    var url = "http://127.0.0.1:8000/api/chat/private_chat/";
+    var url = "http://127.0.0.1:8000/api/chat/get_private_chat_messages/";
     if (chat_type === "group") {
-        url = "http://127.0.0.1:8000/api/chat/group_chat_page/"
+        url = "http://127.0.0.1:8000/api/chat/get_group_chat_messages/";
     }
 
     const setDashboardType = () => {
@@ -48,13 +48,16 @@ export default function Chat() {
         }
     }
     const token = JSON.parse(sessionStorage.getItem('token'));
+    const [lang, setLang] = useState(localStorage.getItem('lang'));
     const [dashboardString, setDashboardString] = useState(setDashboardType);
     const [home, setHome] = useState("Home");
     const [profile, setProfile] = useState("Profile");
-    const [other_user, setOtherUser] = useState();
+    // const [other_user, setOtherUser] = useState();
     const [chat, setChat] = useState([]);
+    const [chat_original, setChatOriginal] = useState([]);
+    const [current_lang, setCurrentLang] = useState(localStorage.getItem('lang'));
 
-
+    // Initialize chat message with previous chats, set who is the other user.
     useEffect(
         () => {
             fetch(url, {
@@ -64,7 +67,8 @@ export default function Chat() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "id_chat": id_chat
+                "id_chat": id_chat,
+                "lang": lang
             })
             }).then(data => data.json()
             ).then(data => {
@@ -72,9 +76,8 @@ export default function Chat() {
                     throw Error("Failed to retrieve user due to invalid login credentials or database request error.");
                 }
                 else {
-                    setChat([...chat,...data.messages]);
-                    setOtherUser(data.user2);
-
+                    setChat([...chat, ...data]);
+                    // setOtherUser(data.user2);
                 }
             });
         }, []
@@ -105,11 +108,74 @@ export default function Chat() {
                 throw Error("Failed to retrieve user due to invalid login credentials or database request error.");
             }
             else {
-                setChat([...chat,data.message]);
+                setChat([...chat, data.message]);
             }
         });
     }
+
+    // Retrieve current chat message list, and update with new messages
+    const updateMessages = async () => {
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                "id_chat": id_chat,
+                "lang": lang
+            })
+        }).then(data => data.json()
+        ).then(data => {
+            if (data.hasOwnProperty('error')) {
+                throw Error("Failed to retrieve user due to invalid login credentials or database request error.");
+            }
+            else {
+                setChat([...chat, ...data]);
+            }
+        });
+    }
+
+    // Update chat messages in 500 milliseconds interval.
+    useEffect(() => {
+        setInterval(() => {
+            updateMessages();
+        }, 500);
+    }, []);
+
+    // Setter for initial page translation.
+    // const [translated, setTranslated] = useState(0);
     
+    // // Translate message to the user's language.
+    const translateMessage = useCallback((e) => {
+
+        setLang(localStorage.getItem('lang'));
+
+        // if (lang) {
+        //     for (let i = 0; i < chat.length; i++) {
+        //         Translate('unknown', lang, chat_original[i].text).then(response => {
+        //             chat[i].text = response;
+
+        //             // at last index
+        //             if (i === chat.length - 1) {
+        //                 setCurrentLang(lang);
+        //             }
+        //         });
+        //     }
+        // }
+    });
+    
+    useEffect(() => {
+        // Prevents page from being constantly translated.
+        // if (translated === 0) {
+        //     translateMessage();
+        //     setTranslated(1);
+        // }
+    
+        // Translate chat messages if user modifies language from the list.
+        window.addEventListener("New language set", translateMessage);
+        return () => window.removeEventListener("New language set", translateMessage);
+    });
 
     return (
         <div className="dashboard-wrapper">
@@ -135,7 +201,7 @@ export default function Chat() {
                     <div className="chat-display">
                         {chat.map((message) => (
                             <div className="message">
-                                <div className="message-sender">{message.sender.email}</div>
+                                <div className="message-sender">{message.username}</div>
                                 <div className="message-content">{message.text}</div>
                             </div>
                         ))}

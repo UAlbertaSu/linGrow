@@ -29,10 +29,7 @@ export default function LanguageList() {
         }).then(data => data.json()
         ).then(data => {
             setList(data.data.languages);
-            console.log("Response from google: ", data.data.languages);
-        }).catch(error => {
-            console.log("Error caught: ", error);
-        })
+        });
     }, []);
 
     // Sets language in local storage and dispatches event to other components.

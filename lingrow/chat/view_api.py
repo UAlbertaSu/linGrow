@@ -145,6 +145,7 @@ class ChatMessageView(APIView):
             msg = {'username': messaggio.sender.email, 'text': message,
                 'timestamp': messaggio.timestamp.strftime('%Y-%m-%d %H:%M')}
             messaggi_json_array.append(msg)
+        print (messaggi_json_array)
         return Response(messaggi_json_array, status=status.HTTP_200_OK)
 
 

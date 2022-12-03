@@ -22,7 +22,7 @@
 //     return () => window.removeEventListener("New language set", translateMessage);
 // });
 
-// Function for making translation request.
+// Function for making translation requests.
 export default async function Translate(source, lang, query) {
     let result = "...";
     let query_json = {
