@@ -117,7 +117,7 @@
         {% for message in messages %}
             {% if message.sender == user %}
                 <!--
-                   messaggio cevuto
+                   message received
                -->
                 <div class="message-row">
                     <div class="triangle-right"></div>
@@ -127,11 +127,11 @@
                     </div>
                 </div>
                 <!--
-                  fine messaggio ricevuto
+                  end of message received
               -->
             {% else %}
                 <!--
-                   messaggio inviato
+                   message sent
                -->
                 <div class="message-row">
                     <div class="triangle-left"></div>
@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <!--
-                  fine messaggio inviato
+                  end of message sent
               -->
             {% endif %}
         {% endfor %}

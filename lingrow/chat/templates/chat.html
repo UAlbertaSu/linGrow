@@ -4,8 +4,11 @@
 {% block title %}Chat con {{ user2.email }} {% endblock title %}
 {% block activity_title %}
     To:{{ user2.email }}
-    <!-- <button class="btn btn-primary button-contacts" id="btn-teal" onclick="window.location.href='{% url 'new_group_chat' %}'" type="submit">Add participant</button> -->
-
+    <select name="language" id="language">
+        {% for lang in languages %}
+            <option>{{ lang }}</option>
+        {% endfor %}
+    </select><br>
 {% endblock activity_title %}
 
 {% block single_page_head %}
@@ -23,7 +26,7 @@
         });
     </script>
     <!--
-        refresh della chat in ajax
+        chat refresh in ajax
     -->
     <script>
         $(document).ready(function () {
@@ -31,7 +34,7 @@
 
             function updateChat() {
                 var id_chat = $('#id_chat').val();
-                console.log(id_chat);
+                var lang = $('#language').val();
                 $.ajaxSetup({
                     beforeSend: function (xhr, settings) {
                         function getCookie(name) {
@@ -60,7 +63,7 @@
                 $.ajax({
                     url: "/get_private_chat_messages/",
                     dataType: 'json',
-                    data: {'id_chat': id_chat},
+                    data: {'id_chat': id_chat, 'lang': lang},
                     method: 'POST',
                     success: function (return_value) {
                         var container = document.getElementById("chat_container");
@@ -114,7 +117,7 @@
         {% for message in messages %}
             {% if message.sender == user %}
                 <!--
-                    messaggio cevuto
+                    message received
                 -->
                 <div class="message-row">
                     <div class="triangle-right"></div>
@@ -124,11 +127,11 @@
                     </div>
                 </div>
                 <!--
-                   fine messaggio ricevuto
+                   end of message received
                -->
             {% else %}
                 <!--
-                    messaggio inviato
+                    message sent
                 -->
                 <div class="message-row">
                     <div class="triangle-left"></div>
@@ -138,7 +141,7 @@
                     </div>
                 </div>
                 <!--
-                   fine messaggio inviato
+                   end of message sent
                -->
             {% endif %}
         {% endfor %}
