@@ -61,31 +61,19 @@ export default function Welcome() {
     });
     
     return (
-<<<<<<< HEAD
-        <div>
+            <Card className="background_cloud_card">
+                <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit:"cover"}}/>
+                <Card.ImgOverlay>
             <Helmet>
                     <meta charSet="utf-8" />
                     <title>Welcome to linGrow-A Multilingual Families Lab</title>
             </Helmet>
-            <Card className="bg-light" style={{left:"0%",width:"100%", height:"100%", borderRadius:"0px"}}>
                     <Card className="welcome">
                         <LanguageList />
                         <h2 id="welcome_msg">{welcome_msg}</h2>
                         <a href="" id="welcome_link" onClick={handleSubmit}>{link_msg}</a>
                     </Card>
+                </Card.ImgOverlay>
             </Card>
-        </div>
-=======
-        <Card className="background_cloud_card">
-            <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit:"cover"}}/>
-            <Card.ImgOverlay>
-                <Card className="welcome">
-                    <LanguageList />
-                    <h2 id="welcome_msg" style={{marginTop:"10px"}}>{welcome_msg}</h2>
-                    <a href="" id="welcome_link" onClick={handleSubmit}>{link_msg}</a>
-                </Card>
-            </Card.ImgOverlay>
-        </Card>
->>>>>>> 4f87513d655a0599306c4dae0e91b8b8031afe6d
     );
 }

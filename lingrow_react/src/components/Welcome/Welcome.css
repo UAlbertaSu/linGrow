@@ -15,8 +15,10 @@
     left:0%;
     top:0%;
     position: absolute;
-    background-color: azure;
+    background-color: white;
     border-radius: 0px;
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0);
+    border-color: rgba(0,0,0,0);
 
 }
 @media only screen and (max-width: 800px) {
