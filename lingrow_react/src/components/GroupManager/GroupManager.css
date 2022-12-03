@@ -1,0 +1,17 @@
+.function_card{
+    min-height: fit-content;
+    min-width: fit-content;
+    width: 40%;
+    left: 30%;
+    top: 10%;
+    padding-top: 30px;
+    padding-bottom: 30px
+}
+
+@media only screen and (max-width: 800px) {
+    [class*="function_card"]{
+        width: 94%;
+        left: 3%;
+        top: 5%;
+    }
+}

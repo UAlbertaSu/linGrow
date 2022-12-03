@@ -11,6 +11,8 @@ import 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button'
 
+import clouds from '../Img/clouds.png';
+
 export default function Form() {
 
     const nav = useNavigate();
@@ -217,6 +219,9 @@ export default function Form() {
     };
 
     return (
+        <Card className="background_cloud_card">
+        <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
+            <Card.ImgOverlay>
         <Card className="signup" style={{}}>
             <Helmet>
                     <meta charSet="utf-8" />
@@ -253,6 +258,6 @@ export default function Form() {
                         {successMessage()}
                     </div>
                     <Button variant="primary" type="submit" id="submit_button" onClick={handleSubmit}>{register_btn}</Button>{''}
-        </Card>
+        </Card></Card.ImgOverlay></Card>
     );
 }

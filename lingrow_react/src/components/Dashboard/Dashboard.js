@@ -6,6 +6,8 @@ import {Helmet} from 'react-helmet';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
+
+import clouds from '../Img/clouds.png';
 import logo from "../Img/lingrow.png";
 import home_icon from "../Img/home_icon.png";
 import user_icon from "../Img/user_icon.png";
@@ -103,16 +105,11 @@ export default function Dashboard({ userType }) {
         return () => window.removeEventListener("New language set", translateMessage);
     }, []);
 
-    // if (userType === 4) {
-    //     return ();
-    // }
 
     return (
-        <div className="dashboard-wrapper">
-            <Helmet>
-                    <meta charSet="utf-8" />
-                    <title>linGrow-Dashboard</title>
-            </Helmet>
+        <Card className="background_cloud_card">
+            <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
+            <Card.ImgOverlay>
             <Card style={{minHeight:"fit-content", paddingBottom:"20px"}}>
                 <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
                 <LanguageList />
@@ -123,16 +120,16 @@ export default function Dashboard({ userType }) {
                         <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <img src={home_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
-                            <Nav.Link href="#home" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px"}}>{home}</Nav.Link>
+                            <Nav.Link style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", color:"black"}}>{home}</Nav.Link>
                             <img src={user_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
-                            <Nav.Link href="userinfoadmin" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", border:""}}>{profile}</Nav.Link>
+                            <Nav.Link href="userinfo" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", border:""}}>{profile}</Nav.Link>
                         </Nav>
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
                 <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px"}}>
-                    <Button variant="primary" type="submit" id="chat" onClick={chatHandler} style={{minWidth:"150px"}}>{chat}</Button>  
-                    <div>{userType === 4 ? <Button variant="primary" type="submit" id="manageSchools" style={{minWidth:"150px"}}>{manageSchools}</Button> : null}</div>
+                    <Button variant="primary" type="submit" id="chat" style={{minWidth:"150px"}}>{chat}</Button>  
+                    <div>{userType === 4 ? <Button href="/schoolmanager" variant="primary" type="submit" id="manageSchools" style={{minWidth:"150px"}}>{manageSchools}</Button> : null}</div>
                     <div>{userType > 1 ? <Button variant="primary" type="submit" id="searchUsers" onClick = {searchUserHandler}style={{minWidth:"150px"}}>{searchUsers}</Button> : null}</div>
                     <div>{userType === 4 ? <Button href="/usermanager" variant="primary" type="submit" id="manageUsers" style={{minWidth:"150px"}}>{manageUsers}</Button> : null}</div>
                     <div>{userType !== 1 ? <Button href="/groupmanager" variant="primary" type="submit" id="groups" style={{minWidth:"150px"}}>{group_manager}</Button> : null}</div>  
@@ -140,6 +137,7 @@ export default function Dashboard({ userType }) {
                     <Button variant="danger" type="submit" id="logout" onClick={clearSession} style={{minWidth:"150px"}}>{logout_msg}</Button>
                 </Card>
             </Card>
-        </div>
+        </Card.ImgOverlay>
+        </Card>
     );
 }

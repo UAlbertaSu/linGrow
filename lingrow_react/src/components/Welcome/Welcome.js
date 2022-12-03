@@ -5,6 +5,8 @@ import {Helmet} from 'react-helmet';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
+import clouds from '../Img/clouds.png';
+
 import './Welcome.css';
 
 export default function Welcome() {
@@ -57,23 +59,21 @@ export default function Welcome() {
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
     });
-//  Elements for background after discussing with client
-//  <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%"}}/>
-//  <Card.ImgOverlay>
-//  </Card.ImgOverlay>
+    
     return (
-        <div>
+            <Card className="background_cloud_card">
+                <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit:"cover"}}/>
+                <Card.ImgOverlay>
             <Helmet>
                     <meta charSet="utf-8" />
                     <title>Welcome to linGrow-A Multilingual Families Lab</title>
             </Helmet>
-            <Card className="bg-light" style={{left:"0%",width:"100%", height:"100%", borderRadius:"0px"}}>
                     <Card className="welcome">
                         <LanguageList />
                         <h2 id="welcome_msg">{welcome_msg}</h2>
                         <a href="" id="welcome_link" onClick={handleSubmit}>{link_msg}</a>
                     </Card>
+                </Card.ImgOverlay>
             </Card>
-        </div>
     );
 }

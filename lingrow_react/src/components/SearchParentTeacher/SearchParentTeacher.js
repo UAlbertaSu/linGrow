@@ -1,13 +1,12 @@
+// TODO: taken from user manager, could probably really easily just call that instead
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import {Helmet} from 'react-helmet';
 
 import LanguageList from "../Translate/LanguageList";
 import Translate from "../Translate/Translate";
-
-import clouds from '../Img/clouds.png';
 
 // Allows admin users to look at the list of users.
 export default function UserManager() {
@@ -84,10 +83,6 @@ export default function UserManager() {
             <Card.ImgOverlay>
         <Card className='function_card'>
             <LanguageList />
-            <Helmet>
-                    <meta charSet="utf-8" />
-                    <title>linGrow-Users Management</title>
-            </Helmet>
             <h1>{header}</h1>
             <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>{addUsers}</Button>
             <div style={{ display: 'block', width: 400, padding: 30 }}>

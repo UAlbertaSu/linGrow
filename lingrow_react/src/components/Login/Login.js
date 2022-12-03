@@ -7,6 +7,7 @@ import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 import Authenticate from '../Authenticate/Authenticate';
 
+import clouds from '../Img/clouds.png';
 import logo from "../Img/lingrow.png";
 import './Login.css';
 
@@ -121,12 +122,14 @@ export default function Login() {
     });
 
     return (
-        <div>
-            <Helmet>
+        <Card className="background_cloud_card">
+            <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%",objectFit: "cover"}}/>
+            <Card.ImgOverlay>
+                <Helmet>
                     <meta charSet="utf-8" />
                     <title>linGrow-Login</title>
                 </Helmet>
-            <Card>
+                <Card>
                 <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px"}}/></a>
                 <LanguageList />
                 <h1>{header}</h1>
@@ -141,6 +144,7 @@ export default function Login() {
                 <Button variant="primary" type="submit" id="signup" onClick={redirectToSignup} style={{minWidth:"100px"}}>{signup_btn}</Button>
                 <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{margin:"35px"}}>{activities}</Button>
             </Card>
-        </div>
+        </Card.ImgOverlay>
+    </Card> 
     )
 }

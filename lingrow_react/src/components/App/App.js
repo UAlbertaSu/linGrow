@@ -6,21 +6,24 @@ import DashboardWrapper from '../Dashboard/DashboardWrapper';
 import Signup from '../Signup/Signup';
 import Welcome from '../Welcome/Welcome';
 import Activities from '../Activities/Activities';
-import UserInfoParent from '../UserInfo/UserInfoParent';
-import UserInfoTeacher from '../UserInfo/UserInfoTeacher';
-import UserInfoResearcher from '../UserInfo/UserInfoResearcher';
-import UserInfoAdmin from '../UserInfo/UserInfoAdmin';
+import UserInfoWrapper from '../UserInfo/UserInfoWrapper';
 import GroupManagerWrapper from '../GroupManager/GroupManagerWrapper';
 import GroupCreatorWrapper from '../GroupManager/GroupCreatorWrapper';
 import GroupDetail from '../GroupManager/GroupDetail';
 import UserSearch from '../UserSearch/UserSearch';
 import AdminAddUser from '../Signup/AdminAddUser';
 import UserManagerWrapper from '../UserManager/UserManagerWrapper';
+import SchoolManager from '../SchoolManager/SchoolManager';
+import SchoolCreator from '../SchoolManager/SchoolCreator';
+import ClassroomManager from '../ClassroomManager/ClassroomManager';
+import ClassroomDetail from '../ClassroomManager/ClassroomDetail';
+import ClassroomCreator from '../ClassroomManager/ClassroomCreator';
 import Chat from '../Chat/Chat';
 import DirectChat from '../Chat/DirectChat';
 import NewChat from '../Chat/NewChat';
 import GroupChat from '../Chat/GroupChat';
 import ViewChat from '../Chat/ViewChat';
+
 
 function App() {
   if (localStorage.getItem('lang') === null) {
@@ -34,10 +37,7 @@ function App() {
           <Route path="/" element={<Navigate to="/login" />}></Route>
           <Route path="/dashboard" element={<DashboardWrapper/ >}></Route>
           <Route path="/welcome" element={<Welcome/ >}></Route>
-          <Route path="/userinfoparent" element={<UserInfoParent/ >}></Route>
-          <Route path="/userinfoteacher" element={<UserInfoTeacher/ >}></Route>
-          <Route path="/userinforesearcher" element={<UserInfoResearcher/ >}></Route>
-          <Route path="/userinfoadmin" element={<UserInfoAdmin/ >}></Route>
+          <Route path="/userinfo" element={<UserInfoWrapper/ >}></Route>
           <Route path="/groupmanager" element={<GroupManagerWrapper/ >}></Route>
           <Route path="/usermanager" element={<UserManagerWrapper/ >}></Route>
           <Route path="/groupcreator" element={<GroupCreatorWrapper/ >}></Route>
@@ -52,6 +52,12 @@ function App() {
           <Route path="/newchat" element= {<NewChat/>}></Route>
           <Route path="/groupchat" element= {<GroupChat/>}></Route>
           <Route path="/viewchat" element= {<ViewChat/>}></Route>
+          <Route path="/schoolmanager" element={<SchoolManager/ >}></Route>
+          <Route path="/schoolcreator" element={<SchoolCreator/ >}></Route>
+          <Route path="/classroommanager" element={<ClassroomManager/ >}></Route>
+          <Route path="/classroomdetail" element={<ClassroomDetail/ >}></Route>
+          <Route path="/classroomcreator" element={<ClassroomCreator/ >}></Route>
+
         </Routes>
       </BrowserRouter>
     </div>
