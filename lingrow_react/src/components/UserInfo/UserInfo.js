@@ -137,11 +137,6 @@ export default function UserInfo({ userType }) {
                             <div>{userType === 1 ? <h5>{childs_name_header}</h5> : null}</div>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col className="button_col">
-                            <Button variant="primary" style={{margin:"10px 10px 10px 10px"}}>Update</Button>
-                        </Col>
-                    </Row>
                 </Card>
             </Card>
         </Card.ImgOverlay>
