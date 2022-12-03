@@ -64,7 +64,13 @@ export default function DirectChat() {
             body: JSON.stringify({
                 "other_username": email
             })
-        })
+        }).then(data => data.json()
+        ).then(data => {
+            console.log(data.id_chat);
+            sessionStorage.setItem('id_chat', JSON.stringify(data.id_chat));
+            sessionStorage.setItem('chat_type', JSON.stringify('private'));
+            nav('/viewchat');
+        });
         // sessionStorage.setItem('id_chat', JSON.stringify(id_chat));
         // nav('/viewchat');
 
@@ -75,8 +81,8 @@ export default function DirectChat() {
             <div style={{ display: 'block', width: 400, padding: 30 }}>
                 <ListGroup>
                     {members.map((elem) => 
-                        <ListGroup.Item key={elem} value={elem}>
-                            <Button variant="primary" onClick={() => {createChatFunc(elem.email)}}>{`${elem.email}`}</Button>
+                        <ListGroup.Item action key={elem} value={elem} onClick={() => {createChatFunc(elem.email)}}>
+                            {`${elem.email}`}
                         </ListGroup.Item>)}
                 </ListGroup>
             </div>

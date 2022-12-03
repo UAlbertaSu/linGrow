@@ -48,11 +48,15 @@ export default function Chat() {
         }
     }
     const token = JSON.parse(sessionStorage.getItem('token'));
-    const [curr_user] = useState(sessionStorage.getItem('user_id'));
-    const [lang, setLang] = useState(localStorage.getItem('lang'));
-    const [dashboardString, setDashboardString] = useState(setDashboardType);
+    const [dashboardString, setDashboardString] = useState();
+    const [dashboard, setDashboard] = useState(setDashboardType);
+    const [send, setSend] = useState("Send");
     const [home, setHome] = useState("Home");
     const [profile, setProfile] = useState("Profile");
+    const [placeholder, setPlaceholder] = useState("Type your message here...");
+
+    const [curr_user] = useState(sessionStorage.getItem('user_id'));
+    const [lang, setLang] = useState(localStorage.getItem('lang'));
     // const [other_user, setOtherUser] = useState();
     const [chat, setChat] = useState([]);
     const [chat_original, setChatOriginal] = useState([]);
@@ -148,12 +152,30 @@ export default function Chat() {
         }, 500);
     }, []);
 
+    // State for checking initial translation.
+    const [translated, setTranslated] = useState(0);
+
     // Translate message to the user's language.
     const translateMessage = useCallback((e) => {
+        let curr_lang = localStorage.getItem('lang');
+
+        if (curr_lang) {
+            console.log(curr_lang);
+            Translate('en', curr_lang, dashboard).then(response => setDashboardString(response));
+            Translate('en', curr_lang, "Send").then(response => setSend(response));
+            Translate('en', curr_lang, "Home").then(response => setHome(response));
+            Translate('en', curr_lang, "Profile").then(response => setProfile(response));
+            Translate('en', curr_lang, "Type your message here...").then(response => setPlaceholder(response));
+        }
+
         setLang(localStorage.getItem('lang'));
     });
     
     useEffect(() => {
+        if (!translated) {
+            translateMessage();
+            setTranslated(1);
+        }
 
         // Translate chat messages if user modifies language from the list.
         window.addEventListener("New language set", translateMessage);
@@ -172,19 +194,17 @@ export default function Chat() {
                         <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <img src={home_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
-                            <Nav.Link href="#home" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px"}}>{home}</Nav.Link>
+                            <Nav.Link href="/dashboard" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px"}}>{home}</Nav.Link>
                             <img src={user_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
-                            <Nav.Link href="userinfoadmin" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", border:""}}>{profile}</Nav.Link>
+                            <Nav.Link href="/userinfo" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", border:""}}>{profile}</Nav.Link>
                         </Nav>
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
                 <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px"}}>
-                    {/* Display chat messages */}
                     <div className="chat-display">
                         {chat.map((message) => (
                             <div className="message">
-                                { /* If message.username is from me, render message on right */}
                                 { message.username === curr_user ? (
                                     <div className="message-right">
                                         <div className="message-text-right">
@@ -198,15 +218,12 @@ export default function Chat() {
                                         </div>
                                     </div>
                                 )}
-                                {/* <div className="message-sender">{message.username}</div>
-                                <div className="message-content">{message.text}</div> */}
                             </div>
                         ))}
                     </div>
-                    {/* Send message */}
                     <div className="chat-send">
-                        <input type="text" id="message-input" placeholder="Type your message here..."/>
-                        <button id="send-button" onClick={sendMessage}>Send</button>
+                        <input type="text" id="message-input" placeholder={placeholder}/>
+                        <Button id="send-button" onClick={sendMessage}>{send}</Button>
                     </div>
                 </Card>
             </Card>

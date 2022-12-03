@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import './Chat.css';
 import { Card, Button, Nav, NavDropdown, Container, Navbar} from 'react-bootstrap';
@@ -66,14 +66,43 @@ export default function Chat() {
         nav("/");
     }
 
-    const [dashboardString, setDashboardString] = useState(setDashboardType);
+    const [dashboard, setDashboard] = useState(setDashboardType);
+    const [dashboardString, setDashboardString] = useState();
     const [home, setHome] = useState("Home");
     const [profile, setProfile] = useState("Profile");
-    const [directChat] = useState('Direct Chat');
-    const [groupChat] = useState('Group Chat');
-    const [newChat] = useState('New Chat');
+    const [directChat, setDirectChat] = useState('Direct Chat');
+    const [groupChat, setGroupChat] = useState('Group Chat');
+    const [newChat, setNewChat] = useState('New Chat');
     const [activities, setLanguageLearningActivitiesMsg] = useState("Language Learning Activities");
     const [logout_msg, setLogoutMsg] = useState("Logout");
+        
+    // Setter for initial page translation.
+    const [translated, setTranslated] = useState(0);
+
+    const translateMessage = useCallback((e) => {
+        let lang = localStorage.getItem('lang');
+        if (lang) {
+            Translate('en', lang, dashboard).then(response => setDashboardString(response));
+            Translate('en', lang, "Home").then(response => setHome(response));
+            Translate('en', lang, "Profile").then(response => setProfile(response));
+            Translate('en', lang, "Language Learning Activities").then(response => setLanguageLearningActivitiesMsg(response));
+            Translate('en', lang, "Logout").then(response => setLogoutMsg(response));
+            Translate('en', lang, "Direct Chat").then(response => setDirectChat(response));
+            Translate('en', lang, "Group Chat").then(response => setGroupChat(response));
+            Translate('en', lang, "New Chat").then(response => setNewChat(response));
+        }
+    });
+
+    useEffect(() => {
+        // Prevents page from being constantly translated.
+        if (!translated) {
+            translateMessage();
+            setTranslated(1);
+        }
+
+        window.addEventListener("New language set", translateMessage);
+        return () => window.removeEventListener("New language set", translateMessage);
+    });
 
     return (
         <div className="dashboard-wrapper">
@@ -87,9 +116,9 @@ export default function Chat() {
                         <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <img src={home_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
-                            <Nav.Link href="#home" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px"}}>{home}</Nav.Link>
+                            <Nav.Link href="/dashboard" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px"}}>{home}</Nav.Link>
                             <img src={user_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
-                            <Nav.Link href="userinfoadmin" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", border:""}}>{profile}</Nav.Link>
+                            <Nav.Link href="/userinfo" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", border:""}}>{profile}</Nav.Link>
                         </Nav>
                         </Navbar.Collapse>
                     </Container>

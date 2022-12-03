@@ -65,8 +65,8 @@ export default function DirectChat() {
             <div style={{ display: 'block', width: 400, padding: 30 }}>
                 <ListGroup>
                     {members.map((elem) => 
-                        <ListGroup.Item key={elem} value={elem}>
-                            <Button variant="primary" onClick={() => {viewChatFunc(elem.id_chat)}}>{`${elem.group.name}`}</Button>
+                        <ListGroup.Item action key={elem} value={elem} onClick={() => {viewChatFunc(elem.id_chat)}}>
+                            {`${elem.group.name}`}
                         </ListGroup.Item>)}
                 </ListGroup>
             </div>

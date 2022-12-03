@@ -28,7 +28,6 @@ export default function DirectChat() {
     const token = JSON.parse(sessionStorage.getItem('token'));
     const [members, setMembers] = useState([]);
     const [viewChat] = useState('View Chat');
-    // const [chat_name, setChatName] = useState("");
     console.log(token);
     useEffect(
         () => {
@@ -43,9 +42,6 @@ export default function DirectChat() {
                     throw Error("Failed to retrieve user due to invalid login credentials or database request error.");
                 }
                 else {
-                    // console.log(data);
-                    // return data;
-                    // setChatName(data)
                     setMembers([...members,...data.private_chats]);
 
                 }
@@ -57,16 +53,16 @@ export default function DirectChat() {
         sessionStorage.setItem('id_chat', JSON.stringify(id_chat));
         sessionStorage.setItem('chat_type', JSON.stringify('private'));
         nav('/viewchat');
-
     }
+    
     return (
         <Card style={{minHeight: "fit-content"}}>
             <LanguageList />
             <div style={{ display: 'block', width: 400, padding: 30 }}>
                 <ListGroup>
                     {members.map((elem) => 
-                        <ListGroup.Item key={elem} value={elem}>
-                            <Button variant="primary" onClick={() => {viewChatFunc(elem.id_chat)}}>{`${elem.participant.email}`}</Button>
+                        <ListGroup.Item action key={elem} value={elem} onClick={() => {viewChatFunc(elem.id_chat)}}>
+                            {`${elem.participant.email}`}
                         </ListGroup.Item>)}
                 </ListGroup>
             </div>
