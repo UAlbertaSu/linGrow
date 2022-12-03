@@ -30,8 +30,8 @@ export default function Dashboard({ userType }) {
     }
 
     // State variables.
-    const [dashboardString, setDashboardString] = useState(setDashboardType);
-    const [dashboard, setDashboard] = useState();
+    const [dashboardString, setDashboardString] = useState();
+    const [dashboard, setDashboard] = useState(setDashboardType);
     const [home, setHome] = useState("Home");
     const [profile, setProfile] = useState("Profile");
     const [chat, setChatMsg] = useState("Chat");
@@ -46,6 +46,11 @@ export default function Dashboard({ userType }) {
    const searchUserHandler = async (event) => {
         event.preventDefault();
         nav('/searchuser');
+   }
+
+   const chatHandler = async (event) => {
+        event.preventDefault();
+        nav('/chat');
    }
    
     // Navigate user to language development activities page.
@@ -73,8 +78,8 @@ export default function Dashboard({ userType }) {
     // Translate messages and set it to state variables.
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
-        if (lang && dashboard !== undefined) {
-            Translate('en', lang, dashboard).then(response => setDashboard(response));
+        if (lang) {
+            Translate('en', lang, dashboard).then(response => setDashboardString(response));
             Translate('en', lang, "Home").then(response => setHome(response));
             Translate('en', lang, "Profile").then(response => setProfile(response));
             Translate('en', lang, "Chat").then(response => setChatMsg(response));
@@ -87,30 +92,6 @@ export default function Dashboard({ userType }) {
         }
     });
 
-    // ???
-    function dash_render(props) {
-        const home = props.home;
-        if (home) {
-            return (
-                <Card style={{marginTop:"10px", position:"relative", left:"0%", backgroundColor:"white", width:"80%"}}>
-                    <Card.Body>
-                        <Card.Title>Profile</Card.Title>
-    
-                        <Card.Text>
-                            <p>Username: {sessionStorage.getItem('username')}</p>
-                            <p>Email: {sessionStorage.getItem('email')}</p>
-                            <p>Language: {sessionStorage.getItem('language')}</p>
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            );
-        } else {
-            return (
-                <Card style={{marginTop:"10px", position:"relative", left:"0%", backgroundColor:"white", width:"80%"}}></Card>
-            );
-        }
-    };
-
     // Run on the page load; translate page, and handle translate request when new language is set.
     useEffect(() => {
         if (!translated) {
@@ -120,7 +101,7 @@ export default function Dashboard({ userType }) {
         
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
-    }, [dashboard]);
+    }, []);
 
     // if (userType === 4) {
     //     return ();
@@ -150,7 +131,7 @@ export default function Dashboard({ userType }) {
                     </Container>
                 </Navbar>
                 <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px"}}>
-                    <Button variant="primary" type="submit" id="chat" style={{minWidth:"150px"}}>{chat}</Button>  
+                    <Button variant="primary" type="submit" id="chat" onClick={chatHandler} style={{minWidth:"150px"}}>{chat}</Button>  
                     <div>{userType === 4 ? <Button variant="primary" type="submit" id="manageSchools" style={{minWidth:"150px"}}>{manageSchools}</Button> : null}</div>
                     <div>{userType > 1 ? <Button variant="primary" type="submit" id="searchUsers" onClick = {searchUserHandler}style={{minWidth:"150px"}}>{searchUsers}</Button> : null}</div>
                     <div>{userType === 4 ? <Button href="/usermanager" variant="primary" type="submit" id="manageUsers" style={{minWidth:"150px"}}>{manageUsers}</Button> : null}</div>
