@@ -16,6 +16,11 @@ import GroupDetail from '../GroupManager/GroupDetail';
 import UserSearch from '../UserSearch/UserSearch';
 import AdminAddUser from '../Signup/AdminAddUser';
 import UserManagerWrapper from '../UserManager/UserManagerWrapper';
+import Chat from '../Chat/Chat';
+import DirectChat from '../Chat/DirectChat';
+import NewChat from '../Chat/NewChat';
+import GroupChat from '../Chat/GroupChat';
+import ViewChat from '../Chat/ViewChat';
 
 function App() {
   if (localStorage.getItem('lang') === null) {
@@ -42,7 +47,11 @@ function App() {
           <Route path="/signup" element={<Signup/ >}></Route>
           <Route path="/activities" element={<Activities/ >}></Route>
           <Route path = "/searchuser" element= {<UserSearch />}> </Route>
-          <Route path="/chat"></Route>
+          <Route path="/chat" element= {<Chat/>}></Route>
+          <Route path="/directchat" element= {<DirectChat/>}></Route>
+          <Route path="/newchat" element= {<NewChat/>}></Route>
+          <Route path="/groupchat" element= {<GroupChat/>}></Route>
+          <Route path="/viewchat" element= {<ViewChat/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
