@@ -48,6 +48,7 @@ export default function Chat() {
         }
     }
     const token = JSON.parse(sessionStorage.getItem('token'));
+    const [curr_user] = useState(sessionStorage.getItem('user_id'));
     const [lang, setLang] = useState(localStorage.getItem('lang'));
     const [dashboardString, setDashboardString] = useState(setDashboardType);
     const [home, setHome] = useState("Home");
@@ -60,6 +61,8 @@ export default function Chat() {
     // Initialize chat message with previous chats, set who is the other user.
     useEffect(
         () => {
+            const curr_lang = localStorage.getItem('lang');
+
             fetch(url, {
             method: 'POST',
             headers: {
@@ -68,7 +71,7 @@ export default function Chat() {
             },
             body: JSON.stringify({
                 "id_chat": id_chat,
-                "lang": lang
+                "lang": curr_lang
             })
             }).then(data => data.json()
             ).then(data => {
@@ -115,6 +118,8 @@ export default function Chat() {
 
     // Retrieve current chat message list, and update with new messages
     const updateMessages = async () => {
+        const curr_lang = localStorage.getItem('lang');
+
         fetch(url, {
             method: 'POST',
             headers: {
@@ -123,7 +128,7 @@ export default function Chat() {
             },
             body: JSON.stringify({
                 "id_chat": id_chat,
-                "lang": lang
+                "lang": curr_lang
             })
         }).then(data => data.json()
         ).then(data => {
@@ -143,35 +148,13 @@ export default function Chat() {
         }, 500);
     }, []);
 
-    // Setter for initial page translation.
-    // const [translated, setTranslated] = useState(0);
-    
-    // // Translate message to the user's language.
+    // Translate message to the user's language.
     const translateMessage = useCallback((e) => {
-
         setLang(localStorage.getItem('lang'));
-
-        // if (lang) {
-        //     for (let i = 0; i < chat.length; i++) {
-        //         Translate('unknown', lang, chat_original[i].text).then(response => {
-        //             chat[i].text = response;
-
-        //             // at last index
-        //             if (i === chat.length - 1) {
-        //                 setCurrentLang(lang);
-        //             }
-        //         });
-        //     }
-        // }
     });
     
     useEffect(() => {
-        // Prevents page from being constantly translated.
-        // if (translated === 0) {
-        //     translateMessage();
-        //     setTranslated(1);
-        // }
-    
+
         // Translate chat messages if user modifies language from the list.
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
@@ -201,8 +184,22 @@ export default function Chat() {
                     <div className="chat-display">
                         {chat.map((message) => (
                             <div className="message">
-                                <div className="message-sender">{message.username}</div>
-                                <div className="message-content">{message.text}</div>
+                                { /* If message.username is from me, render message on right */}
+                                { message.username === curr_user ? (
+                                    <div className="message-right">
+                                        <div className="message-text-right">
+                                            {message.text}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="message-left">
+                                        <div className="message-text-left">
+                                            {message.text}
+                                        </div>
+                                    </div>
+                                )}
+                                {/* <div className="message-sender">{message.username}</div>
+                                <div className="message-content">{message.text}</div> */}
                             </div>
                         ))}
                     </div>
