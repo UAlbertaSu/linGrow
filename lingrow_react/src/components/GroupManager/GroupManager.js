@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import {Helmet} from 'react-helmet';
 
 import LanguageList from "../Translate/LanguageList";
 import Translate from "../Translate/Translate";
@@ -134,6 +135,10 @@ export default function GroupManager({userType}) {
         <Card style={{minHeight:"fit-content"}}>
             <LanguageList />
             <h1>{group_display_header}</h1>
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>linGrow-Group Management</title>
+            </Helmet>
             <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>Create New Group</Button>
             <div style={{ display: 'block', width: 400, padding: 30 }}>
                 {

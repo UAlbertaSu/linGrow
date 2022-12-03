@@ -2,6 +2,7 @@ import React, { setState, useState, useEffect, useCallback } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
+import {Helmet} from 'react-helmet';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
@@ -236,6 +237,10 @@ export default function GroupCreator({userType}) {
 
     return (
         <Card style={{minHeight:"fit-content"}}>
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>linGrow-Group Creation</title>
+            </Helmet>
             <LanguageList />
             <h1>{group_create_header}</h1>
             <input type="text" className="form-control" id="group_name" placeholder={group_name} onChange={e => setGroupName(e.target.value)}/>

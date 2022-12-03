@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 import { useDropzone } from 'react-dropzone';
+import {Helmet} from 'react-helmet';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
@@ -217,6 +218,10 @@ export default function Form() {
 
     return (
         <Card className="signup" style={{}}>
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>linGrow-Signup</title>
+            </Helmet>
                     <LanguageList />
                     <h1>{header}</h1>
                         {/* Labels and inputs for form data */}
