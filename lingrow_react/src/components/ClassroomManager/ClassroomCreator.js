@@ -39,8 +39,8 @@ export default function SchoolCreator({userType}) {
 
     const populateList = (userChoice) => {
 
-        // TODO: get classrooms
-        arr = [];
+        // TODO: get all users
+        let arr = [];
 
         fetch('http://127.0.0.1:8000/api/search/parents', {
             method: 'GET',

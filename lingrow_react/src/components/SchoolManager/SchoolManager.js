@@ -46,8 +46,6 @@ export default function SchoolManager({userType}) {
     });
 
 
-
-    // TODO: set to classroom manager
     // Navigate to the page showing user details of each group.
     const handleDetail = (elem) => {
 
@@ -58,10 +56,9 @@ export default function SchoolManager({userType}) {
         });
     }
 
-
-    // TODO: If user clicks school creator
+    // to create a school
     const handleNavigate = async (e) => {
-        //nav('/schoolcreator');
+        nav('/schoolcreator');
     }
 
 

@@ -16,6 +16,8 @@ import UserManagerWrapper from '../UserManager/UserManagerWrapper';
 import SchoolManager from '../SchoolManager/SchoolManager';
 import SchoolCreator from '../SchoolManager/SchoolCreator';
 import ClassroomManager from '../ClassroomManager/ClassroomManager';
+import ClassroomDetail from '../ClassroomManager/ClassroomDetail';
+import ClassroomCreator from '../ClassroomManager/ClassroomCreator';
 
 function App() {
   if (localStorage.getItem('lang') === null) {
@@ -42,7 +44,9 @@ function App() {
           <Route path="/chat"></Route>
           <Route path="/schoolmanager" element={<SchoolManager/ >}></Route>
           <Route path="/schoolcreator" element={<SchoolCreator/ >}></Route>
-          <Route path="/classroommanager" element={<SchoolCreator/ >}></Route>
+          <Route path="/classroommanager" element={<ClassroomManager/ >}></Route>
+          <Route path="/classroomdetail" element={<ClassroomDetail/ >}></Route>
+          <Route path="/classroomcreator" element={<ClassroomCreator/ >}></Route>
 
         </Routes>
       </BrowserRouter>

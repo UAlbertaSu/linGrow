@@ -11,21 +11,12 @@ export default function ClassroomManager() {
     const nav = useNavigate();
     let location = useLocation();
 
-    
-
-    const [error, setError] = useState(0);
-    const [members, setMembers] = useState([]);
-    const [flag, setFlag] = useState(0);
-    const [edit, setEditMsg] = useState("Edit");
-
-
-
     // State variables.
     const [group_display_header, setHeader] = useState("Classroom Manager");
     const [no_group_message, setNoGroupsFound] = useState("No classrooms have been made yet...");
     const [translated, setTranslated] = useState(0);
     const [groups, setGroups] = useState([]);
-
+    const [error, setError] = useState(0);
 
     const setInitialState = () => {
 
@@ -33,8 +24,8 @@ export default function ClassroomManager() {
             let arr = [];
             let schoolID = location.state.schoolID;
             let token = JSON.parse(sessionStorage.getItem('token'));
-                    
-            fetch(`http://127.0.0.1:8000/api/school/${schoolID}`,{
+
+            fetch(`http://127.0.0.1:8000/api/school/${schoolID}/classroom`,{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,29 +45,28 @@ export default function ClassroomManager() {
         }
     }
 
-        
-
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate('en', lang, "School Manager").then(response => setHeader(response));
-            Translate('en', lang, "No schools have been made yet...").then(response => setNoGroupsFound(response));
+            Translate('en', lang, "Classroom Manager").then(response => setHeader(response));
+            Translate('en', lang, "No classrooms have been made yet...").then(response => setNoGroupsFound(response));
         }
     });
 
-    // TODO: set to classroom details
     // Navigate to the page showing user details of each group.
     const handleDetail = (elem) => {
 
-        var groupType = '';
-
-    
+        nav(`/classroomdetail`, {
+            state: {
+                schoolID: elem.school.id,
+                classroomID: elem.id,
+            }
+        });    
     }
 
-    // TODO: set to add classroom
     // If user clicks a group creation button, navigate user to the group creation page.
     const handleNavigate = async (e) => {
-        nav('/groupcreator');
+        nav('/classroomcreator');
     }
 
     // Populate the list of groups made by user, and translate the page.
