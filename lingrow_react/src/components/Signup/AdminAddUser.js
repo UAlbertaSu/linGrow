@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, Table } from 'react-bootstrap';
+import {Helmet} from 'react-helmet';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
@@ -151,6 +152,10 @@ export default function AdminAddUser() {
     // Return the admin add user page.
     return (
         <div>
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>linGrow-Add Users</title>
+            </Helmet>
             <Card>
                 <LanguageList />
                 <h1>{header}</h1>

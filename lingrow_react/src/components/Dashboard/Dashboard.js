@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import './Dashboard.css';
 import { Card, Button, Nav, NavDropdown, Container, Navbar} from 'react-bootstrap';
+import {Helmet} from 'react-helmet';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
@@ -127,6 +128,10 @@ export default function Dashboard({ userType }) {
 
     return (
         <div className="dashboard-wrapper">
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>linGrow-Dashboard</title>
+            </Helmet>
             <Card style={{minHeight:"fit-content", paddingBottom:"20px"}}>
                 <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
                 <LanguageList />
