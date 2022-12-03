@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback }from 'react';
 import { Card } from 'react-bootstrap';
+import {Helmet} from 'react-helmet';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
@@ -62,6 +63,10 @@ export default function Welcome() {
 //  </Card.ImgOverlay>
     return (
         <div>
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>Welcome to linGrow-A Multilingual Families Lab</title>
+            </Helmet>
             <Card className="bg-light" style={{left:"0%",width:"100%", height:"100%", borderRadius:"0px"}}>
                     <Card className="welcome">
                         <LanguageList />

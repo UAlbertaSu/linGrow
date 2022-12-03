@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import {Helmet} from 'react-helmet';
 
 import LanguageList from "../Translate/LanguageList";
 import Translate from "../Translate/Translate";
@@ -78,6 +79,10 @@ export default function UserManager() {
     return (
         <Card style={{minHeight:"fit-content"}}>
             <LanguageList />
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>linGrow-Users Management</title>
+            </Helmet>
             <h1>{header}</h1>
             <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>{addUsers}</Button>
             <div style={{ display: 'block', width: 400, padding: 30 }}>

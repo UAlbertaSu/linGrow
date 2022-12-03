@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Card} from 'react-bootstrap';
+import {Helmet} from 'react-helmet';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
@@ -121,6 +122,10 @@ export default function Login() {
 
     return (
         <div>
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>linGrow-Login</title>
+                </Helmet>
             <Card>
                 <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px"}}/></a>
                 <LanguageList />

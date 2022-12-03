@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
+import {Helmet} from 'react-helmet';
 
 
 import LanguageList from '../Translate/LanguageList';
@@ -207,6 +208,10 @@ function UserSearch(){
 
     return(
         <Card style = {{minHeight: "fit-content"}}>
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>linGrow-User Search</title>
+            </Helmet>
             <LanguageList />
             <h1>{searchUserHeader}</h1>
             <div>{userType !==4 ? <select defaultValue = {userChoice} onChange = {changeHandler}>
