@@ -205,16 +205,33 @@ export default function Chat() {
                     <div className="chat-display">
                         {chat.map((message) => (
                             <div className="message">
+                                { /* Display username */ }
+                                { message.username === curr_user ? (
+                                    <div className="message-username-right">
+                                        {message.username}
+                                    </div>
+                                ) : (
+                                    <div className="message-username-left">
+                                        {message.username}
+                                    </div>
+                                )}
                                 { message.username === curr_user ? (
                                     <div className="message-right">
+
                                         <div className="message-text-right">
                                             {message.text}
+                                        </div>
+                                        <div className="message-time-right">
+                                            {message.timestamp}
                                         </div>
                                     </div>
                                 ) : (
                                     <div className="message-left">
                                         <div className="message-text-left">
                                             {message.text}
+                                        </div>
+                                        <div className="message-time-left">
+                                            {message.timestamp}
                                         </div>
                                     </div>
                                 )}

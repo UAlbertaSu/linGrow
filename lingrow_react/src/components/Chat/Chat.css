@@ -57,6 +57,28 @@
     align-items: flex-end;
 }
 
+.message-username-left{
+    margin-left: 30px;
+}
+
+.message-username-right{
+    margin-right: 30px;
+    text-align: right;
+}
+
+.message-time-left{
+    font-size: 10px;
+    color: rgb(0, 0, 0);
+    margin-top: 5px;
+}
+
+.message-time-right{
+    font-size: 10px;
+    color: rgb(0, 0, 0);
+    margin: 0;
+    margin-top: 5px;
+}
+
 .btn{
     margin: var(--margin-small);
     width: fit-content;
