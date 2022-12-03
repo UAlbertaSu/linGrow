@@ -1,0 +1,25 @@
+
+.form-control{
+    margin: var(--margin-vsmall);
+    width: fit-content;
+}
+
+.navbar{
+    background-color: rgb(124, 194, 255);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    min-width: none;
+    min-height:"fit-content";
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn{
+    margin: var(--margin-small);
+    width: fit-content;
+}
+.error{
+    margin: var(--margin-small);
+    color: rgb(138, 0, 0);
+    font-weight: bold;
+}

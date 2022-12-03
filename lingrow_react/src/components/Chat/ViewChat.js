@@ -26,6 +26,13 @@ export default function Chat() {
 
     }, []);
     const userType = JSON.parse(sessionStorage.getItem('userType'));
+    const id_chat = JSON.parse(sessionStorage.getItem('id_chat'));
+    const chat_type = JSON.parse(sessionStorage.getItem('chat_type'));
+    var url = "http://127.0.0.1:8000/api/chat/private_chat/";
+    if (chat_type === "group") {
+        url = "http://127.0.0.1:8000/api/chat/group_chat_page/"
+    }
+
     const setDashboardType = () => {
         if (userType === 1) {
             return 'LinGrow Parent Dashboard';
@@ -40,40 +47,69 @@ export default function Chat() {
             return 'LinGrow Admin Dashboard';
         }
     }
-
-    const directChatHandler = async (event) => {
-        event.preventDefault();
-        nav('/directchat');
-    }
-
-    const groupChatHandler = async (event) => {
-        event.preventDefault();
-        nav('/groupchat');
-    }
-
-    const newChatHandler = async (event) => {
-        event.preventDefault();
-        nav('/newchat');
-    }
-
-    const redirectToActivities = async (event) => {
-        event.preventDefault();
-        nav("/activities");
-    }
-
-    const clearSession = async (event) => {
-        sessionStorage.clear();
-        nav("/");
-    }
-
+    const token = JSON.parse(sessionStorage.getItem('token'));
     const [dashboardString, setDashboardString] = useState(setDashboardType);
     const [home, setHome] = useState("Home");
     const [profile, setProfile] = useState("Profile");
-    const [directChat] = useState('Direct Chat');
-    const [groupChat] = useState('Group Chat');
-    const [newChat] = useState('New Chat');
-    const [activities, setLanguageLearningActivitiesMsg] = useState("Language Learning Activities");
-    const [logout_msg, setLogoutMsg] = useState("Logout");
+    const [other_user, setOtherUser] = useState();
+    const [chat, setChat] = useState([]);
+
+
+    useEffect(
+        () => {
+            fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "id_chat": id_chat
+            })
+            }).then(data => data.json()
+            ).then(data => {
+                if (data.hasOwnProperty('error')) {
+                    throw Error("Failed to retrieve user due to invalid login credentials or database request error.");
+                }
+                else {
+                    setChat([...chat,...data.messages]);
+                    setOtherUser(data.user2);
+
+                }
+            });
+        }, []
+    )
+
+    const sendMessage = async (event) => { 
+        // get message from input
+        // post message to database
+        // update chat display
+        event.preventDefault();
+        const message = document.getElementById("message-input").value;
+        console.log(id_chat);
+        console.log(message);
+        fetch("http://127.0.0.1:8000/api/chat/send_message/",{
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "id_chat": id_chat,
+                "message": message
+            })
+        })
+        .then(data => data.json()
+        ).then(data => {
+            if (data.hasOwnProperty('error')) {
+                throw Error("Failed to retrieve user due to invalid login credentials or database request error.");
+            }
+            else {
+                setChat([...chat,data.message]);
+            }
+        });
+    }
+    
 
     return (
         <div className="dashboard-wrapper">
@@ -95,11 +131,20 @@ export default function Chat() {
                     </Container>
                 </Navbar>
                 <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px"}}>
-                    <Button variant="primary" type="submit" id="directChat" onClick={directChatHandler} style={{minWidth:"150px"}}>{directChat}</Button>  
-                    <Button variant="primary" type="submit" id="groupChat" onClick={groupChatHandler} style={{minWidth:"150px"}}>{groupChat}</Button>
-                    <Button variant="primary" type="submit" id="newChat" onClick={newChatHandler} style={{minWidth:"150px"}}>{newChat}</Button>
-                    <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{minWidth:"150px"}}>{activities}</Button>
-                    <Button variant="danger" type="submit" id="logout" onClick={clearSession} style={{minWidth:"150px"}}>{logout_msg}</Button>
+                    {/* Display chat messages */}
+                    <div className="chat-display">
+                        {chat.map((message) => (
+                            <div className="message">
+                                <div className="message-sender">{message.sender.email}</div>
+                                <div className="message-content">{message.text}</div>
+                            </div>
+                        ))}
+                    </div>
+                    {/* Send message */}
+                    <div className="chat-send">
+                        <input type="text" id="message-input" placeholder="Type your message here..."/>
+                        <button id="send-button" onClick={sendMessage}>Send</button>
+                    </div>
                 </Card>
             </Card>
         </div>      
