@@ -4,6 +4,9 @@ import { ListGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import {Helmet} from 'react-helmet';
 
+import './GroupManager.css'
+
+import clouds from '../Img/clouds.png';
 import LanguageList from "../Translate/LanguageList";
 import Translate from "../Translate/Translate";
 
@@ -132,6 +135,7 @@ export default function GroupManager({userType}) {
     });
 
     return (
+<<<<<<< HEAD
         <Card style={{minHeight:"fit-content"}}>
             <LanguageList />
             <h1>{group_display_header}</h1>
@@ -153,6 +157,30 @@ export default function GroupManager({userType}) {
                         <ListGroup>{<ListGroup.Item disabled >{no_group_message}</ListGroup.Item>}</ListGroup>
                 }
             </div>
+=======
+        <Card className="background_cloud_card">
+            <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
+            <Card.ImgOverlay>
+                <Card className="function_card">
+                    <LanguageList />
+                    <h1>{group_display_header}</h1>
+                    <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>Create New Group</Button>
+                    <div style={{ display: 'block', width: 400, padding: 30 }}>
+                        {
+                            groups.length > 0 ? 
+                                <ListGroup>
+                                    {groups.map((elem) => 
+                                    <ListGroup.Item action onClick={() => handleDetail(elem)} id={elem.id} key={elem.id} value={elem.id}>
+                                        {[elem.name]}
+                                    </ListGroup.Item>)}
+                                </ListGroup> 
+                            :
+                                <ListGroup>{<ListGroup.Item disabled >{no_group_message}</ListGroup.Item>}</ListGroup>
+                        }
+                    </div>
+                </Card>
+            </Card.ImgOverlay>
+>>>>>>> 4f87513d655a0599306c4dae0e91b8b8031afe6d
         </Card>
     );
 }

@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import LanguageList from "../Translate/LanguageList";
 import Translate from "../Translate/Translate";
 
+import clouds from '../Img/clouds.png';
+
 // Allows users to view schools
 export default function SchoolManager({userType}) {
     const nav = useNavigate();
@@ -78,7 +80,10 @@ export default function SchoolManager({userType}) {
     });
 
     return (
-        <Card style={{minHeight:"fit-content"}}>
+        <Card className="background_cloud_card">
+        <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
+            <Card.ImgOverlay>
+        <Card className='function_card'>
             <LanguageList />
             <h1>{group_display_header}</h1>
             <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>Create New Group</Button>
@@ -95,6 +100,6 @@ export default function SchoolManager({userType}) {
                         <ListGroup>{<ListGroup.Item disabled >{no_group_message}</ListGroup.Item>}</ListGroup>
                 }
             </div>
-        </Card>
+        </Card></Card.ImgOverlay></Card>
     );
 }
