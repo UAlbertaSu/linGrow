@@ -1,12 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import './Dashboard.css';
-<<<<<<< HEAD
 import { Card, Button, Nav, NavDropdown, Container, Navbar} from 'react-bootstrap';
 import {Helmet} from 'react-helmet';
-=======
-import { Card, Button, Nav, Container, Navbar} from 'react-bootstrap';
->>>>>>> 4f87513d655a0599306c4dae0e91b8b8031afe6d
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
@@ -130,17 +126,9 @@ export default function Dashboard({ userType }) {
 
 
     return (
-<<<<<<< HEAD
-        <div className="dashboard-wrapper">
-            <Helmet>
-                    <meta charSet="utf-8" />
-                    <title>linGrow-Dashboard</title>
-            </Helmet>
-=======
         <Card className="background_cloud_card">
             <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
             <Card.ImgOverlay>
->>>>>>> 4f87513d655a0599306c4dae0e91b8b8031afe6d
             <Card style={{minHeight:"fit-content", paddingBottom:"20px"}}>
                 <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
                 <LanguageList />

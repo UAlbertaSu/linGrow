@@ -1,12 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
-<<<<<<< HEAD
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Card} from 'react-bootstrap';
 import {Helmet} from 'react-helmet';
-=======
-import { useNavigate} from "react-router-dom";
-import { Card, Button} from 'react-bootstrap';
->>>>>>> 4f87513d655a0599306c4dae0e91b8b8031afe6d
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
@@ -127,13 +122,14 @@ export default function Login() {
     });
 
     return (
-<<<<<<< HEAD
-        <div>
-            <Helmet>
+        <Card className="background_cloud_card">
+            <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%",objectFit: "cover"}}/>
+            <Card.ImgOverlay>
+                <Helmet>
                     <meta charSet="utf-8" />
                     <title>linGrow-Login</title>
                 </Helmet>
-            <Card>
+                <Card>
                 <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px"}}/></a>
                 <LanguageList />
                 <h1>{header}</h1>
@@ -148,28 +144,7 @@ export default function Login() {
                 <Button variant="primary" type="submit" id="signup" onClick={redirectToSignup} style={{minWidth:"100px"}}>{signup_btn}</Button>
                 <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{margin:"35px"}}>{activities}</Button>
             </Card>
-        </div>
-=======
-        <Card className="background_cloud_card">
-            <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%",objectFit: "cover"}}/>
-            <Card.ImgOverlay>
-                <Card>
-                    <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px"}}/></a>
-                    <LanguageList />
-                    <h1>{header}</h1>
-                    <label className="label">{email_msg}</label>
-                    <input type="text" className="form-control" id="email" placeholder={"lingrow@email.com"} onChange={e => setEmail(e.target.value)}/>
-                    <label className="label">{pass_msg}</label>
-                    <input type="password" className="form-control" id="password" placeholder={pass_msg} onChange={e => setPassWord(e.target.value)}/>
-                    <div className="message">
-                        {errorMessage()}
-                    </div>
-                    <Button variant="primary" type="submit" id="login" onClick={handleSubmit} style={{minWidth:"100px"}}>{login_btn}</Button>
-                    <Button variant="primary" type="submit" id="signup" onClick={redirectToSignup} style={{minWidth:"100px"}}>{signup_btn}</Button>
-                    <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{margin:"35px"}}>{activities}</Button>
-                </Card>
-            </Card.ImgOverlay>
-        </Card>
->>>>>>> 4f87513d655a0599306c4dae0e91b8b8031afe6d
+        </Card.ImgOverlay>
+    </Card> 
     )
 }
