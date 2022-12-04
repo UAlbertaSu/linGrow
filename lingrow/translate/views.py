@@ -59,7 +59,11 @@ def translate_text(text, source_language, target_language):
     url = f"https://translation.googleapis.com/language/translate/v2"
     
     response = session.post(url, params={'key': API_key, 'target': target_language, 'source': source_language, 'q': text, 'format': 'text'})
-    return response.json()['data']['translations'][0]['translatedText']
+    
+    try:
+        return response.json()['data']['translations'][0]['translatedText']
+    except KeyError:
+        return text
 
 def detect_language(text):
     '''
