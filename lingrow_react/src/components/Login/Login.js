@@ -7,7 +7,6 @@ import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 import Authenticate from '../Authenticate/Authenticate';
 
-import clouds from '../Img/clouds.png';
 import logo from "../Img/lingrow.png";
 import './Login.css';
 

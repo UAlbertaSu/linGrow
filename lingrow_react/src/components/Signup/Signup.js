@@ -28,7 +28,6 @@ export default function Form() {
     const [enter_middle_msg, setEnterMiddleMsg] = useState("Enter Middle Name");
     const [last_msg, setLastMsg] = useState("Last name");
     const [enter_last_msg, setEnterLastMsg] = useState("Enter Last Name");
-    const [type_msg, setTypeMsg] = useState("User type");
     const [pass_msg, setPasswordMsg] = useState("Password");
     const [enter_pass_msg, setEnterPasswordMsg] = useState("Enter password");
     const [confirm_msg, setConfirmPasswordMsg] = useState("Confirm password");
@@ -92,10 +91,6 @@ export default function Form() {
         setSubmitted(false);
     };
     
-    const handleUserType = (e) => {
-        setUserType(e.target.value);
-        setSubmitted(false);
-    };
     
     const handlePassword = (e) => {
         setPassword(e.target.value);
@@ -161,7 +156,7 @@ export default function Form() {
         );
     };
 
-    const translateMessage = useCallback((e) => {
+    const translateMessage = useCallback(() => {
         let lang = localStorage.getItem('lang');
         if (lang) {
             Translate('en', lang, "Parent Registration").then(response => setHeader(response));
@@ -211,7 +206,7 @@ export default function Form() {
         <Card className="signup" style={{}}>
             <Helmet>
                     <meta charSet="utf-8" />
-                    <title>linGrow-Parent-Signup</title>
+                    <title>LinGrow Parent Signup</title>
             </Helmet>
                     <LanguageList />
                     <h1>{header}</h1>

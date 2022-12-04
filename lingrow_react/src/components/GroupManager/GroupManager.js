@@ -6,7 +6,6 @@ import {Helmet} from 'react-helmet';
 
 import './GroupManager.css'
 
-import clouds from '../Img/clouds.png';
 import LanguageList from "../Translate/LanguageList";
 import Translate from "../Translate/Translate";
 

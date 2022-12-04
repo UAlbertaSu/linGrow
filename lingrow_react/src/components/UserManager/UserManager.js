@@ -7,8 +7,6 @@ import {Helmet} from 'react-helmet';
 import LanguageList from "../Translate/LanguageList";
 import Translate from "../Translate/Translate";
 
-import clouds from '../Img/clouds.png';
-
 // Allows admin users to look at the list of users.
 export default function UserManager() {
     const nav = useNavigate();

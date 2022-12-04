@@ -3,9 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Card, ListGroup } from 'react-bootstrap';
 
 import LanguageList from "../Translate/LanguageList";
-import Translate from "../Translate/Translate";
-
-import clouds from '../Img/clouds.png';
 
 export default function GroupDetail() {
     let location = useLocation();

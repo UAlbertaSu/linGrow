@@ -5,8 +5,6 @@ import {Helmet} from 'react-helmet';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
-import clouds from '../Img/clouds.png';
-
 import './Welcome.css';
 
 
@@ -65,19 +63,16 @@ export default function Welcome() {
     });
     
     return (
-            <Card className="background_cloud_card">
-                <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit:"cover"}}/>
-                <Card.ImgOverlay>
+        <div>
             <Helmet>
                     <meta charSet="utf-8" />
-                    <title>Welcome to linGrow-A Multilingual Families Lab</title>
+                    <title>Welcome to LinGrow!</title>
             </Helmet>
                     <Card className="welcome">
                         <LanguageList />
                         <h2 id="welcome_msg">{welcome_msg}</h2>
                         <a href="" id="welcome_link" onClick={handleSubmit}>{link_msg}</a>
                     </Card>
-                </Card.ImgOverlay>
-            </Card>
+        </div>
     );
 }

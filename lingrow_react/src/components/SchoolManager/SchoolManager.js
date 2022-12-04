@@ -6,8 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import LanguageList from "../Translate/LanguageList";
 import Translate from "../Translate/Translate";
 
-import clouds from '../Img/clouds.png';
-
 // Allows users to view schools
 export default function SchoolManager({userType}) {
     const nav = useNavigate();

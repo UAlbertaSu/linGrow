@@ -4,8 +4,6 @@ import { ListGroup } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {Helmet} from 'react-helmet';
 
-import clouds from '../Img/clouds.png';
-
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 

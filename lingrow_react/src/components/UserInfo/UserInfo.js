@@ -7,7 +7,6 @@ import Translate from '../Translate/Translate';
 import { retrieveUserType } from '../Login/Login';
 
 import logo from "../Img/lingrow.png";
-import clouds from '../Img/clouds.png';
 import home_icon from "../Img/home_icon.png";
 import user_icon from "../Img/user_icon.png";
 

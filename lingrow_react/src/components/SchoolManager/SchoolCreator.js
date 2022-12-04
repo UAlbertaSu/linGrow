@@ -6,8 +6,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
-import clouds from '../Img/clouds.png';
-
 // Allows users to create a new school
 export default function SchoolCreator({}) {
     const loc = useLocation();
@@ -91,7 +89,6 @@ export default function SchoolCreator({}) {
             <input type="text" className="form-control" id="school_name" placeholder={group_name} onChange={e => setGroupName(e.target.value)}/>
             <input type="text" className="form-control" id="school_email" placeholder={email_name} onChange={e => setEmailName(e.target.value)}/>
             <input type="text" className="form-control" id="school_id" placeholder={group_id} onChange={e => setGroupID(e.target.value)} />
-            
             <Button variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
         </Card>
     );
