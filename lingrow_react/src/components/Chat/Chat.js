@@ -67,8 +67,8 @@ export default function Chat() {
         nav("/");
     }
 
+    const [tab_header, setTabHeader] = useState("LinGrow Chat");
     const [dashboard, setDashboard] = useState(setDashboardType);
-    const [dashboardString, setDashboardString] = useState();
     const [home, setHome] = useState("Home");
     const [profile, setProfile] = useState("Profile");
     const [directChat, setDirectChat] = useState('Direct Chat');
@@ -83,14 +83,15 @@ export default function Chat() {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate('en', lang, dashboard).then(response => setDashboardString(response));
-            Translate('en', lang, "Home").then(response => setHome(response));
-            Translate('en', lang, "Profile").then(response => setProfile(response));
-            Translate('en', lang, "Language Learning Activities").then(response => setLanguageLearningActivitiesMsg(response));
-            Translate('en', lang, "Logout").then(response => setLogoutMsg(response));
-            Translate('en', lang, "Direct Chat").then(response => setDirectChat(response));
-            Translate('en', lang, "Group Chat").then(response => setGroupChat(response));
-            Translate('en', lang, "New Chat").then(response => setNewChat(response));
+            Translate('en', lang, tab_header).then((response) => setTabHeader(response));
+            Translate('en', lang, dashboard).then(response => setDashboard(response));
+            Translate('en', lang, home).then(response => setHome(response));
+            Translate('en', lang, profile).then(response => setProfile(response));
+            Translate('en', lang, activities).then(response => setLanguageLearningActivitiesMsg(response));
+            Translate('en', lang, logout_msg).then(response => setLogoutMsg(response));
+            Translate('en', lang, directChat).then(response => setDirectChat(response));
+            Translate('en', lang, groupChat).then(response => setGroupChat(response));
+            Translate('en', lang, newChat).then(response => setNewChat(response));
         }
     });
 
@@ -107,12 +108,16 @@ export default function Chat() {
 
     return (
         <div className="dashboard-wrapper">
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>{tab_header}</title>
+            </Helmet>
             <Card style={{minHeight:"fit-content", paddingBottom:"20px"}}>
                 <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
                 <LanguageList />
                 <Navbar bg="light" expand="lg" style={{width:"94%", margin: "20px 0px 10px 0px"}}>
                     <Container>
-                        <Navbar.Brand style={{fontWeight:"bold",fontSize:"22px",margin:"10px 50px 10px 20px"}}>{dashboardString}</Navbar.Brand>
+                        <Navbar.Brand style={{fontWeight:"bold",fontSize:"22px",margin:"10px 50px 10px 20px"}}>{dashboard}</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">

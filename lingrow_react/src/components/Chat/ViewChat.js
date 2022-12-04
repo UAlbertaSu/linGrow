@@ -8,6 +8,7 @@ import Translate from '../Translate/Translate';
 import logo from "../Img/lingrow.png";
 import home_icon from "../Img/home_icon.png";
 import user_icon from "../Img/user_icon.png";
+import { Helmet } from 'react-helmet';
 // import Validation from '../Validation/Validation';
 
 
