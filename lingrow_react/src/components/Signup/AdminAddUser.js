@@ -7,12 +7,21 @@ import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 import StyledDropzone from './Dropzone';
 import Authenticate from '../Authenticate/Authenticate';
+import { ListGroup } from 'react-bootstrap';
 
 // Component to prompt admin users to add users one by one, or mass-create users via xlsx/csv file.
 export default function AdminAddUser() {
 
     // For redirecting user after submission.
     const nav = useNavigate();
+
+    // states for school retrieval.
+    const [token] = useState(JSON.parse(sessionStorage.getItem('token')));
+    const [no_schools_message, setNoSchoolsFound] = useState("No schools found...");
+    const [no_classrooms_message, setNoClassroomsFound] = useState("No classrooms found...");
+    const [schools, setSchools] = useState([]);
+    const [classrooms, setClassrooms] = useState([]);
+    const [schoolID, setSchoolID] = useState();
 
     // States needed for translation.
     const [translated, setTranslated] = useState(0);
@@ -38,6 +47,10 @@ export default function AdminAddUser() {
     const [current_middleName, setCurrentMiddleName] = useState();
     const [current_lastName, setCurrentLastName] = useState();
     const [current_email, setCurrentEmail] = useState();
+
+    // states for a child
+    const [, setCurrentEmail] = useState();
+
 
     // Expand example image for .csv or .xlsx file format.
     const [expanded, setExpanded] = useState(false);
@@ -65,6 +78,57 @@ export default function AdminAddUser() {
     const handleLastName = (event) => {
         setCurrentLastName(event.target.value);
     }
+
+
+    // used for getting school array
+    const setInitialState = () => {
+        let arr = [];
+
+        fetch('http://127.0.0.1:8000/api/school', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        }).then(data => data.json()
+        ).then(data => {
+            data.map((item) => {
+                arr.push(item);
+            })
+        }).then(() => {
+            setSchools([...schools, ...arr]);
+        });
+    }
+
+    
+    // get classrooms of selected school
+    const handleDetail = (elem) => {
+
+        setSchoolID(elem.id);
+
+        // clear between uses
+        setClassrooms([]);
+
+        let arr = [];
+
+        fetch(`http://127.0.0.1:8000/api/school/${schoolID}/classroom`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        }).then(data => data.json()
+        ).then(data => {
+            data.map((item) => {
+                arr.push(item);
+            })
+        }).then(() => {
+            setClassrooms([...classrooms, ...arr]);
+        });
+
+
+    }
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -117,7 +181,8 @@ export default function AdminAddUser() {
             Translate('en', lang, "Researcher").then(response => setResearcherMsg(response));
             Translate('en', lang, "Admin").then(response => setAdminMsg(response));
             Translate('en', lang, "Example file format").then(response => setExample(response));
-            Translate('en', lang, "User type").then(response => setUserType(response));
+            Translate('en', lang, "No schools found...").then(response => setNoSchoolsFound(response));
+            Translate('en', lang, "No classrooms found...").then(response => setNoClassroomsFound(response));
         }
     });
 
@@ -137,9 +202,12 @@ export default function AdminAddUser() {
         }
     }, []);
 
+
+
     useEffect(() => {
         // Prevents page from being constantly translated.
         if (!translated) {
+            setInitialState();
             translateMessage();
             setTranslated(1);
         }
@@ -147,7 +215,9 @@ export default function AdminAddUser() {
         // Eventlistener for when new language code is set from LanguageList component.
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
+
     });
+
 
     // Return the admin add user page.
     return (
@@ -206,14 +276,70 @@ export default function AdminAddUser() {
                 <input className='form-control' type="text" placeholder={email} id="email" onChange={handleEmail} />
                 <select className="form-select" id="user_type" onChange={handleUserType} >
                     <option value="" disabled selected>{enter_type_msg}</option>
-                    <option value="1">{parent_msg}</option>
-                    <option value="2">{teacher_msg}</option>
-                    <option value="3">{researcher_msg}</option>
-                    <option value="4">{admin_msg}</option>
+                    <option value={1}>{parent_msg}</option>
+                    <option value={2}>{teacher_msg}</option>
+                    <option value={3}>{researcher_msg}</option>
+                    <option value={4}>{admin_msg}</option>
                 </select>
                 <input className='form-control' type="text" placeholder={firstName} id="first_name" onChange={handleFirstName} />
                 <input className='form-control' type="text" placeholder={middleName} id="middle_name" onChange={handleMiddleName} />
                 <input className='form-control' type="text" placeholder={lastName} id="last_name" onChange={handleLastName} />
+                
+
+                <input className='form-control' type="text" placeholder={lastName} id="last_name" onChange={handleLastName} />
+
+
+
+
+
+                    <div style={{ display: 'block', width: 400, padding: 30 }}>
+                    {
+                        <div> 
+                        {current_userType === "1" || current_userType === "2" ? 
+                            <div>
+                            {
+                                schools.length > 0 ? 
+                                    <ListGroup>
+                                        {schools.map((elem) => 
+                                        <ListGroup.Item action onClick={() => handleDetail(elem)} id={elem.id} key={elem.id} value={elem.id}>
+                                            {[elem.name]}
+                                        </ListGroup.Item>)}
+                                    </ListGroup> 
+                                :
+                                    <ListGroup>{<ListGroup.Item disabled >{no_schools_message}</ListGroup.Item>}</ListGroup>
+                            }
+                            </div>
+                         : null}
+                        </div>
+                    }
+                    </div>
+
+                    <div style={{ display: 'block', width: 400, padding: 30 }}>
+                    {
+                        <div> 
+                        {(current_userType === "1" && schoolID !== undefined) || (current_userType === "2" && schoolID !== undefined) ? 
+                            <div>
+                            {
+                                classrooms.length > 0 ? 
+                                    <ListGroup>
+                                        {classrooms.map((elem) => 
+                                        <ListGroup.Item action onClick={() => handleDetail(elem)} id={elem.id} key={elem.id} value={elem.id}>
+                                            {[elem.name]}
+                                        </ListGroup.Item>)}
+                                    </ListGroup> 
+                                :
+                                    <ListGroup>{<ListGroup.Item disabled >{no_classrooms_message}</ListGroup.Item>}</ListGroup>
+                            }
+                            </div>
+                         : null}
+                        </div>
+                    }
+                    </div>
+
+
+
+                
+                
                 <div style={{padding: 20}}>
                     <Button variant="primary" type="submit" id="submit" onClick={handleSubmit} >{addUserBtn}</Button>
                 </div>
