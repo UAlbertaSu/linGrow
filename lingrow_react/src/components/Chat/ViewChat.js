@@ -1,7 +1,7 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import './Chat.css';
-import { Card, Button, Nav, Container, Navbar} from 'react-bootstrap';
+import { Card, Button, Nav, Container, Navbar, Spinner } from 'react-bootstrap';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 import logo from "../Img/lingrow.png";
@@ -210,52 +210,51 @@ export default function Chat() {
                     <div className="chat-display">
                         {chat.map((message) => (
                             <div className="message">
-                                {
-                            loading ? 
-                            (<div style={{display: "flex", height: "100%", alignItems: "center", justifyContent: "center"}}>
-                                <Spinner animation="border" role="status">
-                                    <span className="visually-hidden">Loading...</span>
-                                </Spinner>
-                            </div>) 
-                            : 
-                            (<div>
-                                {chat.map((message) => (
-                                    <div className="message">
-                                        { /* Display username */ }
-                                        { message.username === curr_user ? (
-                                            <div className="message-username-right">
-                                                {message.username}
-                                            </div>
-                                        ) : (
-                                            <div className="message-username-left">
-                                                {message.username}
-                                            </div>
-                                        )}
-                                        { /* Display message with timestamp */ }
-                                        { message.username === curr_user ? (
-                                            <div className="message-right">
+                                {loading ? 
+                                    (<div style={{display: "flex", height: "100%", alignItems: "center", justifyContent: "center"}}>
+                                        <Spinner animation="border" role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </Spinner>
+                                    </div>) 
+                                : 
+                                    (<div>
+                                        {chat.map((message) => (
+                                            <div className="message">
+                                                { /* Display username */ }
+                                                { message.username === curr_user ? (
+                                                    <div className="message-username-right">
+                                                        {message.username}
+                                                    </div>
+                                                ) : (
+                                                    <div className="message-username-left">
+                                                        {message.username}
+                                                    </div>
+                                                )}
+                                                { /* Display message with timestamp */ }
+                                                { message.username === curr_user ? (
+                                                    <div className="message-right">
 
-                                                <div className="message-text-right">
-                                                    {message.text}
-                                                </div>
-                                                <div className="message-time-right">
-                                                    {message.timestamp}
-                                                </div>
+                                                        <div className="message-text-right">
+                                                            {message.text}
+                                                        </div>
+                                                        <div className="message-time-right">
+                                                            {message.timestamp}
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="message-left">
+                                                        <div className="message-text-left">
+                                                            {message.text}
+                                                        </div>
+                                                        <div className="message-time-left">
+                                                            {message.timestamp}
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
-                                        ) : (
-                                            <div className="message-left">
-                                                <div className="message-text-left">
-                                                    {message.text}
-                                                </div>
-                                                <div className="message-time-left">
-                                                    {message.timestamp}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
-                                </div>
-                            )}
+                                        ))}
+                                    </div>)
+                                }
                             { /* Reference to the bottom of the chat box */}
                             <div ref={bottomRef} />
                             </div>
