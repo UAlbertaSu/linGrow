@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Card, Table } from 'react-bootstrap';
-import {Helmet} from 'react-helmet';
+import { Button, Card, ListGroup, Spinner } from 'react-bootstrap';
+import { Helmet } from 'react-helmet';
 
+import { CSVLink, CSVDownload } from 'react-csv';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 import StyledDropzone from './Dropzone';
@@ -13,6 +14,15 @@ export default function AdminAddUser() {
 
     // For redirecting user after submission.
     const nav = useNavigate();
+
+    // states for school retrieval.
+    const [token] = useState(JSON.parse(sessionStorage.getItem('token')));
+    const [no_schools_message, setNoSchoolsFound] = useState("No schools found...");
+    const [no_classrooms_message, setNoClassroomsFound] = useState("No classrooms found...");
+    const [schools, setSchools] = useState([]);
+    const [classrooms, setClassrooms] = useState([]);
+    const [schoolID, setSchoolID] = useState();
+    const [selected, setSelected] = useState([]);
 
     // States needed for translation.
     const [tab_header, setTabHeader] = useState("LinGrow User Creator");
@@ -40,13 +50,14 @@ export default function AdminAddUser() {
     const [current_lastName, setCurrentLastName] = useState();
     const [current_email, setCurrentEmail] = useState();
 
-    // Expand example image for .csv or .xlsx file format.
-    const [expanded, setExpanded] = useState(false);
-
-    const expandExample = () => {
-        setExpanded(!expanded);
-    }
-
+    const example_data = [
+        ["email", "first_name", "middle_name", "last_name", "user_type", "school", "classroom"],
+        ["tribiani@email.com", "Joey", "", "Tribiani", "Admin", "", ""],
+        ["geller@email.com", "Geller", "", "Ross", "Researcher", "", ""],
+        ["chandler@email.com", "Chandler", "Muriel", "Bing", "Teacher", "Central Perk Elementary", "1A"],
+        ["rachel@email.com", "Rachel", "", "Green", "Parent"]
+    ];
+    
     const handleUserType = (event) => {
         setCurrentUserType(event.target.value);
     }
@@ -67,6 +78,65 @@ export default function AdminAddUser() {
         setCurrentLastName(event.target.value);
     }
 
+
+    // used for getting initial schools 
+    const setInitialState = () => {
+        let arr = [];
+
+        fetch('http://127.0.0.1:8000/api/school', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        }).then(data => data.json()
+        ).then(data => {
+            data.map((item) => {
+                arr.push(item);
+            })
+        }).then(() => {
+            setSchools([...schools, ...arr]);
+        });
+    }
+
+    // get classrooms of selected school
+    const handleDetail = (elem) => {
+        let arr = [];
+
+        fetch(`http://127.0.0.1:8000/api/school/${elem.id}/classroom`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        }).then(data => data.json()
+        ).then(data => {
+            data.map((item) => {
+                arr.push(item);
+            })
+        }).then(() => {
+            setClassrooms(arr);
+        }).then(() => {
+            setSchoolID(elem.id);
+        }).then(() => {
+            setSelected([]);  // need to clear selected classrooms when new school selected
+        });
+    }
+
+    // get selected classrooms 
+    // TODO: teachers can be in multiple classrooms, but not children, should we make a separate single selector for children?
+    const selectListItem = (item) => {
+        if (selected.includes(item)) {
+            setSelected(selected.filter((i) => i !== item));
+        }
+        else {
+            setSelected(
+                [...selected,
+                item]
+            )
+        }
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -80,10 +150,17 @@ export default function AdminAddUser() {
             "last_name": current_lastName,
         }
 
+        if (current_userType === "2") {
+            // indexing is off by 1
+            user['school'] = schools[schoolID-1];
+            user['classroom'] = classrooms[selected-1];
+        }
+
+        console.log(user);
+
         let request = {
             "users": [user]
         }
-
 
         return fetch('http://127.0.0.1:8000/api/user/admin-add-users/', {
             method: 'POST',
@@ -105,7 +182,7 @@ export default function AdminAddUser() {
         let lang = localStorage.getItem('lang');
         if (lang) {
             Translate('en', lang, "LinGrow User Creator").then((response) => setTabHeader(response));
-            Translate('en', lang, "Add Multiple Users Via Excel file").then(response => setHeader(response));
+            Translate('en', lang, "Add Multiple Users Via .csv file").then(response => setHeader(response));
             Translate('en', lang, "Add Users Manually").then(response => setAddUserMsg(response));
             Translate('en', lang, "Drop .csv file here, or click to upload!").then(response => setDropbox(response));
             Translate('en', lang, "Email address").then(response => setEmail(response));
@@ -118,8 +195,9 @@ export default function AdminAddUser() {
             Translate('en', lang, "Teacher").then(response => setTeacherMsg(response));
             Translate('en', lang, "Researcher").then(response => setResearcherMsg(response));
             Translate('en', lang, "Admin").then(response => setAdminMsg(response));
-            Translate('en', lang, "Example file format").then(response => setExample(response));
-            Translate('en', lang, "User type").then(response => setUserType(response));
+            Translate('en', lang, "Download example .csv file").then(response => setExample(response));
+            Translate('en', lang, "No schools found...").then(response => setNoSchoolsFound(response));
+            Translate('en', lang, "No classrooms found...").then(response => setNoClassroomsFound(response));
         }
     });
 
@@ -139,9 +217,12 @@ export default function AdminAddUser() {
         }
     }, []);
 
+
+
     useEffect(() => {
         // Prevents page from being constantly translated.
         if (!translated) {
+            setInitialState();
             translateMessage();
             setTranslated(1);
         }
@@ -149,7 +230,9 @@ export default function AdminAddUser() {
         // Eventlistener for when new language code is set from LanguageList component.
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
+
     });
+
 
     // Return the admin add user page.
     return (
@@ -167,61 +250,67 @@ export default function AdminAddUser() {
                 <div style={{padding: 20}}>
                     <StyledDropzone dropbox_message={dropbox} />
                 </div>
-                <Button variant="primary" onClick={expandExample}>{example}</Button>
-                <div>
-                    {
-                        expanded ? 
-                        <Table>
-                            <thead>
-                                <tr>
-                                    <th>{email}</th>
-                                    <th>{firstName}</th>
-                                    <th>{middleName}</th>
-                                    <th>{lastName}</th>
-                                    <th>{userType}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>test@email.com</td>
-                                    <td>Ross</td>
-                                    <td></td>
-                                    <td>Geller</td>
-                                    <td>Researcher</td>
-                                </tr>
-                                <tr>
-                                    <td>another@email.com</td>
-                                    <td>Chandler</td>
-                                    <td>Muriel</td>
-                                    <td>Bing</td>
-                                    <td>Teacher</td>
-                                </tr>
-                                <tr>
-                                    <td>mock@email.com</td>
-                                    <td>Rachel</td>
-                                    <td></td>
-                                    <td>Green</td>
-                                    <td>Parent</td>
-                                </tr>
-                            </tbody>
-                        </Table> : null
-                    }
-                </div>
+                <CSVLink data={example_data} filename={"LinGrow_example.csv"}>{
+                    <Button variant="primary" style={{marginBottom: "60px"}}>{example}</Button>
+                }</CSVLink>
+
                 <Card className="title_card">
                     <h1>{addUserMsg}</h1>
                 </Card>
-                
                 <input className='form-control' type="text" placeholder={email} id="email" onChange={handleEmail} />
                 <select className="form-select" id="user_type" onChange={handleUserType} >
                     <option value="" disabled selected>{enter_type_msg}</option>
-                    <option value="1">{parent_msg}</option>
-                    <option value="2">{teacher_msg}</option>
-                    <option value="3">{researcher_msg}</option>
-                    <option value="4">{admin_msg}</option>
+                    <option value={1}>{parent_msg}</option>
+                    <option value={2}>{teacher_msg}</option>
+                    <option value={3}>{researcher_msg}</option>
+                    <option value={4}>{admin_msg}</option>
                 </select>
                 <input className='form-control' type="text" placeholder={firstName} id="first_name" onChange={handleFirstName} />
                 <input className='form-control' type="text" placeholder={middleName} id="middle_name" onChange={handleMiddleName} />
                 <input className='form-control' type="text" placeholder={lastName} id="last_name" onChange={handleLastName} />
+                    <div style={{ display: 'block', width: 400, padding: 15 }}>  
+                    {
+                        <div> 
+                        {current_userType === "1" || current_userType === "2" ? 
+                            <div>
+                            {
+                                schools.length > 0 ? 
+                                    <ListGroup>
+                                        {schools.map((elem) => 
+                                        <ListGroup.Item action onClick={() => handleDetail(elem)} id={elem.id} key={elem.id} value={elem.id}>
+                                            {[elem.name]}
+                                        </ListGroup.Item>)}
+                                    </ListGroup> 
+                                :
+                                    <ListGroup>{<ListGroup.Item disabled >{no_schools_message}</ListGroup.Item>}</ListGroup>
+                            }
+                            </div>
+                         : null}
+                        </div>
+                    }
+                    </div>
+                    <div style={{ display: 'block', width: 400, padding: 15 }}>
+                    {
+                        <div> 
+                        {(current_userType === "1" && schoolID !== undefined) || (current_userType === "2" && schoolID !== undefined) ? 
+                            <div>
+                            {
+                                classrooms.length > 0 ? 
+                                    <ListGroup>
+                                        {classrooms.map((elem) => 
+                                        <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} id={elem.id} key={elem.id} value={elem.id}>
+                                            {[elem.name]}
+                                        </ListGroup.Item>)}
+                                    </ListGroup> 
+                                :
+                                    <ListGroup>{<ListGroup.Item disabled >{no_classrooms_message}</ListGroup.Item>}</ListGroup>
+                            }
+                            </div>
+                         : null}
+                        </div>
+                    }
+                    </div> 
+                
                 <div style={{padding: 20}}>
                     <Button variant="primary" type="submit" id="submit" onClick={handleSubmit} >{addUserBtn}</Button>
                 </div>

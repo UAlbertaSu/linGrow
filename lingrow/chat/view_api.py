@@ -144,9 +144,10 @@ class SendMessageView(APIView):
         chat_id = request.data.get("id_chat")
         chat = Chat.objects.get(id_chat=chat_id)
         text_message = request.data.get("message")
-        lang = detect_language(text_message)
-        if lang != 'en':
-            text_message = translate_text(text_message, lang,'en')
+        # lang = detect_language(text_message)
+        # print(lang)
+        # if lang != 'en':
+        #     text_message = translate_text(text_message, lang,'en')
         response = {}
         if len(text_message) > 0:
             messaggio=Message.add_this(Message(), chat, request.user, text_message)
@@ -168,7 +169,7 @@ class ChatMessageView(APIView):
         messaggi_json_array = []
         for messaggio in messaggi_query:
             message = messaggio.text
-            message = translate_text(message, 'en', lang)
+            message = translate_text(message, detect_language(message), lang)
             msg = {'username': messaggio.sender.email, 'text': message,
                 'timestamp': messaggio.timestamp.strftime('%Y-%m-%d %H:%M')}
             messaggi_json_array.append(msg)

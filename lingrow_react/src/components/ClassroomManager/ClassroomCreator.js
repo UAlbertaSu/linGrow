@@ -25,108 +25,27 @@ export default function ClassroomCreator({userType}) {
     const [group_name, setGroupName] = useState(loc.state !== null ? loc.state.groupName : "Classroom Name");
     const [group_id, setGroupID] = useState("Classroom ID");
 
-    // Sets the initial state of search results.
-
-    const handleChange = async (e) => {
-        e.preventDefault();
-
-        setUserChoice(parseInt(e.target.value));
-        setSearchResult([]);
-        setSelected([]);
-    }
-
-    useEffect(() => {
-        populateList(userChoice);
-    }, [userChoice]);
-
-    const populateList = () => {
-        let arr = [];
-
-        // get all parents and teachers
-        fetch('http://127.0.0.1:8000/api/search/teachers', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-        }).then(data => data.json()
-        ).then(data => {
-            data.map((item) => {
-                if (!searchResult.includes(item)) {
-                    arr.push(item.user);
-                }
-            })
-        }).then(() => {
-            setSearchResult([...searchResult, ...arr]);
-        });
-    
-        fetch('http://127.0.0.1:8000/api/search/parents', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-        }).then(data => data.json()
-        ).then(data => {
-            data.map((item) => {
-                if (!searchResult.includes(item)) {
-                    arr.push(item.user);
-                }
-            })
-        }).then(() => {
-            setSearchResult([...searchResult, ...arr]);
-        });
-
-    }
-
-    const selectListItem = (item) => {
-        if (selected.includes(item)) {
-            setSelected(selected.filter((i) => i !== item));
-        }
-        else {
-            setSelected(
-                [...selected,
-                item]
-            )
-        }
-    }
-
     const handleCreate = (e) => {
         e.preventDefault();
-
-        let method = 'POST';
-        if (loc.state !== null) {
-            method = 'PATCH';
-        }
-
-        console.log(method);
-
-
         var request = {
             'name': group_name,
-            // TODO: do we need to pass state in or is it guaranteed set
-
             'school': loc.state.schoolID,
-            'users': selected  //TODO: need to create classroom with users
         }
-
-
-
-        let url = 'http://127.0.0.1:8000/api/school/${schoolID}'
-
-        if (loc.state !== null) {
-            url += loc.state.groupID + '/';
-        }
+        let url = `http://127.0.0.1:8000/api/school/${loc.state.schoolID}/classroom/`;
 
         fetch(url, {
-            method: method,
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify(request),
         }).then(() => {
-            nav('/groupmanager');
+            nav('/classroommanager', {
+                state: {
+                    schoolID: loc.state.schoolID,
+                }
+            });
         }).catch(error => {
             console.log(error);
         })
@@ -153,7 +72,6 @@ export default function ClassroomCreator({userType}) {
 
         // Prevent translation and list population from running multiple times.
         if (!translated) {
-            populateList(userChoice);
             translateMessage();
             setTranslated(1);
         }
@@ -181,7 +99,7 @@ export default function ClassroomCreator({userType}) {
                         searchResult.length > 0 ? 
                             <ListGroup>
                             {searchResult.map((elem) => 
-                                <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} key={elem.id} value={elem.id}>
+                                <ListGroup.Item action active={selected.includes(elem.id) ? true : false} key={elem.id} value={elem.id}>
                                     {[elem.first_name, " ", elem.last_name]}
                                 </ListGroup.Item>)}
                             </ListGroup> 
@@ -189,7 +107,7 @@ export default function ClassroomCreator({userType}) {
                             <ListGroup>{<ListGroup.Item disabled >{no_user_message}</ListGroup.Item>}</ListGroup>
                     }
                 </div>
-                <Button disabled={selected.length == 0 ? true : false} variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
+                <Button disabled={group_name === undefined ? true : false} variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
             </Card>
         </div>
     );

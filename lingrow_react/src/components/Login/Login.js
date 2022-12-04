@@ -58,6 +58,7 @@ export default function Login() {
 
         Authenticate(token).then(response => {
             setError(false);
+            sessionStorage.setItem('userType', response.user.user_type);
             nav("/dashboard");
         }).catch(error => {
             setError(true);

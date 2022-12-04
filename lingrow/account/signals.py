@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from .models import Teacher, Researcher, Child
 from rest_framework import serializers
 from group_management.models import TeacherGroup, ResearcherGroup, ParentGroup
+from chat.models import ResearcherGroupChat
 
 @receiver(post_save, sender=Teacher)
 def update_teacher_groups(sender, instance, created, **kwargs):
@@ -26,6 +27,9 @@ def update_researcher_groups(sender, instance, created, **kwargs):
         researcher_group = ResearcherGroup.objects.create(name="All Researchers")
         researcher_group.researcher.add(instance)
         researcher_group.save()
+        chat = ResearcherGroupChat(group = researcher_group)
+        ResearcherGroupChat.add_this(chat)
+        chat.save()
 
 @receiver(post_save, sender=Child)
 def update_child_groups(sender, instance, created, **kwargs):

@@ -83,6 +83,18 @@ export default function UserInfo({ userType }) {
         }
     });
 
+    const createSchoolList = () => {
+        
+    }
+
+    const createClassroomList = () => {
+
+    }
+
+    useEffect(() => {
+
+    }, []);
+
     useEffect(() => {
         // Prevents page from being constantly translated.
         if (!translated) {

@@ -62,7 +62,6 @@ export default function ClassroomManager() {
 
     // Navigate to the page showing user details of each group.
     const handleDetail = (elem) => {
-
         nav(`/classroomdetail`, {
             state: {
                 schoolID: elem.school.id,
@@ -73,7 +72,11 @@ export default function ClassroomManager() {
 
     // If user clicks a group creation button, navigate user to the group creation page.
     const handleNavigate = async (e) => {
-        nav('/classroomcreator');
+        nav('/classroomcreator', {
+            state: {
+                schoolID: location.state.schoolID,
+            }
+        });
     }
 
     // Populate the list of groups made by user, and translate the page.

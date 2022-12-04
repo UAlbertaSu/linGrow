@@ -16,6 +16,7 @@
     "random-email": "^1.0.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
+    "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-promise-tracker": "^2.1.1",
