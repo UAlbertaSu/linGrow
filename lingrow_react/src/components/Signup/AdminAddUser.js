@@ -55,7 +55,7 @@ export default function AdminAddUser() {
         ["tribiani@email.com", "Joey", "", "Tribiani", "Admin", "", ""],
         ["geller@email.com", "Geller", "", "Ross", "Researcher", "", ""],
         ["chandler@email.com", "Chandler", "Muriel", "Bing", "Teacher", "Central Perk Elementary", "1A"],
-        ["rachel@email.com", "Rachel", "", "Green", "Parent", "Central Perk Elementary", "1A"]
+        ["rachel@email.com", "Rachel", "", "Green", "Parent"]
     ];
     
     const handleUserType = (event) => {
