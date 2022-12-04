@@ -130,7 +130,6 @@ export default function UserInfo({ userType }) {
                         <input type="text" className="form-control" id="username_email_input" placeholder={username_email_input} onChange={e => setUsernameEmailInput(e.target.value)}/>
                         <input type="text" className="form-control" id="password_input" placeholder={password_input} onChange={e => setPasswordInput(e.target.value)} />
                         <div>{userType === 1 ? <input type="text" className="form-control" id="childs_name_input" placeholder={childs_name_input} onChange={e => setChildsNameInput(e.target.value)} /> : null}</div>
-                        <div>{userType === 1 ? <h5>{childs_name_header}</h5> : null}</div>
                     </Col>
                 </Row>
             </Card>
