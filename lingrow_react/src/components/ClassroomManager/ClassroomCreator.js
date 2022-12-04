@@ -13,8 +13,8 @@ export default function ClassroomCreator({userType}) {
     const loc = useLocation();
     const nav = useNavigate();
 
-    // const [selected, setSelected] = useState(loc.state !== null ? loc.state.groupMembers : []);
-    // const [searchResult, setSearchResult] = useState([]);
+    const [selected, setSelected] = useState(loc.state !== null ? loc.state.groupMembers : []);
+    const [searchResult, setSearchResult] = useState([]);
     const [token, setToken] = useState(JSON.parse(sessionStorage.getItem('token')));
     const [userChoice, setUserChoice] = useState(loc.state !== null ? loc.state.groupType : 1);
 
@@ -99,7 +99,7 @@ export default function ClassroomCreator({userType}) {
                         searchResult.length > 0 ? 
                             <ListGroup>
                             {searchResult.map((elem) => 
-                                <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} key={elem.id} value={elem.id}>
+                                <ListGroup.Item action active={selected.includes(elem.id) ? true : false} key={elem.id} value={elem.id}>
                                     {[elem.first_name, " ", elem.last_name]}
                                 </ListGroup.Item>)}
                             </ListGroup> 

@@ -10,14 +10,18 @@ import user_icon from "../Img/user_icon.png";
 import { Helmet } from 'react-helmet';
 
 export default function Chat() {
-
+    const bottomRef = useRef();
     const nav = useNavigate();
+
+    // Retrieve token from the sessionStorage.
     useEffect(() => {
         if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token').includes("error")) {
             nav("/");
         }
 
     }, []);
+
+    // State variables.
     const userType = JSON.parse(sessionStorage.getItem('userType'));
     const id_chat = JSON.parse(sessionStorage.getItem('id_chat'));
     const chat_type = JSON.parse(sessionStorage.getItem('chat_type'));
@@ -36,14 +40,11 @@ export default function Chat() {
     const [profile, setProfile] = useState("Profile");
     const [send, setSend] = useState("Send");
     const [placeholder, setPlaceholder] = useState("Type your message here...");
-
     const [curr_user] = useState(sessionStorage.getItem('user_id'));
     const [lang, setLang] = useState(localStorage.getItem('lang'));
-    // const [other_user, setOtherUser] = useState();
     const [chat, setChat] = useState([]);
-
-    const [chat_original, setChatOriginal] = useState([]);
-    const [current_lang, setCurrentLang] = useState(localStorage.getItem('lang'));
+    const [loading, setLoading] = useState(false);
+    const [chatRef, setChatRef] = useState([]);
 
     // Initialize chat message with previous chats, set who is the other user.
     useEffect(
@@ -67,17 +68,15 @@ export default function Chat() {
                 }
                 else {
                     setChat([...chat, ...data]);
-                    // setOtherUser(data.user2);
                 }
             });
         }, []
     )
 
+    // 
     const sendMessage = async (event) => { 
-        // get message from input
-        // post message to database
-        // update chat display
         event.preventDefault();
+        setLoading(true);
         const message = document.getElementById("message-input").value;
         console.log(id_chat);
         console.log(message);
@@ -99,7 +98,10 @@ export default function Chat() {
             }
             else {
                 setChat([...chat, data.message]);
+                setChatRef([...chatRef, ...data]);
             }
+        }).then(() => {
+            setLoading(false);
         });
     }
 
@@ -134,6 +136,14 @@ export default function Chat() {
             updateMessages();
         }, 500);
     }, []);
+
+    // If the chat is updated, then scroll to the bottom of the chat.
+    useEffect(() => {
+        if (chatRef.length !== chat.length) {
+            bottomRef.current.scrollIntoView({ behavior: "smooth" });
+            setChatRef(chat);
+        }
+    }, [chat]);
 
     // State for checking initial translation.
     const [translated, setTranslated] = useState(0);
@@ -200,36 +210,54 @@ export default function Chat() {
                     <div className="chat-display">
                         {chat.map((message) => (
                             <div className="message">
-                                { /* Display username */ }
-                                { message.username === curr_user ? (
-                                    <div className="message-username-right">
-                                        {message.username}
-                                    </div>
-                                ) : (
-                                    <div className="message-username-left">
-                                        {message.username}
-                                    </div>
-                                )}
-                                { message.username === curr_user ? (
-                                    <div className="message-right">
+                                {
+                            loading ? 
+                            (<div style={{display: "flex", height: "100%", alignItems: "center", justifyContent: "center"}}>
+                                <Spinner animation="border" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </Spinner>
+                            </div>) 
+                            : 
+                            (<div>
+                                {chat.map((message) => (
+                                    <div className="message">
+                                        { /* Display username */ }
+                                        { message.username === curr_user ? (
+                                            <div className="message-username-right">
+                                                {message.username}
+                                            </div>
+                                        ) : (
+                                            <div className="message-username-left">
+                                                {message.username}
+                                            </div>
+                                        )}
+                                        { /* Display message with timestamp */ }
+                                        { message.username === curr_user ? (
+                                            <div className="message-right">
 
-                                        <div className="message-text-right">
-                                            {message.text}
-                                        </div>
-                                        <div className="message-time-right">
-                                            {message.timestamp}
-                                        </div>
+                                                <div className="message-text-right">
+                                                    {message.text}
+                                                </div>
+                                                <div className="message-time-right">
+                                                    {message.timestamp}
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="message-left">
+                                                <div className="message-text-left">
+                                                    {message.text}
+                                                </div>
+                                                <div className="message-time-left">
+                                                    {message.timestamp}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
-                                ) : (
-                                    <div className="message-left">
-                                        <div className="message-text-left">
-                                            {message.text}
-                                        </div>
-                                        <div className="message-time-left">
-                                            {message.timestamp}
-                                        </div>
-                                    </div>
-                                )}
+                                ))}
+                                </div>
+                            )}
+                            { /* Reference to the bottom of the chat box */}
+                            <div ref={bottomRef} />
                             </div>
                         ))}
                     </div>
