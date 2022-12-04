@@ -102,24 +102,19 @@ export default function GroupDetail() {
     }
     else {
         return (
-            <Card className="background_cloud_card">
-                <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
-                <Card.ImgOverlay>
-                    <Card style={{minHeight:"fit-content"}}>
-                        <LanguageList />
-                        <h1>{group_name}</h1>
-                        <div style={{ display: 'block', width: 400, padding: 30 }}>
-                            <ListGroup>
-                                {members.map((elem) => 
-                                    <ListGroup.Item key={elem} value={elem}>
-                                        {`${elem.first_name} ${elem.last_name}`}
-                                    </ListGroup.Item>)}
-                            </ListGroup>
-                        </div>
-                        <Button variant="primary" onClick={editGroup}>{edit}</Button>
-                    </Card>
-                </Card.ImgOverlay>
-            </Card>
+        <Card style={{minHeight:"fit-content"}}>
+            <LanguageList />
+            <h1>{group_name}</h1>
+            <div style={{ display: 'block', width: 400, padding: 30 }}>
+                <ListGroup>
+                    {members.map((elem) => 
+                        <ListGroup.Item key={elem} value={elem}>
+                            {`${elem.first_name} ${elem.last_name}`}
+                        </ListGroup.Item>)}
+                </ListGroup>
+            </div>
+            <Button variant="primary" onClick={editGroup}>{edit}</Button>
+        </Card>
         )
     }
 }

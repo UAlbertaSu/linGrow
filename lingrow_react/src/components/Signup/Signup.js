@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
-import { useDropzone } from 'react-dropzone';
 import {Helmet} from 'react-helmet';
 
 import LanguageList from '../Translate/LanguageList';
@@ -11,14 +10,13 @@ import 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button'
 
-import clouds from '../Img/clouds.png';
 
 export default function Form() {
 
     const nav = useNavigate();
 
     //translation states
-    const [header, setHeader] = useState("User Registration");
+    const [header, setHeader] = useState("Parent Registration");
     const [email_msg, setEmailMsg] = useState("Email address");
     const [enter_email_msg, setEnterEmailMsg] = useState("Enter Email Address");
     const [first_msg, setFirstMsg] = useState("First name");
@@ -28,16 +26,11 @@ export default function Form() {
     const [last_msg, setLastMsg] = useState("Last name");
     const [enter_last_msg, setEnterLastMsg] = useState("Enter Last Name");
     const [type_msg, setTypeMsg] = useState("User type");
-    const [enter_type_msg, setEnterTypeMsg] = useState("Please select User Type");
-    const [parent_msg, setParentMsg] = useState("Parent");
-    const [teacher_msg, setTeacherMsg] = useState("Teacher");
-    const [researcher_msg, setResearcherMsg] = useState("Researcher");
-    const [admin_msg, setAdminMsg] = useState("Admin");
     const [pass_msg, setPasswordMsg] = useState("Password");
     const [enter_pass_msg, setEnterPasswordMsg] = useState("Enter password");
     const [confirm_msg, setConfirmPasswordMsg] = useState("Confirm password");
     const [enter_confirm_msg, setEnterConfirmPasswordMsg] = useState("Enter password again");
-    const [child_msg, setChildMsg] = useState("Child's name(* if parent)");
+    const [child_msg, setChildMsg] = useState("Child's name");
     const [enter_child_msg, setEnterChildMsg] = useState("Enter Child's Name");
     const [error_msg, setErrorMsg] = useState("Registration failed");
     const [require_msg, setRequiredMsg] = useState("Field with * must be filled out");
@@ -140,7 +133,7 @@ export default function Form() {
                 "email": email,
                 "first_name": first_name,
                 "last_name": last_name,
-                "user_type": user_type,
+                "user_type": 1,
                 "password": password,
                 "password2": password2,
                 "child_name": child_name,
@@ -168,7 +161,7 @@ export default function Form() {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate('en', lang, "User Registration").then(response => setHeader(response));
+            Translate('en', lang, "Parent Registration").then(response => setHeader(response));
             Translate('en', lang, "Email address*").then(response => setEmailMsg(response));
             Translate('en', lang, "Enter Email Address").then(response => setEnterEmailMsg(response));
             Translate('en', lang, "First name*").then(response => setFirstMsg(response));
@@ -177,18 +170,11 @@ export default function Form() {
             Translate('en', lang, "Enter Middle Name").then(response => setEnterMiddleMsg(response));
             Translate('en', lang, "Last name*").then(response => setLastMsg(response));
             Translate('en', lang, "Enter Last Name").then(response => setEnterLastMsg(response));
-            Translate('en', lang, "User type*").then(response => setTypeMsg(response));
-            Translate('en', lang, "Please select User Type").then(response => setEnterTypeMsg(response));
-            Translate('en', lang, "Parent").then(response => setParentMsg(response));
-            Translate('en', lang, "Teacher").then(response => setTeacherMsg(response));
-            Translate('en', lang, "Researcher").then(response => setResearcherMsg(response));
-            Translate('en', lang, "Admin").then(response => setAdminMsg(response));
-            Translate('en', lang, "Please Select User Type").then(response => setEnterTypeMsg(response));
             Translate('en', lang, "Password*").then(response => setPasswordMsg(response));
             Translate('en', lang, "Enter Password").then(response => setEnterPasswordMsg(response));
             Translate('en', lang, "Confirm password*").then(response => setConfirmPasswordMsg(response));
             Translate('en', lang, "Enter password again").then(response => setEnterConfirmPasswordMsg(response));
-            Translate('en', lang, "Child's Name(* if parent)").then(response => setChildMsg(response));
+            Translate('en', lang, "Child's Name").then(response => setChildMsg(response));
             Translate('en', lang, "Enter Child's Name").then(response => setEnterChildMsg(response));
             Translate('en', lang, "Error").then(response => setErrorMsg(response));
             Translate('en', lang, "Field with * is required").then(response => setRequiredMsg(response));
@@ -219,13 +205,10 @@ export default function Form() {
     };
 
     return (
-        <Card className="background_cloud_card">
-        <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
-            <Card.ImgOverlay>
         <Card className="signup" style={{}}>
             <Helmet>
                     <meta charSet="utf-8" />
-                    <title>linGrow-Signup</title>
+                    <title>linGrow-Parent-Signup</title>
             </Helmet>
                     <LanguageList />
                     <h1>{header}</h1>
@@ -238,14 +221,6 @@ export default function Form() {
                     <input className="form-control" type="text" id="middle_name" placeholder={enter_middle_msg} value={middle_name} onChange={handleMiddleName} />
                     <label className="label">{last_msg}</label>
                     <input className="form-control" type="text" id="last_name" placeholder={enter_last_msg} value={last_name} onChange={handleLastName} />
-                    <label className="label">{type_msg}</label>
-                    <select className="form-select" value={user_type} id="user_type" onChange={handleUserType}>
-                        <option value="" disabled selected>{enter_type_msg}</option>
-                        <option value="1">{parent_msg}</option>
-                        <option value="2">{teacher_msg}</option>
-                        <option value="3">{researcher_msg}</option>
-                        <option value="4">{admin_msg}</option>
-                    </select>
                     <label className="label">{pass_msg}</label>
                     <input className="form-control" type="password" id="password1" placeholder={enter_pass_msg} value={password} onChange={handlePassword} />
                     <label className="label">{confirm_msg}</label>
@@ -258,6 +233,6 @@ export default function Form() {
                         {successMessage()}
                     </div>
                     <Button variant="primary" type="submit" id="submit_button" onClick={handleSubmit}>{register_btn}</Button>{''}
-        </Card></Card.ImgOverlay></Card>
+        </Card>
     );
 }

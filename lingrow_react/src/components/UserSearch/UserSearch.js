@@ -208,10 +208,7 @@ function UserSearch(){
 
 
     return(
-        <Card className="background_cloud_card">
-        <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
-            <Card.ImgOverlay>
-                <Card className='function_card'>
+        <Card className='function_card'>
             <Helmet>
                     <meta charSet="utf-8" />
                     <title>linGrow-User Search</title>
@@ -241,9 +238,6 @@ function UserSearch(){
                     </ListGroup>
                 }
             </div>
-        </Card>
-        </Card.ImgOverlay>
-            
         </Card>
         );
 
