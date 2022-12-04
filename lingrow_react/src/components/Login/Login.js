@@ -11,6 +11,11 @@ import clouds from '../Img/clouds.png';
 import logo from "../Img/lingrow.png";
 import './Login.css';
 
+
+// Allows users to login with valid credentials.
+// should be able to redirect to signup page if user doesn't have an account.
+
+
 export async function retrieveUserType(token) {
     return fetch('http://127.0.0.1:8000/api/user/profile/', {
         method: 'GET',

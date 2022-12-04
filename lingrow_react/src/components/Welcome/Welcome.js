@@ -9,6 +9,10 @@ import clouds from '../Img/clouds.png';
 
 import './Welcome.css';
 
+
+//a welcome page
+
+
 export default function Welcome() {
 
     let [welcome_msg, setWelcome] = useState("Hello!");

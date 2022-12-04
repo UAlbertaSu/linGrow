@@ -13,6 +13,9 @@ import Button from 'react-bootstrap/Button'
 
 import clouds from '../Img/clouds.png';
 
+//Allows the user to sign up, upon successful, should redirect to login page. 
+
+
 export default function Form() {
 
     const nav = useNavigate();
