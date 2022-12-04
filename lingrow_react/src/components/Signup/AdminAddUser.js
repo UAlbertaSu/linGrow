@@ -143,7 +143,7 @@ export default function AdminAddUser() {
         let token = JSON.parse(sessionStorage.getItem('token'));
 
         let user = {
-            "user_type": current_userType,
+            "user_type": parseInt(current_userType),
             "email": current_email,
             "first_name": current_firstName,
             "middle_name": current_middleName,
@@ -152,8 +152,8 @@ export default function AdminAddUser() {
 
         if (current_userType === "2") {
             // indexing is off by 1
-            user['school'] = schools[schoolID-1];
-            user['classroom'] = classrooms[selected-1];
+            user['school'] = schoolID;
+            user['classrooms'] = selected;
         }
 
         console.log(user);
