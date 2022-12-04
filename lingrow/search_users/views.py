@@ -54,7 +54,7 @@ class ParentSearchView(APIView):
                                        Q(parent__user__middle_name__icontains=search) |
                                        Q(parent__user__phone__icontains=search))
         parents = Parent.objects.filter(child__in=children)
-        if parents is None and (user.is_researcher() or user.is_admin()):
+        if len(parents) == 0 and (user.is_researcher() or user.is_admin()):
             parents = Parent.objects.all().filter(Q(user__email__icontains=search) |
                                                   Q(user__first_name__icontains=search) |
                                                   Q(user__last_name__icontains=search) |
