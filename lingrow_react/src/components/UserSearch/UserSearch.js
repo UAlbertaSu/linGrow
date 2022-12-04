@@ -9,6 +9,8 @@ import clouds from '../Img/clouds.png';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
+//A user search component that allows users to search for certain users depending on user type
+
 function UserSearch(){
 
     const loc = useLocation();
@@ -208,10 +210,7 @@ function UserSearch(){
 
 
     return(
-        <Card className="background_cloud_card">
-        <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
-            <Card.ImgOverlay>
-                <Card className='function_card'>
+        <Card className='function_card'>
             <Helmet>
                     <meta charSet="utf-8" />
                     <title>linGrow-User Search</title>
@@ -241,9 +240,6 @@ function UserSearch(){
                     </ListGroup>
                 }
             </div>
-        </Card>
-        </Card.ImgOverlay>
-            
         </Card>
         );
 

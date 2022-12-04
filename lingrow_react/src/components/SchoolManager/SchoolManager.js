@@ -80,9 +80,6 @@ export default function SchoolManager({userType}) {
     });
 
     return (
-        <Card className="background_cloud_card">
-        <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
-            <Card.ImgOverlay>
         <Card className='function_card'>
             <LanguageList />
             <h1>{group_display_header}</h1>
@@ -100,6 +97,6 @@ export default function SchoolManager({userType}) {
                         <ListGroup>{<ListGroup.Item disabled >{no_group_message}</ListGroup.Item>}</ListGroup>
                 }
             </div>
-        </Card></Card.ImgOverlay></Card>
+        </Card>
     );
 }

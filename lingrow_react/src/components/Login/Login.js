@@ -11,6 +11,11 @@ import clouds from '../Img/clouds.png';
 import logo from "../Img/lingrow.png";
 import './Login.css';
 
+
+// Allows users to login with valid credentials.
+// should be able to redirect to signup page if user doesn't have an account.
+
+
 export async function retrieveUserType(token) {
     return fetch('http://127.0.0.1:8000/api/user/profile/', {
         method: 'GET',
@@ -122,9 +127,7 @@ export default function Login() {
     });
 
     return (
-        <Card className="background_cloud_card">
-            <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%",objectFit: "cover"}}/>
-            <Card.ImgOverlay>
+        <div>
                 <Helmet>
                     <meta charSet="utf-8" />
                     <title>linGrow-Login</title>
@@ -144,7 +147,6 @@ export default function Login() {
                 <Button variant="primary" type="submit" id="signup" onClick={redirectToSignup} style={{minWidth:"100px"}}>{signup_btn}</Button>
                 <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{margin:"35px"}}>{activities}</Button>
             </Card>
-        </Card.ImgOverlay>
-    </Card> 
+        </div>
     )
 }

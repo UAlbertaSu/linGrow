@@ -85,10 +85,6 @@ export default function SchoolCreator({}) {
     });
 
     return (
-                
-        <Card className="background_cloud_card">
-        <Card.Img src={clouds} alt="Cloud Background" style={{width:"100%", height:"100%", objectFit: "cover"}}/>
-            <Card.ImgOverlay>
         <Card style={{minHeight:"fit-content"}}>
             <LanguageList />
             <h1>{group_create_header}</h1>
@@ -97,6 +93,6 @@ export default function SchoolCreator({}) {
             <input type="text" className="form-control" id="school_id" placeholder={group_id} onChange={e => setGroupID(e.target.value)} />
             
             <Button variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
-        </Card></Card.ImgOverlay></Card>
+        </Card>
     );
 }
