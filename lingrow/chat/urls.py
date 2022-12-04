@@ -2,7 +2,7 @@ from django.urls import path
 from .view_api import ChatListView, GroupChatListView, NewChatView, CreateChatView, PrivateChatView, \
     GroupChatPageView, SendMessageView, ChatMessageView
 
-
+#URL patterns for chat API
 urlpatterns = [
     path('profile/',ChatListView.as_view(), name='profile'),
     path('group_chat/', GroupChatListView.as_view(), name='group_chat'),

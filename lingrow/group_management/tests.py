@@ -3,6 +3,8 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 # Create your tests here.
 
+#Test cases for group management api
+
 class Group_Test(APITestCase):
 
     parent_group_url = '/api/group/parentgroup/'

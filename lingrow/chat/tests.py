@@ -2,6 +2,7 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 from .models import User, Message
 # Create your tests here.
+# Chat test cases testing api endpoints
 # class ChatTests(APITestCase):
 #     user_data = {
 #                     "email": "testnew@parent.com",
