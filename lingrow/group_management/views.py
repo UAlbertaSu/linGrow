@@ -14,6 +14,7 @@ from itertools import chain
 from chat.models import ParentGroupChat, TeacherGroupChat, ResearcherGroupChat
 
 
+# Parent Group Views that can create, update, delete and retrieve various groups.
 class ParentGroupView(APIView):
     renderer_classes = [GroupRenderer]
     permission_classes = [IsAuthenticated, IsAdminUser|IsTeacher|IsResearcher]

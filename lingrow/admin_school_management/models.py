@@ -1,6 +1,10 @@
 from django.db import models
 
 
+# Model for School object and Classroom Object
+#School contains name, address, email, phone, school_id
+#classroom contains name, class_id, school
+
 class School(models.Model):
     '''
     School model

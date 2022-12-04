@@ -12,7 +12,12 @@ from account.serializers import UserProfileSerializer, ParentProfileSerializer, 
 from django.db.models import Q
 from account.enums import UserType
 
+# Chat API views 
+
 class ChatListView(APIView):
+    '''
+    View to list all chats for a user.
+    '''
     permission_classes = (IsAuthenticated,)
 
     @swagger_auto_schema(responses={200: 'OK'})
@@ -31,6 +36,9 @@ class ChatListView(APIView):
         return Response(response, status=status.HTTP_200_OK)
 
 class GroupChatListView(APIView):
+    '''
+    View to list all group chats for a user.
+    '''
     permission_classes = (IsAuthenticated,)
 
     @swagger_auto_schema(responses={200: 'OK'})
@@ -44,6 +52,9 @@ class GroupChatListView(APIView):
         return Response(response, status=status.HTTP_200_OK)
 
 class NewChatView(APIView):
+    '''
+    View to retrieve new chats for a user.
+    '''
     permission_classes = (IsAuthenticated,)
 
     @swagger_auto_schema(responses={200: 'OK'})
@@ -57,6 +68,9 @@ class NewChatView(APIView):
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 class CreateChatView(APIView):
+    '''
+    view to create a new chat.
+    '''
     permission_classes = (IsAuthenticated,)
 
     @swagger_auto_schema(responses={200: 'OK'})
@@ -74,6 +88,10 @@ class CreateChatView(APIView):
         return Response(response, status=status.HTTP_200_OK)
 
 class PrivateChatView(APIView):
+    
+    '''
+    View to generate private chat between 2 users.
+    '''
     permission_classes = (IsAuthenticated,)
 
     @swagger_auto_schema(responses={200: 'OK'})
@@ -92,6 +110,9 @@ class PrivateChatView(APIView):
 
 
 class GroupChatPageView(APIView):
+    '''
+    View to generate a group chat
+    '''
     permission_classes = (IsAuthenticated,)
 
     @swagger_auto_schema(responses={200: 'OK'})
@@ -113,6 +134,9 @@ class GroupChatPageView(APIView):
         return Response(response, status=status.HTTP_200_OK)
 
 class SendMessageView(APIView): 
+    '''
+    View that sends a message to a chat.
+    '''
     permission_classes = (IsAuthenticated,)
 
     @swagger_auto_schema(responses={200: 'OK'})
@@ -130,6 +154,9 @@ class SendMessageView(APIView):
         return Response(response,status=status.HTTP_200_OK)
 
 class ChatMessageView(APIView):
+    '''
+    view to retrieve messages for a chat.
+    '''
     permission_classes = (IsAuthenticated,)
 
     @swagger_auto_schema(responses={200: 'OK'})
@@ -149,6 +176,9 @@ class ChatMessageView(APIView):
 
 
 def group_chat(request,chat):
+    '''
+    view to generate a group chat.
+    '''
     messages = Message.objects.all().filter(chat=chat)
     message_serializer = MessageSerializer(messages, many=True)
     participants, user_type  = chat_utility_functions.get_group_chat_partecipants(request, chat.id_chat)
@@ -162,4 +192,7 @@ def group_chat(request,chat):
     return response
 
 def get_message_by_id(id):
+    '''
+    view to filter a specific message
+    '''
     return Message.objects.all().get(id=id)
