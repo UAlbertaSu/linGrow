@@ -25,15 +25,12 @@ export default function Form() {
     const [enter_middle_msg, setEnterMiddleMsg] = useState("Enter Middle Name");
     const [last_msg, setLastMsg] = useState("Last name");
     const [enter_last_msg, setEnterLastMsg] = useState("Enter Last Name");
-<<<<<<< HEAD
-=======
     const [type_msg, setTypeMsg] = useState("User type");
     const [enter_type_msg, setEnterTypeMsg] = useState("Please select User Type");
     const [parent_msg, setParentMsg] = useState("Parent");
     const [teacher_msg, setTeacherMsg] = useState("Teacher");
     const [researcher_msg, setResearcherMsg] = useState("Researcher");
     const [admin_msg, setAdminMsg] = useState("Admin");
->>>>>>> 0fc14e97cadd7d1509bddeae51eb6eb25d9a4ba5
     const [pass_msg, setPasswordMsg] = useState("Password");
     const [enter_pass_msg, setEnterPasswordMsg] = useState("Enter password");
     const [confirm_msg, setConfirmPasswordMsg] = useState("Confirm password");
@@ -215,15 +212,16 @@ export default function Form() {
         );
     };
 
+    const handleUserType = (e) => {
+        setUserType(e.target.value);
+        setSubmitted(false);
+    };
+
     return (
         <Card className="signup" style={{}}>
             <Helmet>
                     <meta charSet="utf-8" />
-<<<<<<< HEAD
                     <title>LinGrow Parent Signup</title>
-=======
-                    <title>linGrow-Signup</title>
->>>>>>> 0fc14e97cadd7d1509bddeae51eb6eb25d9a4ba5
             </Helmet>
                     <LanguageList />
                     <h1>{header}</h1>

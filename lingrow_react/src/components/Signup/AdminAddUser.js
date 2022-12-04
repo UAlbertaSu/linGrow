@@ -103,15 +103,10 @@ export default function AdminAddUser() {
     
     // get classrooms of selected school
     const handleDetail = (elem) => {
-
-        setSchoolID(elem.id);
-
-        // clear between uses
-        setClassrooms([]);
-
+        // setSchoolID(elem.id)
         let arr = [];
 
-        fetch(`http://127.0.0.1:8000/api/school/${schoolID}/classroom`,{
+        fetch(`http://127.0.0.1:8000/api/school/${elem.id}/classroom`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -123,12 +118,11 @@ export default function AdminAddUser() {
                 arr.push(item);
             })
         }).then(() => {
-            setClassrooms([...classrooms, ...arr]);
+            setClassrooms(arr);
+        }).then(() => {
+            setSchoolID(elem.id);
         });
-
-
     }
-
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -146,7 +140,6 @@ export default function AdminAddUser() {
         let request = {
             "users": [user]
         }
-
 
         return fetch('http://127.0.0.1:8000/api/user/admin-add-users/', {
             method: 'POST',
@@ -284,14 +277,7 @@ export default function AdminAddUser() {
                 <input className='form-control' type="text" placeholder={firstName} id="first_name" onChange={handleFirstName} />
                 <input className='form-control' type="text" placeholder={middleName} id="middle_name" onChange={handleMiddleName} />
                 <input className='form-control' type="text" placeholder={lastName} id="last_name" onChange={handleLastName} />
-                
-
                 <input className='form-control' type="text" placeholder={lastName} id="last_name" onChange={handleLastName} />
-
-
-
-
-
                     <div style={{ display: 'block', width: 400, padding: 30 }}>
                     {
                         <div> 
@@ -313,7 +299,6 @@ export default function AdminAddUser() {
                         </div>
                     }
                     </div>
-
                     <div style={{ display: 'block', width: 400, padding: 30 }}>
                     {
                         <div> 
