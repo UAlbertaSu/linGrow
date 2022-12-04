@@ -3,7 +3,13 @@ from .models import ParentGroup, TeacherGroup, ResearcherGroup
 from account.models import Child 
 from account.serializers import ResearcherProfileSerializer, TeacherProfileSerializer, ParentProfileSerializer
 
+
+#serailzers for the various groups 
+
 class ParentGroupSerializer(serializers.ModelSerializer):
+    '''
+    parent group serializer
+    '''
     class Meta:
         model = ParentGroup
         fields = '__all__'
@@ -24,6 +30,9 @@ class ParentGroupSerializer(serializers.ModelSerializer):
         return data
 
 class ParentGroupEditSerializer(serializers.ModelSerializer):
+    '''
+    serializer to edit parent group.
+    '''
     class Meta:
         model = ParentGroup
         fields = '__all__'
@@ -46,12 +55,18 @@ class ParentGroupEditSerializer(serializers.ModelSerializer):
         return data
 
 class ParentNameSerializer(serializers.ModelSerializer):
+    '''
+    Serializer to get the name of the parent
+    '''
     parent = ParentProfileSerializer(many=True,read_only=True)
     class Meta:
         model = ParentGroup
         fields = '__all__'
 
 class TeacherGroupSerializer(serializers.ModelSerializer):
+    '''
+    Serializer to create a teacher group
+    '''
     class Meta:
         model = TeacherGroup
         fields = '__all__'
@@ -72,6 +87,9 @@ class TeacherGroupSerializer(serializers.ModelSerializer):
         return data
 
 class TeacherGroupEditSerializer(serializers.ModelSerializer):
+    '''
+    Serializer to edit a teacher group
+    '''
     class Meta:
         model = TeacherGroup
         fields = '__all__'
@@ -93,17 +111,26 @@ class TeacherGroupEditSerializer(serializers.ModelSerializer):
         return data
 
 class TeacherNameSerializer(serializers.ModelSerializer):
+    '''
+    Serializer containing the names in a teacher group
+    '''
     teacher = TeacherProfileSerializer(many=True)
     class Meta:
         model = TeacherGroup
         fields = '__all__'
 
 class ResearcherGroupSerializer(serializers.ModelSerializer):
+    '''
+    Serializer to create a researcher group
+    '''
     class Meta:
         model = ResearcherGroup
         fields = '__all__'
 
 class ResearcherNameSerializer(serializers.ModelSerializer):
+    '''
+    Serializer containing all Researcher names in a group
+    '''
     researcher = ResearcherProfileSerializer(many=True)
     class Meta:
         model = ResearcherGroup

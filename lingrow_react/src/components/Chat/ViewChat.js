@@ -1,20 +1,13 @@
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import './Chat.css';
-import { Card, Button, Nav, NavDropdown, Container, Navbar} from 'react-bootstrap';
-// import ChatDisplay from './ChatDisplay';
+import { Card, Button, Nav, Container, Navbar} from 'react-bootstrap';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 import logo from "../Img/lingrow.png";
 import home_icon from "../Img/home_icon.png";
 import user_icon from "../Img/user_icon.png";
-// import Validation from '../Validation/Validation';
-
-
-    // write message and post it to display + database
-    // should know who is sending it aka validate which user is logged in
-    // knows who it sends it to
-    // should be able to send it to multiple people **** (IF THERE IS TIME)
+import { Helmet } from 'react-helmet';
 
 export default function Chat() {
 
@@ -32,33 +25,23 @@ export default function Chat() {
     if (chat_type === "group") {
         url = "http://127.0.0.1:8000/api/chat/get_group_chat_messages/";
     }
-
-    const setDashboardType = () => {
-        if (userType === 1) {
-            return 'LinGrow Parent Dashboard';
-        }
-        else if (userType === 2) {
-            return 'LinGrow Teacher Dashboard';
-        }
-        else if (userType === 3) {
-            return 'LinGrow Researcher Dashboard';
-        }
-        else if (userType === 4) {
-            return 'LinGrow Admin Dashboard';
-        }
-    }
     const token = JSON.parse(sessionStorage.getItem('token'));
-    const [dashboardString, setDashboardString] = useState();
-    const [dashboard, setDashboard] = useState(setDashboardType);
-    const [send, setSend] = useState("Send");
+
+    const [tab_header, setTabHeader] = useState("LinGrow Chat");
+    const [pdashboard, setPDashboard] = useState("LinGrow Parent Dashboard");
+    const [tdashboard, setTDashboard] = useState("LinGrow Teacher Dashboard");
+    const [rdashboard, setRDashboard] = useState("LinGrow Researcher Dashboard");
+    const [adashboard, setADashboard] = useState("LinGrow Admin Dashboard");
     const [home, setHome] = useState("Home");
     const [profile, setProfile] = useState("Profile");
+    const [send, setSend] = useState("Send");
     const [placeholder, setPlaceholder] = useState("Type your message here...");
 
     const [curr_user] = useState(sessionStorage.getItem('user_id'));
     const [lang, setLang] = useState(localStorage.getItem('lang'));
     // const [other_user, setOtherUser] = useState();
     const [chat, setChat] = useState([]);
+
     const [chat_original, setChatOriginal] = useState([]);
     const [current_lang, setCurrentLang] = useState(localStorage.getItem('lang'));
 
@@ -161,10 +144,14 @@ export default function Chat() {
 
         if (curr_lang) {
             console.log(curr_lang);
-            Translate('en', curr_lang, dashboard).then(response => setDashboardString(response));
+            Translate('en', lang, "LinGrow Chat").then((response) => setTabHeader(response));
+            Translate('en', lang, 'LinGrow Parent Dashboard').then((response) => setPDashboard(response));
+            Translate('en', lang, 'LinGrow Teacher Dashboard').then((response) => setTDashboard(response));
+            Translate('en', lang, 'LinGrow Researcher Dashboard').then((response) => setRDashboard(response));
+            Translate('en', lang, 'LinGrow Admin Dashboard').then((response) => setADashboard(response));
+            Translate('en', lang, "Home").then(response => setHome(response));
+            Translate('en', lang, "Profile").then(response => setProfile(response));
             Translate('en', curr_lang, "Send").then(response => setSend(response));
-            Translate('en', curr_lang, "Home").then(response => setHome(response));
-            Translate('en', curr_lang, "Profile").then(response => setProfile(response));
             Translate('en', curr_lang, "Type your message here...").then(response => setPlaceholder(response));
         }
 
@@ -182,14 +169,22 @@ export default function Chat() {
         return () => window.removeEventListener("New language set", translateMessage);
     });
 
+    // page that lets a user view a previously selected chat, and send messages within the chat
     return (
-        <div className="dashboard-wrapper">
-            <Card style={{minHeight:"fit-content", paddingBottom:"20px"}}>
+        <div className="bg">
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>{tab_header}</title>
+            </Helmet>
+            <Card style={{paddingBottom:"15px"}}>
                 <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
                 <LanguageList />
-                <Navbar bg="light" expand="lg" style={{width:"94%", margin: "20px 0px 10px 0px"}}>
+                <Navbar bg="light" expand="lg" style={{width:"94%", margin: "20px 0px 10px 0px", borderRadius: "5px"}}>
                     <Container>
-                        <Navbar.Brand style={{fontWeight:"bold",fontSize:"22px",margin:"10px 50px 10px 20px"}}>{dashboardString}</Navbar.Brand>
+                        <div>{userType === 1 ? <Navbar.Brand style={{fontWeight:"bold",fontSize:"22px",margin:"10px 50px 10px 20px"}}>{pdashboard}</Navbar.Brand> : null}</div>
+                        <div>{userType === 2 ? <Navbar.Brand style={{fontWeight:"bold",fontSize:"22px",margin:"10px 50px 10px 20px"}}>{tdashboard}</Navbar.Brand> : null}</div>
+                        <div>{userType === 3 ? <Navbar.Brand style={{fontWeight:"bold",fontSize:"22px",margin:"10px 50px 10px 20px"}}>{rdashboard}</Navbar.Brand> : null}</div>
+                        <div>{userType === 4 ? <Navbar.Brand style={{fontWeight:"bold",fontSize:"22px",margin:"10px 50px 10px 20px"}}>{adashboard}</Navbar.Brand> : null}</div>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">

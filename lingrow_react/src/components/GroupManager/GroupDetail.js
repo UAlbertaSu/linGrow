@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Card, ListGroup } from 'react-bootstrap';
 
 import LanguageList from "../Translate/LanguageList";
+import Translate from "../Translate/Translate";
+import {Helmet} from 'react-helmet';
+import DashNav from "../DashNav/DashNav";
+import logo from   "../Img/lingrow.png";
 
 export default function GroupDetail() {
     let location = useLocation();
@@ -13,6 +17,7 @@ export default function GroupDetail() {
     const [members, setMembers] = useState([]);
     const [flag, setFlag] = useState(0);
     const [edit, setEditMsg] = useState("Edit");
+    const [tab_header, setTabHeader] = useState("LinGrow Group Details");
 
     const enumGroupType = (groupType) => {
         if (groupType === 'parent') {
@@ -28,6 +33,13 @@ export default function GroupDetail() {
             return 0;
         }
     }
+
+    const translateMessage = useCallback((e) => {
+        let lang = localStorage.getItem('lang');
+        if (lang) {
+            Translate('en', lang, "LinGrow Group Details").then((response) => setTabHeader(response));
+        }
+    });
 
     useEffect(() => {
         if (!flag) {
@@ -99,19 +111,29 @@ export default function GroupDetail() {
     }
     else {
         return (
-        <Card style={{minHeight:"fit-content"}}>
-            <LanguageList />
-            <h1>{group_name}</h1>
-            <div style={{ display: 'block', width: 400, padding: 30 }}>
-                <ListGroup>
-                    {members.map((elem) => 
-                        <ListGroup.Item key={elem} value={elem}>
-                            {`${elem.first_name} ${elem.last_name}`}
-                        </ListGroup.Item>)}
-                </ListGroup>
+            <div className="bg">
+                <Helmet>
+                        <meta charSet="utf-8" />
+                        <title>{tab_header}</title>
+                </Helmet>
+                <Card>
+                    <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+                    <LanguageList />
+                    <DashNav/>
+                    <Card className="title_card">
+                        <h1>{group_name}</h1>
+                    </Card>
+                    <div style={{ display: 'block', width: 400, padding: 30 }}>
+                        <ListGroup>
+                            {members.map((elem) => 
+                                <ListGroup.Item key={elem} value={elem}>
+                                    {`${elem.first_name} ${elem.last_name}`}
+                                </ListGroup.Item>)}
+                        </ListGroup>
+                    </div>
+                    <Button variant="primary" onClick={editGroup}>{edit}</Button>
+                </Card>
             </div>
-            <Button variant="primary" onClick={editGroup}>{edit}</Button>
-        </Card>
         )
     }
 }

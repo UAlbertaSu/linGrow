@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import './Dashboard.css';
-import { Card, Button, Nav, NavDropdown, Container, Navbar} from 'react-bootstrap';
+import { Card, Button} from 'react-bootstrap';
 import {Helmet} from 'react-helmet';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
-
+import DashNav from '../DashNav/DashNav';
 import logo from "../Img/lingrow.png";
-import home_icon from "../Img/home_icon.png";
-import user_icon from "../Img/user_icon.png";
+
+
 
 // A dashboard page that acts as the main navigation page for all users, 
 // what is displayed is dependent on which user type is logged in.
@@ -17,27 +17,8 @@ import user_icon from "../Img/user_icon.png";
 export default function Dashboard({ userType }) {
     const nav = useNavigate();
 
-    // Sets dashboard message based on user type retrieved from sessionStorage.
-    const setDashboardType = () => {
-        if (userType === 1) {
-            return 'LinGrow Parent Dashboard';
-        }
-        else if (userType === 2) {
-            return 'LinGrow Teacher Dashboard';
-        }
-        else if (userType === 3) {
-            return 'LinGrow Researcher Dashboard';
-        }
-        else if (userType === 4) {
-            return 'LinGrow Admin Dashboard';
-        }
-    }
-
     // State variables.
-    const [dashboardString, setDashboardString] = useState();
-    const [dashboard, setDashboard] = useState(setDashboardType);
-    const [home, setHome] = useState("Home");
-    const [profile, setProfile] = useState("Profile");
+    const [tab_header, setTabHeader] = useState("LinGrow Home");
     const [chat, setChatMsg] = useState("Chat");
     const [manageSchools, setManageSchools] = useState("Manage Schools");
     const [manageUsers, setManageUsers] = useState("Manage Users");
@@ -83,9 +64,7 @@ export default function Dashboard({ userType }) {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate('en', lang, dashboard).then(response => setDashboardString(response));
-            Translate('en', lang, "Home").then(response => setHome(response));
-            Translate('en', lang, "Profile").then(response => setProfile(response));
+            Translate('en', lang, "LinGrow Home").then((response) => setTabHeader(response));
             Translate('en', lang, "Chat").then(response => setChatMsg(response));
             Translate('en', lang, "Manage Schools").then(response => setManageSchools(response));
             Translate('en', lang, "Manage Users").then(response => setManageUsers(response));
@@ -108,33 +87,27 @@ export default function Dashboard({ userType }) {
     }, []);
 
 
+    // homepage with variables to display different content depending on user type.
     return (
-        <Card style={{minHeight:"fit-content", paddingBottom:"20px"}}>
-            <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
-            <LanguageList />
-            <Navbar bg="light" expand="lg" style={{width:"94%", margin: "20px 0px 10px 0px"}}>
-                <Container>
-                    <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>{dashboardString}</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <img src={home_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
-                        <Nav.Link style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", color:"black"}}>{home}</Nav.Link>
-                        <img src={user_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
-                        <Nav.Link href="userinfo" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", border:""}}>{profile}</Nav.Link>
-                    </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-            <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px"}}>
-                <Button variant="primary" type="submit" id="chat" style={{minWidth:"150px"}}>{chat}</Button>  
-                <div>{userType === 4 ? <Button href="/schoolmanager" variant="primary" type="submit" id="manageSchools" style={{minWidth:"150px"}}>{manageSchools}</Button> : null}</div>
-                <div>{userType > 1 ? <Button variant="primary" type="submit" id="searchUsers" onClick = {searchUserHandler}style={{minWidth:"150px"}}>{searchUsers}</Button> : null}</div>
-                <div>{userType === 4 ? <Button href="/usermanager" variant="primary" type="submit" id="manageUsers" style={{minWidth:"150px"}}>{manageUsers}</Button> : null}</div>
-                <div>{userType !== 1 ? <Button href="/groupmanager" variant="primary" type="submit" id="groups" style={{minWidth:"150px"}}>{group_manager}</Button> : null}</div>  
-                <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{minWidth:"150px"}}>{activities}</Button>
-                <Button variant="danger" type="submit" id="logout" onClick={clearSession} style={{minWidth:"150px"}}>{logout_msg}</Button>
+        <div className="bg">
+            <Card style={{paddingBottom:"10px"}}>
+                <Helmet>
+                        <meta charSet="utf-8" />
+                        <title>{tab_header}</title>
+                </Helmet>
+                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+                <LanguageList />
+                <DashNav/>
+                <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px"}}>
+                    <Button href="chat" variant="primary" type="submit" id="chat" style={{minWidth:"150px"}}>{chat}</Button>  
+                    <div>{userType === 4 ? <Button href="/schoolmanager" variant="primary" type="submit" id="manageSchools" style={{minWidth:"150px"}}>{manageSchools}</Button> : null}</div>
+                    <div>{userType > 1 ? <Button variant="primary" type="submit" id="searchUsers" onClick = {searchUserHandler}style={{minWidth:"150px"}}>{searchUsers}</Button> : null}</div>
+                    <div>{userType === 4 ? <Button href="/usermanager" variant="primary" type="submit" id="manageUsers" style={{minWidth:"150px"}}>{manageUsers}</Button> : null}</div>
+                    <div>{userType !== 1 ? <Button href="/groupmanager" variant="primary" type="submit" id="groups" style={{minWidth:"150px"}}>{group_manager}</Button> : null}</div>  
+                    <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{minWidth:"150px"}}>{activities}</Button>
+                    <Button variant="danger" type="submit" id="logout" onClick={clearSession} style={{minWidth:"150px"}}>{logout_msg}</Button>
+                </Card>
             </Card>
-        </Card>
+        </div>
     );
 }

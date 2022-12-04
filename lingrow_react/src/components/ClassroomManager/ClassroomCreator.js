@@ -1,10 +1,12 @@
 import React, { setState, useState, useEffect, useCallback } from 'react';
-import { Button, Card } from 'react-bootstrap';
+import { Card, Button} from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
-
 import LanguageList from '../Translate/LanguageList';
+import logo from "../Img/lingrow.png";
+import { Helmet } from 'react-helmet';
 import Translate from '../Translate/Translate';
+import DashNav from '../DashNav/DashNav';
 
 // Allows users to create a new parent, teacher, or researcher group.
 export default function ClassroomCreator({userType}) {
@@ -14,6 +16,10 @@ export default function ClassroomCreator({userType}) {
     // const [selected, setSelected] = useState(loc.state !== null ? loc.state.groupMembers : []);
     // const [searchResult, setSearchResult] = useState([]);
     const [token, setToken] = useState(JSON.parse(sessionStorage.getItem('token')));
+    const [userChoice, setUserChoice] = useState(loc.state !== null ? loc.state.groupType : 1);
+
+    const [tab_header, setTabHeader] = useState("LinGrow Class Creator");
+    const [no_user_message, setNoUsersFound] = useState("No users found");
     const [group_create_header, setHeader] = useState("Create New Classroom");
     const [submit_btn, setSubmitBtn] = useState("Create Classroom");
     const [group_name, setGroupName] = useState(loc.state !== null ? loc.state.groupName : "Classroom Name");
@@ -52,10 +58,12 @@ export default function ClassroomCreator({userType}) {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
+            Translate('en', lang, "LinGrow Class Creator").then((response) => setTabHeader(response));
             Translate('en', lang, "Create New Classroom").then(response => setHeader(response));
             Translate('en', lang, "Create Classroom").then(response => setSubmitBtn(response));
             Translate('en', lang, "Classroom Name").then(response => setGroupName(response));
             Translate('en', lang, "Classroom ID").then(response => setGroupID(response));
+            Translate('en', lang, "No users found").then(response => setNoUsersFound(response));
         }
     });
 
@@ -72,14 +80,35 @@ export default function ClassroomCreator({userType}) {
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
     });
-
     return (
-        <Card style={{minHeight:"fit-content"}}>
-            <LanguageList />
-            <h1>{group_create_header}</h1>
-            <input type="text" className="form-control" id="group_name" placeholder={group_name} onChange={e => setGroupName(e.target.value)}/>
-            <input type="text" className="form-control" id="group_id" placeholder={group_id} onChange={e => setGroupID(e.target.value)} />
-            <Button variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
-        </Card>
+        <div className="bg">
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>{tab_header}</title>
+            </Helmet>
+            <Card>
+                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+                <LanguageList />
+                <DashNav/>
+                <h1>{group_create_header}</h1>
+                <input type="text" className="form-control" id="group_name" placeholder={group_name} onChange={e => setGroupName(e.target.value)}/>
+                <input type="text" className="form-control" id="group_id" placeholder={group_id} onChange={e => setGroupID(e.target.value)} />
+                
+                <div style={{ display: 'block', width: 400, padding: 30 }}>
+                    {
+                        searchResult.length > 0 ? 
+                            <ListGroup>
+                            {searchResult.map((elem) => 
+                                <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} key={elem.id} value={elem.id}>
+                                    {[elem.first_name, " ", elem.last_name]}
+                                </ListGroup.Item>)}
+                            </ListGroup> 
+                        : 
+                            <ListGroup>{<ListGroup.Item disabled >{no_user_message}</ListGroup.Item>}</ListGroup>
+                    }
+                </div>
+                <Button disabled={selected.length == 0 ? true : false} variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
+            </Card>
+        </div>
     );
 }

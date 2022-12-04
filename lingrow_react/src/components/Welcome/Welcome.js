@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback }from 'react';
+import React, { ImageBackground,useState, useEffect, useCallback }from 'react';
 import { Card } from 'react-bootstrap';
 import {Helmet} from 'react-helmet';
 
@@ -6,6 +6,7 @@ import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
 import './Welcome.css';
+import clouds from '../Img/clouds.png';
 
 
 //a welcome page
@@ -61,9 +62,9 @@ export default function Welcome() {
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
     });
-    
+    // Landing page that prompts user to select a language and then enter the website.
     return (
-        <div>
+        <div className='bg'>
             <Helmet>
                     <meta charSet="utf-8" />
                     <title>Welcome to LinGrow!</title>

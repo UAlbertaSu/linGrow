@@ -3,6 +3,9 @@ from account.models import Teacher, Parent, User, Researcher, Child
 from admin_school_management.models import School, Classroom
 from rest_framework import serializers
 
+
+# Group models 
+# Group consists of owner, name, classroom, and school.
 # Create your models here.
 class Group(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -24,6 +27,7 @@ class Group(models.Model):
     class Meta:
         abstract = True
 
+# TeacherGroup models that inherits from Group but only has teachers as member 
 class TeacherGroup(Group):
     teacher = models.ManyToManyField(Teacher, related_name='teacher_group', blank=True)
 
@@ -38,6 +42,7 @@ class TeacherGroup(Group):
         ordering = ['name']
         verbose_name_plural = "teacher groups"
 
+# ParentGroup models that inherits from Group but only has parents as member
 class ParentGroup(Group):
     parent = models.ManyToManyField(Parent, related_name='parent_group')
 
@@ -59,6 +64,7 @@ class ParentGroup(Group):
         ordering = ['name']
         verbose_name_plural = "parent groups"
 
+# ResearcherGroup models that inherits from Group but only has researchers as member
 class ResearcherGroup(Group):
     researcher = models.ManyToManyField(Researcher, related_name='researcher_group')
 

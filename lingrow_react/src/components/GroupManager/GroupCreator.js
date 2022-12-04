@@ -11,14 +11,14 @@ import Translate from '../Translate/Translate';
 export default function GroupCreator({userType}) {
     const loc = useLocation();
     const nav = useNavigate();
-
     const [selected, setSelected] = useState(loc.state !== null ? loc.state.groupMembers : []);
     const [searchResult, setSearchResult] = useState([]);
     const [token, setToken] = useState(JSON.parse(sessionStorage.getItem('token')));
     const [userChoice, setUserChoice] = useState(loc.state !== null ? loc.state.groupType : 1);
 
+    const [tab_header, setTabHeader] = useState("LinGrow Group Creator");
     const [no_user_message, setNoUsersFound] = useState("No user found");
-    const [group_create_header, setHeader] = useState("Create New Group");
+    const [group_create_header, setHeader] = useState("Group Creator");
     const [submit_btn, setSubmitBtn] = useState("Create Group");
     const [search_bar_placeholder, setSearchBarPlaceholder] = useState("");
     const [group_name, setGroupName] = useState(loc.state !== null ? loc.state.groupName : "Group Name");
@@ -211,7 +211,8 @@ export default function GroupCreator({userType}) {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate('en', lang, "Create New Group").then(response => setHeader(response));
+            Translate('en', lang, "LinGrow Group Creator").then((response) => setTabHeader(response));
+            Translate('en', lang, "Group Creator").then(response => setHeader(response));
             Translate('en', lang, "Create Group").then(response => setSubmitBtn(response));
             Translate('en', lang, "Group Name").then(response => setGroupName(response));
             Translate('en', lang, "Group ID").then(response => setGroupID(response));
@@ -235,31 +236,40 @@ export default function GroupCreator({userType}) {
         return () => window.removeEventListener("New language set", translateMessage);
     });
 
+    // Page for creating new groups, or viewing group details, redirects to another page to complete either action. 
     return (
-        <Card className='function_card'>
-            <LanguageList />
-            <h1>{group_create_header}</h1>
-            <input type="text" className="form-control" id="group_name" placeholder={group_name} onChange={e => setGroupName(e.target.value)}/>
-            <input type="text" className="form-control" id="group_id" placeholder={group_id} onChange={e => setGroupID(e.target.value)} />
-            <select defaultValue={loc.state !== null ? loc.state.groupType : userChoice} className='form-select' id='language_dropdown' onChange={handleChange} style={{margin:"20px"}}>
-                <option value={1}>Parents</option>
-                <option disabled={userType > 2 ? false : true} value={2}>Teachers</option>
-                <option disabled={userType > 3 ? false : true} value={3}>Researchers</option>
-            </select>
-            <div style={{ display: 'block', width: 400, padding: 30 }}>
-                {
-                    searchResult.length > 0 ? 
-                        <ListGroup>
-                        {searchResult.map((elem) => 
-                            <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} key={elem.id} value={elem.id}>
-                                {[elem.first_name, " ", elem.last_name]}
-                            </ListGroup.Item>)}
-                        </ListGroup> 
-                    : 
-                        <ListGroup>{<ListGroup.Item disabled >{no_user_message}</ListGroup.Item>}</ListGroup>
-                }
-            </div>
-            <Button disabled={selected.length == 0 ? true : false} variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
-        </Card>
+        <div className="bg">
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>{tab_header}</title>
+            </Helmet>
+            <Card className='function_card'>
+                <LanguageList />
+                <Card className="title_card">
+                    <h1>{group_create_header}</h1>
+                </Card>
+                <input type="text" className="form-control" id="group_name" placeholder={group_name} onChange={e => setGroupName(e.target.value)}/>
+                <input type="text" className="form-control" id="group_id" placeholder={group_id} onChange={e => setGroupID(e.target.value)} />
+                <select defaultValue={loc.state !== null ? loc.state.groupType : userChoice} className='form-select' id='language_dropdown' onChange={handleChange} style={{margin:"20px"}}>
+                    <option value={1}>Parents</option>
+                    <option disabled={userType > 2 ? false : true} value={2}>Teachers</option>
+                    <option disabled={userType > 3 ? false : true} value={3}>Researchers</option>
+                </select>
+                <div style={{ display: 'block', width: 400, padding: 30 }}>
+                    {
+                        searchResult.length > 0 ? 
+                            <ListGroup>
+                            {searchResult.map((elem) => 
+                                <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} key={elem.id} value={elem.id}>
+                                    {[elem.first_name, " ", elem.last_name]}
+                                </ListGroup.Item>)}
+                            </ListGroup> 
+                        : 
+                            <ListGroup>{<ListGroup.Item disabled >{no_user_message}</ListGroup.Item>}</ListGroup>
+                    }
+                </div>
+                <Button disabled={selected.length == 0 ? true : false} variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
+            </Card>
+        </div>
     );
 }

@@ -3,7 +3,9 @@ import { Button, Card } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import {Helmet} from 'react-helmet';
+import logo from "../Img/lingrow.png";
 
+import DashNav from '../DashNav/DashNav';
 import LanguageList from "../Translate/LanguageList";
 import Translate from "../Translate/Translate";
 
@@ -12,6 +14,7 @@ export default function UserManager() {
     const nav = useNavigate();
 
     // State variables.
+    const [tab_header, setTabHeader] = useState("LinGrow User Manager");
     const [token] = useState(JSON.parse(sessionStorage.getItem('token')));
     const [groups, setGroups] = useState([]);
     const [header, setHeader] = useState("User Manager");
@@ -55,6 +58,7 @@ export default function UserManager() {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
+            Translate('en', lang, "LinGrow User Manager").then((response) => setTabHeader(response));
             Translate('en', lang, "User Manager").then(response => setHeader(response));
             Translate('en', lang, "No users found...").then(response => setNoUsersFound(response));
             Translate('en', lang, "Add New Users").then(response => setAddUsers(response));
@@ -76,28 +80,35 @@ export default function UserManager() {
         return () => window.removeEventListener("New language set", translateMessage);
     });
 
+    // user manage which allows admin to see list of users, and add new users.
     return (
-        <Card className='function_card'>
-            <LanguageList />
+        <div className="bg">
             <Helmet>
-                    <meta charSet="utf-8" />
-                    <title>linGrow-Users Management</title>
+                <meta charSet="utf-8" />
+                <title>{tab_header}</title>
             </Helmet>
-            <h1>{header}</h1>
-            <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>{addUsers}</Button>
-            <div style={{ display: 'block', width: 400, padding: 30 }}>
-                {
-                    groups.length > 0 ? 
-                        <ListGroup>
-                            {groups.map((elem) => 
-                            <ListGroup.Item action id={elem.id} key={elem.id} value={elem.id}>
-                                {[elem.first_name, elem.middle_name, elem.last_name].join(" ")}
-                            </ListGroup.Item>)}
-                        </ListGroup> 
-                    :
-                        <ListGroup>{<ListGroup.Item disabled >{no_user_message}</ListGroup.Item>}</ListGroup>
-                }
-            </div>
-        </Card>
+            <Card>
+                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+                <LanguageList />
+                <DashNav/>
+                <Card className="title_card">
+                    <h1>{header}</h1>
+                </Card>
+                <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>{addUsers}</Button>
+                <div style={{ display: 'block', width: 400, padding: 30 }}>
+                    {
+                        groups.length > 0 ? 
+                            <ListGroup>
+                                {groups.map((elem) => 
+                                <ListGroup.Item action id={elem.id} key={elem.id} value={elem.id}>
+                                    {[elem.first_name, elem.middle_name, elem.last_name].join(" ")}
+                                </ListGroup.Item>)}
+                            </ListGroup> 
+                        :
+                            <ListGroup>{<ListGroup.Item disabled >{no_user_message}</ListGroup.Item>}</ListGroup>
+                    }
+                </div>
+            </Card>
+        </div>
     );
 }

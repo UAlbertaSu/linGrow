@@ -39,6 +39,7 @@ export default function Login() {
     const [password, setPassWord] = useState();
     const [error, setError] = useState(false);
 
+    const [tab_header, setTabHeader] = useState("LinGrow Login");
     const [header, setHeader] = useState("LinGrow Login");
     const [email_msg, setEmailMsg] = useState("Email address");
     const [pass_msg, setPassMsg] = useState("Password");
@@ -105,6 +106,7 @@ export default function Login() {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
+            Translate('en', lang, "Lingrow Login").then(response => setTabHeader(response)); 
             Translate('en', lang, "LinGrow Login").then(response => setHeader(response));
             Translate('en', lang, "Email address").then(response => setEmailMsg(response));
             Translate('en', lang, "Password").then(response => setPassMsg(response));
@@ -126,11 +128,12 @@ export default function Login() {
         return () => window.removeEventListener("New language set", translateMessage);
     });
 
+    // login page with links to a parent self signup page, and link to language learning activities
     return (
-        <div>
+        <div className='bg'>
                 <Helmet>
                     <meta charSet="utf-8" />
-                    <title>linGrow-Login</title>
+                    <title>{tab_header}</title>
                 </Helmet>
                 <Card>
                 <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px"}}/></a>

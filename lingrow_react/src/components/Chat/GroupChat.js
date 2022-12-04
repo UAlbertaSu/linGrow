@@ -1,34 +1,43 @@
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import './Chat.css';
-import { Button, Card, ListGroup, Nav, NavDropdown, Container, Navbar} from 'react-bootstrap';
+import {Card, ListGroup} from 'react-bootstrap';
 import LanguageList from '../Translate/LanguageList';
+import { Helmet } from 'react-helmet';
 import Translate from '../Translate/Translate';
 import logo from "../Img/lingrow.png";
-import home_icon from "../Img/home_icon.png";
-import user_icon from "../Img/user_icon.png";
+import DashNav from '../DashNav/DashNav';
 
 export default function DirectChat() {
     const nav = useNavigate();
     const userType = JSON.parse(sessionStorage.getItem('userType'));
-    const setDashboardType = () => {
-        if (userType === 1) {
-            return 'LinGrow Parent Dashboard';
-        }
-        else if (userType === 2) {
-            return 'LinGrow Teacher Dashboard';
-        }
-        else if (userType === 3) {
-            return 'LinGrow Researcher Dashboard';
-        }
-        else if (userType === 4) {
-            return 'LinGrow Admin Dashboard';
-        }
-    }
     const token = JSON.parse(sessionStorage.getItem('token'));
     const [members, setMembers] = useState([]);
     const [viewChat] = useState('View Chat');
-    // const [chat_name, setChatName] = useState("");
+
+    const [tab_header, setTabHeader] = useState("LinGrow Group Chat");
+
+
+    const [translated, setTranslated] = useState(0);
+
+    const translateMessage = useCallback((e) => {
+        let lang = localStorage.getItem('lang');
+        if (lang) {
+            Translate('en', lang, "LinGrow Group Chat").then((response) => setTabHeader(response));
+        }
+    });
+
+    useEffect(() => {
+        // Prevents page from being constantly translated.
+        if (!translated) {
+            translateMessage();
+            setTranslated(1);
+        }
+
+        window.addEventListener("New language set", translateMessage);
+        return () => window.removeEventListener("New language set", translateMessage);
+    });
+
     console.log(token);
     useEffect(
         () => {
@@ -59,17 +68,26 @@ export default function DirectChat() {
         nav('/viewchat');
 
     }
+    // page to select between active group chats
     return (
-        <Card style={{minHeight: "fit-content"}}>
-            <LanguageList />
-            <div style={{ display: 'block', width: 400, padding: 30 }}>
-                <ListGroup>
-                    {members.map((elem) => 
-                        <ListGroup.Item action key={elem} value={elem} onClick={() => {viewChatFunc(elem.id_chat)}}>
-                            {`${elem.group.name}`}
-                        </ListGroup.Item>)}
-                </ListGroup>
-            </div>
-        </Card>
+        <div className='bg'>
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>{tab_header}</title>
+            </Helmet>
+            <Card style={{minHeight: "fit-content"}}>
+                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+                    <LanguageList />
+                    <DashNav/>
+                <div style={{ display: 'block', width: 400, padding: 30 }}>
+                    <ListGroup>
+                        {members.map((elem) => 
+                            <ListGroup.Item action key={elem} value={elem} onClick={() => {viewChatFunc(elem.id_chat)}}>
+                                {`${elem.group.name}`}
+                            </ListGroup.Item>)}
+                    </ListGroup>
+                </div>
+            </Card>
+        </div>
     );
 }

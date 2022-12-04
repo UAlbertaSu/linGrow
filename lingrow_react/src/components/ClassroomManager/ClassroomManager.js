@@ -2,9 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
+import DashNav from '../DashNav/DashNav';
 
 import LanguageList from "../Translate/LanguageList";
 import Translate from "../Translate/Translate";
+import {Helmet} from 'react-helmet';
+import logo from   "../Img/lingrow.png";
 
 // Allows users to view classrooms
 export default function ClassroomManager() {
@@ -12,8 +15,10 @@ export default function ClassroomManager() {
     let location = useLocation();
 
     // State variables.
+    const [tab_header, setTabHeader] = useState("LinGrow Class Manager");
     const [group_display_header, setHeader] = useState("Classroom Manager");
     const [no_group_message, setNoGroupsFound] = useState("No classrooms have been made yet...");
+    const [create_classroom_btn, setCreateClassroomBtn] = useState("Create Classrooms");
     const [translated, setTranslated] = useState(0);
     const [groups, setGroups] = useState([]);
     const [error, setError] = useState(0);
@@ -48,8 +53,10 @@ export default function ClassroomManager() {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
+            Translate('en', lang, "LinGrow Class Manager").then((response) => setTabHeader(response));
             Translate('en', lang, "Classroom Manager").then(response => setHeader(response));
             Translate('en', lang, "No classrooms have been made yet...").then(response => setNoGroupsFound(response));
+            Translate('en', lang, "Creat New Class").then(response => setCreateClassroomBtn(response));
         }
     });
 
@@ -98,24 +105,33 @@ export default function ClassroomManager() {
     }
     else {
         return (
-            <Card style={{minHeight:"fit-content"}}>
-                <LanguageList />
-                <h1>{group_display_header}</h1>
-                <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>Create New Group</Button>
-                <div style={{ display: 'block', width: 400, padding: 30 }}>
-                    {
-                        groups.length > 0 ? 
-                            <ListGroup>
-                                {groups.map((elem) => 
-                                <ListGroup.Item action onClick={() => handleDetail(elem)} id={elem.id} key={elem.id} value={elem.id}>
-                                    {[elem.name]}
-                                </ListGroup.Item>)}
-                            </ListGroup> 
-                        :
-                            <ListGroup>{<ListGroup.Item disabled >{no_group_message}</ListGroup.Item>}</ListGroup>
-                    }
-                </div>
-            </Card>
+            // Allows user to create new classrooms within a school, or view current classrooms and their details.
+            <div className='bg'>
+                <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>{tab_header}</title>
+                </Helmet>
+                <Card>
+                    <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+                    <LanguageList />
+                    <DashNav/>
+                    <h1>{group_display_header}</h1>
+                    <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>{create_classroom_btn}</Button>
+                    <div style={{ display: 'block', width: 400, padding: 30 }}>
+                        {
+                            groups.length > 0 ? 
+                                <ListGroup>
+                                    {groups.map((elem) => 
+                                    <ListGroup.Item action onClick={() => handleDetail(elem)} id={elem.id} key={elem.id} value={elem.id}>
+                                        {[elem.name]}
+                                    </ListGroup.Item>)}
+                                </ListGroup> 
+                            :
+                                <ListGroup>{<ListGroup.Item disabled >{no_group_message}</ListGroup.Item>}</ListGroup>
+                        }
+                    </div>
+                </Card>
+            </div>
         );
     }
 }

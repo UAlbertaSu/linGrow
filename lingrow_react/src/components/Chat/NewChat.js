@@ -1,34 +1,38 @@
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import './Chat.css';
-import { Button, Card, ListGroup, Nav, NavDropdown, Container, Navbar} from 'react-bootstrap';
+import {Card, ListGroup} from 'react-bootstrap';
 import LanguageList from '../Translate/LanguageList';
+import { Helmet } from 'react-helmet';
 import Translate from '../Translate/Translate';
+import DashNav from '../DashNav/DashNav';
 import logo from "../Img/lingrow.png";
-import home_icon from "../Img/home_icon.png";
-import user_icon from "../Img/user_icon.png";
 
 export default function DirectChat() {
     const nav = useNavigate();
-    const userType = JSON.parse(sessionStorage.getItem('userType'));
-    const setDashboardType = () => {
-        if (userType === 1) {
-            return 'LinGrow Parent Dashboard';
-        }
-        else if (userType === 2) {
-            return 'LinGrow Teacher Dashboard';
-        }
-        else if (userType === 3) {
-            return 'LinGrow Researcher Dashboard';
-        }
-        else if (userType === 4) {
-            return 'LinGrow Admin Dashboard';
-        }
-    }
     const token = JSON.parse(sessionStorage.getItem('token'));
     const [members, setMembers] = useState([]);
-    const [viewChat] = useState('View Chat');
-    // const [chat_name, setChatName] = useState("");
+    const [tab_header, setTabHeader] = useState("LinGrow New Chat");
+    const [translated, setTranslated] = useState(0);
+
+    const translateMessage = useCallback((e) => {
+        let lang = localStorage.getItem('lang');
+        if (lang) {
+            Translate('en', lang, "LinGrow New Chat").then((response) => setTabHeader(response));
+        }
+    });
+
+    useEffect(() => {
+        // Prevents page from being constantly translated.
+        if (!translated) {
+            translateMessage();
+            setTranslated(1);
+        }
+
+        window.addEventListener("New language set", translateMessage);
+        return () => window.removeEventListener("New language set", translateMessage);
+    });
+
     console.log(token);
     useEffect(
         () => {
@@ -43,9 +47,6 @@ export default function DirectChat() {
                     throw Error("Failed to retrieve user due to invalid login credentials or database request error.");
                 }
                 else {
-                    // console.log(data);
-                    // return data;
-                    // setChatName(data)
                     setMembers([...members,...data]);
 
                 }
@@ -53,7 +54,6 @@ export default function DirectChat() {
         }, []
     )
     const createChatFunc = (email) => {
-        // console.log(id_chat);
         console.log("HERE")
         fetch('http://127.0.0.1:8000/api/chat/create_chat/', {
             method: 'POST',
@@ -71,21 +71,28 @@ export default function DirectChat() {
             sessionStorage.setItem('chat_type', JSON.stringify('private'));
             nav('/viewchat');
         });
-        // sessionStorage.setItem('id_chat', JSON.stringify(id_chat));
-        // nav('/viewchat');
 
     }
+    // page that lets the user start chats with other users
     return (
-        <Card style={{minHeight: "fit-content"}}>
-            <LanguageList />
-            <div style={{ display: 'block', width: 400, padding: 30 }}>
-                <ListGroup>
-                    {members.map((elem) => 
-                        <ListGroup.Item action key={elem} value={elem} onClick={() => {createChatFunc(elem.email)}}>
-                            {`${elem.email}`}
-                        </ListGroup.Item>)}
-                </ListGroup>
-            </div>
-        </Card>
+        <div className="bg">
+            <Card>
+                <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>{tab_header}</title>
+                </Helmet>
+                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+                <LanguageList />
+                <DashNav/>
+                <div style={{ display: 'block', width: 400, padding: 30 }}>
+                    <ListGroup>
+                        {members.map((elem) => 
+                            <ListGroup.Item action key={elem} value={elem} onClick={() => {createChatFunc(elem.email)}}>
+                                {`${elem.email}`}
+                            </ListGroup.Item>)}
+                    </ListGroup>
+                </div>
+            </Card>
+        </div>
     );
 }

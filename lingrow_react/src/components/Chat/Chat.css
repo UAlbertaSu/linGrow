@@ -3,17 +3,8 @@
     margin: var(--margin-vsmall);
     width: fit-content;
 }
-
-.navbar{
-    background-color: rgb(124, 194, 255);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    min-width: none;
-    min-height:"fit-content";
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
+/* chat displaying card */
+/* overflow enables scrolling of chat display*/
 .chat-display{
     height: 400px;
     width: 100%;
@@ -26,7 +17,7 @@
 .message{
     overflow-y:auto;
 }
-
+/* Messages sent by user that appear on the left*/
 .message-left{
     float: left;
     text-align: left;
@@ -42,6 +33,7 @@
     align-items: flex-start;
 }
 
+/* Messages sent by other users that appear on the right*/
 .message-right{
     float: right;
     text-align: left;
@@ -56,7 +48,7 @@
     flex-direction: column;
     align-items: flex-end;
 }
-
+/* Message styling for the extra information that appears with them */
 .message-username-left{
     margin-left: 30px;
 }

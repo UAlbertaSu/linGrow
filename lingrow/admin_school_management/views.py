@@ -11,6 +11,8 @@ from group_management.models import ParentGroup, TeacherGroup
 from chat.models import TeacherGroupChat, ParentGroupChat
 
 
+# Views form school and classroom. 
+# includes various endpoints to add, update and delete school and classroom
 class SchoolRegistrationView(APIView):
     '''
     View to register a school

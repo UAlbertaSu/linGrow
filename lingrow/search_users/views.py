@@ -8,6 +8,8 @@ from rest_framework import status
 from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
+# Search user Views that define the API endpoints for searching users
+
 class ParentSearchView(APIView):
     permission_classes = [IsAuthenticated,IsTeacher|IsResearcher|IsAdminUser]
 
