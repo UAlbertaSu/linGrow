@@ -107,7 +107,7 @@ export default function ClassroomCreator({userType}) {
                             <ListGroup>{<ListGroup.Item disabled >{no_user_message}</ListGroup.Item>}</ListGroup>
                     }
                 </div>
-                <Button disabled={selected.length == 0 ? true : false} variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
+                <Button disabled={group_name === undefined ? true : false} variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
             </Card>
         </div>
     );

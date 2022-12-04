@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Card, Table } from 'react-bootstrap';
-import {Helmet} from 'react-helmet';
+import { Button, Card, ListGroup, Spinner } from 'react-bootstrap';
+import { Helmet } from 'react-helmet';
 
+import { CSVLink, CSVDownload } from 'react-csv';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 import StyledDropzone from './Dropzone';
 import Authenticate from '../Authenticate/Authenticate';
-import { ListGroup } from 'react-bootstrap';
 
 // Component to prompt admin users to add users one by one, or mass-create users via xlsx/csv file.
 export default function AdminAddUser() {
@@ -50,17 +50,14 @@ export default function AdminAddUser() {
     const [current_lastName, setCurrentLastName] = useState();
     const [current_email, setCurrentEmail] = useState();
 
-    // states for a child
+    const example_data = [
+        ["email", "first_name", "middle_name", "last_name", "user_type", "school", "classroom"],
+        ["tribiani@email.com", "Joey", "", "Tribiani", "Admin", "", ""],
+        ["geller@email.com", "Geller", "", "Ross", "Researcher", "", ""],
+        ["chandler@email.com", "Chandler", "Muriel", "Bing", "Teacher", "Central Perk Elementary", "1A"],
+        ["rachel@email.com", "Rachel", "", "Green", "Parent", "Central Perk Elementary", "1A"]
+    ];
     
-
-
-    // Expand example image for .csv or .xlsx file format.
-    const [expanded, setExpanded] = useState(false);
-
-    const expandExample = () => {
-        setExpanded(!expanded);
-    }
-
     const handleUserType = (event) => {
         setCurrentUserType(event.target.value);
     }
@@ -185,7 +182,7 @@ export default function AdminAddUser() {
         let lang = localStorage.getItem('lang');
         if (lang) {
             Translate('en', lang, "LinGrow User Creator").then((response) => setTabHeader(response));
-            Translate('en', lang, "Add Multiple Users Via Excel file").then(response => setHeader(response));
+            Translate('en', lang, "Add Multiple Users Via .csv file").then(response => setHeader(response));
             Translate('en', lang, "Add Users Manually").then(response => setAddUserMsg(response));
             Translate('en', lang, "Drop .csv file here, or click to upload!").then(response => setDropbox(response));
             Translate('en', lang, "Email address").then(response => setEmail(response));
@@ -198,7 +195,7 @@ export default function AdminAddUser() {
             Translate('en', lang, "Teacher").then(response => setTeacherMsg(response));
             Translate('en', lang, "Researcher").then(response => setResearcherMsg(response));
             Translate('en', lang, "Admin").then(response => setAdminMsg(response));
-            Translate('en', lang, "Example file format").then(response => setExample(response));
+            Translate('en', lang, "Download example .csv file").then(response => setExample(response));
             Translate('en', lang, "No schools found...").then(response => setNoSchoolsFound(response));
             Translate('en', lang, "No classrooms found...").then(response => setNoClassroomsFound(response));
         }
@@ -253,50 +250,13 @@ export default function AdminAddUser() {
                 <div style={{padding: 20}}>
                     <StyledDropzone dropbox_message={dropbox} />
                 </div>
-                <Button variant="primary" onClick={expandExample}>{example}</Button>
-                <div>
-                    {
-                        expanded ? 
-                        <Table>
-                            <thead>
-                                <tr>
-                                    <th>{email}</th>
-                                    <th>{firstName}</th>
-                                    <th>{middleName}</th>
-                                    <th>{lastName}</th>
-                                    <th>{userType}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>test@email.com</td>
-                                    <td>Ross</td>
-                                    <td></td>
-                                    <td>Geller</td>
-                                    <td>Researcher</td>
-                                </tr>
-                                <tr>
-                                    <td>another@email.com</td>
-                                    <td>Chandler</td>
-                                    <td>Muriel</td>
-                                    <td>Bing</td>
-                                    <td>Teacher</td>
-                                </tr>
-                                <tr>
-                                    <td>mock@email.com</td>
-                                    <td>Rachel</td>
-                                    <td></td>
-                                    <td>Green</td>
-                                    <td>Parent</td>
-                                </tr>
-                            </tbody>
-                        </Table> : null
-                    }
-                </div>
+                <CSVLink data={example_data} filename={"LinGrow_example.csv"}>{
+                    <Button variant="primary" style={{marginBottom: "60px"}}>{example}</Button>
+                }</CSVLink>
+
                 <Card className="title_card">
                     <h1>{addUserMsg}</h1>
                 </Card>
-                
                 <input className='form-control' type="text" placeholder={email} id="email" onChange={handleEmail} />
                 <select className="form-select" id="user_type" onChange={handleUserType} >
                     <option value="" disabled selected>{enter_type_msg}</option>
