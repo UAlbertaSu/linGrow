@@ -6,6 +6,7 @@ import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 import { retrieveUserType } from '../Login/Login';
 
+import { Helmet } from 'react-helmet';
 import logo from "../Img/lingrow.png";
 import home_icon from "../Img/home_icon.png";
 import user_icon from "../Img/user_icon.png";
@@ -20,8 +21,22 @@ export default function UserInfo({ userType }) {
         sessionStorage.setItem('user_first_name', user.first_name);
     });
 
+    const setDashboardType = () => {
+        if (userType === 1) {
+            return 'LinGrow Parent Dashboard';
+        }
+        else if (userType === 2) {
+            return 'LinGrow Teacher Dashboard';
+        }
+        else if (userType === 3) {
+            return 'LinGrow Researcher Dashboard';
+        }
+        else if (userType === 4) {
+            return 'LinGrow Admin Dashboard';
+        }
+    }
     // headers
-    const [dashboard, setDashboard] = useState("User Info");
+    const [dashboard, setDashboard] = useState(setDashboardType);
     const [parent, setParent] = useState("Parent");
     const [teacher, setTeacher] = useState("Teacher");
     const [researcher, setResearcher] = useState("Researcher");
@@ -55,7 +70,7 @@ export default function UserInfo({ userType }) {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate('en', lang, "User Info").then(response => setDashboard(response));
+            Translate('en', lang, dashboard).then(response => setDashboard(response));
             Translate('en', lang, "Parent").then(response => setParent(response));
             Translate('en', lang, "Teacher").then(response => setTeacher(response));
             Translate('en', lang, "Researcher").then(response => setResearcher(response));
@@ -88,14 +103,17 @@ export default function UserInfo({ userType }) {
 
     return (
         <Card style={{minHeight:"fit-content", paddingBottom:"20px"}}>
+            <Helmet>
+                    <meta charSet="utf-8" />
+            </Helmet>
             <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
             <LanguageList />
             <Navbar bg="light" expand="lg" style={{width:"94%", margin: "20px 0px 10px 0px"}}>
                 <Container>
-                        <div>{userType === 1 ? <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>Lingrow {parent} {dashboard}</Navbar.Brand> : null}</div>
-                        <div>{userType === 2 ? <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>Lingrow {teacher} {dashboard}</Navbar.Brand> : null}</div>
-                        <div>{userType === 3 ? <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>Lingrow {researcher} {dashboard}</Navbar.Brand> : null}</div>
-                        <div>{userType === 4 ? <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>Lingrow {admin} {dashboard}</Navbar.Brand> : null}</div>
+                        <div>{userType === 1 ? <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>{dashboard}</Navbar.Brand> : null}</div>
+                        <div>{userType === 2 ? <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>{dashboard}</Navbar.Brand> : null}</div>
+                        <div>{userType === 3 ? <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>{dashboard}</Navbar.Brand> : null}</div>
+                        <div>{userType === 4 ? <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>{dashboard}</Navbar.Brand> : null}</div>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">

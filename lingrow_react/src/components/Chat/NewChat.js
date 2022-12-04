@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import './Chat.css';
 import { Button, Card, ListGroup, Nav, NavDropdown, Container, Navbar} from 'react-bootstrap';
 import LanguageList from '../Translate/LanguageList';
+import { Helmet } from 'react-helmet';
 import Translate from '../Translate/Translate';
 import logo from "../Img/lingrow.png";
 import home_icon from "../Img/home_icon.png";
@@ -77,6 +78,10 @@ export default function DirectChat() {
     }
     return (
         <Card style={{minHeight: "fit-content"}}>
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>LinGrow Chat Creation</title>
+            </Helmet>
             <LanguageList />
             <div style={{ display: 'block', width: 400, padding: 30 }}>
                 <ListGroup>

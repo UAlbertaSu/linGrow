@@ -34,7 +34,6 @@ export default function Dashboard({ userType }) {
     }
 
     // State variables.
-    const [dashboardString, setDashboardString] = useState();
     const [dashboard, setDashboard] = useState(setDashboardType);
     const [home, setHome] = useState("Home");
     const [profile, setProfile] = useState("Profile");
@@ -83,7 +82,7 @@ export default function Dashboard({ userType }) {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate('en', lang, dashboard).then(response => setDashboardString(response));
+            Translate('en', lang, dashboard).then(response => setDashboard(response));
             Translate('en', lang, "Home").then(response => setHome(response));
             Translate('en', lang, "Profile").then(response => setProfile(response));
             Translate('en', lang, "Chat").then(response => setChatMsg(response));
@@ -110,11 +109,15 @@ export default function Dashboard({ userType }) {
 
     return (
         <Card style={{minHeight:"fit-content", paddingBottom:"20px"}}>
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>{dashboard}</title>
+            </Helmet>
             <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
             <LanguageList />
             <Navbar bg="light" expand="lg" style={{width:"94%", margin: "20px 0px 10px 0px"}}>
                 <Container>
-                    <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>{dashboardString}</Navbar.Brand>
+                    <Navbar.Brand style={{fontWeight:"bold",fontSize:"30px",margin:"10px 50px 10px 20px"}}>{dashboard}</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
