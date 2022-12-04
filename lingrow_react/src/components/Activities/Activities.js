@@ -7,7 +7,6 @@ import Translate from '../Translate/Translate';
 
 import { Helmet } from 'react-helmet';
 import logo from "../Img/lingrow.png";
-import './Activities.css';
 
 
 // a page that displays all the language development activities
@@ -16,6 +15,7 @@ import './Activities.css';
 
 export default function Activities() {
     const nav = useNavigate();
+    // Original phrases to be translated by translator, if not present translations become static
     const [tab_header, setTabHeader] = useState("LinGrow Activities");
     const [activities, setActivities] = useState("Language Learning Activities");
     const [activity1, setActivity1] = useState("Kitchen Activities");
@@ -48,20 +48,22 @@ export default function Activities() {
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
     });
-
+    // Helmet block creates tab headers, which are translatable
     return (
-        <Card style={{height:"80%"}}>
-            <Helmet>
-                    <meta charSet="utf-8" />
-                    <title>{tab_header}</title>
-            </Helmet>
-            <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
-            <LanguageList />
-            <h1>{activities}</h1>
-            <Button href="https://drive.google.com/drive/folders/1h4pmfp66la3ZBpEIwcfHb7TEY5QbUgOj" id="activity_btn_1" style={{minWidth:"150px"}}>{activity1}</Button>
-            <Button href="https://drive.google.com/drive/folders/1Pbaax2cLWvOSO8sY2Lm8by0lE0G8njRJ" id="activity_btn_2" style={{minWidth:"150px"}}>{activity2}</Button>
-			<Button href = "https://bilingualacquisition.ca/covid-19-multilingual-families-talking-and-playing/" id = "more_activities" style={{minWidth:"150px"}}>{activityPlus}</Button>
-            <Button variant="secondary" href="dashboard" id="activity_btn_3" style={{minWidth:"150px"}}>{homepage}</Button>
-        </Card>
+        <div className='bg'>
+            <Card style={{height:"80%"}}>
+                <Helmet>
+                        <meta charSet="utf-8" />
+                        <title>{tab_header}</title>
+                </Helmet>
+                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+                <LanguageList />
+                <h1>{activities}</h1>
+                <Button href="https://drive.google.com/drive/folders/1h4pmfp66la3ZBpEIwcfHb7TEY5QbUgOj" id="activity_btn_1" style={{minWidth:"150px"}}>{activity1}</Button>
+                <Button href="https://drive.google.com/drive/folders/1Pbaax2cLWvOSO8sY2Lm8by0lE0G8njRJ" id="activity_btn_2" style={{minWidth:"150px"}}>{activity2}</Button>
+                <Button href = "https://bilingualacquisition.ca/covid-19-multilingual-families-talking-and-playing/" id = "more_activities" style={{minWidth:"150px"}}>{activityPlus}</Button>
+                <Button variant="secondary" href="dashboard" id="activity_btn_3" style={{minWidth:"150px"}}>{homepage}</Button>
+            </Card>
+        </div>
     )
 }

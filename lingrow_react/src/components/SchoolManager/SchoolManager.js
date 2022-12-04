@@ -5,14 +5,18 @@ import { useNavigate } from 'react-router-dom';
 
 import LanguageList from "../Translate/LanguageList";
 import Translate from "../Translate/Translate";
+import logo from "../Img/lingrow.png";
 import Helmet from 'react-helmet';
+import DashNav from '../DashNav/DashNav';
 
 // Allows users to view schools
 export default function SchoolManager({userType}) {
     const nav = useNavigate();
 
     // State variables.
-    const [group_display_header, setHeader] = useState("School Manager");
+    const [tab_header, setTabHeader] = useState("LinGrow School Manager");
+    const [group_display_header, setHeader] = useState("Schools");
+    const [create_school, setCreateSchool] = useState("Create School");
     const [no_group_message, setNoGroupsFound] = useState("No schools have been made yet...");
     const [translated, setTranslated] = useState(0);
     const [groups, setGroups] = useState([]);
@@ -41,7 +45,9 @@ export default function SchoolManager({userType}) {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate('en', lang, "School Manager").then(response => setHeader(response));
+            Translate('en', lang, "LinGrow School Manager").then((response) => setTabHeader(response));
+            Translate('en', lang, "Schools").then(response => setHeader(response));
+            Translate('en', lang, "Create School").then(response => setCreateSchool(response));
             Translate('en', lang, "No schools have been made yet...").then(response => setNoGroupsFound(response));
         }
     });
@@ -78,28 +84,35 @@ export default function SchoolManager({userType}) {
         return () => window.removeEventListener("New language set", translateMessage);
     });
 
+    // School manager page, which displays all schools, and allows creation of new ones
     return (
-        <Card className='function_card'>
+        <div className="bg">
             <Helmet>
-                    <meta charSet="utf-8" />
-                    <title>School Manager</title>
+                <meta charSet="utf-8" />
+                <title>{tab_header}</title>
             </Helmet>
-            <LanguageList />
-            <h1>{group_display_header}</h1>
-            <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>Create New Group</Button>
-            <div style={{ display: 'block', width: 400, padding: 30 }}>
-                {
-                    groups.length > 0 ? 
-                        <ListGroup>
-                            {groups.map((elem) => 
-                            <ListGroup.Item action onClick={() => handleDetail(elem)} id={elem.id} key={elem.id} value={elem.id}>
-                                {[elem.name]}
-                            </ListGroup.Item>)}
-                        </ListGroup> 
-                    :
-                        <ListGroup>{<ListGroup.Item disabled >{no_group_message}</ListGroup.Item>}</ListGroup>
-                }
-            </div>
-        </Card>
+            <Card>
+                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+                <LanguageList />
+                <DashNav/>
+                <Card className='title_card'>
+                    <h1>{group_display_header}</h1>
+                </Card>
+                <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>{create_school}</Button>
+                <div style={{ display: 'block', width: 400, padding: 30 }}>
+                    {
+                        groups.length > 0 ? 
+                            <ListGroup>
+                                {groups.map((elem) => 
+                                <ListGroup.Item action onClick={() => handleDetail(elem)} id={elem.id} key={elem.id} value={elem.id}>
+                                    {[elem.name]}
+                                </ListGroup.Item>)}
+                            </ListGroup> 
+                        :
+                            <ListGroup>{<ListGroup.Item disabled >{no_group_message}</ListGroup.Item>}</ListGroup>
+                    }
+                </div>
+            </Card>
+        </div>
     );
 }

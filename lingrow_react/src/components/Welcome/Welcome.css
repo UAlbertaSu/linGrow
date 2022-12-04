@@ -1,3 +1,4 @@
+/* Welcom card is for first page only*/
 .welcome{
     top:40%;
     left:40%; 
@@ -9,15 +10,21 @@
     min-width: fit-content;
     min-height: 10rem;
 }
-
-.background_cloud{
-    background-Image: "url(${../../Img/cloud.png})";
-    background-Position: 'center';
-    background-Size: 'cover';
-    background-Repeat: 'no-repeat';
-    width: '100vw';
-    height: '100vh';
+/* bg is both container and background throughout the pages*/
+.bg {
+    background-image: url('../Img/clouds.png');
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    left: 0%;
+    position: fixed;
+    overflow-y: auto;
+    margin:0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
+/* parameters for thin screen version of welcom card */
 @media only screen and (max-width: 800px) {
     [class*="welcome"]{
         width: 80%;

@@ -30,6 +30,7 @@ function App() {
     return <Welcome />
   }
 
+  // url routes for all the pages in the app, ones that lead to wrappers are secured
   return (
     <div className="wrapper">
       <BrowserRouter>

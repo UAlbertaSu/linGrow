@@ -19,6 +19,7 @@ export default function Form() {
     const nav = useNavigate();
 
     //translation states
+    const [tab_header, setTabHeader] = useState("LinGrow Signup");
     const [header, setHeader] = useState("Parent Registration");
     const [email_msg, setEmailMsg] = useState("Email address");
     const [enter_email_msg, setEnterEmailMsg] = useState("Enter Email Address");
@@ -32,7 +33,7 @@ export default function Form() {
     const [enter_pass_msg, setEnterPasswordMsg] = useState("Enter password");
     const [confirm_msg, setConfirmPasswordMsg] = useState("Confirm password");
     const [enter_confirm_msg, setEnterConfirmPasswordMsg] = useState("Enter password again");
-    const [child_msg, setChildMsg] = useState("Child's name");
+    const [child_msg, setChildMsg] = useState("Child's Name*");
     const [enter_child_msg, setEnterChildMsg] = useState("Enter Child's Name");
     const [error_msg, setErrorMsg] = useState("Registration failed");
     const [require_msg, setRequiredMsg] = useState("Field with * must be filled out");
@@ -159,6 +160,7 @@ export default function Form() {
     const translateMessage = useCallback(() => {
         let lang = localStorage.getItem('lang');
         if (lang) {
+            Translate('en', lang, 'LinGrow Signup').then((res) => setTabHeader(res));
             Translate('en', lang, "Parent Registration").then(response => setHeader(response));
             Translate('en', lang, "Email address*").then(response => setEmailMsg(response));
             Translate('en', lang, "Enter Email Address").then(response => setEnterEmailMsg(response));
@@ -172,7 +174,7 @@ export default function Form() {
             Translate('en', lang, "Enter Password").then(response => setEnterPasswordMsg(response));
             Translate('en', lang, "Confirm password*").then(response => setConfirmPasswordMsg(response));
             Translate('en', lang, "Enter password again").then(response => setEnterConfirmPasswordMsg(response));
-            Translate('en', lang, "Child's Name").then(response => setChildMsg(response));
+            Translate('en', lang, "Child's Name*").then(response => setChildMsg(response));
             Translate('en', lang, "Enter Child's Name").then(response => setEnterChildMsg(response));
             Translate('en', lang, "Error").then(response => setErrorMsg(response));
             Translate('en', lang, "Field with * is required").then(response => setRequiredMsg(response));
@@ -201,36 +203,38 @@ export default function Form() {
             </div>
         );
     };
-
+    // self signup page for parents
     return (
-        <Card className="signup" style={{}}>
+        <div className="bg">
             <Helmet>
-                    <meta charSet="utf-8" />
-                    <title>LinGrow Parent Signup</title>
+                <meta charSet="utf-8" />
+                <title>{tab_header}</title>
             </Helmet>
-                    <LanguageList />
-                    <h1>{header}</h1>
-                        {/* Labels and inputs for form data */}
-                    <label className="label">{email_msg}</label>
-                    <input className="form-control" type="text" id="email" placeholder={enter_email_msg} value={email} onChange={handleEmail} />
-                    <label className="label">{first_msg}</label>
-                    <input className="form-control" type="text" id="first_name" placeholder={enter_first_msg} value={first_name} onChange={handleFirstName} />
-                    <label className="label">{middle_msg}</label>
-                    <input className="form-control" type="text" id="middle_name" placeholder={enter_middle_msg} value={middle_name} onChange={handleMiddleName} />
-                    <label className="label">{last_msg}</label>
-                    <input className="form-control" type="text" id="last_name" placeholder={enter_last_msg} value={last_name} onChange={handleLastName} />
-                    <label className="label">{pass_msg}</label>
-                    <input className="form-control" type="password" id="password1" placeholder={enter_pass_msg} value={password} onChange={handlePassword} />
-                    <label className="label">{confirm_msg}</label>
-                    <input className="form-control" type="password" id="password2" placeholder={enter_confirm_msg} value={password2} onChange={handleConfirmPassword} />
-                    <label className="label">{child_msg}</label>
-                    <input className="form-control" type="text" id="child_name" placeholder={enter_child_msg} value={child_name} onChange={handleChildName} />
-                    <label classname="label" >{require_msg}</label>
-                    <div className="message">
-                        {errorMessage()}
-                        {successMessage()}
-                    </div>
-                    <Button variant="primary" type="submit" id="submit_button" onClick={handleSubmit}>{register_btn}</Button>{''}
-        </Card>
+            <Card className="signup" style={{}}>
+                        <LanguageList />
+                        <h1>{header}</h1>
+                            {/* Labels and inputs for form data */}
+                        <label className="label">{email_msg}</label>
+                        <input className="form-control" type="text" id="email" placeholder={enter_email_msg} value={email} onChange={handleEmail} />
+                        <label className="label">{first_msg}</label>
+                        <input className="form-control" type="text" id="first_name" placeholder={enter_first_msg} value={first_name} onChange={handleFirstName} />
+                        <label className="label">{middle_msg}</label>
+                        <input className="form-control" type="text" id="middle_name" placeholder={enter_middle_msg} value={middle_name} onChange={handleMiddleName} />
+                        <label className="label">{last_msg}</label>
+                        <input className="form-control" type="text" id="last_name" placeholder={enter_last_msg} value={last_name} onChange={handleLastName} />
+                        <label className="label">{pass_msg}</label>
+                        <input className="form-control" type="password" id="password1" placeholder={enter_pass_msg} value={password} onChange={handlePassword} />
+                        <label className="label">{confirm_msg}</label>
+                        <input className="form-control" type="password" id="password2" placeholder={enter_confirm_msg} value={password2} onChange={handleConfirmPassword} />
+                        <label className="label">{child_msg}</label>
+                        <input className="form-control" type="text" id="child_name" placeholder={enter_child_msg} value={child_name} onChange={handleChildName} />
+                        <label classname="label" style={{fontWeight:"Bold"}}>{require_msg}</label>
+                        <div className="message">
+                            {errorMessage()}
+                            {successMessage()}
+                        </div>
+                        <Button variant="primary" type="submit" id="submit_button" onClick={handleSubmit}>{register_btn}</Button>{''}
+            </Card>
+        </div>
     );
 }

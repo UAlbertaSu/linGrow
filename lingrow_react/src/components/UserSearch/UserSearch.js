@@ -23,6 +23,7 @@ function UserSearch(){
     const [token, setToken] = useState(JSON.parse(sessionStorage.getItem('token')));
     const [userType, setUserType] = useState(JSON.parse(sessionStorage.getItem('userType')));
 
+    const [tab_header, setTabHeader] = useState("LinGrow User Search");
     const [searchUserHeader, setSearchUserHeader] = useState("Search User");
     const [noUserFoundMessage, setNoUserFoundMessage] = useState("No User Found");
     const [searchBtn, setSearchBtn] = useState("Search");
@@ -185,6 +186,7 @@ function UserSearch(){
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
+            Translate('en', lang, "LinGrow User Search").then((response) => setTabHeader(response));
             Translate('en', lang, "Search User").then(response => setSearchUserHeader(response));
             Translate('en', lang, "No User Found").then(response => setNoUserFoundMessage(response));
             Translate('en', lang, "Search").then(response => setSearchBtn(response));
@@ -208,37 +210,42 @@ function UserSearch(){
 
 
     return(
-        <Card className='function_card'>
+        <div className='bg'>
             <Helmet>
-                    <meta charSet="utf-8" />
-                    <title>linGrow-User Search</title>
+                <meta charSet="utf-8" />
+                <title>{tab_header}</title>
             </Helmet>
-            <LanguageList />
-            <h1>{searchUserHeader}</h1>
-            <div>{userType !==4 ? <select defaultValue = {userChoice} onChange = {changeHandler}>
-                    <option value = {1}>{parentLang}</option>
-                    <option disabled = {userType > 2 ? false : true} value = {2}>{teacherLang}</option>
-                    <option disabled = {userType > 3 ? false : true} value = {3}>{researcherLang}</option>
-                </select> : null  }
-            </div>
-            <input id ='searchUsername' type ='text' className = "form-control" placeholder = {enterName} ref = {refUserSearch} />
-            <Button id ='searchstart' onClick = {searchHandler}>{searchBtn}</Button>
+            <Card className='function_card'>
+                
+                <LanguageList />
+                <Card className="title_card">
+                    <h1>{searchUserHeader}</h1>
+                </Card>
+                <div>{userType !==4 ? <select defaultValue = {userChoice} onChange = {changeHandler}>
+                        <option value = {1}>{parentLang}</option>
+                        <option disabled = {userType > 2 ? false : true} value = {2}>{teacherLang}</option>
+                        <option disabled = {userType > 3 ? false : true} value = {3}>{researcherLang}</option>
+                    </select> : null  }
+                </div>
+                <input id ='searchUsername' type ='text' className = "form-control" placeholder = {enterName} ref = {refUserSearch} />
+                <Button id ='searchstart' onClick = {searchHandler}>{searchBtn}</Button>
 
-            <div style = {{display : 'block', width: 400, padding: 30 }}>
-                {
-                    searchResult.length > 0 ?
-                    <ListGroup>
-                        {searchResult.map((elem) =>
-                            <ListGroup.Item action active = {selected.includes(elem) ? true : false} onClick = {() => selectListItem(elem)} key = {elem.id} value = {elem}>
-                                 {[elem.first_name, " ", elem.last_name]}
-                            </ListGroup.Item>)}
-                    </ListGroup>
-                    :
-                    <ListGroup>{<ListGroup.Item disabled >{noUserFoundMessage}</ListGroup.Item>}
-                    </ListGroup>
-                }
-            </div>
-        </Card>
+                <div style = {{display : 'block', width: 400, padding: 30 }}>
+                    {
+                        searchResult.length > 0 ?
+                        <ListGroup>
+                            {searchResult.map((elem) =>
+                                <ListGroup.Item action active = {selected.includes(elem) ? true : false} onClick = {() => selectListItem(elem)} key = {elem.id} value = {elem}>
+                                    {[elem.first_name, " ", elem.last_name]}
+                                </ListGroup.Item>)}
+                        </ListGroup>
+                        :
+                        <ListGroup>{<ListGroup.Item disabled >{noUserFoundMessage}</ListGroup.Item>}
+                        </ListGroup>
+                    }
+                </div>
+            </Card>
+        </div>
         );
 
 }

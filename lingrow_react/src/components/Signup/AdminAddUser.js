@@ -15,6 +15,7 @@ export default function AdminAddUser() {
     const nav = useNavigate();
 
     // States needed for translation.
+    const [tab_header, setTabHeader] = useState("LinGrow User Creator");
     const [translated, setTranslated] = useState(0);
     const [dropbox, setDropbox] = useState();
     const [header, setHeader] = useState();
@@ -103,8 +104,9 @@ export default function AdminAddUser() {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
-            Translate('en', lang, "Add New Users").then(response => setHeader(response));
-            Translate('en', lang, "Or add single user").then(response => setAddUserMsg(response));
+            Translate('en', lang, "LinGrow User Creator").then((response) => setTabHeader(response));
+            Translate('en', lang, "Add Multiple Users Via Excel file").then(response => setHeader(response));
+            Translate('en', lang, "Add Users Manually").then(response => setAddUserMsg(response));
             Translate('en', lang, "Drop .csv file here, or click to upload!").then(response => setDropbox(response));
             Translate('en', lang, "Email address").then(response => setEmail(response));
             Translate('en', lang, "First name").then(response => setFirstName(response));
@@ -151,14 +153,17 @@ export default function AdminAddUser() {
 
     // Return the admin add user page.
     return (
-        <div>
+        <div className='bg'>
             <Helmet>
                     <meta charSet="utf-8" />
-                    <title>linGrow-Add Users</title>
+                    <title>{tab_header}</title>
             </Helmet>
-            <Card>
+            <Card className='function_card'>
                 <LanguageList />
-                <h1>{header}</h1>
+                <Card className="title_card">
+                    <h1>{header}</h1>
+                </Card>
+                
                 <div style={{padding: 20}}>
                     <StyledDropzone dropbox_message={dropbox} />
                 </div>
@@ -202,7 +207,10 @@ export default function AdminAddUser() {
                         </Table> : null
                     }
                 </div>
-                <h3 style={{marginTop: 30}}>{addUserMsg}</h3>
+                <Card className="title_card">
+                    <h1>{addUserMsg}</h1>
+                </Card>
+                
                 <input className='form-control' type="text" placeholder={email} id="email" onChange={handleEmail} />
                 <select className="form-select" id="user_type" onChange={handleUserType} >
                     <option value="" disabled selected>{enter_type_msg}</option>

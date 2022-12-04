@@ -14,7 +14,8 @@ export default function SchoolCreator({}) {
 
     const [token, setToken] = useState(JSON.parse(sessionStorage.getItem('token')));
 
-    const [group_create_header, setHeader] = useState("Create New Group");
+    const [tab_header, setTabHeader] = useState("LinGrow School Creator");
+    const [group_create_header, setHeader] = useState("School Creator");
     const [submit_btn, setSubmitBtn] = useState("Create Group");
     const [group_name, setGroupName] = useState(loc.state !== null ? loc.state.groupName : "Group Name");
     const [email_name, setEmailName] = useState(loc.state !== null ? loc.state.groupName : "Email");
@@ -61,6 +62,8 @@ export default function SchoolCreator({}) {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
+            Translate('en', lang, "LinGrow School Creator").then((response) => setTabHeader(response));
+            Translate('en', lang, "School Creator").then(response => setHeader(response));
             Translate('en', lang, "Create New School").then(response => setHeader(response));
             Translate('en', lang, "Create School").then(response => setSubmitBtn(response));
             Translate('en', lang, "School Name").then(response => setGroupName(response));
@@ -83,18 +86,24 @@ export default function SchoolCreator({}) {
         return () => window.removeEventListener("New language set", translateMessage);
     });
 
+    // page for creation of schools
     return (
-        <Card style={{minHeight:"fit-content"}}>
+        <div className="bg">
+        <Card className="function_card">
             <Helmet>
                     <meta charSet="utf-8" />
-                    <title>School Creation</title>
+                    <title>{tab_header}</title>
             </Helmet>
             <LanguageList />
-            <h1>{group_create_header}</h1>
+            <Card className="title_card">
+                <h1>{group_create_header}</h1>
+            </Card>
+            
             <input type="text" className="form-control" id="school_name" placeholder={group_name} onChange={e => setGroupName(e.target.value)}/>
             <input type="text" className="form-control" id="school_email" placeholder={email_name} onChange={e => setEmailName(e.target.value)}/>
             <input type="text" className="form-control" id="school_id" placeholder={group_id} onChange={e => setGroupID(e.target.value)} />
             <Button variant="primary" type="submit" id="submit" style={{minWidth:"100px"}} onClick={handleCreate}>{submit_btn}</Button>
         </Card>
+        </div>
     );
 }

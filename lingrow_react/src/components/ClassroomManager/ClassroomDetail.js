@@ -1,17 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Card } from 'react-bootstrap';
+import { Button, Card, Navbar, Nav, Container } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
+import {Helmet} from 'react-helmet';
 
+import logo from "../Img/lingrow.png";
 import LanguageList from "../Translate/LanguageList";
 import Translate from "../Translate/Translate";
+import DashNav from '../DashNav/DashNav';
 
 // Allows users to view classrooms
 export default function ClassroomManager() {
     const nav = useNavigate();
     let location = useLocation();
 
+    const userType = JSON.parse(sessionStorage.getItem('userType'));
     // State variables.
+    const [tab_header, setTabHeader] = useState("LinGrow Class Detail");
     const [group_display_header, setHeader] = useState("Single classroom");
     const [no_group_message, setNoGroupsFound] = useState("No users are in this classroom yet...");
     const [translated, setTranslated] = useState(0);
@@ -50,6 +55,7 @@ export default function ClassroomManager() {
     const translateMessage = useCallback((e) => {
         let lang = localStorage.getItem('lang');
         if (lang) {
+            Translate('en', lang, "LinGrow Class Detail").then((response) => setTabHeader(response));
             Translate('en', lang, "Single classroom").then(response => setHeader(response));
             Translate('en', lang, "No users are in this classroom yet...").then(response => setNoGroupsFound(response));
         }
@@ -90,8 +96,15 @@ export default function ClassroomManager() {
     }
     else {
         return (
-            <Card style={{minHeight:"fit-content"}}>
+            <div className='bg'>
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>{tab_header}</title>
+            </Helmet>
+            <Card>
+                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
                 <LanguageList />
+                <DashNav/>
                 <h1>{group_display_header}</h1>
                 <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>Create New Group</Button>
                 <div style={{ display: 'block', width: 400, padding: 30 }}>
@@ -108,6 +121,7 @@ export default function ClassroomManager() {
                     }
                 </div>
             </Card>
+            </div>
         );
     }
 }

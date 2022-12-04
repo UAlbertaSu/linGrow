@@ -77,24 +77,27 @@ export default function UserManager() {
         return () => window.removeEventListener("New language set", translateMessage);
     });
 
+    // Page for specific searching involving parent's and teachers
     return (
-        <Card className='function_card'>
-            <LanguageList />
-            <h1>{header}</h1>
-            <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>{addUsers}</Button>
-            <div style={{ display: 'block', width: 400, padding: 30 }}>
-                {
-                    groups.length > 0 ? 
-                        <ListGroup>
-                            {groups.map((elem) => 
-                            <ListGroup.Item action id={elem.id} key={elem.id} value={elem.id}>
-                                {[elem.first_name, elem.middle_name, elem.last_name].join(" ")}
-                            </ListGroup.Item>)}
-                        </ListGroup> 
-                    :
-                        <ListGroup>{<ListGroup.Item disabled >{no_user_message}</ListGroup.Item>}</ListGroup>
-                }
-            </div>
-        </Card>
+        <div className="bg">
+            <Card className='function_card'>
+                <LanguageList />
+                <h1>{header}</h1>
+                <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>{addUsers}</Button>
+                <div style={{ display: 'block', width: 400, padding: 30 }}>
+                    {
+                        groups.length > 0 ? 
+                            <ListGroup>
+                                {groups.map((elem) => 
+                                <ListGroup.Item action id={elem.id} key={elem.id} value={elem.id}>
+                                    {[elem.first_name, elem.middle_name, elem.last_name].join(" ")}
+                                </ListGroup.Item>)}
+                            </ListGroup> 
+                        :
+                            <ListGroup>{<ListGroup.Item disabled >{no_user_message}</ListGroup.Item>}</ListGroup>
+                    }
+                </div>
+            </Card>
+        </div>
     );
 }

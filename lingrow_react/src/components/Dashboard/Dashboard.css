@@ -4,14 +4,17 @@
     width: fit-content;
 }
 
-.navbar{
-    background-color: rgb(124, 194, 255);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    min-width: none;
-    min-height:"fit-content";
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.title_card{
+    margin: var(--margin-vsmall);
+    position: relative;
+    left: auto;
+    height: fit-content;
+    width: fit-content;
+    min-width: 250px;
+    background: rgb(255, 255, 255);
+    padding: 0px;
+    margin-Top: 20px;
+    margin-bottom: 10px;
 }
 
 .btn{

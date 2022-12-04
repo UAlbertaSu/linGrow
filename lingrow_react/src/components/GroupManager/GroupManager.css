@@ -3,9 +3,10 @@
     min-width: fit-content;
     width: 40%;
     left: 30%;
-    top: 10%;
+    top: 7%;
     padding-top: 30px;
-    padding-bottom: 30px
+    padding-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 @media only screen and (max-width: 800px) {
