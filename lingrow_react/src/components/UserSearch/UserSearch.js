@@ -9,6 +9,8 @@ import clouds from '../Img/clouds.png';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
+//A user search component that allows users to search for certain users depending on user type
+
 function UserSearch(){
 
     const loc = useLocation();

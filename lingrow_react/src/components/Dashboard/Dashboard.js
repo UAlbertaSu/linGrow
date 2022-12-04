@@ -11,6 +11,9 @@ import logo from "../Img/lingrow.png";
 import home_icon from "../Img/home_icon.png";
 import user_icon from "../Img/user_icon.png";
 
+// A dashboard page that acts as the main navigation page for all users, 
+// what is displayed is dependent on which user type is logged in.
+
 export default function Dashboard({ userType }) {
     const nav = useNavigate();
 

@@ -11,6 +11,9 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button'
 
 
+//Allows the user to sign up, upon successful, should redirect to login page. 
+
+
 export default function Form() {
 
     const nav = useNavigate();
