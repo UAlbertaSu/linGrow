@@ -2,7 +2,8 @@ from rest_framework import serializers
 from admin_school_management.models import School, Classroom
 from account.models import Teacher, Parent
 
-
+# Serializers for School and Classroom
+# Includes school and classroom; details and registration
 class SchoolDetailSerializer(serializers.ModelSerializer):
     '''
     Serializer to get school details

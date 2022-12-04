@@ -3,6 +3,7 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 
 
+# Test cases for the admin_school api
 class SchoolTests(APITestCase):
     '''
     Test cases for the following endpoints:
