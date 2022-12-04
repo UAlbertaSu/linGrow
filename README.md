@@ -1,5 +1,6 @@
 # lingrow
 linGrow (Multilingual Families Lab, U of A)
+To get familiar with our app, please read User Manual.pdf first
 
 ---
 
