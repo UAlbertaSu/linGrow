@@ -22,6 +22,7 @@ export default function AdminAddUser() {
     const [schools, setSchools] = useState([]);
     const [classrooms, setClassrooms] = useState([]);
     const [schoolID, setSchoolID] = useState();
+    const [selected, setSelected] = useState([]);
 
     // States needed for translation.
     const [tab_header, setTabHeader] = useState("LinGrow User Creator");
@@ -81,7 +82,7 @@ export default function AdminAddUser() {
     }
 
 
-    // used for getting school array
+    // used for getting initial schools 
     const setInitialState = () => {
         let arr = [];
 
@@ -101,10 +102,8 @@ export default function AdminAddUser() {
         });
     }
 
-    
     // get classrooms of selected school
     const handleDetail = (elem) => {
-        // setSchoolID(elem.id)
         let arr = [];
 
         fetch(`http://127.0.0.1:8000/api/school/${elem.id}/classroom`,{
@@ -122,7 +121,23 @@ export default function AdminAddUser() {
             setClassrooms(arr);
         }).then(() => {
             setSchoolID(elem.id);
+        }).then(() => {
+            setSelected([]);  // need to clear selected classrooms when new school selected
         });
+    }
+
+    // get selected classrooms 
+    // TODO: teachers can be in multiple classrooms, but not children, should we make a separate single selector for children?
+    const selectListItem = (item) => {
+        if (selected.includes(item)) {
+            setSelected(selected.filter((i) => i !== item));
+        }
+        else {
+            setSelected(
+                [...selected,
+                item]
+            )
+        }
     }
 
     const handleSubmit = async (event) => {
@@ -137,6 +152,14 @@ export default function AdminAddUser() {
             "middle_name": current_middleName,
             "last_name": current_lastName,
         }
+
+        if (current_userType === "2") {
+            // indexing is off by 1
+            user['school'] = schools[schoolID-1];
+            user['classroom'] = classrooms[selected-1];
+        }
+
+        console.log(user);
 
         let request = {
             "users": [user]
@@ -285,8 +308,7 @@ export default function AdminAddUser() {
                 <input className='form-control' type="text" placeholder={firstName} id="first_name" onChange={handleFirstName} />
                 <input className='form-control' type="text" placeholder={middleName} id="middle_name" onChange={handleMiddleName} />
                 <input className='form-control' type="text" placeholder={lastName} id="last_name" onChange={handleLastName} />
-                <input className='form-control' type="text" placeholder={lastName} id="last_name" onChange={handleLastName} />
-                    <div style={{ display: 'block', width: 400, padding: 30 }}>
+                    <div style={{ display: 'block', width: 400, padding: 15 }}>  
                     {
                         <div> 
                         {current_userType === "1" || current_userType === "2" ? 
@@ -307,7 +329,7 @@ export default function AdminAddUser() {
                         </div>
                     }
                     </div>
-                    <div style={{ display: 'block', width: 400, padding: 30 }}>
+                    <div style={{ display: 'block', width: 400, padding: 15 }}>
                     {
                         <div> 
                         {(current_userType === "1" && schoolID !== undefined) || (current_userType === "2" && schoolID !== undefined) ? 
@@ -316,7 +338,7 @@ export default function AdminAddUser() {
                                 classrooms.length > 0 ? 
                                     <ListGroup>
                                         {classrooms.map((elem) => 
-                                        <ListGroup.Item action onClick={() => handleDetail(elem)} id={elem.id} key={elem.id} value={elem.id}>
+                                        <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} id={elem.id} key={elem.id} value={elem.id}>
                                             {[elem.name]}
                                         </ListGroup.Item>)}
                                     </ListGroup> 
@@ -327,11 +349,7 @@ export default function AdminAddUser() {
                          : null}
                         </div>
                     }
-                    </div>
-
-
-
-                
+                    </div> 
                 
                 <div style={{padding: 20}}>
                     <Button variant="primary" type="submit" id="submit" onClick={handleSubmit} >{addUserBtn}</Button>
