@@ -129,7 +129,7 @@ export default function Login() {
         <div>
                 <Helmet>
                     <meta charSet="utf-8" />
-                    <title>linGrow-Login</title>
+                    <title>LinGrow Login</title>
                 </Helmet>
                 <Card>
                 <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px"}}/></a>

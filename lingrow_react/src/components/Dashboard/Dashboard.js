@@ -127,7 +127,7 @@ export default function Dashboard({ userType }) {
                 </Container>
             </Navbar>
             <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px"}}>
-                <Button variant="primary" type="submit" id="chat" style={{minWidth:"150px"}}>{chat}</Button>  
+                <Button href="chat" variant="primary" type="submit" id="chat" style={{minWidth:"150px"}}>{chat}</Button>  
                 <div>{userType === 4 ? <Button href="/schoolmanager" variant="primary" type="submit" id="manageSchools" style={{minWidth:"150px"}}>{manageSchools}</Button> : null}</div>
                 <div>{userType > 1 ? <Button variant="primary" type="submit" id="searchUsers" onClick = {searchUserHandler}style={{minWidth:"150px"}}>{searchUsers}</Button> : null}</div>
                 <div>{userType === 4 ? <Button href="/usermanager" variant="primary" type="submit" id="manageUsers" style={{minWidth:"150px"}}>{manageUsers}</Button> : null}</div>

@@ -5,6 +5,7 @@ import { Button, Card } from 'react-bootstrap';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
+import Helmet from 'react-helmet';
 import logo from "../Img/lingrow.png";
 import './Activities.css';
 
@@ -49,6 +50,10 @@ export default function Activities() {
     return (
 
         <Card style={{height:"80%"}}>
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>LinGrow Activities</title>
+            </Helmet>
             <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
             <LanguageList />
             <h1>{header}</h1>

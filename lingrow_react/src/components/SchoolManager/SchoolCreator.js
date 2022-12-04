@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
+import Helmet from 'react-helmet';
 
 // Allows users to create a new school
 export default function SchoolCreator({}) {
@@ -84,6 +85,10 @@ export default function SchoolCreator({}) {
 
     return (
         <Card style={{minHeight:"fit-content"}}>
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>School Creation</title>
+            </Helmet>
             <LanguageList />
             <h1>{group_create_header}</h1>
             <input type="text" className="form-control" id="school_name" placeholder={group_name} onChange={e => setGroupName(e.target.value)}/>

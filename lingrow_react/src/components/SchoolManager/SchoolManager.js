@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import LanguageList from "../Translate/LanguageList";
 import Translate from "../Translate/Translate";
+import Helmet from 'react-helmet';
 
 // Allows users to view schools
 export default function SchoolManager({userType}) {
@@ -79,6 +80,10 @@ export default function SchoolManager({userType}) {
 
     return (
         <Card className='function_card'>
+            <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>School Manager</title>
+            </Helmet>
             <LanguageList />
             <h1>{group_display_header}</h1>
             <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>Create New Group</Button>
