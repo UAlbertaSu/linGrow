@@ -74,6 +74,18 @@ export default function UserInfo({ userType }) {
         }
     });
 
+    const createSchoolList = () => {
+        
+    }
+
+    const createClassroomList = () => {
+
+    }
+
+    useEffect(() => {
+
+    }, []);
+
     useEffect(() => {
         // Prevents page from being constantly translated.
         if (!translated) {
@@ -117,8 +129,8 @@ export default function UserInfo({ userType }) {
                         <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{password_header}</Card.Title>
                         <div>{userType === 1 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{childs_name_header}</Card.Title> : null}</div>
                         <div>{userType === 1 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{teachers_header}</Card.Title> : null}</div>
-                        <div>{userType === 1 || userType === 2 || userType === 3 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{classrooms_header}</Card.Title> : null}</div>
                         <div>{userType === 1 || userType === 2 || userType === 3 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{schools_header}</Card.Title> : null}</div>
+                        <div>{userType === 1 || userType === 2 || userType === 3 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{classrooms_header}</Card.Title> : null}</div>
                     </Col>
                     <Col className="info_col">
                         <div>{userType === 1 ? <Card.Title style={{margin:"10px"}}>{parent}</Card.Title> : null}</div>
@@ -131,6 +143,16 @@ export default function UserInfo({ userType }) {
                         <input type="text" className="form-control" id="password_input" placeholder={password_input} onChange={e => setPasswordInput(e.target.value)} />
                         <div>{userType === 1 ? <input type="text" className="form-control" id="childs_name_input" placeholder={childs_name_input} onChange={e => setChildsNameInput(e.target.value)} /> : null}</div>
                         <div>{userType === 1 ? <h5>{childs_name_header}</h5> : null}</div>
+                        <div>{userType === 2 ? (<select id="school-select" className="form-control">
+                            <option disabled selected value> -- select an option -- </option>
+                        </select>) : (
+                            null
+                        )}</div>
+                        <div>{userType === 2 ? (<select id="classroom-select" className="form-control">
+                            <option disabled selected value> -- select an option -- </option>
+                        </select>) : (
+                            null
+                        )}</div>
                     </Col>
                 </Row>
             </Card>
