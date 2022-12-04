@@ -61,10 +61,11 @@ class NewChatView(APIView):
     def get(self, request):
         current_user = request.user
         addable = chat_utility_functions.get_addable_users_private_chat(request)
+        addable_users = []
         for user in addable:
-            if PrivateChat.objects.filter(Q(participant1=current_user, participant2=user) | Q(participant1=user, participant2=current_user)).exists():
-                addable.remove(user)
-        serializer = UserProfileSerializer(addable, many=True)
+            if not PrivateChat.objects.filter(Q(participant1=current_user, participant2=user) | Q(participant1=user, participant2=current_user)).exists():
+                addable_users.append(user)
+        serializer = UserProfileSerializer(addable_users, many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 class CreateChatView(APIView):
