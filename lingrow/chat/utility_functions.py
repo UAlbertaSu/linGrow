@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import Count
 from django.conf import settings
 from django.db.models import Q
-from account.models import User, Parent, Teacher, Child
+from account.models import User, Parent, Teacher, Child, Researcher
 from account.enums import UserType
 from chat.models import Chat, PrivateChat, Message, TeacherGroupChat, ParentGroupChat, ResearcherGroupChat
 
@@ -23,22 +23,25 @@ def get_user_group_chats(request):
     researcher_groups = []
     if user.is_teacher():
         teacher = Teacher.objects.get(user=user)
-        for group in TeacherGroupChat.objects.all().filter(group__teacher__id__exact=teacher.id): teacher_groups.append(group.id_chat)
+        for group in TeacherGroupChat.objects.all().filter(group__teacher__in=[teacher]): 
+            teacher_groups.append(group)
         if teacher.school:
-            group = ParentGroupChat.objects.all().filter(Q(group__school=teacher.school, group__owner__isnull=True,group__classroom__isnull=True))
-            parent_groups.append(group.id_chat)
+            for group in ParentGroupChat.objects.all().filter(Q(group__school=teacher.school, group__owner__isnull=True,group__classroom__isnull=True)):
+                parent_groups.append(group)
             
         if teacher.school and teacher.classrooms:
             for group in ParentGroupChat.objects.all().filter(Q(group__classroom__in=teacher.classrooms.all(), group__owner__isnull=True, group__school=teacher.school)):
-                parent_groups.append(group.id_chat)
+                parent_groups.append(group)
 
         for group in ParentGroupChat.objects.all().filter(Q(group__owner=user)): parent_groups.append(group)
 
     elif user.is_parent():
-        for group in ParentGroupChat.objects.all().filter(group__parent__id__exact=user.id): parent_groups.append(group)
+        parent = Parent.objects.get(user=user)
+        for group in ParentGroupChat.objects.all().filter(group__parent__in=[parent]): parent_groups.append(group)
 
     elif user.is_researcher():
-        for group in ResearcherGroupChat.objects.all().filter(group__researcher__id__exact=user.id): researcher_groups.append(group)
+        researcher = Researcher.objects.get(user=user)
+        for group in ResearcherGroupChat.objects.all().filter(group__researcher__in=[researcher]): researcher_groups.append(group)
         for group in TeacherGroupChat.objects.all().filter(group__owner=user): teacher_groups.append(group)
         for group in ParentGroupChat.objects.all().filter(group__owner=user) : parent_groups.append(group)
 

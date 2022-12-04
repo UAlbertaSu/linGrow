@@ -49,7 +49,7 @@ export default function AdminAddUser() {
     const [current_email, setCurrentEmail] = useState();
 
     // states for a child
-    const [, setCurrentEmail] = useState();
+    
 
 
     // Expand example image for .csv or .xlsx file format.

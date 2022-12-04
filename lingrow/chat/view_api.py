@@ -121,6 +121,7 @@ class SendMessageView(APIView):
         chat = Chat.objects.get(id_chat=chat_id)
         text_message = request.data.get("message")
         lang = detect_language(text_message)
+        print(lang)
         if lang != 'en':
             text_message = translate_text(text_message, lang,'en')
         response = {}
