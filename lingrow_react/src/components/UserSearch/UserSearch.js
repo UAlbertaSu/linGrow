@@ -70,7 +70,7 @@ function UserSearch(){
         }
         
         
-        // if account is admin, search all users
+        // if account is admin, search all users. (admins dont get a choice on who to search)
         if (userType === 4){
             
             fetch(
@@ -93,8 +93,8 @@ function UserSearch(){
         })
         }
 
-        //if search criteria is for parents, search only parents
-        if (userChoice === 1){
+        //else if search criteria is for parents, search only parents
+        else if (userChoice === 1){
           
             fetch(
                 `http://127.0.0.1:8000/api/search/parents/${enteredUserSearch}`,{
@@ -117,8 +117,8 @@ function UserSearch(){
         })
         }
          
-        // if search criteria is for teachers, search only teachers
-        if (userChoice === 2){
+        // else if search criteria is for teachers, search only teachers
+        else if (userChoice === 2){
             let url = `http://127.0.0.1:8000/api/search/teachers/${enteredUserSearch}`;
             fetch(
                 url,{
@@ -141,8 +141,8 @@ function UserSearch(){
         })
         }
 
-        // if search criteria is researchers, search only researchers
-        if (userChoice === 3){
+        // else if search criteria is researchers, search only researchers
+        else if (userChoice === 3){
           
             fetch(
                 `http://127.0.0.1:8000/api/search/researchers/${enteredUserSearch}`,{
