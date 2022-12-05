@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Card, ListGroup, Button } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 import './Signup.css';
@@ -100,9 +100,7 @@ export default function RegisterChild() {
             });
         });
 
-        promise.then(() => {
-            console.log(parentID);
-
+        promise.then(async () => {
             if (document.getElementById("child_middle_name").value !== "") {
                 request = {
                     "parent": parentID,
@@ -141,8 +139,53 @@ export default function RegisterChild() {
         });
     }
 
-    const [tab_header, setTabHeader] = useState('Child Registration');
+    const [tab_header, setTabHeader] = useState('LinGrow Child Registration');
+    const [header, setHeader] = useState('Child Registration');
     const [register_btn, setRegisterBtn] = useState('Register');
+    const [first_name, setFirstName] = useState('First Name');
+    const [middle_name, setMiddleName] = useState('Middle Name');
+    const [last_name, setLastName] = useState('Last Name');
+    const [student_id, setStudentID] = useState('Student ID');
+    const [school, setSchool] = useState('School');
+    const [classroom, setClassroom] = useState('Classroom');
+
+    const [first_name_placeholder, setFirstNamePlaceholder] = useState("Enter Child's First Name");
+    const [middle_name_placeholder, setMiddleNamePlaceholder] = useState("Enter Child's Middle Name");
+    const [last_name_placeholder, setLastNamePlaceholder] = useState("Enter Child's Last Name");
+    const [student_id_placeholder, setStudentIDPlaceholder] = useState("Enter Child's Student ID");
+
+    // Setter for initial page translation.
+    const [translated, setTranslated] = useState(0);
+    
+    const translateMessage = useCallback((e) => {
+        let lang = localStorage.getItem('lang');
+        if (lang) {
+            Translate('en', lang, 'LinGrow Child Registration').then(response => setTabHeader(response));
+            Translate('en', lang, 'Child Registration').then(response => setHeader(response));
+            Translate('en', lang, 'Register').then(response => setRegisterBtn(response));
+            Translate('en', lang, 'First Name').then(response => setFirstName(response));
+            Translate('en', lang, 'Middle Name').then(response => setMiddleName(response));
+            Translate('en', lang, 'Last Name').then(response => setLastName(response));
+            Translate('en', lang, 'Student ID').then(response => setStudentID(response));
+            Translate('en', lang, 'School').then(response => setSchool(response));
+            Translate('en', lang, 'Classroom').then(response => setClassroom(response));
+            Translate('en', lang, "Enter Child's First Name").then(response => setFirstNamePlaceholder(response));
+            Translate('en', lang, "Enter Child's Middle Name").then(response => setMiddleNamePlaceholder(response));
+            Translate('en', lang, "Enter Child's Last Name").then(response => setLastNamePlaceholder(response));
+            Translate('en', lang, "Enter Child's Student ID").then(response => setStudentIDPlaceholder(response));
+        }
+    });
+    
+    useEffect(() => {
+        // Prevents page from being constantly translated.
+        if (!translated) {
+            translateMessage();
+            setTranslated(1);
+        }
+    
+        window.addEventListener("New language set", translateMessage);
+        return () => window.removeEventListener("New language set", translateMessage);
+    });
 
     const [loaded, setLoaded] = useState(false);
 
@@ -153,6 +196,8 @@ export default function RegisterChild() {
         }
     });
 
+
+
     return (
         <div className="bg">
             <Helmet>
@@ -162,15 +207,15 @@ export default function RegisterChild() {
             <Card className="signup" style={{}}>
                 <LanguageList />
                 { /* Child signup details */ }
-                <h1>Child Registration</h1>
-                <label className="label">First Name</label>
-                <input className="form-control" type="text" id="child_first_name" placeholder="Enter Child's First Name" />
-                <label className="label">Middle Name</label>
-                <input className="form-control" type="text" id="child_middle_name" placeholder="Enter Child's Middle Name" />
-                <label className="label">Last Name</label>
-                <input className="form-control" type="text" id="child_last_name" placeholder="Enter Child's Last Name" />
-                <label className="label">Student ID</label>
-                <input className="form-control" type="text" id="child_student_id" placeholder="Enter Child's Student ID" />
+                <h1>{header}</h1>
+                <label className="label">{first_name}</label>
+                <input className="form-control" type="text" id="child_first_name" placeholder={first_name_placeholder} />
+                <label className="label">{middle_name}</label>
+                <input className="form-control" type="text" id="child_middle_name" placeholder={middle_name_placeholder} />
+                <label className="label">{last_name}</label>
+                <input className="form-control" type="text" id="child_last_name" placeholder={last_name_placeholder} />
+                <label className="label">{student_id}</label>
+                <input className="form-control" type="text" id="child_student_id" placeholder={student_id_placeholder} />
                 <div style={{padding: 10}} />
                 <label className="label">School</label>
                 <ListGroup>
