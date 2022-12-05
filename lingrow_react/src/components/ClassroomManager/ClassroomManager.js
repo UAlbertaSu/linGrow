@@ -18,7 +18,7 @@ export default function ClassroomManager() {
     const [tab_header, setTabHeader] = useState("LinGrow Class Manager");
     const [group_display_header, setHeader] = useState("Classroom Manager");
     const [no_group_message, setNoGroupsFound] = useState("No classrooms have been made yet...");
-    const [create_classroom_btn, setCreateClassroomBtn] = useState("Create Classrooms");
+    const [create_classroom_btn, setCreateClassroomBtn] = useState("Create New Classroom");
     const [translated, setTranslated] = useState(0);
     const [groups, setGroups] = useState([]);
     const [error, setError] = useState(0);
@@ -56,7 +56,7 @@ export default function ClassroomManager() {
             Translate('en', lang, "LinGrow Class Manager").then((response) => setTabHeader(response));
             Translate('en', lang, "Classroom Manager").then(response => setHeader(response));
             Translate('en', lang, "No classrooms have been made yet...").then(response => setNoGroupsFound(response));
-            Translate('en', lang, "Creat New Class").then(response => setCreateClassroomBtn(response));
+            Translate('en', lang, "Create New Classroom").then(response => setCreateClassroomBtn(response));
         }
     });
 

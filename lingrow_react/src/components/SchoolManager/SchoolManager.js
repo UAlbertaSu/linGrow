@@ -16,7 +16,7 @@ export default function SchoolManager({userType}) {
     // State variables.
     const [tab_header, setTabHeader] = useState("LinGrow School Manager");
     const [group_display_header, setHeader] = useState("Schools");
-    const [create_school, setCreateSchool] = useState("Create School");
+    const [create_school, setCreateSchool] = useState("Create New School");
     const [no_group_message, setNoGroupsFound] = useState("No schools have been made yet...");
     const [translated, setTranslated] = useState(0);
     const [groups, setGroups] = useState([]);
@@ -47,7 +47,7 @@ export default function SchoolManager({userType}) {
         if (lang) {
             Translate('en', lang, "LinGrow School Manager").then((response) => setTabHeader(response));
             Translate('en', lang, "Schools").then(response => setHeader(response));
-            Translate('en', lang, "Create School").then(response => setCreateSchool(response));
+            Translate('en', lang, "Create New School").then(response => setCreateSchool(response));
             Translate('en', lang, "No schools have been made yet...").then(response => setNoGroupsFound(response));
         }
     });
