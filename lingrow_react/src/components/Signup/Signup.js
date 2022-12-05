@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
-import { useDropzone } from 'react-dropzone';
 import {Helmet} from 'react-helmet';
 
 import LanguageList from '../Translate/LanguageList';
@@ -10,6 +9,7 @@ import './Signup.css';
 import 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button'
+import { ListGroup } from 'react-bootstrap';
 
 export default function Form() {
 
@@ -26,12 +26,6 @@ export default function Form() {
     const [enter_middle_msg, setEnterMiddleMsg] = useState("Enter Middle Name");
     const [last_msg, setLastMsg] = useState("Last name");
     const [enter_last_msg, setEnterLastMsg] = useState("Enter Last Name");
-    const [type_msg, setTypeMsg] = useState("User type");
-    const [enter_type_msg, setEnterTypeMsg] = useState("Please select User Type");
-    const [parent_msg, setParentMsg] = useState("Parent");
-    const [teacher_msg, setTeacherMsg] = useState("Teacher");
-    const [researcher_msg, setResearcherMsg] = useState("Researcher");
-    const [admin_msg, setAdminMsg] = useState("Admin");
     const [pass_msg, setPasswordMsg] = useState("Password");
     const [enter_pass_msg, setEnterPasswordMsg] = useState("Enter password");
     const [confirm_msg, setConfirmPasswordMsg] = useState("Confirm password");
@@ -42,7 +36,6 @@ export default function Form() {
     const [require_msg, setRequiredMsg] = useState("Field with * must be filled out");
     const [register_btn, setRegisterBtn] = useState("Register");
 
-
     async function signupUser(credentials) {
         console.log(credentials);
         return fetch('http://127.0.0.1:8000/api/user/register/', {
@@ -51,16 +44,21 @@ export default function Form() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(credentials)
-        }).then(data => {
-            console.log(data);
-            if (data['status'] === 201) {
+        }).then(data => data.json()
+        ).then(data => {
+            if (data.token) {
                 setSubmitted(true);
                 setError(false);
-                nav("/login");
+                console.log(data.user, data.token.access);
+                registerChild(data.user.id, data.token.access);
             }
             else {
                 setSubmitted(false);
                 setError(true);
+            }
+        }).then(() => {
+            if (submitted) {
+                nav("/login");
             }
         })
     }
@@ -69,7 +67,7 @@ export default function Form() {
     const [email, setEmail] = useState('');
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
-    const [user_type, setUserType] = useState('');
+    const [user_type, setUserType] = useState(1);
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const [child_name, setChildName] = useState('');
@@ -126,11 +124,9 @@ export default function Form() {
         else if (password !== password2) {
             setError(true);
         }
-        else if (user_type === '1' && child_name === '') {
-            setError(true);
-        }
         else {
             e.preventDefault();
+
             signupUser({
                 "email": email,
                 "first_name": first_name,
@@ -138,7 +134,6 @@ export default function Form() {
                 "user_type": user_type,
                 "password": password,
                 "password2": password2,
-                "child_name": child_name,
                 "middle_name": middle_name
             });
 
@@ -146,6 +141,48 @@ export default function Form() {
             // nav("/dashboard");
         }
     };
+
+    const registerChild = async (parentID, token) => {
+        let request;
+        
+        if (document.getElementById("child_middle_name").value !== "") {
+            request = {
+                "parent": parentID,
+                "first_name": document.getElementById("child_first_name").value,
+                "middle_name": document.getElementById("child_middle_name").value,
+                "last_name": document.getElementById("child_last_name").value,
+                "student_id": document.getElementById("child_student_id").value,
+                "school": document.getElementById("school_id").value,
+                "classroom": document.getElementById("classroom_id").value
+            }
+        }
+        else {
+            request = {
+                "parent": parentID,
+                "first_name": document.getElementById("child_first_name").value,
+                "last_name": document.getElementById("child_last_name").value,
+                "student_id": document.getElementById("child_student_id").value,
+                "school": document.getElementById("school_id").value,
+                "classroom": document.getElementById("classroom_id").value
+            }
+        }
+
+        console.log(JSON.stringify(request));
+
+        return fetch(`http://127.0.0.1:8000/api/user/child/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(request)
+        }).then(data => data.json()
+        ).then(data => {
+            console.log(data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
 
     const [translated, setTranslated] = useState(0);
 
@@ -173,18 +210,11 @@ export default function Form() {
             Translate('en', lang, "Enter Middle Name").then(response => setEnterMiddleMsg(response));
             Translate('en', lang, "Last name*").then(response => setLastMsg(response));
             Translate('en', lang, "Enter Last Name").then(response => setEnterLastMsg(response));
-            Translate('en', lang, "User type*").then(response => setTypeMsg(response));
-            Translate('en', lang, "Please select User Type").then(response => setEnterTypeMsg(response));
-            Translate('en', lang, "Parent").then(response => setParentMsg(response));
-            Translate('en', lang, "Teacher").then(response => setTeacherMsg(response));
-            Translate('en', lang, "Researcher").then(response => setResearcherMsg(response));
-            Translate('en', lang, "Admin").then(response => setAdminMsg(response));
-            Translate('en', lang, "Please Select User Type").then(response => setEnterTypeMsg(response));
             Translate('en', lang, "Password*").then(response => setPasswordMsg(response));
             Translate('en', lang, "Enter Password").then(response => setEnterPasswordMsg(response));
             Translate('en', lang, "Confirm password*").then(response => setConfirmPasswordMsg(response));
             Translate('en', lang, "Enter password again").then(response => setEnterConfirmPasswordMsg(response));
-            Translate('en', lang, "Child's Name*").then(response => setChildMsg(response));
+            Translate('en', lang, "Child's Name").then(response => setChildMsg(response));
             Translate('en', lang, "Enter Child's Name").then(response => setEnterChildMsg(response));
             Translate('en', lang, "Error").then(response => setErrorMsg(response));
             Translate('en', lang, "Field with * is required").then(response => setRequiredMsg(response));
@@ -213,6 +243,7 @@ export default function Form() {
             </div>
         );
     };
+
     // self signup page for parents
     return (
         <div className="bg">
@@ -223,7 +254,7 @@ export default function Form() {
             <Card className="signup" style={{}}>
                         <LanguageList />
                         <h1>{header}</h1>
-                            {/* Labels and inputs for form data */}
+                        { /* Parent signup details */ }
                         <label className="label">{email_msg}</label>
                         <input className="form-control" type="text" id="email" placeholder={enter_email_msg} value={email} onChange={handleEmail} />
                         <label className="label">{first_msg}</label>
@@ -236,8 +267,6 @@ export default function Form() {
                         <input className="form-control" type="password" id="password1" placeholder={enter_pass_msg} value={password} onChange={handlePassword} />
                         <label className="label">{confirm_msg}</label>
                         <input className="form-control" type="password" id="password2" placeholder={enter_confirm_msg} value={password2} onChange={handleConfirmPassword} />
-                        <label className="label">{child_msg}</label>
-                        <input className="form-control" type="text" id="child_name" placeholder={enter_child_msg} value={child_name} onChange={handleChildName} />
                         <label classname="label" style={{fontWeight:"Bold"}}>{require_msg}</label>
                         <div className="message">
                             {errorMessage()}

@@ -23,6 +23,7 @@ import DirectChat from '../Chat/DirectChat';
 import NewChat from '../Chat/NewChat';
 import GroupChat from '../Chat/GroupChat';
 import ViewChat from '../Chat/ViewChat';
+import ChildSignup from '../Signup/ChildSignup';
 
 
 function App() {
@@ -58,7 +59,7 @@ function App() {
           <Route path="/classroommanager" element={<ClassroomManager/ >}></Route>
           <Route path="/classroomdetail" element={<ClassroomDetail/ >}></Route>
           <Route path="/classroomcreator" element={<ClassroomCreator/ >}></Route>
-
+          <Route path="/childsignup" element={<ChildSignup/ >}></Route>
         </Routes>
       </BrowserRouter>
     </div>

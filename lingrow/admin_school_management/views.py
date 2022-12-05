@@ -9,6 +9,7 @@ from admin_school_management.serializers import SchoolRegistrationSerializer, \
 from drf_yasg.utils import swagger_auto_schema
 from group_management.models import ParentGroup, TeacherGroup
 from chat.models import TeacherGroupChat, ParentGroupChat
+from account.permissions import IsParent
 
 
 # Views form school and classroom. 
@@ -18,13 +19,16 @@ class SchoolRegistrationView(APIView):
     View to register a school
     '''
     renderer_classes = [SchoolRenderer]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsAuthenticated, IsAdminUser | IsParent]
 
     @swagger_auto_schema(operation_description="Add a new School",responses={201: SchoolDetailSerializer,400: "Bad Request"})
     def post(self,request):
         '''
         Post method to register a school
         '''
+        if (request.user.is_parent()):
+            return Response({'error': 'Only admin can add a school'}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = SchoolRegistrationSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             school = serializer.save()
@@ -108,13 +112,16 @@ class ClassroomRegistrationView(APIView):
     View to register a classroom
     '''
     renderer_classes = [SchoolRenderer]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsAuthenticated, IsAdminUser | IsParent]
 
     @swagger_auto_schema(operation_description="Add a new Classroom",responses={201: ClassroomDetailSerializer,400: "Bad Request"})
     def post(self,request,pk):
         '''
         Post method to register a classroom
         '''
+        if (request.user.is_parent()):
+            return Response({'error': 'Only admin can add a classroom'}, status=status.HTTP_400_BAD_REQUEST)
+
         if not School.objects.filter(pk=pk).exists():
             return Response({'errors': 'School with id {} does not exist'.format(pk)}, status=status.HTTP_404_NOT_FOUND)
         request.data['school'] = pk

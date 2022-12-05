@@ -137,6 +137,48 @@ export default function AdminAddUser() {
         }
     }
 
+    const registerChild = async (parentID) => {
+        let request;
+        
+        if (document.getElementById("child_middle_name").value !== "") {
+            request = {
+                "parent": parentID,
+                "first_name": document.getElementById("child_first_name").value,
+                "middle_name": document.getElementById("child_middle_name").value,
+                "last_name": document.getElementById("child_last_name").value,
+                "student_id": document.getElementById("child_student_id").value,
+                "school": document.getElementById("school_id").value,
+                "classroom": document.getElementById("classroom_id").value
+            }
+        }
+        else {
+            request = {
+                "parent": parentID,
+                "first_name": document.getElementById("child_first_name").value,
+                "last_name": document.getElementById("child_last_name").value,
+                "student_id": document.getElementById("child_student_id").value,
+                "school": document.getElementById("school_id").value,
+                "classroom": document.getElementById("classroom_id").value
+            }
+        }
+
+        console.log(JSON.stringify(request));
+
+        return fetch(`http://127.0.0.1:8000/api/user/parent/${parentID}/child/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(request)
+        }).then(data => data.json()
+        ).then(data => {
+            console.log(data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -156,7 +198,10 @@ export default function AdminAddUser() {
             user['classrooms'] = selected;
         }
 
-        console.log(user);
+        if (current_userType === "1") {
+            // Register child
+
+        }
 
         let request = {
             "users": [user]
@@ -172,6 +217,8 @@ export default function AdminAddUser() {
         }).then(data => data.json()
         ).then(data => {
             console.log(data);
+            let parentID = data.created_users[0].id;
+            registerChild(parentID);
         }).catch(error => {
             console.log(error);
         });
@@ -217,8 +264,6 @@ export default function AdminAddUser() {
         }
     }, []);
 
-
-
     useEffect(() => {
         // Prevents page from being constantly translated.
         if (!translated) {
@@ -232,7 +277,6 @@ export default function AdminAddUser() {
         return () => window.removeEventListener("New language set", translateMessage);
 
     });
-
 
     // Return the admin add user page.
     return (
@@ -268,16 +312,33 @@ export default function AdminAddUser() {
                 <input className='form-control' type="text" placeholder={firstName} id="first_name" onChange={handleFirstName} />
                 <input className='form-control' type="text" placeholder={middleName} id="middle_name" onChange={handleMiddleName} />
                 <input className='form-control' type="text" placeholder={lastName} id="last_name" onChange={handleLastName} />
-                    <div style={{ display: 'block', width: 400, padding: 15 }}>  
+                    <div>
+                        {
+                            current_userType === "1" ? (
+                                <div style={{alignItems: "center"}}>
+                                    <Card className="title_card" style={{marginTop: "60px"}}>
+                                        <h1>Children Signup Details</h1>
+                                    </Card>
+                                    <div>
+                                        <input className='form-control' type="text" placeholder="Child's first name" id="child_first_name" />
+                                        <input className='form-control' type="text" placeholder="Child's middle name" id="child_middle_name" />
+                                        <input className='form-control' type="text" placeholder="Child's last name" id="child_last_name" />
+                                        <input className='form-control' type="text" placeholder="Child's school ID" id="child_student_id" />
+                                    </div>
+                                </div>
+                            ) : (null)
+                        }
+                    </div>
+                    <div>  
                     {
                         <div> 
                         {current_userType === "1" || current_userType === "2" ? 
-                            <div>
+                            <div style={{ display: 'block', width: 400, padding: 15 }}>
                             {
                                 schools.length > 0 ? 
                                     <ListGroup>
                                         {schools.map((elem) => 
-                                        <ListGroup.Item action onClick={() => handleDetail(elem)} id={elem.id} key={elem.id} value={elem.id}>
+                                        <ListGroup.Item action onClick={() => handleDetail(elem)} id="school_id" key={elem.id} value={elem.id}>
                                             {[elem.name]}
                                         </ListGroup.Item>)}
                                     </ListGroup> 
@@ -289,16 +350,16 @@ export default function AdminAddUser() {
                         </div>
                     }
                     </div>
-                    <div style={{ display: 'block', width: 400, padding: 15 }}>
+                    <div>
                     {
                         <div> 
                         {(current_userType === "1" && schoolID !== undefined) || (current_userType === "2" && schoolID !== undefined) ? 
-                            <div>
+                            <div style={{ display: 'block', width: 400, padding: 15 }}>
                             {
                                 classrooms.length > 0 ? 
                                     <ListGroup>
                                         {classrooms.map((elem) => 
-                                        <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} id={elem.id} key={elem.id} value={elem.id}>
+                                        <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} id="classroom_id" key={elem.id} value={elem.id}>
                                             {[elem.name]}
                                         </ListGroup.Item>)}
                                     </ListGroup> 
@@ -309,8 +370,7 @@ export default function AdminAddUser() {
                          : null}
                         </div>
                     }
-                    </div> 
-                
+                    </div>
                 <div style={{padding: 20}}>
                     <Button variant="primary" type="submit" id="submit" onClick={handleSubmit} >{addUserBtn}</Button>
                 </div>
