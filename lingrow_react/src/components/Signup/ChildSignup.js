@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, ListGroup, Button } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 import './Signup.css';
@@ -8,6 +9,8 @@ import Translate from '../Translate/Translate';
 
 // Register child component.
 export default function RegisterChild() {
+
+    const nav = useNavigate();
 
     // Declare state variables.
     const [selected, setSelected] = useState([]);
@@ -94,7 +97,7 @@ export default function RegisterChild() {
         let promise = new Promise ((resolve, reject) => {
             // Retrieve parent detail.
             retrieveParentID().then((data) => {
-                parentID = data; 
+                parentID = data;
                 resolve(data);
             });
         });
@@ -132,6 +135,7 @@ export default function RegisterChild() {
             }).then(data => data.json()
             ).then(data => {
                 console.log(data);
+                nav('/dashboard');
             }).catch((error) => {
                 console.log(error);
             });
