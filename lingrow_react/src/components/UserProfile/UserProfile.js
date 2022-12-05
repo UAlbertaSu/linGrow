@@ -29,14 +29,14 @@ function UserProfile() {
     const [email, setEmail] = useState("");
     const [otherUserType, setOtherUserType] = useState("");
     const [childName, setChildName] = useState("");
-    
+    const [done, setDone] = useState(0);
     
     let userId = location.state.userId;
     userId = userId+'/'
     
     if (userType === 4){
 
-        var promise = new Promise((resolve, reject) => {fetch(
+        fetch(
             `http://127.0.0.1:8000/api/user/profile/${userId}`, {
     
             headers: {
@@ -46,17 +46,14 @@ function UserProfile() {
             }).then(data => data.json()
             ).then(data => {
                 console.log(data);
-                data.map((user) => {
-                    setFirstName(user.first_name);
-                    setLastName(user.last_name);
-                    setEmail(user.email);
-                    setOtherUserType(user.user_type);
-                    setChildName(user.child_name)
-                    
-                })
-            }) 
-        })   
-       
+                setFirstName(data.user.first_name);
+                setLastName(data.user.last_name);
+                setEmail(data.user.email);
+                setOtherUserType(data.user.user_type);
+                setChildName(data.user.child_name)
+            }).then(() => {
+                setDone(1);
+            });
     }
     else{
         
@@ -69,17 +66,16 @@ function UserProfile() {
             },
             }).then(data => data.json()
             ).then(data => {
-                data.map((user) => {
-                    setFirstName(user.first_name);
-                    setLastName(user.last_name);
-                    setEmail(user.email);
-                    setOtherUserType(user.user_type);
-                    setChildName(user.child_name)
-                
-            })
-        })
+                console.log(data);
+                setFirstName(data.user.first_name);
+                setLastName(data.user.last_name);
+                setEmail(data.user.email);
+                setOtherUserType(data.user.user_type);
+                setChildName(data.user.child_name)
+            }).then(() => {
+                setDone(1);
+            });
     }
-    
 
         const [translated, setTranslated] = useState(0);
 
