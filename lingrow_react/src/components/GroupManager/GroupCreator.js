@@ -3,9 +3,10 @@ import { Button, Card } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {Helmet} from 'react-helmet';
-
+import logo from "../Img/blank_lingrow.png";
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
+import DashNav from '../DashNav/DashNav';
 
 // Allows users to create a new parent, teacher, or researcher group.
 export default function GroupCreator({userType}) {
@@ -239,12 +240,14 @@ export default function GroupCreator({userType}) {
     // Page for creating new groups, or viewing group details, redirects to another page to complete either action. 
     return (
         <div className="bg">
+            <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
             <Helmet>
                     <meta charSet="utf-8" />
                     <title>{tab_header}</title>
             </Helmet>
-            <Card className='function_card'>
+            <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
                 <LanguageList />
+                <DashNav/>
                 <Card className="title_card">
                     <h1>{group_create_header}</h1>
                 </Card>

@@ -6,7 +6,8 @@ import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 
 import { Helmet } from 'react-helmet';
-import logo from "../Img/lingrow.png";
+import logo from "../Img/blank_lingrow.png";
+import './Activities.css';
 
 
 // a page that displays all the language development activities
@@ -51,18 +52,21 @@ export default function Activities() {
     // Helmet block creates tab headers, which are translatable
     return (
         <div className='bg'>
-            <Card style={{height:"80%"}}>
+            <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
+            <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
                 <Helmet>
                         <meta charSet="utf-8" />
                         <title>{tab_header}</title>
                 </Helmet>
-                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="responsive image" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+                <a href="https://bilingualacquisition.ca/"></a>
                 <LanguageList />
                 <h1>{activities}</h1>
+                <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px"}}>
                 <Button href="https://drive.google.com/drive/folders/1h4pmfp66la3ZBpEIwcfHb7TEY5QbUgOj" id="activity_btn_1" style={{minWidth:"150px"}}>{activity1}</Button>
                 <Button href="https://drive.google.com/drive/folders/1Pbaax2cLWvOSO8sY2Lm8by0lE0G8njRJ" id="activity_btn_2" style={{minWidth:"150px"}}>{activity2}</Button>
                 <Button href = "https://bilingualacquisition.ca/covid-19-multilingual-families-talking-and-playing/" id = "more_activities" style={{minWidth:"150px"}}>{activityPlus}</Button>
                 <Button variant="secondary" href="dashboard" id="activity_btn_3" style={{minWidth:"150px"}}>{homepage}</Button>
+                </Card>
             </Card>
         </div>
     )
