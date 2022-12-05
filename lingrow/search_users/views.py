@@ -14,7 +14,7 @@ from drf_yasg.utils import swagger_auto_schema
 class ParentSearchView(APIView):
     permission_classes = [IsAuthenticated,IsTeacher|IsResearcher|IsAdminUser]
 
-    @swagger_auto_schema(operation_description='Return parents with the search keyword',responses=ParentProfileSerializer(many=True))
+    @swagger_auto_schema(operation_description='Return parents with the search keyword',responses={200: ParentProfileSerializer(many=True)})
     def get(self, request, search = None):
         '''
         Returns a list of parents that match the search criteria
@@ -66,7 +66,7 @@ class ParentSearchView(APIView):
 class TeacherSearchView(APIView):
     permission_classes = [IsAuthenticated,IsResearcher|IsAdminUser]
 
-    @swagger_auto_schema(operation_description='Return teachers with the search keyword',responses=TeacherProfileSerializer(many=True))
+    @swagger_auto_schema(operation_description='Return teachers with the search keyword',responses={200: TeacherProfileSerializer(many=True)})
     def get(self, request, search = None):
         '''
         Returns a list of teachers that match the search criteria
@@ -99,7 +99,7 @@ class TeacherSearchView(APIView):
 class ResearcherSearchView(APIView):
     permission_classes = [IsAuthenticated,IsAdminUser]
 
-    @swagger_auto_schema(operation_description='Return researchers with the search keyword',responses=ResearcherProfileSerializer(many=True))
+    @swagger_auto_schema(operation_description='Return researchers with the search keyword',responses={200:ResearcherProfileSerializer(many=True)})
     def get(self,request, search=None):
         '''
         Returns a list of researchers that match the search criteria
@@ -124,7 +124,7 @@ class ResearcherSearchView(APIView):
 class UserSearchView(APIView):
     permission_classes = [IsAuthenticated,IsAdminUser]
 
-    @swagger_auto_schema(operation_description='Return users with the search keyword',responses=UserProfileSerializer(many=True))
+    @swagger_auto_schema(operation_description='Return users with the search keyword',responses={200:UserProfileSerializer(many=True)})
     def get(self,request,search=None):
         '''
         Returns a list of users that match the search criteria
