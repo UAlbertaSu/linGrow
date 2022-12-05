@@ -14,12 +14,6 @@ import DashNav from '../DashNav/DashNav';
 // Group manager component.
 export default function UserInfo({ userType }) {
 
-    retrieveUserType(JSON.parse(sessionStorage.getItem('token'))).then(response => {
-        let user = response.user;
-        sessionStorage.setItem('user_email', user.email);
-        sessionStorage.setItem('user_first_name', user.first_name);
-    });
-
     const setDashboardType = () => {
         if (userType === 1) {
             return 'LinGrow Parent Dashboard';
@@ -34,7 +28,9 @@ export default function UserInfo({ userType }) {
             return 'LinGrow Admin Dashboard';
         }
     }
+
     // headers
+    const [token] = useState(JSON.parse(sessionStorage.getItem('token')));
     const [tab_header, setTabHeader] = useState("Lingrow User Info");
     const [parent, setParent] = useState("Parent");
     const [teacher, setTeacher] = useState("Teacher");
@@ -46,21 +42,57 @@ export default function UserInfo({ userType }) {
     const [name_header, setNameHeader] = useState("First Name");
     const [last_name_header, setLastNameHeader] = useState("Last Name");
     const [childs_name_header, setChildsNameHeader] = useState("Child's Name");
-    const [teachers_header, setTeachersHeader] = useState("Teacher(s)");
     const [classrooms_header, setClassroomsHeader] = useState("Classroom(s)");
     const [schools_header, setSchoolsHeader] = useState("School(s)");
 
     // textfields
     // TODO: we need to implement password changing
-    // TODO: need to implement child name getting
     // TODO: resolve issue of fields not appearing before refresh
     const [username_email_input, setUsernameEmailInput] = useState(sessionStorage.getItem('user_email'));
     const [password_input, setPasswordInput] = useState("[Password]");
     const [name_input, setNameInput] = useState(sessionStorage.getItem('user_first_name'));
     const [last_name_input, setLastNameInput] = useState("user_last_name");
-    const [childs_name_input, setChildsNameInput] = useState("[Child's Name]");
+    const [childs_name_input, setChildsNameInput] = useState(sessionStorage.getItem('child_name'));
+    const [schools_name_input, setSchoolsNameInput] = useState(sessionStorage.getItem('child_school'));
+    const [classroom_name_input, setClassroomNameInput] = useState(sessionStorage.getItem('child_classroom'));
+    const [teacher_schools_name_input, setTeacherSchoolsNameInput] = useState(sessionStorage.getItem('teacher_school'));
+    const [teacher_classrooms_name_input, setTeacherClassroomsNameInput] = useState(sessionStorage.getItem('teacher_classrooms'));
 
+    retrieveUserType(token).then(response => {
+        let user = response.user;
     
+        sessionStorage.setItem('user_email', user.email);
+        sessionStorage.setItem('user_first_name', user.first_name);
+        sessionStorage.setItem('user_type', user.user_type);
+
+        // if a parent, get the child info
+        if (user.user_type === 1) {   
+            // get child info 
+            return fetch('http://127.0.0.1:8000/api/user/child', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            }).then(data => data.json()
+            ).then(data => {
+
+                sessionStorage.setItem('child_name', data[0]['first_name']);
+                sessionStorage.setItem('child_school', data[0]['school']);
+                sessionStorage.setItem('child_classroom', data[0]['classroom']);        
+            });   
+        }
+
+        // if a teacher, get the teacher info
+        if (user.user_type === 2) {
+            sessionStorage.setItem('teacher_school', user.school);
+            sessionStorage.setItem('teacher_classrooms', user.classrooms);
+        }
+
+    });
+
+
+
     // Setter for initial page translation.
     const [translated, setTranslated] = useState(0);
 
@@ -77,23 +109,11 @@ export default function UserInfo({ userType }) {
             Translate('en', lang, "First Name").then(response => setNameHeader(response));
             Translate('en', lang, "Last Name").then(response => setLastNameHeader(response));
             Translate('en', lang, "Child's Name").then(response => setChildsNameHeader(response));
-            Translate('en', lang, "Teacher(s)").then(response => setTeachersHeader(response));
             Translate('en', lang, "Classroom(s)").then(response => setClassroomsHeader(response));
             Translate('en', lang, "School(s)").then(response => setSchoolsHeader(response));
         }
     });
 
-    const createSchoolList = () => {
-        
-    }
-
-    const createClassroomList = () => {
-
-    }
-
-    useEffect(() => {
-
-    }, []);
 
     useEffect(() => {
         // Prevents page from being constantly translated.
@@ -126,9 +146,8 @@ export default function UserInfo({ userType }) {
                             <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{username_email_header}</Card.Title>
                             <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{password_header}</Card.Title>
                             <div>{userType === 1 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{childs_name_header}</Card.Title> : null}</div>
-                            <div>{userType === 1 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{teachers_header}</Card.Title> : null}</div>
-                            <div>{userType === 1 || userType === 2 || userType === 3 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{classrooms_header}</Card.Title> : null}</div>
                             <div>{userType === 1 || userType === 2 || userType === 3 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{schools_header}</Card.Title> : null}</div>
+                            <div>{userType === 1 || userType === 2 || userType === 3 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{classrooms_header}</Card.Title> : null}</div>
                         </Col>
                         <Col className="info_col">
                             <div>{userType === 1 ? <Card.Title style={{margin:"10px"}}>{parent}</Card.Title> : null}</div>
@@ -140,6 +159,11 @@ export default function UserInfo({ userType }) {
                             <input type="text" className="form-control" id="username_email_input" placeholder={username_email_input} onChange={e => setUsernameEmailInput(e.target.value)}/>
                             <input type="text" className="form-control" id="password_input" placeholder={password_input} onChange={e => setPasswordInput(e.target.value)} />
                             <div>{userType === 1 ? <input type="text" className="form-control" id="childs_name_input" placeholder={childs_name_input} onChange={e => setChildsNameInput(e.target.value)} /> : null}</div>
+                            <div>{userType === 1 ? <input type="text" className="form-control" id="schools_name_input" placeholder={schools_name_input} onChange={e => setSchoolsNameInput(e.target.value)} /> : null}</div>
+                            <div>{userType === 1 ? <input type="text" className="form-control" id="classroom_name_input" placeholder={classroom_name_input} onChange={e => setClassroomNameInput(e.target.value)} /> : null}</div>
+                            <div>{userType === 2 ? <input type="text" className="form-control" id="teacher_schools_name_input" placeholder={teacher_schools_name_input} onChange={e => setTeacherSchoolsNameInput(e.target.value)} /> : null}</div>
+                            <div>{userType === 2 ? <input type="text" className="form-control" id="teacher_classrooms_name_input" placeholder={teacher_classrooms_name_input} onChange={e => setTeacherClassroomsNameInput(e.target.value)} /> : null}</div>
+                        
                         </Col>
                     </Row>
                 </Card>

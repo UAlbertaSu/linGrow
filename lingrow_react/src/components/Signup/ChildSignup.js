@@ -94,7 +94,6 @@ export default function RegisterChild() {
         let promise = new Promise ((resolve, reject) => {
             // Retrieve parent detail.
             retrieveParentID().then((data) => {
-                console.log(data);
                 parentID = data; 
                 resolve(data);
             });
