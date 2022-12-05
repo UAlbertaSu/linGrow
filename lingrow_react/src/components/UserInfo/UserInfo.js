@@ -38,7 +38,6 @@ export default function UserInfo({ userType }) {
     const [admin, setAdmin] = useState("Admin");
     const [account_type_header, setAccountTypeHeader] = useState("Account Type");
     const [username_email_header, setUsernameEmailHeader] = useState("Username/Email");
-    const [password_header, setPasswordHeader] = useState("Password");
     const [name_header, setNameHeader] = useState("First Name");
     const [last_name_header, setLastNameHeader] = useState("Last Name");
     const [childs_name_header, setChildsNameHeader] = useState("Child's Name");
@@ -46,12 +45,10 @@ export default function UserInfo({ userType }) {
     const [schools_header, setSchoolsHeader] = useState("School(s)");
 
     // textfields
-    // TODO: we need to implement password changing
     // TODO: resolve issue of fields not appearing before refresh
     const [username_email_input, setUsernameEmailInput] = useState(sessionStorage.getItem('user_email'));
-    const [password_input, setPasswordInput] = useState("[Password]");
     const [name_input, setNameInput] = useState(sessionStorage.getItem('user_first_name'));
-    const [last_name_input, setLastNameInput] = useState("user_last_name");
+    const [last_name_input, setLastNameInput] = useState(sessionStorage.getItem('user_last_name'));
     const [childs_name_input, setChildsNameInput] = useState(sessionStorage.getItem('child_name'));
     const [schools_name_input, setSchoolsNameInput] = useState(sessionStorage.getItem('child_school'));
     const [classroom_name_input, setClassroomNameInput] = useState(sessionStorage.getItem('child_classroom'));
@@ -63,6 +60,7 @@ export default function UserInfo({ userType }) {
     
         sessionStorage.setItem('user_email', user.email);
         sessionStorage.setItem('user_first_name', user.first_name);
+        sessionStorage.setItem('user_last_name', user.last_name);
         sessionStorage.setItem('user_type', user.user_type);
 
         // if a parent, get the child info
@@ -105,7 +103,6 @@ export default function UserInfo({ userType }) {
             Translate('en', lang, "Admin").then(response => setAdmin(response));
             Translate('en', lang, "Account Type").then(response => setAccountTypeHeader(response));
             Translate('en', lang, "Username/Email").then(response => setUsernameEmailHeader(response));
-            Translate('en', lang, "Password").then(response => setPasswordHeader(response));
             Translate('en', lang, "First Name").then(response => setNameHeader(response));
             Translate('en', lang, "Last Name").then(response => setLastNameHeader(response));
             Translate('en', lang, "Child's Name").then(response => setChildsNameHeader(response));
@@ -144,25 +141,24 @@ export default function UserInfo({ userType }) {
                             <Card.Title style={{margin:"15px 10px 10px 10px", fontWeight:"bold"}}>{name_header}</Card.Title>
                             <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{last_name_header}</Card.Title>
                             <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{username_email_header}</Card.Title>
-                            <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{password_header}</Card.Title>
                             <div>{userType === 1 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{childs_name_header}</Card.Title> : null}</div>
-                            <div>{userType === 1 || userType === 2 || userType === 3 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{schools_header}</Card.Title> : null}</div>
-                            <div>{userType === 1 || userType === 2 || userType === 3 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{classrooms_header}</Card.Title> : null}</div>
+                            <div>{userType === 1 || userType === 2 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{schools_header}</Card.Title> : null}</div>
+                            <div>{userType === 1 || userType === 2 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{classrooms_header}</Card.Title> : null}</div>
                         </Col>
                         <Col className="info_col">
                             <div>{userType === 1 ? <Card.Title style={{margin:"10px"}}>{parent}</Card.Title> : null}</div>
                             <div>{userType === 2 ? <Card.Title style={{margin:"10px"}}>{teacher}</Card.Title> : null}</div>
                             <div>{userType === 3 ? <Card.Title style={{margin:"10px"}}>{researcher}</Card.Title> : null}</div>
                             <div>{userType === 4 ? <Card.Title style={{margin:"10px"}}>{admin}</Card.Title> : null}</div>
-                            <input type="text" className="form-control" id="name_input" placeholder={name_input} onChange={e => setNameInput(e.target.value)} />
-                            <input type="text" className="form-control" id="last_name_input" placeholder={last_name_input} onChange={e => setLastNameInput(e.target.value)}/>
-                            <input type="text" className="form-control" id="username_email_input" placeholder={username_email_input} onChange={e => setUsernameEmailInput(e.target.value)}/>
-                            <input type="text" className="form-control" id="password_input" placeholder={password_input} onChange={e => setPasswordInput(e.target.value)} />
-                            <div>{userType === 1 ? <input type="text" className="form-control" id="childs_name_input" placeholder={childs_name_input} onChange={e => setChildsNameInput(e.target.value)} /> : null}</div>
-                            <div>{userType === 1 ? <input type="text" className="form-control" id="schools_name_input" placeholder={schools_name_input} onChange={e => setSchoolsNameInput(e.target.value)} /> : null}</div>
-                            <div>{userType === 1 ? <input type="text" className="form-control" id="classroom_name_input" placeholder={classroom_name_input} onChange={e => setClassroomNameInput(e.target.value)} /> : null}</div>
-                            <div>{userType === 2 ? <input type="text" className="form-control" id="teacher_schools_name_input" placeholder={teacher_schools_name_input} onChange={e => setTeacherSchoolsNameInput(e.target.value)} /> : null}</div>
-                            <div>{userType === 2 ? <input type="text" className="form-control" id="teacher_classrooms_name_input" placeholder={teacher_classrooms_name_input} onChange={e => setTeacherClassroomsNameInput(e.target.value)} /> : null}</div>
+
+                            <Card.Title style={{margin:"15px 10px 10px 10px"}}>{name_input}</Card.Title>
+                            <Card.Title style={{margin:"20px 10px 10px 10px"}}>{last_name_input}</Card.Title>
+                            <Card.Title style={{margin:"20px 10px 10px 10px"}}>{username_email_input}</Card.Title>
+                            <div>{userType === 1 ? <Card.Title style={{margin:"20px 10px 10px 10px"}}>{childs_name_input}</Card.Title> : null} </div>
+                            <div>{userType === 1 ? <Card.Title style={{margin:"20px 10px 10px 10px"}}>{schools_name_input}</Card.Title> : null}</div>
+                            <div>{userType === 1 ? <Card.Title style={{margin:"20px 10px 10px 10px"}}>{classroom_name_input}</Card.Title> : null}</div>
+                            <div>{userType === 2 ? <Card.Title style={{margin:"20px 10px 10px 10px"}}>{teacher_schools_name_input}</Card.Title> : null}</div>
+                            <div>{userType === 2 ? <Card.Title style={{margin:"20px 10px 10px 10px"}}>{teacher_classrooms_name_input}</Card.Title> : null}</div>
                         
                         </Col>
                     </Row>
