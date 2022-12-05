@@ -72,8 +72,6 @@ function UserProfile() {
                 setFirstName(data.user.first_name);
                 setLastName(data.user.last_name);
                 setEmail(data.user.email);
-                setOtherUserType(data.user.user_type);
-                setChildName(data.user.child_name)
             }).then(() => {
                 setDone(1);
             });
@@ -121,16 +119,10 @@ function UserProfile() {
                             <Card.Title style={{margin:"15px 10px 10px 10px", fontWeight:"bold"}}>{username_email_header} : {email}</Card.Title>
                             <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{name_header} : {FirstName}</Card.Title>
                             <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{last_name_header} : {LastName}</Card.Title>
-                            <div>{otherUserType === 1 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{childs_name_header}</Card.Title> : null}</div>
+                            
                             
                             
                         </Col>
-                        {/* <Col className="info_col" >
-                            <div> <Card.Title style={{margin:"10px"}}>{email}</Card.Title> </div>
-                            <div> <Card.Title style={{margin:"10px"}}>{FirstName}</Card.Title> </div>
-                            <div> <Card.Title style={{margin:"10px"}}>{LastName}</Card.Title> </div>
-                            <div>{otherUserType === 1 ? <Card.Title style={{margin:"10px"}}>{childName}</Card.Title>  : null}</div>
-                        </Col> */}
                     </Row>
                 </Card>
             </Card>
