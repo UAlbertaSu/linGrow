@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
+import { useDropzone } from 'react-dropzone';
 import {Helmet} from 'react-helmet';
 
 import LanguageList from '../Translate/LanguageList';
@@ -9,10 +10,6 @@ import './Signup.css';
 import 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button'
-
-
-//Allows the user to sign up, upon successful, should redirect to login page. 
-
 
 export default function Form() {
 
@@ -29,6 +26,12 @@ export default function Form() {
     const [enter_middle_msg, setEnterMiddleMsg] = useState("Enter Middle Name");
     const [last_msg, setLastMsg] = useState("Last name");
     const [enter_last_msg, setEnterLastMsg] = useState("Enter Last Name");
+    const [type_msg, setTypeMsg] = useState("User type");
+    const [enter_type_msg, setEnterTypeMsg] = useState("Please select User Type");
+    const [parent_msg, setParentMsg] = useState("Parent");
+    const [teacher_msg, setTeacherMsg] = useState("Teacher");
+    const [researcher_msg, setResearcherMsg] = useState("Researcher");
+    const [admin_msg, setAdminMsg] = useState("Admin");
     const [pass_msg, setPasswordMsg] = useState("Password");
     const [enter_pass_msg, setEnterPasswordMsg] = useState("Enter password");
     const [confirm_msg, setConfirmPasswordMsg] = useState("Confirm password");
@@ -132,7 +135,7 @@ export default function Form() {
                 "email": email,
                 "first_name": first_name,
                 "last_name": last_name,
-                "user_type": 1,
+                "user_type": user_type,
                 "password": password,
                 "password2": password2,
                 "child_name": child_name,
@@ -170,6 +173,13 @@ export default function Form() {
             Translate('en', lang, "Enter Middle Name").then(response => setEnterMiddleMsg(response));
             Translate('en', lang, "Last name*").then(response => setLastMsg(response));
             Translate('en', lang, "Enter Last Name").then(response => setEnterLastMsg(response));
+            Translate('en', lang, "User type*").then(response => setTypeMsg(response));
+            Translate('en', lang, "Please select User Type").then(response => setEnterTypeMsg(response));
+            Translate('en', lang, "Parent").then(response => setParentMsg(response));
+            Translate('en', lang, "Teacher").then(response => setTeacherMsg(response));
+            Translate('en', lang, "Researcher").then(response => setResearcherMsg(response));
+            Translate('en', lang, "Admin").then(response => setAdminMsg(response));
+            Translate('en', lang, "Please Select User Type").then(response => setEnterTypeMsg(response));
             Translate('en', lang, "Password*").then(response => setPasswordMsg(response));
             Translate('en', lang, "Enter Password").then(response => setEnterPasswordMsg(response));
             Translate('en', lang, "Confirm password*").then(response => setConfirmPasswordMsg(response));

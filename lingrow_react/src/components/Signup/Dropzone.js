@@ -2,6 +2,8 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import * as Papa from 'papaparse';
+import { CSVLink, CSVDownload } from 'react-csv';
+import { resolvePath } from 'react-router-dom';
 
 // Color selection depending on whether a file extension is valid or not.
 const getColor = (props) => {
@@ -34,13 +36,15 @@ const Container = styled.div`
     transition: border .24s ease-in-out;
 `;
 
-// Removes "BOM" character (ï»¿) from the parsed .csv file.
+// Given list of new users, mass-add users into the database.
 async function handleNewUsers(users) {
     let token = JSON.parse(sessionStorage.getItem('token'));
 
     let request = {
         "users": users
     }
+
+    console.log(JSON.stringify(request));
 
     return fetch('http://127.0.0.1:8000/api/user/admin-add-users/', {
         method: 'POST',
@@ -63,6 +67,65 @@ async function handleNewUsers(users) {
     });
 }
 
+// Given school name, retrieve school ID.
+async function retrieveSchoolID(schoolName) {
+    let token = JSON.parse(sessionStorage.getItem('token'));
+
+    if (schoolName === "") {
+        return "";
+    }
+
+    return fetch(`http://127.0.0.1:8000/api/school/`, {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(data => data.json()
+    ).then(data => {
+        let schoolID = data.filter(school => school.name === schoolName);
+
+        if (schoolID.length === 0) {
+            return schoolName;
+        }
+        else {
+            return schoolID[0].id;
+        }
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
+// Given school ID and classroom name, retrieve the classroom ID.
+async function retrieveClassroomID(schoolID, classroomName) {
+    let token = JSON.parse(sessionStorage.getItem('token'));
+
+    if (schoolID === "" || classroomName === "") {
+        return "";
+    }
+
+    return fetch(`http://127.0.0.1:8000/api/school/${schoolID}/classroom/`, {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(data => data.json()
+    ).then(data => {
+        let classroomID = data.filter(classroom => classroom.name === classroomName);
+
+        if (classroomID.length === 0) { 
+            return classroomName;
+        }
+        else {
+            return classroomID[0].id;
+        }
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
+// Parse the user_type header of .csv file, return int value for each user types.
 function enumUserType(userType) {
     if (userType === "Parent" || userType === "parent") {
         return 1;
@@ -81,10 +144,9 @@ function enumUserType(userType) {
     }
 }
 
+
 // Dropbox component is defined here.
 export default function StyledDropzone({dropbox_message}) {
-
-    // State variable.
 
     // Once a valid file has been dropped to the dropbox (or added by user), parse that file and calls admin-add-user API.
     const onDrop = useCallback(acceptedFiles => {
@@ -95,38 +157,69 @@ export default function StyledDropzone({dropbox_message}) {
             return;
         }
 
+        // Start reading file.
         reader.onabort = () => console.log("file reading was aborted");
         reader.onerror = () => console.log("file reading failed");
         reader.onload = () => {
             const binaryStr = reader.result;
+
+            // Parse the .csv file.
             Papa.parse(binaryStr, {
                 header: true,
                 complete: function(results) {
-                    // Make sure there are total five fields present
-                    if (results.meta.fields.length !== 5) {
-                        alert('Please make sure the file has five fields: email, first name, middle name, last name, and user type.');
+
+                    // Make sure there are total seven fields present as header.
+                    if (results.meta.fields.length !== 7) {
+                        alert('Please make sure the file has seven fields total as outlined in example output file.');
                         return;
                     }
 
                     let users = [];
-                    
-                    results.data.forEach(function(row) {
-                        if (row[Object.keys(row)[0]] === "") {
-                            return;
-                        }
 
-                        let user = {
-                            "email": row[Object.keys(row)[0]],
-                            "first_name": row[Object.keys(row)[1]],
-                            "middle_name": row[Object.keys(row)[2]],
-                            "last_name": row[Object.keys(row)[3]],
-                            "user_type": enumUserType(row[Object.keys(row)[4]])
-                        }
-                        users.push(user);
+                    // Create promise, and asynchronously retrieve all user details.
+                    var promise = new Promise((resolve, reject) => {
+                        results.data.forEach(async function(row) {
+                            if (row[Object.keys(row)[0]] === "") {
+                                return;
+                            }
+
+                            let userType = enumUserType(row[Object.keys(row)[4]]);
+
+                            if (userType === 2) {
+                                let schoolID = await retrieveSchoolID(row[Object.keys(row)[5]]);
+                                let classroomID = await retrieveClassroomID(schoolID, row[Object.keys(row)[6]]);
+
+                                users.push({
+                                    "email": row[Object.keys(row)[0]],
+                                    "first_name": row[Object.keys(row)[1]],
+                                    "middle_name": row[Object.keys(row)[2]],
+                                    "last_name": row[Object.keys(row)[3]],
+                                    "user_type": enumUserType(row[Object.keys(row)[4]]),
+                                    "school": schoolID,
+                                    "classrooms": [classroomID]
+                                });
+                            }
+                            else {
+                                users.push({
+                                    "email": row[Object.keys(row)[0]],
+                                    "first_name": row[Object.keys(row)[1]],
+                                    "middle_name": row[Object.keys(row)[2]],
+                                    "last_name": row[Object.keys(row)[3]],
+                                    "user_type": enumUserType(row[Object.keys(row)[4]])
+                                });
+                            }
+
+                            // Once all rows of the .csv files have been processed, resolve the promise.
+                            if (results.data.indexOf(row) === results.data.length - 1) {
+                                resolve();
+                            }
+                        });
                     });
 
-                    console.log(users);
-                    handleNewUsers(users);
+                    // Add the users to the database.
+                    promise.then(() => {
+                        handleNewUsers(users);
+                    });
                 }
             });
         };

@@ -61,10 +61,11 @@ class NewChatView(APIView):
     def get(self, request):
         current_user = request.user
         addable = chat_utility_functions.get_addable_users_private_chat(request)
+        addable_users = []
         for user in addable:
-            if PrivateChat.objects.filter(Q(participant1=current_user, participant2=user) | Q(participant1=user, participant2=current_user)).exists():
-                addable.remove(user)
-        serializer = UserProfileSerializer(addable, many=True)
+            if not PrivateChat.objects.filter(Q(participant1=current_user, participant2=user) | Q(participant1=user, participant2=current_user)).exists():
+                addable_users.append(user)
+        serializer = UserProfileSerializer(addable_users, many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 class CreateChatView(APIView):
@@ -144,9 +145,10 @@ class SendMessageView(APIView):
         chat_id = request.data.get("id_chat")
         chat = Chat.objects.get(id_chat=chat_id)
         text_message = request.data.get("message")
-        lang = detect_language(text_message)
-        if lang != 'en':
-            text_message = translate_text(text_message, lang,'en')
+        # lang = detect_language(text_message)
+        # print(lang)
+        # if lang != 'en':
+        #     text_message = translate_text(text_message, lang,'en')
         response = {}
         if len(text_message) > 0:
             messaggio=Message.add_this(Message(), chat, request.user, text_message)
@@ -168,7 +170,7 @@ class ChatMessageView(APIView):
         messaggi_json_array = []
         for messaggio in messaggi_query:
             message = messaggio.text
-            message = translate_text(message, 'en', lang)
+            message = translate_text(message, detect_language(message), lang)
             msg = {'username': messaggio.sender.email, 'text': message,
                 'timestamp': messaggio.timestamp.strftime('%Y-%m-%d %H:%M')}
             messaggi_json_array.append(msg)
