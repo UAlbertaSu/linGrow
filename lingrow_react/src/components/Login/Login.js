@@ -7,7 +7,7 @@ import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 import Authenticate from '../Authenticate/Authenticate';
 
-import logo from "../Img/lingrow.png";
+import logo from "../Img/blank_lingrow.png";
 import './Login.css';
 
 
@@ -130,12 +130,13 @@ export default function Login() {
     // login page with links to a parent self signup page, and link to language learning activities
     return (
         <div className='bg'>
+                <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
                 <Helmet>
                     <meta charSet="utf-8" />
                     <title>{tab_header}</title>
                 </Helmet>
-                <Card>
-                <a href="https://bilingualacquisition.ca/"><img src={logo} class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px"}}/></a>
+                <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
+                <a href="https://bilingualacquisition.ca/"></a>
                 <LanguageList />
                 <h1>{header}</h1>
                 <label className="label">{email_msg}</label>

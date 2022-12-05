@@ -5,7 +5,7 @@ import {Card, ListGroup} from 'react-bootstrap';
 import LanguageList from '../Translate/LanguageList';
 import { Helmet } from 'react-helmet';
 import Translate from '../Translate/Translate';
-import logo from "../Img/lingrow.png";
+import logo from "../Img/blank_lingrow.png";
 import DashNav from '../DashNav/DashNav';
 
 export default function DirectChat() {
@@ -66,12 +66,13 @@ export default function DirectChat() {
     // page to select a chat that has been created between the user and another user
     return (
         <div className="bg">
+            <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
             <Helmet>
                     <meta charSet="utf-8" />
                     <title>{tab_header}</title>
             </Helmet>
-            <Card style={{minHeight: "fit-content"}}>
-                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+            <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
+                <a href="https://bilingualacquisition.ca/"></a>
                 <LanguageList />
                 <DashNav/>
                 <div style={{ display: 'block', width: 400, padding: 30 }}>

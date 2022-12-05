@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import LanguageList from "../Translate/LanguageList";
 import Translate from "../Translate/Translate";
-import logo from "../Img/lingrow.png";
+import logo from "../Img/blank_lingrow.png";
 import Helmet from 'react-helmet';
 import DashNav from '../DashNav/DashNav';
 
@@ -87,12 +87,13 @@ export default function SchoolManager({userType}) {
     // School manager page, which displays all schools, and allows creation of new ones
     return (
         <div className="bg">
+            <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>{tab_header}</title>
             </Helmet>
-            <Card>
-                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+            <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
+                <a href="https://bilingualacquisition.ca/"></a>
                 <LanguageList />
                 <DashNav/>
                 <Card className='title_card'>
