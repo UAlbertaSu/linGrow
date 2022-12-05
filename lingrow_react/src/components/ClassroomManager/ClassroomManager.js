@@ -115,7 +115,9 @@ export default function ClassroomManager() {
                     <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
                     <LanguageList />
                     <DashNav/>
+                    <Card className='title_card'>
                     <h1>{group_display_header}</h1>
+                    </Card>
                     <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>{create_classroom_btn}</Button>
                     <div style={{ display: 'block', width: 400, padding: 30 }}>
                         {

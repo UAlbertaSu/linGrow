@@ -84,7 +84,9 @@ export default function ClassroomCreator({}) {
                 <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
                 <LanguageList />
                 <DashNav/>
-                <h1>{group_create_header}</h1>
+                <Card className='title_card'>
+                    <h1>{group_create_header}</h1>
+                </Card>
                 <input type="text" className="form-control" id="group_name" placeholder={group_name} onChange={e => setGroupName(e.target.value)}/>
                 <input type="text" className="form-control" id="group_id" placeholder={group_id} onChange={e => setGroupID(e.target.value)} />
                 
