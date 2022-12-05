@@ -20,6 +20,7 @@ export default function Dashboard({ userType }) {
     // State variables.
     const [tab_header, setTabHeader] = useState("LinGrow Home");
     const [chat, setChatMsg] = useState("Chat");
+    const [registerChild, setRegisterChild] = useState("Register Child");
     const [manageSchools, setManageSchools] = useState("Manage Schools");
     const [manageUsers, setManageUsers] = useState("Manage Users");
     const [searchUsers, setSearchUsers] = useState("Search Users");
@@ -72,6 +73,7 @@ export default function Dashboard({ userType }) {
             Translate('en', lang, "Group Manager").then(response => setGroupManagerMsg(response));
             Translate('en', lang, "Language Learning Activities").then(response => setLanguageLearningActivitiesMsg(response));
             Translate('en', lang, "Logout").then(response => setLogoutMsg(response));
+            Translate('en', lang, "Register Child").then(response => setRegisterChild(response));
         }
     });
 
@@ -101,6 +103,7 @@ export default function Dashboard({ userType }) {
                 <DashNav/>
                 <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px"}}>
                     <Button href="chat" variant="primary" type="submit" id="chat" style={{minWidth:"150px"}}>{chat}</Button>  
+                    <div>{userType === 1 ? <Button href="/childsignup" variant="primary" type="submit" id="registerChild" style={{minWidth:"150px"}}>{registerChild}</Button> : null}</div>
                     <div>{userType === 4 ? <Button href="/schoolmanager" variant="primary" type="submit" id="manageSchools" style={{minWidth:"150px"}}>{manageSchools}</Button> : null}</div>
                     <div>{userType > 1 ? <Button variant="primary" type="submit" id="searchUsers" onClick = {searchUserHandler}style={{minWidth:"150px"}}>{searchUsers}</Button> : null}</div>
                     <div>{userType === 4 ? <Button href="/usermanager" variant="primary" type="submit" id="manageUsers" style={{minWidth:"150px"}}>{manageUsers}</Button> : null}</div>
