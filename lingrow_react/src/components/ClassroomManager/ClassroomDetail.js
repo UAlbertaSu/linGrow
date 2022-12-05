@@ -32,7 +32,7 @@ export default function ClassroomManager() {
             let classroomID = location.state.classroomID;
             let token = JSON.parse(sessionStorage.getItem('token'));
 
-            fetch(`http://127.0.0.1:8000/api/school/${schoolID}/classroom/${classroomID}`,{
+            fetch(`http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/school/${schoolID}/classroom/${classroomID}`,{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

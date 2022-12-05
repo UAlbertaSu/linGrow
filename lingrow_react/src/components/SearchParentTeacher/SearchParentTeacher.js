@@ -32,7 +32,7 @@ export default function UserManager() {
 
         // Iterates between parents, teachers, and researchers.
         user_cats.forEach((user_cat) => {
-            let url = `http://127.0.0.1:8000/api/user/profile/${user_cat}/`;
+            let url = `http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/profile/${user_cat}/`;
 
             fetch(url, {
                 method: 'GET',

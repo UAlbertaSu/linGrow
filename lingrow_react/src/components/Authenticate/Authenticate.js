@@ -1,7 +1,7 @@
 // Check whether the current access token is valid.
 export default async function Authenticate(token) {
 
-    return fetch('http://127.0.0.1:8000/api/user/profile/', {
+    return fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/profile/', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`

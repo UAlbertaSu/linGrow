@@ -803,7 +803,7 @@ describe ('Group Management', async () => {
         function callRegisterApi() {
     const option= {
         method: 'POST',
-        uri: "http://127.0.0.1:8000/api/user/register/",
+        uri: "http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/register/",
         header: {
             'Content-Type': 'application/json',
         },

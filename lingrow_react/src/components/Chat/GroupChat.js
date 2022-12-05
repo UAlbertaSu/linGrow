@@ -41,7 +41,7 @@ export default function DirectChat() {
     console.log(token);
     useEffect(
         () => {
-            fetch('http://127.0.0.1:8000/api/chat/group_chat/', {
+            fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/chat/group_chat/', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`

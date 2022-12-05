@@ -19,7 +19,7 @@ export default function LanguageList() {
     let [language_list, setList] = useState();
 
     // Make request to the Django backend for language list retrieval.
-    let url = "http://127.0.0.1:8000/api/translate/";
+    let url = "http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/translate/";
     useEffect(() => {
         fetch(url, {
             method: 'GET',

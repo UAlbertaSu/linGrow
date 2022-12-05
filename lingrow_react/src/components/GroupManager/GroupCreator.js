@@ -45,7 +45,7 @@ export default function GroupCreator({userType}) {
         if (parseInt(userChoice) === 3) { // Admin can add all users into group.
             arr = [];
 
-            fetch('http://127.0.0.1:8000/api/search/researchers', {
+            fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/search/researchers', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ export default function GroupCreator({userType}) {
         if (parseInt(userChoice) === 2) { // Admin and researcher can add teachers and parents into group.
             arr = [];
 
-            fetch('http://127.0.0.1:8000/api/search/teachers', {
+            fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/search/teachers', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ export default function GroupCreator({userType}) {
         if (parseInt(userChoice) === 1) { // Admin, researcher, and teacher can add parents into group.
             arr = [];
 
-            fetch('http://127.0.0.1:8000/api/search/parents', {
+            fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/search/parents', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ export default function GroupCreator({userType}) {
                 'researcher': selected
             }
 
-            let url = 'http://127.0.0.1:8000/api/group/researchergroup/'
+            let url = 'http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/group/researchergroup/'
 
             if (loc.state !== null) {
                 url += loc.state.groupID + '/';
@@ -159,7 +159,7 @@ export default function GroupCreator({userType}) {
                 'teacher': selected
             }
 
-            let url = 'http://127.0.0.1:8000/api/group/teachergroup/'
+            let url = 'http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/group/teachergroup/'
 
             if (loc.state !== null) {
                 url += loc.state.groupID + '/';
@@ -185,7 +185,7 @@ export default function GroupCreator({userType}) {
                 'parent': selected
             }
 
-            let url = 'http://127.0.0.1:8000/api/group/parentgroup/'
+            let url = 'http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/group/parentgroup/'
 
             if (loc.state !== null) {
                 url += loc.state.groupID + '/';

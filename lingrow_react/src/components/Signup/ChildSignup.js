@@ -25,7 +25,7 @@ export default function RegisterChild() {
         console.log(token);
         let arr = [];
 
-        fetch('http://127.0.0.1:8000/api/school', {
+        fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/school', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ export default function RegisterChild() {
         console.log(token);
         let arr = [];
 
-        fetch(`http://127.0.0.1:8000/api/school/${elem.id}/classroom`,{
+        fetch(`http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/school/${elem.id}/classroom`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ export default function RegisterChild() {
     async function retrieveParentID () {
         let token = JSON.parse(sessionStorage.getItem('token'));
 
-        return fetch('http://127.0.0.1:8000/api/user/profile/', {
+        return fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/profile/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ export default function RegisterChild() {
                 }
             }
 
-            return fetch(`http://127.0.0.1:8000/api/user/child/`, {
+            return fetch(`http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/child/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

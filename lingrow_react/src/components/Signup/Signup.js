@@ -38,7 +38,7 @@ export default function Form() {
 
     async function signupUser(credentials) {
         console.log(credentials);
-        return fetch('http://127.0.0.1:8000/api/user/register/', {
+        return fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/register/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -169,7 +169,7 @@ export default function Form() {
 
         console.log(JSON.stringify(request));
 
-        return fetch(`http://127.0.0.1:8000/api/user/child/`, {
+        return fetch(`http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/child/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

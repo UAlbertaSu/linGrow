@@ -29,9 +29,9 @@ export default function Chat() {
     const userType = JSON.parse(sessionStorage.getItem('userType'));
     const id_chat = JSON.parse(sessionStorage.getItem('id_chat'));
     const chat_type = JSON.parse(sessionStorage.getItem('chat_type'));
-    var url = "http://127.0.0.1:8000/api/chat/get_private_chat_messages/";
+    var url = "http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/chat/get_private_chat_messages/";
     if (chat_type === "group") {
-        url = "http://127.0.0.1:8000/api/chat/get_group_chat_messages/";
+        url = "http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/chat/get_group_chat_messages/";
     }
 
     const setDashboardType = () => {
@@ -99,7 +99,7 @@ export default function Chat() {
         const message = document.getElementById("message-input").value;
         console.log(id_chat);
         console.log(message);
-        fetch("http://127.0.0.1:8000/api/chat/send_message/",{
+        fetch("http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/chat/send_message/",{
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,

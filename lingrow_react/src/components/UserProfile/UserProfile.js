@@ -39,7 +39,7 @@ function UserProfile() {
     if (userType === 4){
         // Only Admins can fetch from the specific endpoint
         fetch(
-            `http://127.0.0.1:8000/api/user/profile/${userId}`, {
+            `http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/profile/${userId}`, {
     
             headers: {
                 'content-type': 'application/json',
@@ -60,7 +60,7 @@ function UserProfile() {
     else{
         // Admins no not have authorization to use this endpoint
         fetch(
-            `http://127.0.0.1:8000/api/user/get-user/${userId}`, {
+            `http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/get-user/${userId}`, {
 
             headers: {
                 'content-type': 'application/json',
