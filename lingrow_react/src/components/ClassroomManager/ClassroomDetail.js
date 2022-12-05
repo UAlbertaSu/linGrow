@@ -87,7 +87,7 @@ export default function ClassroomManager() {
 
     const returnToDashboard = (event) => {
         event.preventDefault();
-        navigate('/dashboard');
+        nav('/dashboard');
     }
 
     if (error) {
