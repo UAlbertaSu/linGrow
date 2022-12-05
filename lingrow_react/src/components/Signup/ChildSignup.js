@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, ListGroup, Button } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 import './Signup.css';
@@ -10,7 +10,6 @@ import Translate from '../Translate/Translate';
 export default function RegisterChild() {
 
     // Declare state variables.
-    const [token] = useState(localStorage.getItem('token'));
     const [selected, setSelected] = useState([]);
     const [schools, setSchools] = useState([]);
     const [classrooms, setClassrooms] = useState([]);
@@ -19,6 +18,8 @@ export default function RegisterChild() {
 
     // Fetch schools from database.
     const setInitialState = () => {
+        let token = JSON.parse(sessionStorage.getItem('token'));
+        console.log(token);
         let arr = [];
 
         fetch('http://127.0.0.1:8000/api/school', {
@@ -39,6 +40,8 @@ export default function RegisterChild() {
 
     // get classrooms of selected school
     const handleDetail = (elem) => {
+        let token = JSON.parse(sessionStorage.getItem('token'));
+        console.log(token);
         let arr = [];
 
         fetch(`http://127.0.0.1:8000/api/school/${elem.id}/classroom`,{
@@ -61,12 +64,94 @@ export default function RegisterChild() {
         });
     }
 
-    const handleSubmit = () => {
-    
+    // Children can belong to only one classroom unlike teachers.
+    const selectListItem = (item) => {
+        setSelected([item]);
+    }
+
+    async function retrieveParentID () {
+        let token = JSON.parse(sessionStorage.getItem('token'));
+
+        return fetch('http://127.0.0.1:8000/api/user/profile/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        }).then(data => data.json()
+        ).then(data => {
+            console.log(data);
+            return data.user.id;
+        });
+    }
+
+    const handleSubmit = async (event) => {
+        let token = JSON.parse(sessionStorage.getItem('token'));
+        event.preventDefault();
+        let request;
+        let parentID = '';
+
+        let promise = new Promise ((resolve, reject) => {
+            // Retrieve parent detail.
+            retrieveParentID().then((data) => {
+                console.log(data);
+                parentID = data; 
+                resolve(data);
+            });
+        });
+
+        promise.then(() => {
+            console.log(parentID);
+
+            if (document.getElementById("child_middle_name").value !== "") {
+                request = {
+                    "parent": parentID,
+                    "first_name": document.getElementById("child_first_name").value,
+                    "middle_name": document.getElementById("child_middle_name").value,
+                    "last_name": document.getElementById("child_last_name").value,
+                    "student_id": document.getElementById("child_student_id").value,
+                    "school": document.getElementById("school_id").value,
+                    "classroom": document.getElementById("classroom_id").value
+                }
+            }
+            else {
+                request = {
+                    "parent": parentID,
+                    "first_name": document.getElementById("child_first_name").value,
+                    "last_name": document.getElementById("child_last_name").value,
+                    "student_id": document.getElementById("child_student_id").value,
+                    "school": document.getElementById("school_id").value,
+                    "classroom": document.getElementById("classroom_id").value
+                }
+            }
+
+            return fetch(`http://127.0.0.1:8000/api/user/child/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(request)
+            }).then(data => data.json()
+            ).then(data => {
+                console.log(data);
+            }).catch((error) => {
+                console.log(error);
+            });
+        });
     }
 
     const [tab_header, setTabHeader] = useState('Child Registration');
     const [register_btn, setRegisterBtn] = useState('Register');
+
+    const [loaded, setLoaded] = useState(false);
+
+    useEffect(() => {
+        if (!loaded) {
+            setInitialState();
+            setLoaded(true);
+        }
+    });
 
     return (
         <div className="bg">
@@ -86,21 +171,30 @@ export default function RegisterChild() {
                 <input className="form-control" type="text" id="child_last_name" placeholder="Enter Child's Last Name" />
                 <label className="label">Student ID</label>
                 <input className="form-control" type="text" id="child_student_id" placeholder="Enter Child's Student ID" />
-                <Button variant="primary" type="submit" id="submit_button" onClick={handleSubmit}>{register_btn}</Button>{''}
-                <div>  
-                    <ListGroup>
-                        {schools.map((elem) => 
-                        <ListGroup.Item action onClick={() => handleDetail(elem)} id="school_id" key={elem.id} value={elem.id}>
-                            {[elem.name]}
-                        </ListGroup.Item>)}
-                    </ListGroup> 
-                    <ListGroup>
-                        {classrooms.map((elem) => 
-                        <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} id="classroom_id" key={elem.id} value={elem.id}>
-                            {[elem.name]}
-                        </ListGroup.Item>)}
-                    </ListGroup>
+                <div style={{padding: 10}} />
+                <label className="label">School</label>
+                <ListGroup>
+                    {schools.map((elem) => 
+                    <ListGroup.Item action onClick={() => handleDetail(elem)} id="school_id" key={elem.id} value={elem.id}>
+                        {[elem.name]}
+                    </ListGroup.Item>)}
+                </ListGroup> 
+                <div style={{padding: 10}}>
+                    {
+                        classrooms.length > 0 ? (
+                        <div>
+                            <label className="label">Classroom</label>
+                            <ListGroup>
+                                {classrooms.map((elem) => 
+                                <ListGroup.Item action active={selected.includes(elem.id) ? true : false} onClick={() => selectListItem(elem.id)} id="classroom_id" key={elem.id} value={elem.id}>
+                                    {[elem.name]}
+                                </ListGroup.Item>)}
+                            </ListGroup>
+                        </div>
+                        ) : null
+                    }
                 </div>
+                <Button variant="primary" type="submit" id="submit_button" onClick={handleSubmit}>{register_btn}</Button>{''}
             </Card>
         </div>
     )
