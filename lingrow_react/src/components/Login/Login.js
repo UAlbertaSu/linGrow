@@ -55,7 +55,7 @@ export default function Login() {
             "password": password
         });
         sessionStorage.setItem('token', JSON.stringify(token));
-
+        
         Authenticate(token).then(response => {
             setError(false);
             sessionStorage.setItem('userType', response.user.user_type);

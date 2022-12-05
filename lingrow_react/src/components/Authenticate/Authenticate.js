@@ -1,6 +1,6 @@
 // Check whether the current access token is valid.
 export default async function Authenticate(token) {
-
+    
     return fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/profile/', {
         method: 'GET',
         headers: {

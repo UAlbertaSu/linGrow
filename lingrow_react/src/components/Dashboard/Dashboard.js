@@ -45,6 +45,26 @@ export default function Dashboard({ userType }) {
         nav("/activities");
     }
 
+    const navChildSignup = async (event) => {
+        event.preventDefault();
+        nav("/childsignup");
+    }
+
+    const navManageSchools = async (event) => {
+        event.preventDefault();
+        nav("/schoolmanager");
+    }
+
+    const navManageUsers = async (event) => {
+        event.preventDefault();
+        nav("/usermanager");
+    }
+
+    const navGroupManager = async (event) => {
+        event.preventDefault();
+        nav("/groupmanager");
+    }
+
     // Navigate user to login page if the token is not set or otherwise invalid.
     useEffect(() => {
         if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token').includes("error")) {
@@ -88,7 +108,6 @@ export default function Dashboard({ userType }) {
         return () => window.removeEventListener("New language set", translateMessage);
     }, []);
 
-
     // homepage with variables to display different content depending on user type.
     return (
         <div className="bg">
@@ -102,12 +121,12 @@ export default function Dashboard({ userType }) {
                 <LanguageList />
                 <DashNav/>
                 <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px"}}>
-                    <Button href="chat" variant="primary" type="submit" id="chat" style={{minWidth:"150px"}}>{chat}</Button>  
-                    <div>{userType === 1 ? <Button href="/childsignup" variant="primary" type="submit" id="registerChild" style={{minWidth:"150px"}}>{registerChild}</Button> : null}</div>
-                    <div>{userType === 4 ? <Button href="/schoolmanager" variant="primary" type="submit" id="manageSchools" style={{minWidth:"150px"}}>{manageSchools}</Button> : null}</div>
+                    <Button variant="primary" type="submit" id="chat" onClick={chatHandler} style={{minWidth:"150px"}}>{chat}</Button>  
+                    <div>{userType === 1 ? <Button onClick={navChildSignup} variant="primary" type="submit" id="registerChild" style={{minWidth:"150px"}}>{registerChild}</Button> : null}</div>
+                    <div>{userType === 4 ? <Button onClick={navManageSchools} variant="primary" type="submit" id="manageSchools" style={{minWidth:"150px"}}>{manageSchools}</Button> : null}</div>
                     <div>{userType > 1 ? <Button variant="primary" type="submit" id="searchUsers" onClick = {searchUserHandler}style={{minWidth:"150px"}}>{searchUsers}</Button> : null}</div>
-                    <div>{userType === 4 ? <Button href="/usermanager" variant="primary" type="submit" id="manageUsers" style={{minWidth:"150px"}}>{manageUsers}</Button> : null}</div>
-                    <div>{userType !== 1 ? <Button href="/groupmanager" variant="primary" type="submit" id="groups" style={{minWidth:"150px"}}>{group_manager}</Button> : null}</div>  
+                    <div>{userType === 4 ? <Button onClick={navManageUsers} variant="primary" type="submit" id="manageUsers" style={{minWidth:"150px"}}>{manageUsers}</Button> : null}</div>
+                    <div>{userType !== 1 ? <Button onClick={navGroupManager} variant="primary" type="submit" id="groups" style={{minWidth:"150px"}}>{group_manager}</Button> : null}</div>  
                     <Button variant="secondary" type="submit" id="activities" onClick={redirectToActivities} style={{minWidth:"150px"}}>{activities}</Button>
                     <Button variant="danger" type="submit" id="logout" onClick={clearSession} style={{minWidth:"150px"}}>{logout_msg}</Button>
                 </Card>

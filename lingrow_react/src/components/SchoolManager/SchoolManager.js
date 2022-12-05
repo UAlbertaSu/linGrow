@@ -25,7 +25,7 @@ export default function SchoolManager({userType}) {
     const setInitialState = () => {
         let arr = [];
 
-        fetch('http://127.0.0.1:8000/api/school', {
+        fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/school', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

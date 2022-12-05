@@ -85,12 +85,16 @@ export default function ClassroomManager() {
         return () => window.removeEventListener("New language set", translateMessage);
     });
 
+    const returnToDashboard = (event) => {
+        event.preventDefault();
+        navigate('/dashboard');
+    }
 
     if (error) {
         return (
             <div>            
                 <h1>Page does not exist</h1>
-                <a href="/dashboard">Return to Dashboard</a>
+                <a onClick={returnToDashboard}>Return to Dashboard</a>
             </div>
         )
     }

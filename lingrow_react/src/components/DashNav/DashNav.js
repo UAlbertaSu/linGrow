@@ -1,6 +1,6 @@
 import react, {useEffect, useState, useCallback} from 'react';
 import {Nav, Container, Navbar} from 'react-bootstrap';
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import './DashNav.css';
 import Translate from '../Translate/Translate';
 import home_icon from "../Img/home_icon.png";
@@ -8,6 +8,7 @@ import user_icon from "../Img/user_icon.png";
 
 
 export default function DashNav() {
+    const nav = useNavigate();
     const userType = JSON.parse(sessionStorage.getItem('userType'));
     const currentURL = window.location.pathname;
     const [pdashboard, setPDashboard] = useState("LinGrow Parent Dashboard");
@@ -42,6 +43,16 @@ export default function DashNav() {
         return () => window.removeEventListener("New language set", translateMessage);
     }, []);
 
+    const navDashboard = (event) => {
+        event.preventDefault();
+        nav('/dashboard');
+    }
+
+    const navProfile = (event) => {
+        event.preventDefault();
+        nav('/userinfo');
+    }
+
     // navigation bar that allows navigation to the home or user info page.
     // Highlights respective option and disables it when on that page
     // shows the user's type in the navbar
@@ -59,12 +70,12 @@ export default function DashNav() {
                 <img src={home_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
                 <div>{currentURL === "/dashboard" ? 
                     <Nav.Link style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px",  color:"black"}}>{home}</Nav.Link> :
-                    <Nav.Link href="dashboard" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px"}}>{home}</Nav.Link>}
+                    <Nav.Link onClick={navDashboard} style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px"}}>{home}</Nav.Link>}
                 </div>
                 <img src={user_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
                 <div>{currentURL === "/userinfo" ? 
                     <Nav.Link style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", color:"black"}}>{profile}</Nav.Link>: 
-                    <Nav.Link href="userinfo" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px"}}>{profile}</Nav.Link>}
+                    <Nav.Link onClick={navProfile} style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px"}}>{profile}</Nav.Link>}
                 </div>
             </Nav>
             </Navbar.Collapse>

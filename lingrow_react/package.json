@@ -1,6 +1,7 @@
 {
   "name": "lingrow_react",
   "version": "0.1.0",
+  "homepage": "http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",

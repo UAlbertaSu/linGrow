@@ -1,6 +1,7 @@
 from google.cloud import translate
 from requests_cache import CachedSession
 
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -88,7 +89,7 @@ class TranslationView(APIView):
         '''
             View for getting the translation request
         '''
-        return Response(get_supported_languages_with_target())
+        return Response(get_supported_languages_with_target(), status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
         '''
@@ -98,4 +99,4 @@ class TranslationView(APIView):
         text = user_request['Text']
         target = user_request['Target']
         source = user_request['Source']
-        return Response(translate_text(text, source, target))
+        return Response(translate_text(text, source, target), status=status.HTTP_200_OK)
