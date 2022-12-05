@@ -4,7 +4,7 @@ import {Helmet} from 'react-helmet';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
-
+import logo from "../Img/blank_lingrow.png";
 import './Signup.css';
 import 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card';
@@ -17,7 +17,7 @@ export default function Form() {
 
     //translation states
     const [tab_header, setTabHeader] = useState("LinGrow Signup");
-    const [header, setHeader] = useState("Parent Registration");
+    const [header, setHeader] = useState("Registration");
     const [email_msg, setEmailMsg] = useState("Email address");
     const [enter_email_msg, setEnterEmailMsg] = useState("Enter Email Address");
     const [first_msg, setFirstMsg] = useState("First name");
@@ -201,7 +201,7 @@ export default function Form() {
         let lang = localStorage.getItem('lang');
         if (lang) {
             Translate('en', lang, 'LinGrow Signup').then((res) => setTabHeader(res));
-            Translate('en', lang, "Parent Registration").then(response => setHeader(response));
+            Translate('en', lang, "Registration").then(response => setHeader(response));
             Translate('en', lang, "Email address*").then(response => setEmailMsg(response));
             Translate('en', lang, "Enter Email Address").then(response => setEnterEmailMsg(response));
             Translate('en', lang, "First name*").then(response => setFirstMsg(response));
@@ -247,11 +247,12 @@ export default function Form() {
     // self signup page for parents
     return (
         <div className="bg">
+            <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>{tab_header}</title>
             </Helmet>
-            <Card className="signup" style={{}}>
+            <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
                         <LanguageList />
                         <h1>{header}</h1>
                         { /* Parent signup details */ }

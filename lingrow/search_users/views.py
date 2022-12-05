@@ -7,12 +7,14 @@ from account.serializers import ParentProfileSerializer, TeacherProfileSerialize
 from rest_framework import status
 from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from drf_yasg.utils import swagger_auto_schema
 
 # Search user Views that define the API endpoints for searching users
 
 class ParentSearchView(APIView):
     permission_classes = [IsAuthenticated,IsTeacher|IsResearcher|IsAdminUser]
 
+    @swagger_auto_schema(operation_description='Return parents with the search keyword',responses={200: ParentProfileSerializer(many=True)})
     def get(self, request, search = None):
         '''
         Returns a list of parents that match the search criteria
@@ -52,12 +54,19 @@ class ParentSearchView(APIView):
                                        Q(parent__user__middle_name__icontains=search) |
                                        Q(parent__user__phone__icontains=search))
         parents = Parent.objects.filter(child__in=children)
+        if len(parents) == 0 and (user.is_researcher() or user.is_admin()):
+            parents = Parent.objects.all().filter(Q(user__email__icontains=search) |
+                                                  Q(user__first_name__icontains=search) |
+                                                  Q(user__last_name__icontains=search) |
+                                                  Q(user__middle_name__icontains=search) |
+                                                  Q(user__phone__icontains=search))
         serializer = ParentProfileSerializer(parents, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class TeacherSearchView(APIView):
     permission_classes = [IsAuthenticated,IsResearcher|IsAdminUser]
 
+    @swagger_auto_schema(operation_description='Return teachers with the search keyword',responses={200: TeacherProfileSerializer(many=True)})
     def get(self, request, search = None):
         '''
         Returns a list of teachers that match the search criteria
@@ -90,6 +99,7 @@ class TeacherSearchView(APIView):
 class ResearcherSearchView(APIView):
     permission_classes = [IsAuthenticated,IsAdminUser]
 
+    @swagger_auto_schema(operation_description='Return researchers with the search keyword',responses={200:ResearcherProfileSerializer(many=True)})
     def get(self,request, search=None):
         '''
         Returns a list of researchers that match the search criteria
@@ -114,6 +124,7 @@ class ResearcherSearchView(APIView):
 class UserSearchView(APIView):
     permission_classes = [IsAuthenticated,IsAdminUser]
 
+    @swagger_auto_schema(operation_description='Return users with the search keyword',responses={200:UserProfileSerializer(many=True)})
     def get(self,request,search=None):
         '''
         Returns a list of users that match the search criteria
