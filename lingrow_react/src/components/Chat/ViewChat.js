@@ -186,10 +186,6 @@ export default function Chat() {
     return (
         <div className="bg">
             <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
-            <Helmet>
-                    <meta charSet="utf-8" />
-                    <title>{tab_header}</title>
-            </Helmet>
             <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
                 <a href="https://bilingualacquisition.ca/"></a>
                 <LanguageList />
