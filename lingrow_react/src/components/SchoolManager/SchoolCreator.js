@@ -6,6 +6,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 import Helmet from 'react-helmet';
+import logo from "../Img/blank_lingrow.png";
+import DashNav from '../DashNav/DashNav';
 
 // Allows users to create a new school
 export default function SchoolCreator({}) {
@@ -89,12 +91,14 @@ export default function SchoolCreator({}) {
     // page for creation of schools
     return (
         <div className="bg">
-        <Card className="function_card">
+        <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
+        <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
             <Helmet>
                     <meta charSet="utf-8" />
                     <title>{tab_header}</title>
             </Helmet>
             <LanguageList />
+            <DashNav/>
             <Card className="title_card">
                 <h1>{group_create_header}</h1>
             </Card>

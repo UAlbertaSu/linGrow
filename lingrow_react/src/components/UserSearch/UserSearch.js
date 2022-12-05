@@ -6,6 +6,8 @@ import {Helmet} from 'react-helmet';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
+import logo from "../Img/blank_lingrow.png";
+import DashNav from '../DashNav/DashNav';
 
 //A user search component that allows users to search for certain users depending on user type
 
@@ -22,6 +24,7 @@ function UserSearch(){
     const [userChoice, setUserChoice] = useState(1);
     const [token, setToken] = useState(JSON.parse(sessionStorage.getItem('token')));
     const [userType, setUserType] = useState(JSON.parse(sessionStorage.getItem('userType')));
+    const [searchUserId, setSearchUserId] = useState("");
 
     const [tab_header, setTabHeader] = useState("LinGrow User Search");
     const [searchUserHeader, setSearchUserHeader] = useState("Search User");
@@ -46,29 +49,32 @@ function UserSearch(){
     }
 
     const selectListItem = (item) => {
-        if (selected.includes(item)) {
-            setSelected(selected.filter((i) => i !== item));
-        }
-        else {
-            setSelected(
-                [...selected,
-                item]
-            )
-        }
+        
+        //const userId = item.user.id; 
+        console.log(item.id);
+        nav('/userprofile', {
+            state: {userId : item.id}
+        });
     }
+
 
     // Search user
     function searchHandler(){
 
         const userList = [];
        
-        const enteredUserSearch = refUserSearch.current.value;
-
+        var enteredUserSearch = refUserSearch.current.value;
+        
+        if (enteredUserSearch !== '') {
+            enteredUserSearch = enteredUserSearch +'/';
+        }
+        
+        
         // if account is admin, search all users
         if (userType === 4){
             
             fetch(
-                'http://127.0.0.1:8000/api/search/users',{
+                `http://127.0.0.1:8000/api/search/users/${enteredUserSearch}`,{
                 
                 headers: {
                     'Content-Type': 'application/json',
@@ -78,13 +84,7 @@ function UserSearch(){
         ).then(data => {
             data.map((item) => {
                 if(!searchResult.includes(item)){
-                    const firstName =item.first_name;
-                    const lastName = item.last_name;
-                   
-                    if (firstName.includes(enteredUserSearch) || lastName.includes(enteredUserSearch)){
-                        
-                        userList.push(item);
-                    }
+                    userList.push(item);
                     console.log(userList);
                 }
             })
@@ -97,7 +97,7 @@ function UserSearch(){
         if (userChoice === 1){
           
             fetch(
-                'http://127.0.0.1:8000/api/search/parents',{
+                `http://127.0.0.1:8000/api/search/parents/${enteredUserSearch}`,{
                 
                 headers: {
                     'Content-Type': 'application/json',
@@ -105,15 +105,10 @@ function UserSearch(){
                 },
         }).then(data => data.json()
         ).then(data => {
+            
             data.map((item) => {
                 if(!searchResult.includes(item)){
-                    const firstName =item.user.first_name;
-                    const lastName = item.user.last_name;
-                   
-                    if (firstName.includes(enteredUserSearch) || lastName.includes(enteredUserSearch)){
-                        
-                        userList.push(item.user);
-                    }
+                    userList.push(item.user);
                     console.log(userList);
                 }
             })
@@ -124,9 +119,9 @@ function UserSearch(){
          
         // if search criteria is for teachers, search only teachers
         if (userChoice === 2){
-          
+            let url = `http://127.0.0.1:8000/api/search/teachers/${enteredUserSearch}`;
             fetch(
-                'http://127.0.0.1:8000/api/search/teachers',{
+                url,{
                 
                 headers: {
                     'Content-Type': 'application/json',
@@ -136,13 +131,8 @@ function UserSearch(){
         ).then(data => {
             data.map((item) => {
                 if(!searchResult.includes(item)){
-                    const firstName =item.user.first_name;
-                    const lastName = item.user.last_name;
-                   
-                    if (firstName.includes(enteredUserSearch) || lastName.includes(enteredUserSearch)){
-                        
-                        userList.push(item.user);
-                    }
+
+                    userList.push(item.user);
                     console.log(userList);
                 }
             })
@@ -155,7 +145,7 @@ function UserSearch(){
         if (userChoice === 3){
           
             fetch(
-                'http://127.0.0.1:8000/api/search/researchers',{
+                `http://127.0.0.1:8000/api/search/researchers/${enteredUserSearch}`,{
                 
                 headers: {
                     'Content-Type': 'application/json',
@@ -165,13 +155,8 @@ function UserSearch(){
         ).then(data => {
             data.map((item) => {
                 if(!searchResult.includes(item)){
-                    const firstName =item.user.first_name;
-                    const lastName = item.user.last_name;
-                   
-                    if (firstName.includes(enteredUserSearch) || lastName.includes(enteredUserSearch)){
-                        
-                        userList.push(item.user);
-                    }
+
+                    userList.push(item.user);
                     console.log(userList);
                 }
             })
@@ -211,13 +196,15 @@ function UserSearch(){
 
     return(
         <div className='bg'>
+            <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>{tab_header}</title>
             </Helmet>
-            <Card className='function_card'>
+            <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
                 
                 <LanguageList />
+                <DashNav/>
                 <Card className="title_card">
                     <h1>{searchUserHeader}</h1>
                 </Card>

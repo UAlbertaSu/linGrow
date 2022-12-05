@@ -20,7 +20,7 @@ class ChatListView(APIView):
     '''
     permission_classes = (IsAuthenticated,)
 
-    @swagger_auto_schema(responses={200: 'OK'})
+    @swagger_auto_schema(operation_description='Get list of private chats for a user',responses={200: PrivateChatSerializer(many=True)})
     def get(self, request):
         chats = chat_utility_functions.get_user_private_chats(request)
         serializer = PrivateChatSerializer(chats, many=True)
@@ -41,7 +41,7 @@ class GroupChatListView(APIView):
     '''
     permission_classes = (IsAuthenticated,)
 
-    @swagger_auto_schema(responses={200: 'OK'})
+    @swagger_auto_schema(operation_description='Get list of group chats for a user',responses={200: ParentGroupChatSerializer(many=True)})
     def get(self, request):
         parent_chats, teacher_chats, researcher_chats = chat_utility_functions.get_user_group_chats(request)
         parent_searilizer = ParentGroupChatSerializer(parent_chats, many=True)
@@ -57,7 +57,7 @@ class NewChatView(APIView):
     '''
     permission_classes = (IsAuthenticated,)
 
-    @swagger_auto_schema(responses={200: 'OK'})
+    @swagger_auto_schema(operation_description='Display users for a new chat',responses={200: UserProfileSerializer(many=True)})
     def get(self, request):
         current_user = request.user
         addable = chat_utility_functions.get_addable_users_private_chat(request)
@@ -74,7 +74,7 @@ class CreateChatView(APIView):
     '''
     permission_classes = (IsAuthenticated,)
 
-    @swagger_auto_schema(responses={200: 'OK'})
+    @swagger_auto_schema(operation_description='Create a new private chat',responses={200: MessageSerializer(many=True)})
     def post(self, request):
         other_username = request.data.get("other_username")
         other_user = User.objects.get(email=other_username)
@@ -95,7 +95,7 @@ class PrivateChatView(APIView):
     '''
     permission_classes = (IsAuthenticated,)
 
-    @swagger_auto_schema(responses={200: 'OK'})
+    @swagger_auto_schema(operation_description='View Private Chat',responses={200: MessageSerializer(many=True)})
     def post(self,request):
         chat_id = request.data.get("id_chat")
         chat = PrivateChat.objects.get(id_chat=chat_id)
@@ -116,7 +116,7 @@ class GroupChatPageView(APIView):
     '''
     permission_classes = (IsAuthenticated,)
 
-    @swagger_auto_schema(responses={200: 'OK'})
+    @swagger_auto_schema(operation_description='View Group Chat',responses={200: MessageSerializer(many=True)})
     def post(self, request):
         chat_id = request.data.get("id_chat")
         if TeacherGroupChat.objects.filter(id_chat=chat_id).exists():
@@ -140,15 +140,14 @@ class SendMessageView(APIView):
     '''
     permission_classes = (IsAuthenticated,)
 
-    @swagger_auto_schema(responses={200: 'OK'})
+    @swagger_auto_schema(operation_description="Send Message",responses={200: MessageSerializer})
     def post(self, request):
         chat_id = request.data.get("id_chat")
         chat = Chat.objects.get(id_chat=chat_id)
         text_message = request.data.get("message")
-        # lang = detect_language(text_message)
-        # print(lang)
-        # if lang != 'en':
-        #     text_message = translate_text(text_message, lang,'en')
+        lang = detect_language(text_message)
+        if lang != 'en':
+            text_message = translate_text(text_message, lang,'en')
         response = {}
         if len(text_message) > 0:
             messaggio=Message.add_this(Message(), chat, request.user, text_message)
@@ -161,7 +160,7 @@ class ChatMessageView(APIView):
     '''
     permission_classes = (IsAuthenticated,)
 
-    @swagger_auto_schema(responses={200: 'OK'})
+    @swagger_auto_schema(responses={200: MessageSerializer(many=True)})
     def post(self, request):
         id_chat = request.data.get("id_chat")
         lang = request.data.get("lang")

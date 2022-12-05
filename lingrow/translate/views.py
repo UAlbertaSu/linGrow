@@ -75,7 +75,10 @@ def detect_language(text):
     url = f"https://translation.googleapis.com/language/translate/v2/detect"
 
     response = session.get(url, params={'key': API_key, 'q': text})
-    return response.json()['data']['detections'][0][0]['language']
+    try:
+        return response.json()['data']['detections'][0][0]['language']
+    except KeyError:
+        return text
 
 class TranslationView(APIView):
     '''

@@ -7,7 +7,7 @@ import Translate from '../Translate/Translate';
 import { retrieveUserType } from '../Login/Login';
 
 import { Helmet } from 'react-helmet';
-import logo from "../Img/lingrow.png";
+import logo from "../Img/blank_lingrow.png";
 import DashNav from '../DashNav/DashNav';
 
 
@@ -126,18 +126,20 @@ export default function UserInfo({ userType }) {
     // User info page with editable fields for user to change.
     return (
         <div className='bg'>
-            <Card style={{minHeight:"fit-content", paddingBottom:"20px"}}>
+            <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
+            <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
                 <Helmet>
                         <meta charSet="utf-8" />
                         <title>{tab_header}</title>
                 </Helmet>
-                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+                <a href="https://bilingualacquisition.ca/"></a>
                 <LanguageList />
                 <DashNav/>
                 <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px", flexDirection:"column"}}>
                     <Row>
                         <Col className="title_col">
                             <Card.Title style={{margin:"10px 10px 10px 10px", fontWeight:"bold"}}>{account_type_header}</Card.Title>
+
                             <Card.Title style={{margin:"15px 10px 10px 10px", fontWeight:"bold"}}>{name_header}</Card.Title>
                             <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{last_name_header}</Card.Title>
                             <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{username_email_header}</Card.Title>
@@ -146,11 +148,11 @@ export default function UserInfo({ userType }) {
                             <div>{userType === 1 || userType === 2 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{classrooms_header}</Card.Title> : null}</div>
                         </Col>
                         <Col className="info_col">
+
                             <div>{userType === 1 ? <Card.Title style={{margin:"10px"}}>{parent}</Card.Title> : null}</div>
                             <div>{userType === 2 ? <Card.Title style={{margin:"10px"}}>{teacher}</Card.Title> : null}</div>
                             <div>{userType === 3 ? <Card.Title style={{margin:"10px"}}>{researcher}</Card.Title> : null}</div>
                             <div>{userType === 4 ? <Card.Title style={{margin:"10px"}}>{admin}</Card.Title> : null}</div>
-
                             <Card.Title style={{margin:"15px 10px 10px 10px"}}>{name_input}</Card.Title>
                             <Card.Title style={{margin:"20px 10px 10px 10px"}}>{last_name_input}</Card.Title>
                             <Card.Title style={{margin:"20px 10px 10px 10px"}}>{username_email_input}</Card.Title>
@@ -159,7 +161,7 @@ export default function UserInfo({ userType }) {
                             <div>{userType === 1 ? <Card.Title style={{margin:"20px 10px 10px 10px"}}>{classroom_name_input}</Card.Title> : null}</div>
                             <div>{userType === 2 ? <Card.Title style={{margin:"20px 10px 10px 10px"}}>{teacher_schools_name_input}</Card.Title> : null}</div>
                             <div>{userType === 2 ? <Card.Title style={{margin:"20px 10px 10px 10px"}}>{teacher_classrooms_name_input}</Card.Title> : null}</div>
-                        
+
                         </Col>
                     </Row>
                 </Card>
