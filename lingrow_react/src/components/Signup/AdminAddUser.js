@@ -8,6 +8,8 @@ import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 import StyledDropzone from './Dropzone';
 import Authenticate from '../Authenticate/Authenticate';
+import logo from "../Img/blank_lingrow.png";
+import DashNav from '../DashNav/DashNav';
 
 // Component to prompt admin users to add users one by one, or mass-create users via xlsx/csv file.
 export default function AdminAddUser() {
@@ -237,12 +239,14 @@ export default function AdminAddUser() {
     // Return the admin add user page.
     return (
         <div className='bg'>
+            <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
             <Helmet>
                     <meta charSet="utf-8" />
                     <title>{tab_header}</title>
             </Helmet>
-            <Card className='function_card'>
+            <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
                 <LanguageList />
+                <DashNav/>
                 <Card className="title_card">
                     <h1>{header}</h1>
                 </Card>

@@ -5,7 +5,7 @@ import { Card, Button, Nav, NavDropdown, Container, Navbar} from 'react-bootstra
 // import ChatDisplay from './ChatDisplay';
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
-import logo from "../Img/lingrow.png";
+import logo from "../Img/blank_lingrow.png";
 import home_icon from "../Img/home_icon.png";
 import user_icon from "../Img/user_icon.png";
 import { Helmet } from 'react-helmet';
@@ -184,9 +184,10 @@ export default function Chat() {
     });
 
     return (
-        <div className="dashboard-wrapper">
-            <Card style={{minHeight:"fit-content", paddingBottom:"20px"}}>
-                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+        <div className="bg">
+            <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
+            <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
+                <a href="https://bilingualacquisition.ca/"></a>
                 <LanguageList />
                 <Navbar bg="light" expand="lg" style={{width:"94%", margin: "20px 0px 10px 0px"}}>
                     <Container>

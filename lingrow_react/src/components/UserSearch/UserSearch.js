@@ -6,6 +6,8 @@ import {Helmet} from 'react-helmet';
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
+import logo from "../Img/blank_lingrow.png";
+import DashNav from '../DashNav/DashNav';
 
 //A user search component that allows users to search for certain users depending on user type
 
@@ -194,13 +196,15 @@ function UserSearch(){
 
     return(
         <div className='bg'>
+            <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>{tab_header}</title>
             </Helmet>
-            <Card className='function_card'>
+            <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
                 
                 <LanguageList />
+                <DashNav/>
                 <Card className="title_card">
                     <h1>{searchUserHeader}</h1>
                 </Card>

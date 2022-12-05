@@ -3,7 +3,7 @@ import { Button, Card } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import {Helmet} from 'react-helmet';
-import logo from "../Img/lingrow.png";
+import logo from "../Img/blank_lingrow.png";
 
 import DashNav from '../DashNav/DashNav';
 import LanguageList from "../Translate/LanguageList";
@@ -83,12 +83,13 @@ export default function UserManager() {
     // user manage which allows admin to see list of users, and add new users.
     return (
         <div className="bg">
+            <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>{tab_header}</title>
             </Helmet>
-            <Card>
-                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+            <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
+                <a href="https://bilingualacquisition.ca/"></a>
                 <LanguageList />
                 <DashNav/>
                 <Card className="title_card">

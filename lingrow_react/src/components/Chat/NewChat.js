@@ -6,7 +6,7 @@ import LanguageList from '../Translate/LanguageList';
 import { Helmet } from 'react-helmet';
 import Translate from '../Translate/Translate';
 import DashNav from '../DashNav/DashNav';
-import logo from "../Img/lingrow.png";
+import logo from "../Img/blank_lingrow.png";
 
 export default function DirectChat() {
     const nav = useNavigate();
@@ -76,12 +76,13 @@ export default function DirectChat() {
     // page that lets the user start chats with other users
     return (
         <div className="bg">
-            <Card>
+            <img src={logo}  class="center" alt="Lingrow Logo" style={{marginTop:"10px",marginBottom:"20px", maxHeight:"350px", maxWidth:"350px"}}/>
+            <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
                 <Helmet>
                     <meta charSet="utf-8" />
                     <title>{tab_header}</title>
                 </Helmet>
-                <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
+                <a href="https://bilingualacquisition.ca/"></a>
                 <LanguageList />
                 <DashNav/>
                 <div style={{ display: 'block', width: 400, padding: 30 }}>
