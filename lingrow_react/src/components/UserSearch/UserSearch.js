@@ -74,7 +74,7 @@ function UserSearch(){
         if (userType === 4){
             
             fetch(
-                `http://127.0.0.1:8000/api/search/users/${enteredUserSearch}`,{
+                `http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/search/users/${enteredUserSearch}`,{
                 
                 headers: {
                     'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ function UserSearch(){
         if (userChoice === 1){
           
             fetch(
-                `http://127.0.0.1:8000/api/search/parents/${enteredUserSearch}`,{
+                `http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/search/parents/${enteredUserSearch}`,{
                 
                 headers: {
                     'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ function UserSearch(){
          
         // if search criteria is for teachers, search only teachers
         if (userChoice === 2){
-            let url = `http://127.0.0.1:8000/api/search/teachers/${enteredUserSearch}`;
+            let url = `http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/search/teachers/${enteredUserSearch}`;
             fetch(
                 url,{
                 
@@ -145,7 +145,7 @@ function UserSearch(){
         if (userChoice === 3){
           
             fetch(
-                `http://127.0.0.1:8000/api/search/researchers/${enteredUserSearch}`,{
+                `http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/search/researchers/${enteredUserSearch}`,{
                 
                 headers: {
                     'Content-Type': 'application/json',

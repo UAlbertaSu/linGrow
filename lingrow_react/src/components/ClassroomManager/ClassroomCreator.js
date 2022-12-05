@@ -26,7 +26,7 @@ export default function ClassroomCreator({}) {
             'name': group_name,
             'school': loc.state.schoolID,
         }
-        let url = `http://127.0.0.1:8000/api/school/${loc.state.schoolID}/classroom/`;
+        let url = `http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/school/${loc.state.schoolID}/classroom/`;
 
         fetch(url, {
             method: 'POST',

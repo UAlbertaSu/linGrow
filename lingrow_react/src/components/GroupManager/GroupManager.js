@@ -29,7 +29,7 @@ export default function GroupManager({userType}) {
         if (userType === 4) { // Admin can add all users into group.
             arr = [];
 
-            fetch('http://127.0.0.1:8000/api/group/researchergroup', {
+            fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/group/researchergroup', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ export default function GroupManager({userType}) {
         if (userType === 3 || userType === 4) { // Admin and researcher can add teachers and parents into group.
             arr = [];
 
-            fetch('http://127.0.0.1:8000/api/group/teachergroup', {
+            fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/group/teachergroup', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export default function GroupManager({userType}) {
         if (userType === 2 || userType === 3 || userType === 4) { // Admin, researcher, and teacher can add parents into group.
             arr = [];
 
-            fetch('http://127.0.0.1:8000/api/group/parentgroup', {
+            fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/group/parentgroup', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

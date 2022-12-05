@@ -40,7 +40,7 @@ export default function DirectChat() {
 
     useEffect(
         () => {
-            fetch('http://127.0.0.1:8000/api/chat/profile/', {
+            fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/chat/profile/', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`

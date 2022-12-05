@@ -66,7 +66,7 @@ export default function UserInfo({ userType }) {
         // if a parent, get the child info
         if (user.user_type === 1) {   
             // get child info 
-            return fetch('http://127.0.0.1:8000/api/user/child', {
+            return fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/child', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

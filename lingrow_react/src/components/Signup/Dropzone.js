@@ -46,7 +46,7 @@ async function handleNewUsers(users) {
 
     console.log(JSON.stringify(request));
 
-    return fetch('http://127.0.0.1:8000/api/user/admin-add-users/', {
+    return fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/admin-add-users/', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json',
@@ -75,7 +75,7 @@ async function retrieveSchoolID(schoolName) {
         return "";
     }
 
-    return fetch(`http://127.0.0.1:8000/api/school/`, {
+    return fetch(`http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/school/`, {
         method: 'GET',
         headers: {
             'Content-type': 'application/json',
@@ -104,7 +104,7 @@ async function retrieveClassroomID(schoolID, classroomName) {
         return "";
     }
 
-    return fetch(`http://127.0.0.1:8000/api/school/${schoolID}/classroom/`, {
+    return fetch(`http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/school/${schoolID}/classroom/`, {
         method: 'GET',
         headers: {
             'Content-type': 'application/json',

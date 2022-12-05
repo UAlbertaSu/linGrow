@@ -49,7 +49,7 @@ export default function GroupDetail() {
                 let groupType = location.state.groupType;
                 let token = JSON.parse(sessionStorage.getItem('token'));
                         
-                fetch(`http://127.0.0.1:8000/api/group/${groupType}group/${groupID}`,{
+                fetch(`http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/group/${groupType}group/${groupID}`,{
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

@@ -16,7 +16,7 @@ import './Login.css';
 
 
 export async function retrieveUserType(token) {
-    return fetch('http://127.0.0.1:8000/api/user/profile/', {
+    return fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/profile/', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`
@@ -67,7 +67,7 @@ export default function Login() {
     }
     
     async function loginUser(credentials) {
-        return fetch('http://127.0.0.1:8000/api/user/login/', {
+        return fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/login/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

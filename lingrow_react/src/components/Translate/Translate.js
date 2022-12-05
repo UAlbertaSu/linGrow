@@ -32,7 +32,7 @@ export default async function Translate(source, lang, query) {
     }
 
     // Create request to the Django backend. This creates a promise object.
-    let url = "http://127.0.0.1:8000/api/translate/";
+    let url = "http://10.2.14.119/api/translate/";
     console.log("Query: ", query_json);
     return fetch(url, {
         method: 'POST',

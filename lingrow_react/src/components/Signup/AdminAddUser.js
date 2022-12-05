@@ -85,7 +85,7 @@ export default function AdminAddUser() {
     const setInitialState = () => {
         let arr = [];
 
-        fetch('http://127.0.0.1:8000/api/school', {
+        fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/school', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ export default function AdminAddUser() {
     const handleDetail = (elem) => {
         let arr = [];
 
-        fetch(`http://127.0.0.1:8000/api/school/${elem.id}/classroom`,{
+        fetch(`http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/school/${elem.id}/classroom`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -166,7 +166,7 @@ export default function AdminAddUser() {
 
         console.log(JSON.stringify(request));
 
-        return fetch(`http://127.0.0.1:8000/api/user/parent/${parentID}/child/`, {
+        return fetch(`http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/parent/${parentID}/child/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -209,7 +209,7 @@ export default function AdminAddUser() {
             "users": [user]
         }
 
-        return fetch('http://127.0.0.1:8000/api/user/admin-add-users/', {
+        return fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/admin-add-users/', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
