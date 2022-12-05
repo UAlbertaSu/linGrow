@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Card, Nav, Container, Navbar, Col, Row, Button} from 'react-bootstrap';
-import { useNavigate, useLocation } from "react-router-dom";
+import { Card,  Col, Row, } from 'react-bootstrap';
+import {  useLocation } from "react-router-dom";
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
-import { retrieveUserType } from '../Login/Login';
+
 
 import { Helmet } from 'react-helmet';
 import logo from "../Img/lingrow.png";
 import DashNav from '../DashNav/DashNav';
 
+// Allows users to view the information of another user. 
+// This page is only accessible to users who are logged in and have searched for the user from User Search
 function UserProfile() {
 
     let location = useLocation();
@@ -35,7 +37,7 @@ function UserProfile() {
     userId = userId+'/'
     
     if (userType === 4){
-
+        // Only Admins can fetch from the specific endpoint
         fetch(
             `http://127.0.0.1:8000/api/user/profile/${userId}`, {
     
@@ -56,7 +58,7 @@ function UserProfile() {
             });
     }
     else{
-        
+        // Admins no not have authorization to use this endpoint
         fetch(
             `http://127.0.0.1:8000/api/user/get-user/${userId}`, {
 
@@ -102,21 +104,7 @@ function UserProfile() {
         });
     
 
-    // const setDashboardType = () => {
-    //     if (userType === 1) {
-    //         return 'LinGrow Parent Dashboard';
-    //     }
-    //     else if (userType === 2) {
-    //         return 'LinGrow Teacher Dashboard';
-    //     }
-    //     else if (userType === 3) {
-    //         return 'LinGrow Researcher Dashboard';
-    //     }
-    //     else if (userType === 4) {
-    //         return 'LinGrow Admin Dashboard';
-    //     }
-    // }
-    
+  
     return(
         <div className='bg'>
             <Card style={{minHeight:"fit-content", paddingBottom:"20px"}}>
@@ -130,19 +118,19 @@ function UserProfile() {
                 <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px", flexDirection:"column"}}>
                     <Row>
                         <Col className="title_col">
-                            <Card.Title style={{margin:"15px 10px 10px 10px", fontWeight:"bold"}}>{username_email_header}</Card.Title>
-                            <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{last_name_header}</Card.Title>
-                            <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{name_header}</Card.Title>
+                            <Card.Title style={{margin:"15px 10px 10px 10px", fontWeight:"bold"}}>{username_email_header} : {email}</Card.Title>
+                            <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{name_header} : {FirstName}</Card.Title>
+                            <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{last_name_header} : {LastName}</Card.Title>
                             <div>{otherUserType === 1 ? <Card.Title style={{margin:"20px 10px 10px 10px", fontWeight:"bold"}}>{childs_name_header}</Card.Title> : null}</div>
                             
                             
                         </Col>
-                        <Col className="info_col">
+                        {/* <Col className="info_col" >
                             <div> <Card.Title style={{margin:"10px"}}>{email}</Card.Title> </div>
                             <div> <Card.Title style={{margin:"10px"}}>{FirstName}</Card.Title> </div>
                             <div> <Card.Title style={{margin:"10px"}}>{LastName}</Card.Title> </div>
                             <div>{otherUserType === 1 ? <Card.Title style={{margin:"10px"}}>{childName}</Card.Title>  : null}</div>
-                        </Col>
+                        </Col> */}
                     </Row>
                 </Card>
             </Card>
