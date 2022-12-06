@@ -25,7 +25,7 @@ import GroupChat from '../Chat/GroupChat';
 import ViewChat from '../Chat/ViewChat';
 import ChildSignup from '../Signup/ChildSignup';
 import UserProfileWrapper from '../UserProfile/UserProfileWrapper';
-
+import AddedUserDetails from '../Signup/AddedUserDetails';
 
 
 function App() {
@@ -63,6 +63,7 @@ function App() {
           <Route path="/classroomcreator" element={<ClassroomCreator/ >}></Route>
           <Route path="/childsignup" element={<ChildSignup/ >}></Route>
           <Route path= "/userprofile" element= {<UserProfileWrapper/ >}></Route>
+          <Route path="/admincreatedusers" element={<AddedUserDetails/ >} ></Route>
         </Routes>
       </BrowserRouter>
     </div>

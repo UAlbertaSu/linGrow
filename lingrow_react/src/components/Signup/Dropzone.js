@@ -2,8 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import * as Papa from 'papaparse';
-import { CSVLink, CSVDownload } from 'react-csv';
-import { resolvePath } from 'react-router-dom';
+import { resolvePath, useNavigate } from 'react-router-dom';
 
 // Color selection depending on whether a file extension is valid or not.
 const getColor = (props) => {
@@ -35,37 +34,6 @@ const Container = styled.div`
     outline: none;
     transition: border .24s ease-in-out;
 `;
-
-// Given list of new users, mass-add users into the database.
-async function handleNewUsers(users) {
-    let token = JSON.parse(sessionStorage.getItem('token'));
-
-    let request = {
-        "users": users
-    }
-
-    console.log(JSON.stringify(request));
-
-    return fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/admin-add-users/', {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(request)
-    }).then(data => data.json()
-    ).then(data => {
-        console.log(data);
-        if (data.hasOwnProperty("errors")) {
-            alert(data.errors.msg);
-        }
-        else {
-            alert(data.msg);
-        }
-    }).catch(error => {
-        console.log(error);
-    });
-}
 
 // Given school name, retrieve school ID.
 async function retrieveSchoolID(schoolName) {
@@ -147,6 +115,39 @@ function enumUserType(userType) {
 
 // Dropbox component is defined here.
 export default function StyledDropzone({dropbox_message}) {
+    const nav = useNavigate();
+
+    // Given list of new users, mass-add users into the database.
+    const handleNewUsers = async (users) => {
+        let token = JSON.parse(sessionStorage.getItem('token'));
+        let request = {
+            "users": users
+        }
+
+        console.log(JSON.stringify(request));
+
+        return fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/admin-add-users/', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(request)
+        }).then(data => data.json()
+        ).then(data => {
+            console.log(data);
+
+            // Sends user data to the url '/admincreatedusers'.
+            nav('/admincreatedusers', {
+                state: {
+                    data: data
+                }
+            });
+        }).catch(error => {
+            alert("Error: User could not be created.");
+            console.log(error);
+        });
+    }
 
     // Once a valid file has been dropped to the dropbox (or added by user), parse that file and calls admin-add-user API.
     const onDrop = useCallback(acceptedFiles => {

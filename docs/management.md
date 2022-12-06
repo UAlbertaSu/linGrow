@@ -68,8 +68,6 @@
 * **Velocity Conversion**: tiny = 1, small = 2, medium = 3, large = 5, X-Large = 8
 * **Estimated Velocity**: 13 / 20 = 0.65
 
-* **SUBJECT TO CHANGE**
-
 | Tasks                     | Related US(Story Points)   | Assigned To                    | Due Date|
 |---------------------------|-----------------|---------------------------------------------|---------|
 | Sending Messages          | Parent-Teacher communication(5)  |  Kash, Loyal        | Nov. 18  |
@@ -82,14 +80,14 @@
 
 * **Due**: December 3, 2022
 * **Velocity Conversion**: tiny = 1, small = 2, medium = 3, large = 5, X-Large = 8
-* **Estimated Velocity**: 10 / 13 = 0.76
-* **SUBJECT TO CHANGE**
+* **Estimated Velocity**: 16 / 13 = 1.23
 
 | Tasks                     | Related US(Story Points)   | Assigned To                    | Due Date|
 |---------------------------|-----------------|---------------------------------------------|---------|
-| Mark Important Messages  |important messages(1) | Not yet decided                      | Dec. 2 |
-| Pictograms               | Accessibility (1)| Not yet decided                      | Dec. 2   |
-| Translate messages          | message translation(8) |  Not yet decided                  | Dec. 2 |
+| Clean-up  | All(8) | Steve, Kevin, Jeff, Sam, Kash, Loyal, Scott                      | Dec. 2 |
+| Translate messages          | message translation(8) |  Scott, Loyal, Kash                  | Dec. 2 |
+| Mark Important Messages  |important messages(1) | Did not finish                       | Dec. 2 |
+| Pictograms               | Accessibility (1)| Did not finish                       | Dec. 2   |
 <!-- | Sending Mass Messages    | Teacher group Message(5)|     Not yet decided                 | Dec. 2  |
 | Send Mass messages       | Admin group message (2)| Not yet decided                      | Dec. 2   |
 | Mark Important Messages  |important messages(1) | Not yet decided                         | Dec. 2 |

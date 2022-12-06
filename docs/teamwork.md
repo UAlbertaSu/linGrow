@@ -951,3 +951,101 @@
 
 > ##### Scott, Kevin, Steve, Sam
 >> * General frontend works.
+
+---
+
+### November 21, 2022
+> * 9:00 AM - 10:50 AM
+> * CSC B-10
+
+#### Agenda
+> * Sprint 4 demo meeting.
+> * Update each other's progress and identify what needs to be worked on.
+
+#### Attendee
+> * Scott
+> * Kevin
+> * Steve
+> * Loyal
+> * Kash
+
+#### Minutes
+> ##### Group Management Interface
+>> * Group creation and viewing group info works. 
+>> * But, currently unable to remove users or add new users to the group. 
+>> * The backend API endpoint already exists.
+
+> ##### User Info Page
+>> * Sometimes does not display information unless the user refresh the page.
+>> * Will need to add password reset functionality, since backend API endpoint for that function already exists.
+
+> ##### Chat functionality
+>> * Curently facing trouble with timestamp for chat messages being defaulted into user’s current system time rather than time the message was sent.
+>> * The chat functionality still needs to be tied into the webapp.
+>> * Needs to keep UI consistent between the webapp and current chat UI.
+
+#### Action Items
+> ##### Frontend
+>> * Manage school API - integrate to frontend.
+>> * Mass add user API - integrate to frontend.
+>> * Add some error messages in case.
+>> * Edit group members (add/remove).
+>> * Admin search/manage users.
+
+> ##### Testing Cases
+>> * Frontend:
+>>> * User management pages.
+>>> * User profile pages.
+>>> * Admin manage/search user page (once implemented).
+>> * Backend:
+>>> * Search users API
+>>> * Group management API
+
+> ##### Deployment
+>> * Need to integrate frontend and backend.
+>> * Frontend deployment on Cybera instance.
+
+> ##### Client Meeting
+>> * Language learning activities - any preferences to put on the page, or just link to website?
+>> * Client meeting scheduled for November 24, 2022 at 3:00 PM.
+
+> ##### Miscellaneous
+>> * Create documentation for people who’ll be working later on our project.
+
+---
+
+### November 29, 2022
+> * Google Meet
+> * 3:00 PM - 4:00 PM
+
+#### Agenda
+> * Update Sprint 5 progress to our client.
+> * Communicate which part of the app is still under construction.
+
+#### Attendee
+> * Dr. Andrea McLeod (Client)
+> * Dr. Catrine Demers (Client)
+> * Kevin
+> * Steve
+> * Loyal
+> * Scott
+> * Kash
+> * Jeff
+
+#### Minute
+> ##### Demonstration
+>> * Mass user addition through .csv file, presented by Scott.
+>> * Chat translation API in action, presented by Loyal.
+>> * User manual draft, presented by Jeff.
+
+> ##### Client Feedbacks
+>> * What would the final product look like, once handed over?
+>>> * The final product will be deployed on Cybera, there will be a documentation available to implement on their own cloud server if needed.
+>> * Client would like some small scale piloting in their own lab with 8 different languages.
+>> * Hoping to find someone to build on the project in next 6 months starting in january, and us team members could serve as bridge of communication.
+>> * Will need to create more technical documentation for admin using the app.
+>> * Some team members may be available for co-author for (non peer-reviewed) paper? 
+>>> * Previous example: [https://era.library.ualberta.ca/items/0f30817e-d937-42b1-9588-36c3c90623c2](https://era.library.ualberta.ca/items/0f30817e-d937-42b1-9588-36c3c90623c2)
+>>> * This will drafted as a bigger group, set some deadlines (January 20th for example), will keep us in the loop.
+
+--- 

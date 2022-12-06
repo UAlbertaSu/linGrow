@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, ListGroup, Spinner } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
-
 import { CSVLink, CSVDownload } from 'react-csv';
+
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
 import StyledDropzone from './Dropzone';
@@ -220,8 +220,19 @@ export default function AdminAddUser() {
         ).then(data => {
             console.log(data);
             let parentID = data.created_users[0].id;
-            registerChild(parentID);
+
+            if (data.created_users[0].user_type === 1) {
+                registerChild(parentID);
+            }
+
+            // Sends user data to the url '/admincreatedusers'.
+            nav('/admincreatedusers', {
+                state: {
+                    data: data
+                }
+            });
         }).catch(error => {
+            alert("Error: User could not be created.");
             console.log(error);
         });
     }
@@ -256,6 +267,7 @@ export default function AdminAddUser() {
             alert("You must be logged in to view this page.");
             nav('/login');
         } 
+
         else {
             Authenticate(JSON.parse(sessionStorage.getItem('token'))).then(response => {
                 if (response.user.user_type !== 4) {
@@ -298,9 +310,9 @@ export default function AdminAddUser() {
                 <div style={{padding: 20}}>
                     <StyledDropzone dropbox_message={dropbox} />
                 </div>
-                <CSVLink data={example_data} filename={"LinGrow_example.csv"}>{
-                    <Button variant="primary" style={{marginBottom: "60px"}}>{example}</Button>
-                }</CSVLink>
+                <CSVLink data={example_data} filename={"LinGrow_example.csv"}>
+                    {<Button variant="primary" style={{marginBottom: "60px"}}>{example}</Button>}
+                </CSVLink>
 
                 <Card className="title_card">
                     <h1>{addUserMsg}</h1>
