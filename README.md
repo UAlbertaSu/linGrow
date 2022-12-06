@@ -109,6 +109,10 @@ Pre-req:
 * Linux instance as outlined in step 1 of Django REST deployment
 * Domain name (optional), 
 
+###### Github Repo
+
+* Most up-to-date frontend codes are placed in branch `deployed-frontend`
+
 ###### Nginx Setup
 
 1) Install Nginx `sudo apt install nginx`
