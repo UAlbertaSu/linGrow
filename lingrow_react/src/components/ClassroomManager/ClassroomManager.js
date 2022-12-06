@@ -18,7 +18,7 @@ export default function ClassroomManager() {
     const [tab_header, setTabHeader] = useState("LinGrow Class Manager");
     const [group_display_header, setHeader] = useState("Classroom Manager");
     const [no_group_message, setNoGroupsFound] = useState("No classrooms have been made yet...");
-    const [create_classroom_btn, setCreateClassroomBtn] = useState("Create Classrooms");
+    const [create_classroom_btn, setCreateClassroomBtn] = useState("Create New Classroom");
     const [translated, setTranslated] = useState(0);
     const [groups, setGroups] = useState([]);
     const [error, setError] = useState(0);
@@ -56,7 +56,7 @@ export default function ClassroomManager() {
             Translate('en', lang, "LinGrow Class Manager").then((response) => setTabHeader(response));
             Translate('en', lang, "Classroom Manager").then(response => setHeader(response));
             Translate('en', lang, "No classrooms have been made yet...").then(response => setNoGroupsFound(response));
-            Translate('en', lang, "Creat New Class").then(response => setCreateClassroomBtn(response));
+            Translate('en', lang, "Create New Classroom").then(response => setCreateClassroomBtn(response));
         }
     });
 
@@ -119,7 +119,9 @@ export default function ClassroomManager() {
                     <a href="https://bilingualacquisition.ca/"><img src={logo}  class="rounded img-fluid" alt="Lingrow Logo" style={{marginTop:"20px",marginBottom:"20px", maxHeight:"250px"}}/></a>
                     <LanguageList />
                     <DashNav/>
+                    <Card className='title_card'>
                     <h1>{group_display_header}</h1>
+                    </Card>
                     <Button variant="primary" type="submit" id="create" style={{minWidth:"100px"}} onClick={handleNavigate}>{create_classroom_btn}</Button>
                     <div style={{ display: 'block', width: 400, padding: 30 }}>
                         {
