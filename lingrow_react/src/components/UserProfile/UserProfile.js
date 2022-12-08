@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card,  Col, Row, } from 'react-bootstrap';
-import {  useLocation } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 
 import LanguageList from '../Translate/LanguageList';
 import Translate from '../Translate/Translate';
@@ -13,7 +13,7 @@ import DashNav from '../DashNav/DashNav';
 // Allows users to view the information of another user. 
 // This page is only accessible to users who are logged in and have searched for the user from User Search
 function UserProfile() {
-
+    let nav = useNavigate();
     let location = useLocation();
 
     const [userType, setUserType] = useState(JSON.parse(sessionStorage.getItem('userType')));
@@ -55,6 +55,8 @@ function UserProfile() {
                 setChildName(data.user.child_name)
             }).then(() => {
                 setDone(1);
+            }).catch(() => {
+                nav('/userinfo');
             });
     }
     else{

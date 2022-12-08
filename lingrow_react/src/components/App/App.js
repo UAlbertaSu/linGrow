@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, Navigate, BrowserRouter, HashRouter } from 'react-router-dom';
 
 import './App.css';
 import Login from '../Login/Login';
@@ -36,7 +36,7 @@ function App() {
   // url routes for all the pages in the app, ones that lead to wrappers are secured
   return (
     <div className="wrapper">
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<Navigate to="/login" />}></Route>
           <Route path="/dashboard" element={<DashboardWrapper/ >}></Route>
@@ -65,7 +65,7 @@ function App() {
           <Route path= "/userprofile" element= {<UserProfileWrapper/ >}></Route>
           <Route path="/admincreatedusers" element={<AddedUserDetails/ >} ></Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
