@@ -97,3 +97,70 @@ Pre-req: >= Python 3.7
 14) Restart the apache2 serivce `sudo service apache2 restart`
 15) The server will be up and running
 16) Example to access the api endpoints `{server_ip}/api/docs/` (can be an IPv4 or IPv6 address, note- don't forget to enclose IPv6 address in `[]` !)
+
+---
+
+#### React Build Deployment
+##### [Helpful tutorial for setting up Nginx on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-react-application-with-nginx-on-ubuntu-20-04)
+
+Pre-req: 
+* \>= NodeJS v16.17.0
+* \>= npm 8.15.0
+* Linux instance as outlined in step 1 of Django REST deployment
+* Domain name (optional), 
+
+###### Github Repo
+
+* Most up-to-date frontend codes are placed in branch `deployed-frontend`
+
+###### Nginx Setup
+
+1) Install Nginx `sudo apt install nginx`
+2) Update Nginx config.
+3) Navigate to `/etc/nginx/sites-available/` and `vim [your domain name]` (if DNS is available) or `vim default`
+4) Paste following code block to `[your domain name]` file, or replace `default` file content:
+    ```
+    server {
+            listen 8080;
+            listen [::]:8080;
+
+            root /var/www/[your domain name]/html; // if domain name is available
+            index index.html index.htm index.nginx-debian.html;
+
+            server_name [your domain name] www.[your domain name];
+
+            location / {
+                    try_files $uri $uri/ =404;
+            }
+    }
+    ```
+* [your domain name] may be left blank:
+    ```
+    server {
+            listen 8080;
+            listen [::]:8080;
+
+            root /var/www/html;
+            index index.html index.htm index.nginx-debian.html;
+
+            server_name _;
+
+            location / {
+                    try_files $uri $uri/ =404;
+            }
+    }
+    ```
+5) Apache2 and Nginx <b>must</b> listen to different port.
+6) [your domain name] may be left blank if DNS is unavailable yet.
+
+###### React Build
+
+7) Using the deployed-config branch from step 2 of Django REST deployment, navigate to `[root directory]/lingrow_react`
+8) Build deployment-ready app `sudo npm run build`
+9) Move all contents of build app to Nginx root `mv -v ./build/* /var/www/[your domain name]/html/`
+10) For moving build contents directly on default root directory `/var/www/html/`, Nginx's default .html page should be deleted `sudo rm /var/www/html/index.nginx-debian.html`
+
+###### Server Restart
+
+10) Restart Nginx `sudo systemctl restart nginx`
+11) `{server ip}:8080` will now show deployed frontend website.
