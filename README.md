@@ -2,6 +2,8 @@
 linGrow (Multilingual Families Lab, U of A)  
 To get familiar with our app, please read User Manual.pdf first
 
+[<b>LinGrow Screencast</b>](https://drive.google.com/file/d/1_kUUeWgUB4knmV9dewJEMHVQ5uZvRsQE/view)
+
 ---
 
 # Testing
