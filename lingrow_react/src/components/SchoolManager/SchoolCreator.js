@@ -38,7 +38,7 @@ export default function SchoolCreator({}) {
             'email': email_name,
         }
 
-        let url = 'http://127.0.0.1:8000/api/school/'
+        let url = 'http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/school/'
 
         if (loc.state !== null) {
             url += loc.state.schoolID + '/';

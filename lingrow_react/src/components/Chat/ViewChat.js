@@ -9,6 +9,7 @@ import logo from "../Img/blank_lingrow.png";
 import home_icon from "../Img/home_icon.png";
 import user_icon from "../Img/user_icon.png";
 import { Helmet } from 'react-helmet';
+import DashNav from '../DashNav/DashNav';
 // import Validation from '../Validation/Validation';
 
 
@@ -189,20 +190,7 @@ export default function Chat() {
             <Card style={{paddingBottom:"10px", marginTop: "250px"}}>
                 <a href="https://bilingualacquisition.ca/"></a>
                 <LanguageList />
-                <Navbar bg="light" expand="lg" style={{width:"94%", margin: "20px 0px 10px 0px"}}>
-                    <Container>
-                        <Navbar.Brand style={{fontWeight:"bold",fontSize:"22px",margin:"10px 50px 10px 20px"}}>{dashboardString}</Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <img src={home_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
-                            <Nav.Link href="/dashboard" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px"}}>{home}</Nav.Link>
-                            <img src={user_icon} height="30px" width="30px" style={{marginTop:"15px",marginBottom:"15px"}}></img>
-                            <Nav.Link href="/userinfo" style={{fontWeight:"bold", marginTop:"10px", marginRight:"40px", border:""}}>{profile}</Nav.Link>
-                        </Nav>
-                        </Navbar.Collapse>
-                    </Container>
-                </Navbar>
+                <DashNav />
                 <Card className='bg-light' style={{position:"relative", left:"0%", marginBottom:"15px", width:"94%", padding:"25px"}}>
                     <div className="chat-display">
                         {chat.map((message) => (

@@ -45,51 +45,14 @@ export default function UserInfo({ userType }) {
     const [schools_header, setSchoolsHeader] = useState("School(s)");
 
     // textfields
-    // TODO: resolve issue of fields not appearing before refresh
-    const [username_email_input, setUsernameEmailInput] = useState(sessionStorage.getItem('user_email'));
-    const [name_input, setNameInput] = useState(sessionStorage.getItem('user_first_name'));
-    const [last_name_input, setLastNameInput] = useState(sessionStorage.getItem('user_last_name'));
-    const [childs_name_input, setChildsNameInput] = useState(sessionStorage.getItem('child_name'));
-    const [schools_name_input, setSchoolsNameInput] = useState(sessionStorage.getItem('child_school'));
-    const [classroom_name_input, setClassroomNameInput] = useState(sessionStorage.getItem('child_classroom'));
-    const [teacher_schools_name_input, setTeacherSchoolsNameInput] = useState(sessionStorage.getItem('teacher_school'));
-    const [teacher_classrooms_name_input, setTeacherClassroomsNameInput] = useState(sessionStorage.getItem('teacher_classrooms'));
-
-    retrieveUserType(token).then(response => {
-        let user = response.user;
-    
-        sessionStorage.setItem('user_email', user.email);
-        sessionStorage.setItem('user_first_name', user.first_name);
-        sessionStorage.setItem('user_last_name', user.last_name);
-        sessionStorage.setItem('user_type', user.user_type);
-
-        // if a parent, get the child info
-        if (user.user_type === 1) {   
-            // get child info 
-            return fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/child', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-            }).then(data => data.json()
-            ).then(data => {
-
-                sessionStorage.setItem('child_name', data[0]['first_name']);
-                sessionStorage.setItem('child_school', data[0]['school']);
-                sessionStorage.setItem('child_classroom', data[0]['classroom']);        
-            });   
-        }
-
-        // if a teacher, get the teacher info
-        if (user.user_type === 2) {
-            sessionStorage.setItem('teacher_school', user.school);
-            sessionStorage.setItem('teacher_classrooms', user.classrooms);
-        }
-
-    });
-
-
+    const [username_email_input, setUsernameEmailInput] = useState();
+    const [name_input, setNameInput] = useState();
+    const [last_name_input, setLastNameInput] = useState();
+    const [childs_name_input, setChildsNameInput] = useState();
+    const [schools_name_input, setSchoolsNameInput] = useState();
+    const [classroom_name_input, setClassroomNameInput] = useState();
+    const [teacher_schools_name_input, setTeacherSchoolsNameInput] = useState();
+    const [teacher_classrooms_name_input, setTeacherClassroomsNameInput] = useState();
 
     // Setter for initial page translation.
     const [translated, setTranslated] = useState(0);
@@ -122,6 +85,39 @@ export default function UserInfo({ userType }) {
         window.addEventListener("New language set", translateMessage);
         return () => window.removeEventListener("New language set", translateMessage);
     });
+
+    useEffect(() => {
+        retrieveUserType(token).then(response => {
+            let user = response.user;
+        
+            setUsernameEmailInput(user.email);
+            setNameInput(user.first_name);
+            setLastNameInput(user.last_name);
+
+            // if a parent, get the child info
+            if (user.user_type === 1) {   
+                // get child info 
+                return fetch('http://[2605:fd00:4:1001:f816:3eff:fe76:4a8a]/api/user/child', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                }).then(data => data.json()
+                ).then(data => {
+                    setChildsNameInput(data[0]['first_name']);
+                    setSchoolsNameInput(data[0]['school']);
+                    setClassroomNameInput(data[0]['classroom']);        
+                });   
+            }
+
+            // if a teacher, get the teacher info
+            if (user.user_type === 2) {
+                setTeacherSchoolsNameInput(user.school);
+                setTeacherClassroomsNameInput(user.classrooms);
+            }
+        });
+    })
     
     // User info page with editable fields for user to change.
     return (

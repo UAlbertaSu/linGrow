@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, BrowserRouter, HashRouter } from 'react-router-dom';
 
 import './App.css';
 import Login from '../Login/Login';
@@ -25,7 +25,7 @@ import GroupChat from '../Chat/GroupChat';
 import ViewChat from '../Chat/ViewChat';
 import ChildSignup from '../Signup/ChildSignup';
 import UserProfileWrapper from '../UserProfile/UserProfileWrapper';
-
+import AddedUserDetails from '../Signup/AddedUserDetails';
 
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
   // url routes for all the pages in the app, ones that lead to wrappers are secured
   return (
     <div className="wrapper">
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<Navigate to="/login" />}></Route>
           <Route path="/dashboard" element={<DashboardWrapper/ >}></Route>
@@ -50,21 +50,22 @@ function App() {
           <Route path="/login" element={<Login/ >}></Route>
           <Route path="/signup" element={<Signup/ >}></Route>
           <Route path="/activities" element={<Activities/ >}></Route>
-          <Route path = "/searchuser" element= {<UserSearch />}> </Route>
-          <Route path="/chat" element= {<Chat/>}></Route>
-          <Route path="/directchat" element= {<DirectChat/>}></Route>
-          <Route path="/newchat" element= {<NewChat/>}></Route>
-          <Route path="/groupchat" element= {<GroupChat/>}></Route>
-          <Route path="/viewchat" element= {<ViewChat/>}></Route>
+          <Route path = "/searchuser" element= {<UserSearch/ >}> </Route>
+          <Route path="/chat" element= {<Chat/ >}></Route>
+          <Route path="/directchat" element= {<DirectChat/ >}></Route>
+          <Route path="/newchat" element= {<NewChat/ >}></Route>
+          <Route path="/groupchat" element= {<GroupChat/ >}></Route>
+          <Route path="/viewchat" element= {<ViewChat/ >}></Route>
           <Route path="/schoolmanager" element={<SchoolManager/ >}></Route>
           <Route path="/schoolcreator" element={<SchoolCreator/ >}></Route>
           <Route path="/classroommanager" element={<ClassroomManager/ >}></Route>
           <Route path="/classroomdetail" element={<ClassroomDetail/ >}></Route>
           <Route path="/classroomcreator" element={<ClassroomCreator/ >}></Route>
           <Route path="/childsignup" element={<ChildSignup/ >}></Route>
-          <Route path= "/userprofile" element= {<UserProfileWrapper />}></Route>
+          <Route path= "/userprofile" element= {<UserProfileWrapper/ >}></Route>
+          <Route path="/admincreatedusers" element={<AddedUserDetails/ >} ></Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }

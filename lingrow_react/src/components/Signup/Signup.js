@@ -50,7 +50,7 @@ export default function Form() {
                 setSubmitted(true);
                 setError(false);
                 console.log(data.user, data.token.access);
-                registerChild(data.user.id, data.token.access);
+                // registerChild(data.user.id, data.token.access);
             }
             else {
                 setSubmitted(false);
