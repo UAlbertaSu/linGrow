@@ -168,8 +168,8 @@ Pre-req:
 
 ###### Accessing LinGrow
 
-11) If your network supports IPv6 connection, then `{server ip}:8080` will now show deployed frontend website.
-12) If your network only supports IPv4 connection, you must add value `http://{server ip}/api/` with key `IP_address` to your web browser's local storage, or website functionality will not work as intended.
+11) `{server ip}:8080` will now show deployed frontend website.
+12) If your network only supports IPv4 connection, you must add value `http://{server ip}/api/` with key `IP_address` to your web browser's local storage, or website will not function as intended.
 * [Editing local storage for Firefox](https://firefox-source-docs.mozilla.org/devtools-user/storage_inspector/local_storage_session_storage/index.html)
 * [Editing local storage for Google Chrome](https://developer.chrome.com/docs/devtools/storage/localstorage/)
 * [Editing local storage for Microsoft Edge](https://learn.microsoft.com/en-us/microsoft-edge/devtools-guide-chromium/storage/localstorage)
