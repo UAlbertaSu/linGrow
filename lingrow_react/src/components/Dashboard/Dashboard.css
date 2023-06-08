@@ -1,0 +1,28 @@
+
+.form-control{
+    margin: var(--margin-vsmall);
+    width: fit-content;
+}
+
+.title_card{
+    margin: var(--margin-vsmall);
+    position: relative;
+    left: auto;
+    height: fit-content;
+    width: fit-content;
+    min-width: 250px;
+    background: rgb(255, 255, 255);
+    padding: 0px;
+    margin-Top: 20px;
+    margin-bottom: 10px;
+}
+
+.btn{
+    margin: var(--margin-small);
+    width: fit-content;
+}
+.error{
+    margin: var(--margin-small);
+    color: rgb(138, 0, 0);
+    font-weight: bold;
+}

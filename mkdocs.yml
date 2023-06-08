@@ -1,0 +1,7 @@
+site_name: linGrow 
+nav:
+- Project Requirements: index.md
+- Software Design: design.md
+- Project Management: management.md
+- Teamwork: teamwork.md
+theme: readthedocs

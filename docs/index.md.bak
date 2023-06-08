@@ -1,0 +1,403 @@
+# Project Requriements 
+
+## Executive Summary 
+
+> linGrow, offers help for bilingual and multilingual children's development to achieve their potential and provides services through facilitated communication between parents, teachers, and researchers. Teachers in different schools are able to invite parents as a group and communicate with parents fluently with a built-in translation function in more than 15 languages. The application itself will adapt to more than 15 languages. In order to support multilingual families, there are study guides for simple English for children and parents who want to get better participation in their children's studies. Also, there are activities set on linGrow to help with language development.
+
+---
+
+## Project Glossary
+
+* **Glossary Item 1**: Descriptions
+
+* **Glossary Item 2**: Descriptions
+
+---
+
+## User Stories
+
+### User Stories 1 - Admin School Management
+
+> **As** an admin, **I want** to be able to manage schools, **so that** I can add/delete/update schools.
+>
+> **Acceptance Tests:**
+>
+> 1. Admin can add a school.
+> 2. Admin can delete a school.
+> 3. Admin can edit a school.
+> 4. Non-Admin users cannot add/delete/edit schools.
+
+### User Stories 2 - Admin User Management
+
+> **As** an admin, **I want** to be able to manage users, **so that** I can add/delete/update users.
+>
+> **Acceptance Tests:**
+>
+> 1. Admin can add a user.
+> 2. Admin can delete a user.
+> 3. Admin can edit a user.
+> 4. Non-Admin users cannot add/delete/edit users.
+
+### User Stories 3 - Admin Messaging
+
+> **As** an aAdmin, **I want** to be able to send mass messages to any group of users, **so that** I can inform them about updates to the app.
+>
+> **Acceptance Tests:**
+>
+> 1. Admin can compose a message, and send a message.
+> 2. Admin can select a group to receive the message.
+> 3. Message sent by Admin is marked as an Admin Message.
+> 4. Non-Admins cannot send messages marked as Admin messages.
+
+### User Stories 4 - Admin Group Users
+
+> **As** an Admin, **I want** to be able to group users, **so that** I can send messages to select groups.
+>
+> **Acceptance Tests:**
+>
+> 1. Admin can search for specific users.
+> 2. Admin can select multiple users to create a group from.
+> 3. Admin can reference that group they created again later.
+> 4. Admin can edit a group they created.
+> 5. Admin can delete a group they created.
+> 6. Non-admin users cannot create groups in the same way.
+
+### User Stories 5 - User Account Creation
+
+> **As** a User, **I want** to be able to create an account, **so that** I can log into the web application and use its features.
+>
+> **Acceptance Tests:**
+>
+> 1. User can create an account. 
+> 2. User can sign in with their created credentials.
+> 3. User cannot create an account with the already used credentials.
+
+### User Stories 6 - User Logout
+
+> **As** a User, **I want** to be able to logout of the web application, **so that** I can keep my information private and secure.
+>
+> **Acceptance Tests:**
+>
+> 1. User can log out of the application.
+> 2. User when logged out cannot access their user info.
+
+### User Stories 7 - User Password Reset
+
+> **As** a User, **I want** to be able reset my password, **so that** I am still able to access my account if I forgot my password.
+>
+> **Acceptance Tests:**
+>
+> 1. User can prompt for a password reset without their password.
+> 2. User upon receiving a password reset prompt, can change it.
+> 3. User must use new password to sign in aftewards.
+
+### User Stories 8 - Non-Admin Message Sending
+
+> **As** a Parent/Teacher/Researcher **I want** to be able to send messages, **so that** I can communicate with others within the application.
+>
+> **Acceptance Tests:**
+>
+> 1. User can compose a message to another selected user.
+> 2. User can send a composed message.
+
+### User Stories 9 - Non-Admin Message Reception
+
+> **As** a Parent/Teacher/Researcher **I want** to be able to receive messages, **so that** I can communicate with others within the application.
+>
+> **Acceptance Tests:**
+>
+> 1. User can receive messages. 
+> 2. User can view messages received.
+> 3. User can compose a message to the sender of a received message.
+
+### User Stories 10 - Teacher/Researcher Search Parents
+
+> **As** a Teacher/Researcher **I want** to be able to search for parents within a school, **so that** I can identify parents I associate with.
+>
+> **Acceptance Tests:**
+>
+> 1. Teacher/Researcher can view parents in their selected school. 
+> 2. Teacher/Researcher can search their selected school for specific parents.
+
+### User Stories 11 - Teacher/Researcher Group Parents
+
+> **As** a Teacher/Researcher **I want** to be able to create a group of parents based on their children's classroom, **so that** so that I can organize parents based on their children's classroom.
+>
+> **Acceptance Tests:**
+>
+> 1. Teacher/Researcher can select multiple parents to create a group from.
+> 2. Teacher/Researcher can reference that group they created again later.
+> 3. Teacher/Researcher can edit a group they created.
+> 4. Teacher/Researcher can delete a group they created.
+
+### User Stories 12 - Teacher/Researcher Important Flag
+
+> **As** a Teacher/Researcher **I want** to be able to mark messages as important, **so that** parents understand when information I am communicating is critical.
+>
+> **Acceptance Tests:**
+>
+> 1. Teacher/Researcher can mark a message as important before sending it. 
+> 2. Receiver of that message can see it marked as important.
+
+### User Stories 13 - Teacher/Researcher Mass Messaging
+
+> **As** a Teacher/Researcher **I want** to be able to send mass messages to groups of parents, **so that** I can c.
+>
+> **Acceptance Tests:**
+>
+> 1. Teacher/Researcher can send a message to multiple users at a time. 
+> 2. Receivers all receive the same message sent by the teacher/researcher.
+
+### User Stories 14 - Researcher Search Teachers
+
+> **As** a Researcher **I want** to be able to search for teachers within a school, **so that** I can identify teachers I associate with.
+>
+> **Acceptance Tests:**
+>
+> 1. Researcher can view teachers in their selected school. 
+> 2. Researcher can search their selected school for specific teachers.
+
+### User Stories 15 - Researcher Group Teachers
+
+> **As** a Researcher **I want** to be able to create a group of teachers, **so that** so that I can organize multiple teachers I am working with.
+>
+> **Acceptance Tests:**
+>
+> 1. Researcher can select multiple teachers to create a group from.
+> 2. Researcher can reference that group they created again later.
+> 3. Researcher can edit a group they created.
+> 4. Researcher can delete a group they created.
+
+### User Stories 16 - Parent App Translation
+
+> **As** a Parent **I want** to be able to translate text within the app to a more familiar language, **so that** I am able to read and understand the information the application is communicating to me.
+>
+> **Acceptance Tests:**
+>
+> 1. Parent can without needing to read text select another lanaguage to translate the application to. 
+> 2. All intentionally readable text is translated to a specific language when selected.
+
+### User Stories 17 - User Message Translation
+
+> **As** a User **I want** to be able to translate received messages to a language I am more familiar with, **so that** I am able to read and understand the received message better.
+>
+> **Acceptance Tests:**
+>
+> 1. User can when viewing a message select another language for it to be translated into. 
+> 2. Message is translated when another language is selected.
+
+### User Stories 18 - Parent Pictograms
+
+> **As** a Parent **I want** to be able to see pictograms to help me identify important information, **so that** I can more easily understand the associated concepts.
+>
+> **Acceptance Tests:**
+>
+> 1. Pictograms are visible in the application to parents. 
+> 2. Pictograms are placed with their relevant activities/information.
+
+### User Stories 19 - Parent Speech to Text
+
+> **As** a Parent **I want** to be able to use Speech-to-Text, **so that** I can compose a message without the need for understanding written english grammar.
+>
+> **Acceptance Tests:**
+>
+> 1. Parents can select the Speech-to-Text when composing a message. 
+> 2. Typing is disabled while Speech-to-Text is active.
+> 3. Speech is properly interpreted by the program.
+
+### User Stories 20 - Parent Text to Speech
+
+### User Stories 21 - Parent Voicemail Messaging
+
+### User Stories 22 - Parent Video Call Messaging
+
+### User Stories 23 - Parent English Learning Activities
+
+### User Stories 24 - Parent Simple English
+
+---
+
+## MoSCoW
+
+### Must Have
+
+* Text messaging
+* Account (researcher/teacher/parent/admin)
+* Parent grouping for researcher/teacher
+* App-wide translation
+* Language-development activities
+* School management for admins
+
+### Should Have
+
+* Group messaging functionality
+* User management for admins
+* Pictogram
+* Simple English guidelines
+
+### Could Have
+
+* Invite links for parent group
+* Mark messages as important
+* Text-to-speech
+
+### Would Like But Won't Get
+
+* Video messaging
+* Voice messaging
+* Speech-to-text
+
+---
+
+## Similar Products
+
+> What follows is a list of available Machine Translation services. Each service features a Pricing and Languages section explaining their rates and supported languages, which is backed up with a current source from their website. After the services comparison, there is a “translation quality” section, giving context to each service’s accuracy.
+>
+> Note that all prices are in USD unless specified otherwise. 
+
+### DEEPL
+
+> **Pricing ([https://www.deepl.com/pro?cta=header-prices](https://www.deepl.com/pro?cta=header-prices)):** 
+>
+> - 0.5 million characters a month are FREE
+> - 1m characters for $30.03 CAD
+>
+> **Languages ([https://www.deepl.com/docs-api/translate-text/response](https://www.deepl.com/docs-api/translate-text/response)):**
+>
+> - Has 29 languages 
+
+### Google Cloud
+
+> **Pricing ([https://cloud.google.com/translate/pricing](https://cloud.google.com/translate/pricing)):**
+> 
+> - 0.5m a month are FREE
+> - 1m for $20, until 1 billion characters 
+> 
+> **Languages ([https://cloud.google.com/translate/docs/languages](https://cloud.google.com/translate/docs/languages)):**
+> 
+> - ~125 languages
+
+### AWS
+
+> **Pricing:**
+> 
+> - Standard translation is 2m a month are FREE FOR 12 MONTHS
+> - Standard translation is $15 per 1m
+> - Active custom translation “uses parallel data to customize the machine translated output”.
+> - Active custom translation is 0.5m characters a month FREE FOR 2 MONTHS
+> - Active custom translation is $60 per 1m
+>
+> **Languages ([https://aws.amazon.com/translate/faqs/](https://aws.amazon.com/translate/faqs/)):**
+> 
+> - 75 languages 
+
+### AZURE
+
+> **Pricing ([https://azure.microsoft.com/en-us/pricing/details/cognitive-services/translator/#pricing](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/translator/#pricing)):**
+> 
+> - 2m a month are FREE FOR 12 MONTHS
+> - Standard translation is $10 for 1m
+> - Document translation is $15 for 1m
+> - Custom translation
+> - Text/document translation is $40 USD per 1m
+> - Other options are also available, however they don’t seem relevant for us
+>
+> **Languages ([https://learn.microsoft.com/en-us/azure/cognitive-services/translator/language-support](https://learn.microsoft.com/en-us/azure/cognitive-services/translator/language-support)):** 
+>
+> - 100+ languages 
+
+### SYSTRAN 
+
+> **Pricing ([https://www.systran.net/en/plans-pricing/](https://www.systran.net/en/plans-pricing/)):**
+> 
+> - There’s a lot of different payment options, and there’s a 2 week free trial, but the cheapest is $5.49 a month for 150 pages of text (if 1 page is 1800 chars, this is 270 000 chars)
+> - https://www.lexika-translations.com/blog/what-is-a-standard-page/
+>
+> **Languages ([https://www.systran.net/en/plans-pricing/](https://www.systran.net/en/plans-pricing/)):**
+> 
+> - 50 languages
+
+### Yandex 
+
+> **Pricing:**
+> 
+>> **Yandex translate ([https://translate.yandex.com/developers/offer/prices](https://translate.yandex.com/developers/offer/prices)):**
+>>
+>> - $15 for 1m, under 50m max
+>>
+>> **Yandex cloud translate ([https://cloud.yandex.com/en/docs/translate/pricing](https://cloud.yandex.com/en/docs/translate/pricing)):**
+>>
+>> - ~$4 for 1m
+>
+> **Languages ([https://yandex.com/support/translate-mobile/supported-langs.html](https://yandex.com/support/translate-mobile/supported-langs.html)):**
+>
+> - 102 languages
+
+### ModernMT 
+
+> **Pricing ([https://www.modernmt.com/pricing/#enterprises](https://www.modernmt.com/pricing/#enterprises)):**
+>
+> - Free FOR 1 MONTH
+> - $8 per 1m, may have an hour turnaround time
+>
+> **Languages ([https://www.modernmt.com/translators/](https://www.modernmt.com/translators/)):**
+>
+> - 64 languages
+
+### Supplemental Data
+
+#### Bergamot Google Microsoft BLEU score comparison:
+
+- Bergamot’s quality is slightly worse than Google and Microsoft, who got similar BLEU scores
+
+[![supplemental_1](img/image2.png)](https://github.com/mozilla/firefox-translations-models/blob/main/evaluation/prod/results.md#evaluation-results)
+
+#### Amazon Microsoft Google human and metric comparison:
+
+- https://anno-ai.medium.com/evaluating-machine-translation-providers-68b8430debc3
+- *“We were surprised to discover that the three providers showed comparable performance, and none really emerged as a clear winner. Although AWS slightly edged out the others in three out of four languages as scored by the metrics means, GCP received the highest human ratings in three out of four languages. Azure scored lower in metrics means (except in Chinese) and human ratings, but showed the lowest standard deviation across languages, indicating more consistency in translation quality.”*
+
+#### 2021 State of Machine Translation Report:
+
+[![supplemental_2](img/image1.png)](https://fs.hubspotusercontent00.net/hubfs/3317859/Intento%20State%20of%20Machine%20Translation%202021.pdf?utm_campaign=test%20campaign%20with%20an%20Elmentor%20form%2C%20WP&utm_medium=email&_hsenc=p2ANqtz-8xc2G0BNfhP3z6YUPhjSTrn8li94YYmTExx3KOVuR0g7snJdV9xOmVTRQBWrBpxpnJhK7lqlOJdTU7aOwIiSzJgc9KEQ&_hsmi=165411928&utm_content=165411928&utm_source=hs_automation&hsCtaTracking=08941eb0-c154-4f7a-b914-cb15a35ca735%7C17be86de-b20b-49c2-bec4-aa8e70f697b3)
+
+[![supplemental_3](img/image4.png)](https://fs.hubspotusercontent00.net/hubfs/3317859/Intento%20State%20of%20Machine%20Translation%202021.pdf?utm_campaign=test%20campaign%20with%20an%20Elmentor%20form%2C%20WP&utm_medium=email&_hsenc=p2ANqtz-8xc2G0BNfhP3z6YUPhjSTrn8li94YYmTExx3KOVuR0g7snJdV9xOmVTRQBWrBpxpnJhK7lqlOJdTU7aOwIiSzJgc9KEQ&_hsmi=165411928&utm_content=165411928&utm_source=hs_automation&hsCtaTracking=08941eb0-c154-4f7a-b914-cb15a35ca735%7C17be86de-b20b-49c2-bec4-aa8e70f697b3)
+
+#### Quick comparison of open source MT services:
+
+- Generally slightly worse than the commercial systems 
+- *“Open-source engines perform in the 2nd tier of commercial systems, except for en-es (on par with top-tier systems) and en-ko & en-ja (much worse than commercial systems).“*
+
+[![supplemental_4](img/image3.png)](https://fs.hubspotusercontent00.net/hubfs/3317859/Intento%20State%20of%20Machine%20Translation%202021.pdf?utm_campaign=test%20campaign%20with%20an%20Elmentor%20form%2C%20WP&utm_medium=email&_hsenc=p2ANqtz-8xc2G0BNfhP3z6YUPhjSTrn8li94YYmTExx3KOVuR0g7snJdV9xOmVTRQBWrBpxpnJhK7lqlOJdTU7aOwIiSzJgc9KEQ&_hsmi=165411928&utm_content=165411928&utm_source=hs_automation&hsCtaTracking=08941eb0-c154-4f7a-b914-cb15a35ca735%7C17be86de-b20b-49c2-bec4-aa8e70f697b3)
+
+---
+
+## Open-source Projects
+
+### LibreTranslate
+
+- Open source translation API
+- Easy to use, but likely a big headache to integrate, since it exists on a pre-existing system. 
+
+### Moses
+
+- Open source translation system that utilizes statistical methods 
+- Strays very close to ML since it requires the training of the model. 
+- Complex model but should provide a better and more accurate translation than the API.
+
+### Apertium
+ 
+- Is a free/open-source platform for developing rule-based machine translation systems!
+- Will most likely give us the best translation since the developers (us) set the rule for how each language syntax should be formed. 
+- The most work to use in terms of setting everything up. If we need at least 40 languages, that's 40 rules we have to write up. 
+- Not recommended.
+
+---
+
+## Technical Resources
+
+### Backend
+
+### Frontend
+
+### Deployment

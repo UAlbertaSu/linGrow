@@ -1,0 +1,82 @@
+
+.form-control{
+    margin: var(--margin-vsmall);
+    width: fit-content;
+}
+/* chat displaying card */
+/* overflow enables scrolling of chat display*/
+.chat-display{
+    height: 400px;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y:auto;
+}
+
+.message{
+    overflow-y:auto;
+}
+/* Messages sent by user that appear on the left*/
+.message-left{
+    float: left;
+    text-align: left;
+    background-color: rgb(197, 197, 197);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    margin-left: 25px;
+    width: fit-content;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Messages sent by other users that appear on the right*/
+.message-right{
+    float: right;
+    text-align: left;
+    background-color: rgb(124, 194, 255);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    margin-right: 25px;
+    width: fit-content;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+/* Message styling for the extra information that appears with them */
+.message-username-left{
+    margin-left: 30px;
+}
+
+.message-username-right{
+    margin-right: 30px;
+    text-align: right;
+}
+
+.message-time-left{
+    font-size: 10px;
+    color: rgb(0, 0, 0);
+    margin-top: 5px;
+}
+
+.message-time-right{
+    font-size: 10px;
+    color: rgb(0, 0, 0);
+    margin: 0;
+    margin-top: 5px;
+}
+
+.btn{
+    margin: var(--margin-small);
+    width: fit-content;
+}
+.error{
+    margin: var(--margin-small);
+    color: rgb(138, 0, 0);
+    font-weight: bold;
+}
